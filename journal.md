@@ -2,19 +2,19 @@
 ## This journal tracks task lists, ideas, and projects
 
 ### November task list
-- [ ] 4 chairs, $500, this work has not yet been begun by Saul.  Probably will be delayed until November, so I'm moving it to that list for now.
-- [ ] buy and install water filter for kitchen
-- [ ] buy and install bidets for both other bathrooms
-- [ ] lighting in kitchen to Susan's room hallway
-- [ ] business water/trash
-- [ ] business permit at municipio
+[ ] 4 chairs, $500, this work has not yet been begun by Saul.  Probably will be delayed until November, so I'm moving it to that list for now.
+[ ] buy and install water filter for kitchen
+[ ] buy and install bidets for both other bathrooms
+[ ] lighting in kitchen to Susan's room hallway
+[ ] business water/trash
+[ ] business permit at municipio
 
 ### October expenses pending
-- [ ] pay Saul for dishwasher box work
-- [ ] business cards, two more boxes
-- [ ] 3 layer contracts
-- [ ] Fulo for the repair of the shower in Susan's bathroom
-- [ ] insure the rental fleet
+- pay Saul for dishwasher box work
+- business cards, two more boxes
+- 3 layer contracts
+- Fulo for the repair of the shower in Susan's bathroom
+- insure the rental fleet
 
 ---
 
