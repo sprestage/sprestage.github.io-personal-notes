@@ -1,5 +1,6 @@
 ## Welcome to GitHub Pages
 
+Trying to add personal notes.
 
 [Personal notes](https://github.com/sprestage/sprestage.github.io-personal-notes/journal.md)
 
