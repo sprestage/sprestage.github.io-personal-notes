@@ -1,18 +1,77 @@
 # Daily notes
 ## This journal tracks task lists, ideas, and projects
 
-- K & S Rentals: https://gist.github.com/sprestage/b8560b54dba13eab577a6401970fdd9f
-- my dev notes: https://gist.github.com/sprestage/30014a801408c3de317147575c69cf0f
-- my OCP dev notes: https://gist.github.com/sprestage/5d7fd086b6555b3268db408e56c04eba
-- my bullet journal and life notes (this gist): https://gist.github.com/sprestage/6f9bae4762be078c8c14aae7791a6883
-- financial, list of things needed that cost money to buy or implement or install or make: https://gist.github.com/sprestage/a68dd09f133250d97971de69065d0d62. Needs a little updating to convert it to my current needs, particularly that of creating the prioritized list of things needed to be done or bought
+### November task list
+- [ ] 4 chairs, $500, this work has not yet been begun by Saul.  Probably will be delayed until November, so I'm moving it to that list for now.
+- [ ] buy and install water filter for kitchen
+- [ ] buy and install bidets for both other bathrooms
+- [ ] lighting in kitchen to Susan's room hallway
+- [ ] business water/trash
+- [ ] business permit at municipio
+
+### October expenses pending
+- [ ] pay Saul for dishwasher box work
+- [ ] business cards, two more boxes
+- [ ] 3 layer contracts
+- [ ] Fulo for the repair of the shower in Susan's bathroom
+- [ ] insure the rental fleet
 
 ---
 
-As soon as the Open Keyboard feature is available on the POS, I need to share out my business cards to everyone.  Make a list of who.  Luis, Nicole, Al & Day, Al & Sela, Kevin, Oscar, ask Adelina if we can give them to Jackie.
+## Sat, 9 Oct 2021
+### Plan to meet with Danny to check up on each of these items
+- [ ] Saul's dishwasher box work.  This is in progress and he took another measurement yesterday, Saturday 2 Oct.
+- [ ] Business cards.  Asked Danny on Saturday, Oct 2, to order two more boxes.
+- [ ] 3 layer contracts.  Asked Danny on Saturday, Oct 2, to find someone to do this.
+- [ ] Insure the rental fleet.  Asked Danny on Saturday, Oct 2, to pursue this.  She has someone in mind and took the stack of policies for the fleet with her.
+- [ ] Weekly nag of Jorge to pay his portion of this.  It has been six months now.  I've tasked Danny with this.
 
-As soon as I catch up on Business tasks, I need to spend my mornings prepping my resume for a computer industry job search.  QA/Dev Test this time I think since I need a job quickly and the interviews are much easier on my psyche and confidence.  Also need to write up a quick blurb on what I've been doing and why I'm returning to the industry.  Think elevator speach.
 
+## Mon, 4 Oct 2021
+### Check up on the progress of these
+- [ ] Supervise Jean - unbox and set up dehumidifiers in deposito and front room - Jean will do this tomorrow, Monday 4 Oct
+- [ ] Supervise Nodier - 2 more AC 750 Mesh Wi-Fi Range Extenders (by tp-link) research this so I know how to configure and how many can be used - whoops!  they bought 3.  Not sure where the third will go.  Have Nodier install tomorrow, Monday 4 Oct
+- [ ] Supervise Fulo - fix shower in Susan's bathroom.  Fulo is working on this.  Probably will continue on Monday, 4 Oct.
+- [ ] Supervise Jean - buy more Montelukast, allergy pills.  Tasked Jean with this.  Probably will arrive tomorrow Monday, 4 Oct.
+- [ ] buy NorWesCon memberships
+- [ ] pay AIB
+- [ ] make snack order from Target
+- [ ] pay 3 phones and house internet
+  - 63932521 (#1678356) (business phone) payment up to date, 29/08/21
+  - 63305175 (#1678296) (Susan's phone) **paid $22.42** on 29/08/21
+  - 311019100000 (house internet) payment up to date, 29/08/21
+  - 66718724 (#1638746) (Kai's phone) payment up to date, 29/08/21
+- [ ] PRO - work on inbox zero
+- [ ] PRO - figure out how I want to update my journey blog so I can deploy to new Heroku stack
+- [ ] PRO - figure out how I want to update my tech blog so I can deploy to new Heroku stack
+- [ ] PRO - make tasks for port of my blogs from ancient (and unmaintained) octopress to currently maintained jekyll.  Need to include the porting of the pretty look and feel of current blogs, since that is octopress stuff
+- [ ] PRO - update ending date with Corgibytes to March (from October)
+- [ ] PRO - update my resume with OCP
+- [ ] PRO - update Hired with OCP and non-availability
+- [ ] PRO - update portfolio site with updated resume
+
+
+## Sun, 3 Oct 2021
+### these notes aka this journal
+Sometime over the last year, github changed gists so they only display the first 700-750 lines of a gist.  The rest are there, but not easily accessible.  For my purposes, they are also not searchable, which makes gist no longer useful for my purposes.  Additionally, I've been needing to update how I maintain my tech blog and my journey blogs as they are using Octopress which these days is very out of date.  Changing over to Jekyll, markdown, and github pages for this daily notes page is my first step towards that change.  Also has the advantage of giving me one place where I can have links to each type of notes pages I like to keep:
+
+### CURRENT TASKS
+- [ ] Dev notes, personal.  Set this up in Pages.
+- [ ] Dev notes, professional.  Set this up in Pages.
+- [x] Daily notes, this document.  Set this up in Pages.
+- [ ] Business notes, for Orchideas Car Rentals.  Set this up in Pages.
+- [x] Update these daily notes to track tasks better, since there is much clutter in the first two pages of this doc.
+- [ ] move these to the index as I get them set up:
+  - K & S Rentals: https://gist.github.com/sprestage/b8560b54dba13eab577a6401970fdd9f
+  - my dev notes: https://gist.github.com/sprestage/30014a801408c3de317147575c69cf0f
+  - my OCP dev notes: https://gist.github.com/sprestage/5d7fd086b6555b3268db408e56c04eba
+  - my bullet journal and life notes (this gist): https://gist.github.com/sprestage/6f9bae4762be078c8c14aae7791a6883
+  - financial, list of things needed that cost money to buy or implement or install or make: https://gist.github.com/sprestage/a68dd09f133250d97971de69065d0d62. Needs a little updating to convert it to my current needs, particularly that of creating the prioritized list of things needed to be done or bought
+- [x] buy more Montelukast, allergy pills.  Tasked Jean with this.  Probably will arrive tomorrow Monday, 4 Oct.
+
+
+### retiring these tags for now
+I have mostly split these out into different journals.  Or as a quick section at the top for this and next month's planned expenses.
 - Kai's academic needs (AIB)
 - Spanish learning (ESP)
 - Household everything (DOM)
@@ -20,48 +79,27 @@ As soon as I catch up on Business tasks, I need to spend my mornings prepping my
 - (JOB) was job search, now is retired
 - Tasks towards keeping up my professional image, mostly tech learning and updating tech stacks on Heroku for my blogs (PRO)
 
----
-### CURRENT TASKS
-- [ ] PAY - DELAY: Municipio for amount determined by Alcaldia for 2 business road signs
-- [ ] PRO - work on inbox zero to 10
-- [ ] PRO - complete inbox zero i
-- [ ] PRO - update ruby on journey blog and deploy to new Heroku stack
-- [ ] PAY - business water/trash
-- [ ] PAY - business permit at municipio
-- [ ] PRO - make tasks for port of my blogs from ancient (and unmaintained) octopress to currently maintained jekyll.  Need to include the porting of the pretty look and feel of current blogs, since that is octopress stuff
-- [ ] PRO - update ending date with Corgibytes to March (from October)
-- [ ] PRO - update my resume with OCP
-- [ ] PRO - update Hired with OCP and non-availability
-- [ ] PRO - update portfolio site with updated resume
-- [ ] DOM - prioritize this task list as it is getting very long
-- [ ] DOM - process office supplies box, second half
-- [ ] DOM - start to list for repairs, installations, and things to buy; probably a gist list of its own with a link here
-- [ ] KSR - follow up with Carlos about POS and the best way to do short term and long term deposits
-- [ ] DOM - follow up with psych eval woman for recommendation for Kai
 
-old to do list that still has important items.  clean out the other stuff:
+## Sat, 2 Oct 2021
+- [x] arrange for purchases of more masks for Kai
+- [x] arrange for purchases of new UPS for Kai's room
+- [x] arrange for purchases of dehumidifiers for deposito and front room
+- [x] arrange for purchase of 2 more AC 750 Mesh Wi-Fi Range Extenders (by tp-link) research this so I know how to configure and how many can be used - whoops!  they bought 3.  Not sure where the third will go.  Have Nodier install tomorrow, Monday 4 Oct
+- [x] business cards.  Asked Danny on Saturday, Oct 2, to order two more boxes.
+- [x] 3 layer contracts.  Asked Danny on Saturday, Oct 2, to find someone to do this.
+- [x] arrange for the repair of the shower in Susan's bathroom.  Fulo is working on this.  Probably will continue on Monday, 4 Oct.
+- [x] arrange for new insurance for the rental fleet.  Asked Danny on Saturday, Oct 2, to pursue this.  She has someone in mind and took the stack of policies for the fleet with her.
+- [x] continue to nag Jorge weekly on his portion of this.  It has been six months now.  I've tasked Danny with this.
 
-sticker for gas type on cars
-new tires for mitsubishi
-new plates for all cars
-work permit for susan; ready in 15 days from 18 June
-DELAY: need government machine for reporting income; wait for this until over $10,000 has be made in income.
 
-Vaccine Panama:
-https://vacunas.panamasolidario.gob.pa/vacunas_menu/
-https://vacunas.panamasolidario.gob.pa/verificate/
-
+## Fri, 1 Oct 2021
+### electricity, Naturgy
+- [x] PAY ELECTRICITY TODAY AT LUNCH!!!
+It turned out that Jorge still hasn't paid his portion.  This is after SIX months.  Jean paid a portion of this and all of my portion.  I've given Danny a copy of the receipt and asked her to start nagging him weekly.  Considering that I got the power shut off once, I'm done being nice and patient on this issue.
 
 ## Thu, 30 Sep 2021
-UPDATE THIS WHEN I PAY TODAY
-- 63932521 (#1678356) (business phone) payment up to date, 29/08/21
-- 63305175 (#1678296) (Susan's phone) **paid $22.42** on 29/08/21
-- 311019100000 (house internet) payment up to date, 29/08/21
-- 66718724 (#1638746) (Kai's phone) payment up to date, 29/08/21
-
-MAKE WIRE TRANSFER TODAY!!!
-
-PAY ELECTRICITY TODAY AT LUNCH!!!
+- [x] MAKE WIRE TRANSFER TODAY!!!
+- [x] take Kai for his second vaccine
 
 
 ## Fri, 17 Sep 2021, updated Thu, 30 Sep 2021
@@ -847,7 +885,7 @@ Thank you for your help,
 Susan Prestage
 
 
-## Sun 8/4
+## Sun 8/4/2019
 
 ## Bellydance basics and exercise
 - https://www.youtube.com/watch?v=6ur6ge5fvk0
@@ -876,11 +914,11 @@ Susan Prestage
 They will send a coding assignment on Monday
 
 
-## Thu 6/13
+## Thu 6/13/2019
 $2394 = $712 + 596: Sat, July 6 - Fri, Dec 27
 $ Tue, July 9 - Fri, Dec 27
 
-## Mon 6/10
+## Mon 6/10/2019
 Received acknowledgement from Spin that application was received.
 
 Jilt has closed the position through PowerToFly.  Best indicators suggest this is a no.
@@ -900,7 +938,7 @@ Looking at the snippet of the log file, am I correct in my interpretation that t
 ```
 
 
-## Fri 6/7
+## Fri 6/7/2019
 
 Found Spin, www.spin.app, on PowerToFly.  No indication of company culture on their website, so I'm omitting that in my cover letter.  The job looks like a good match for my skills.
 
@@ -908,18 +946,18 @@ I am a mid-level ruby on rails developer with senior level experience in test an
 
 My last three jobs have involved remote work.  The first two were entirely remote for all employees.  The most recent one allowed me to convert to remote after working in the office for 22 months.  I consider myself a lifelong learner and enjoy picking up new skills and ideas.  I would love a chance to chat to see if we might be a good match.
 
-## Wed & Thu 6/5-6/6
+## Wed & Thu 6/5-6/6/2019
 Travel days
 
-## Mon & Tue 6/3-6/4
+## Mon & Tue 6/3-6/4/2019
 Packing days
 
-## Sat 6/1
+## Sat 6/1/2019
 - Rocky loan = $625 + $500 = $1,125
 - Craig loan = $2,000 (plus my half of MM account = $400)
 - Keith loan = $10,000
 
-## Fri 5/24
+## Fri 5/24/2019
 - [x] re-email KeithR the long explanation of financial needs
 - [x] ask Alanna if she could meet up with KeithR to pick up check and deposit it
 - [x] set up transfer from Wells Fargo to BECU for money from Craig
@@ -931,7 +969,7 @@ Chatted with Jen Wolfe.  She forwarded me a craigslist advert for ruby/rails rem
 Looking at the snippet of the log file, am I correct in my interpretation that the first line returns a column named "ONE" with a single row of data that contains only the number "1" and no further data?  I also think that the following lines are trying to sort a single item, indicated by the "LIMIT 1".
 
 
-## Thu 5/23
+## Thu 5/23/2019
 - [ ] email a good letter to CareGrove as an application with my resume
 - [ ] cancel PluralSight
 - [ ] cancel Kai's DuoLingo
@@ -950,7 +988,7 @@ Craig responded and has transferred $2000 in addition to $400 that is my split o
 Kai is doing well on exams so far.  Much time is being spent on translating and helping him study for each day's exams.  
 
 
-## Wed 5/22
+## Wed 5/22/2019
 - [x] meet with Jeremias at 8am at El Buen Pastor
 - [x] Kai finishes school at 11:30
 - [x] Mike's Grill at 12:30 for Train game with the Nicole and the gang
@@ -980,7 +1018,7 @@ I believe I am a good fit for NationBuilder for a number of reasons.  I love to 
 ```
 
 
-## Tue 5/21
+## Tue 5/21/2019
 - [x] respond to MirrorPlacement
 - [x] thank you note to Jilt for phone awesomeness
 - [x] respond to Sean Murphy
@@ -1003,7 +1041,7 @@ I look forward to talking with you further.
 We'll see what happens.
 
 
-## Mon 5/20
+## Mon 5/20/2019
 I spent most of the weekend helping Kai study for his first trimester's exams.   I spent the rest of it on self care and brainstorming and composing the begging letter.  
 
 I got an email from Jilt late last night, saying I was a strong candidate and did I get the email with the questions.  I bit the bullet and responded with the answers and a plea for another way to do the phone calls since I'm having phone issues.  We'll see how that goes.  I'm grateful that Catherine emailed her encouraging letter.
@@ -1025,7 +1063,7 @@ I wrote the begging email to Keithr, Mike & Laurie, Nartano, Neighbor Susan, Roc
 - [ ] Write cover letter and apply to NationBuilder from WeWorkRemotely.
 
 
-## Fri 5/17
+## Fri 5/17/2019
 - [ ] Find another company to investigate.
 - [ ] Write cover letter and apply to NationBuilder from WeWorkRemotely.
 - [x] Need to finish answering Jilt's questions.  
@@ -1043,7 +1081,7 @@ Got the Jilt stuff done, though not sent in since I have no phone for them to ca
 Didn't get anything else done because I am devastated by the state of my finances.  What am I going to do.  Shit!
 
 
-## Thu 5/16
+## Thu 5/16/2019
 - [x] Investigating NationBuilder from WeWorkRemotely.  Looks good.  Apply tomorrow with cover letter.
 - [x] Need to finish answering Jilt's questions.  Did more work on this today.  Asynchronous programming and salary estimate are the big ones remaining.  Also, reviewing the answers I've already written as well as doing a second pass on the code review.
 
@@ -1059,7 +1097,7 @@ I found you through the WeWorkRemotely site and very much like the company cultu
 My last three jobs have involved remote work.  The first two were entirely remote for all employees.  The most recent one allowed me to convert to remote after working in the office for 22 months.  I consider myself a lifelong learner and enjoy picking up new skills and ideas.  I would love a chance to chat to see if we might be a good match.
 ```
 
-## Wed 5/15
+## Wed 5/15/2019
 - Got to the next level at Jilt (there are several, all enumerated in their confirmation email...a very nice setting of expectations).  Here are the questions to answer:
 
 - [x] 1) Can you summarize your remote work experience?
@@ -1088,33 +1126,33 @@ I prefer spaces and tend to map the tab key in Atom to 2 spaces.  This is simply
 - [x] 8) If you were hiring someone for this position, what salary range would you set?
 80-95k, depending on experience.
 
-## Tue 5/14
+## Tue 5/14/2019
 - Applied to Jilt
 - Silverfin was recommended by PowerToFly, but I do not qualify _we require your local timezone to be within CET +/- 3h)_
 - Digital Ocean's Sr Web Dev position is closed...reported to PtF
 
 
-## Mon 5/13
+## Mon 5/13/2019
 - Investigating Jilt/SkyVerge through PowerToFly.  Company values look very good.  Proceed with application...after I get something to eat, since I'm getting dizzy.
 ### companies to watch for future openings
 - Logikcull.  Excellent opening interview.  They found another match before I could get to the next interview.  Watch these guys for future openings since they look like a really good remote match.  
 
-## Wed 5/8
+## Wed 5/8/2019
 Working on api that adds locations and times to a data base to track power outages; investigate the use of google maps api.
 - [x] Research the google maps api to find out what I'm getting into.  This will also help identify what kinds of data I will need to store.
 - Consider starting this API by using neighborhood names, with static images of the neighborhoods.  Plan to implement use of Google maps for a future version.  This has the advantage of getting the API up and running first, then adding more functionality once input from potential users is collected.
 
-## Fri 5/3
+## Fri 5/3/2019
 - Logikcull SW Engineer position is filled.  Applied for senior position.  Cover letter: Good afternoon.  I found you through the PowerToFly site and very much like the company culture I'm seeing in your website.  I am a mid-level ruby on rails developer with senior level experience in test and the computer industry in general.  The last couple of years have given me the chance to create APIs from the design document stage through deployment and support of our client's use and requests for additional features and bugfixes.  I would love a chance to chat to see if I might be a good match for Logikcull now or in the future.  
 - :(  Preparing to apply to Loco2 first thing Monday morning.  Cover letter: PowerToFly brought Loco2 to my attention.  Further research shows...Due to American labour laws we unfortunately cannot accept applications from the United States.  
 Over the years, I have enjoyed working with team members in Poland, Bulgaria, and Colombia, using Slack and various chat applications for meetings and technological collaborations.  I have some French, growing Spanish, and a little German as well, though I do better with these in writing than speaking so far, though that is quickly changing with my Spanish as I am a US citizen currently living in Panamá.  I am an early riser and live quietly in the mountain town of Boquete which gives me the freedom to accommodate an eccentric schedule in order to work with my teammates.  Reading through your description of your company culture, I see a delightful similarity to the best of teams I have worked with in the past and hope to work with in the future.  Making a variety of different kinds of travel bookings at Expedia in order to test payments could also add to the skills I would like to bring to Loco2.
 -
 
-## Thu 5/2
+## Thu 5/2/2019
 - applied to Rick Steves Europe in Edmonds, general application as there are no engineering positions currently available
 - Logikcull, good company values, volunteers, donates, plants trees, supportive of families; they say to watch for future positions as they are growing
 
-## Mon 4/29
+## Mon 4/29/2019
 
 ### Today's to do list
 - [ ] cancel PluralSight
@@ -1133,7 +1171,7 @@ Over the years, I have enjoyed working with team members in Poland, Bulgaria, an
 
 
 
-## Fri 4/26
+## Fri 4/26/2019
 
 ### Today's to do list
 - [x] cancel auto-transfer for mortgage and find out why it is still active when I thought I'd canceled it for all time
