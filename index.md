@@ -2,7 +2,7 @@
 
 Trying to add personal notes.
 
-[Personal notes](https://github.com/sprestage/sprestage.github.io-personal-notes/blob/gh-pages/journal.md)
+[Personal notes](/journal.md)
 
 You can use the [editor on GitHub](https://github.com/sprestage/sprestage.github.io-personal-notes/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
 
