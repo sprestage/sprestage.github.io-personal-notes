@@ -49,6 +49,7 @@
 - [ ] PRO - update my resume with OCP
 - [ ] PRO - update Hired with OCP and non-availability
 - [ ] PRO - update portfolio site with updated resume
+- [ ] plan mamogram trip to David with Day Stefanelli for after October 20th
 
 
 ## Sun, 3 Oct 2021
