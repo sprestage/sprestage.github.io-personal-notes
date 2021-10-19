@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+
+<!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Cicero import | Mother of cats and Kai</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="Cicero import" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Journal to track everything going on in my life." />
+<meta property="og:description" content="Journal to track everything going on in my life." />
+<link rel="canonical" href="http://localhost:4000/cicero_import.html" />
+<meta property="og:url" content="http://localhost:4000/cicero_import.html" />
+<meta property="og:site_name" content="Mother of cats and Kai" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Cicero import" />
+<script type="application/ld+json">
+{"headline":"Cicero import","url":"http://localhost:4000/cicero_import.html","description":"Journal to track everything going on in my life.","@type":"WebPage","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preload" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap" as="style" type="text/css" crossorigin>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="/assets/css/style.css?v=af586400288b6425e2da485838f36de2bf709d0d">
+    <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
+
+<!-- Setup Google Analytics -->
+
+
+
+<!-- You can set your favicon here -->
+<!-- link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" -->
+
+<!-- end custom head snippets -->
+
+  </head>
+  <body>
+    <a id="skip-to-content" href="#content">Skip to the content.</a>
+
+    <header class="page-header" role="banner">
+      <h1 class="project-name">Cicero import</h1>
+      <h2 class="project-tagline">Journal to track everything going on in my life.</h2>
+      
+        <a href="https://github.com/sprestage/sprestage.github.io-personal-notes" class="btn">View on GitHub</a>
+      
+      
+    </header>
+
+    <main id="content" class="main-content" role="main">
+      <h1 id="cicero-import">Cicero import</h1>
+
+<h3 id="check-to-see-if-the-new-import-is-ready">check to see if the new import is ready</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>alias ls_cicero="aws --profile cicero_user s3 ls --recursive s3://cicero-global-data-us-east-1/OneClickPolitics/"
+</code></pre></div></div>
+
+<h3 id="copy-cicero-sql-files-to-prod">copy cicero sql files to prod</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scp -i ~/.ssh/id_rsa ../../one-click-politics/docker/postgres/*CA.sql ubuntu@ec2-184-72-246-33.compute-1.amazonaws.com:~/australia/sep2021
+</code></pre></div></div>
+
+<p>don’t use <code class="language-plaintext highlighter-rouge">new-production-2</code> like below, use the ip address above:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scp -i ~/.ssh/id_rsa docker/postgres/*.sql new-production-2.c8rvchfbyjh2.us-east-1.rds.amazonaws.com:/australia/sep2021
+</code></pre></div></div>
+<p>54.235.144.131</p>
+
+<p><a href="#to-update-australia">Import AU</a></p>
+
+<p><a href="#to-update-canada">Import CA</a></p>
+
+<hr />
+
+<h2 id="updating-cicero-data-for-australia-and-canada">Updating Cicero data for Australia and Canada</h2>
+
+<p>For Australia and Canada, our third-party Cicero service provides both shapefiles and recipient .CSVs.</p>
+
+<h3 id="to-update-australia">To update Australia:</h3>
+<p><a href="#au-step-1">Step 1 - Download and extract the shapefiles and .CSVs from our Cicero S3 bucket</a> <br />
+  <a href="#au-step-2">Step 2 - Update Australian Districts and Shapefiles</a> <br />
+  <a href="#au-step-3">Step 3 - Copy new .CSV files into the corresponding subfolder</a> <br />
+  <a href="#au-step-4">Step 4 - Updating Australian Recipients</a> <br />
+  <a href="#au-step-5">Step 5 - Troubleshooting (“Party … not found” messages)</a> <br /></p>
+
+<p><a href="#au-name-updater-testing">AU name updater testing</a></p>
+
+<h4 id="au-step-1">AU Step 1</h4>
+<p><strong>Download and extract the shapefiles and .CSVs from our Cicero S3 bucket.</strong></p>
+
+<p>You’ll need the AWS command line client, as well as an AWS profile with appropriate credentials.  On OSX, your credentials file should be saved to:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  ~/.aws/credentials  
+</code></pre></div></div>
+
+<p>and should include a user with access to our Cicero S3 bucket:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  [cicero_user]
+  aws_access_key_id = AKIARQTLGY25RK5ILJMC
+  aws_secret_access_key = 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
+</code></pre></div></div>
+
+<p>To access the latest Cicero data using these credentials, call:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  aws --profile cicero_user s3 ls --recursive s3://cicero-global-data-us-east-1/OneClickPolitics/
+</code></pre></div></div>
+
+<p>Retrieve the latest shapefiles by downloading and extracting cicero_au_districts.zip:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  aws --profile cicero_user s3 cp s3://cicero-global-data-us-east-1/OneClickPolitics/latest/cicero_au_districts.zip cicero_au_districts.zip
+</code></pre></div></div>
+
+<p>Pull the latest .CSVs by downloading and extracting cicero_au_officials.zip, cicero_au_officials_levels.zip, and cicero_au_officials_roles.zip:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  aws --profile cicero_user s3 cp s3://cicero-global-data-us-east-1/OneClickPolitics/latest/cicero_au_officials.zip cicero_au_officials.zip
+
+  aws --profile cicero_user s3 cp s3://cicero-global-data-us-east-1/OneClickPolitics/latest/cicero_au_officials_levels.zip cicero_au_officials_levels.zip
+
+  aws --profile cicero_user s3 cp s3://cicero-global-data-us-east-1/OneClickPolitics/latest/cicero_au_officials_roles.zip cicero_au_officials_roles.zip
+</code></pre></div></div>
+
+<h4 id="au-step-2">AU Step 2</h4>
+<p><strong>Update Australian Districts and Shapefiles</strong></p>
+
+<p>Follow the instructions for import_cicero_australia_shapefiles in update_australia.rake.  <a href="cicero_raketask_import_au_shapefiles.html">Rakefile instructions</a></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  bundle exec rake import_cicero_australia_shapefiles RAILS_ENV=production
+</code></pre></div></div>
+
+<p>If this works without errors, record the changes with the [record] argument:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  bundle exec rake import_cicero_australia_shapefiles[record] RAILS_ENV=production
+</code></pre></div></div>
+
+<p>To update shapefiles, extract the relevant .sql files from cicero_au_districts.zip</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  STATELOWER_AU.sql
+  STATEUPPER_AU.sql
+  NATIONALLOWER_AU.sql
+</code></pre></div></div>
+
+<p>Then follow the instructions for the rake task import_cicero_australia_shapefiles in:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  One-Click-Reboot/lib/tasks/update_australia.rake  
+</code></pre></div></div>
+
+<p>If running this on a local Docker setup, your psql commands might look more like this:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  docker-compose exec postgres psql -U ocp -d ocp -f /ocp/postgres/NATIONALLOWER_AU.sql
+</code></pre></div></div>
+<p>Just remember you will need to insert the .sql files into “/docker/postgres/”.</p>
+
+<h4 id="au-step-3">AU Step 3</h4>
+<p><strong>Copy new .CSV files into the corresponding subfolder of:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  lib/import_data
+</code></pre></div></div>
+
+<p>You’ll want to extract cicero_au_officials.zip and copy the .CSV:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  cicero_au_officials.csv
+</code></pre></div></div>
+
+<p>into:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  One-Click-Reboot/lib/import_data/australia/cicero_au_officials.csv
+</code></pre></div></div>
+
+<p>replacing any .csv file already there.</p>
+
+<p>As of March 2021 (and discovered in July 2021), Cicero has split their levels data and roles data out of the main CSV and into each one’s own CSV. This wrought havoc on our normal import process. Maged and Nate found and modified an existing CSV Merger script to recreate the original file’s data, so that we can get by for now. Here’s the file: https://www.dropbox.com/s/ilm7gp9lo4n1c9l/csv_merge.rb?dl=0
+The file currently assumes the CSV files are in the same directory as the file. Just run</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  ruby csv_merge.rb
+</code></pre></div></div>
+<p>with the correct filenames, and the result.csv should be the new officials csv.
+Susan and Nate have also found that there have occasionally been a few troublesome rows - specifically ones with a “level” of “headOfGovernment”. These have sparked an error finding the id for nil:NilClass in the importer_modules.rb file. You can safely delete these rows.</p>
+
+<p>You’ll need to update this .CSV on any environment where you plan to update reps.  For this reason, it’s best to check this change into source, and deploy to both production and staging.</p>
+
+<h4 id="au-step-4">AU Step 4</h4>
+<p><strong>Updating Australian Recipients</strong></p>
+
+<p>Once you’ve updated cicero_au_officials.csv, complete the imports using the AustraliaRecipientImporter object.</p>
+
+<p>The AustraliaRecipientImporter object in</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lib/importer_modules/australia/australia_importers.rb
+</code></pre></div></div>
+
+<p>operates in much the same way as the US imports described above.  Make sure to import Cicero’s district shapefiles as described above before importing recipients.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>require ('importer_modules/australia/australia_importers')
+</code></pre></div></div>
+
+<h5 id="if-we-need-to-import-any-of-the-parties-defined-in-importeraustraliaparties">If we need to import any of the parties defined in Importer::Australia.parties</h5>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>party_importer = Importer::AustraliaPartyImporter.instance
+party_importer.import
+party_importer.import :record =&gt; true
+</code></pre></div></div>
+
+<h5 id="import-recipients-but-only-after-weve-imported-our-districts">import recipients, but only after we’ve imported our districts</h5>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>recipient_importer = Importer::AustraliaRecipientImporter.instance
+recipient_importer.setup
+recipient_importer.match
+recipient_importer.all_problems # Look at problems
+recipient_importer.import
+recipient_importer.all_problems # Look at problems
+recipient_importer.import :record =&gt; true
+</code></pre></div></div>
+
+<p>If calling</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  recipient_importer.all_problems
+</code></pre></div></div>
+
+<p>returns “Party … not found” error messages, you may need to add new Party records to our system, and then attempt the imports again.</p>
+
+<h4 id="au-step-5">AU Step 5</h4>
+<p><strong>“Party … not found” messages mean that we might be missing Party records from our database, and/or missing party names from our country_definitions.rb file.</strong></p>
+
+<p>First, for any missing party, make sure the party name and abbreviation appear in the Australia.parties method in:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  lib/importer_modules/country_definitions.rb
+</code></pre></div></div>
+
+<p>If they don’t appear in this list, add them.  Then run the rake task:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  RAILS_ENV=production bundle exec rake import_au_parties[record]
+</code></pre></div></div>
+
+<p>to make sure all of these parties have a record in our database.</p>
+
+<h3 id="updating-australian-districts-and-shapefiles">Updating Australian Districts and Shapefiles</h3>
+
+<p>See steps 1-2, above.</p>
+
+<h3 id="updating-australian-recipient-data">Updating Australian Recipient Data</h3>
+
+<p>See steps 1 and 3-5, above.</p>
+
+<h4 id="au-name-updater-testing">AU name updater testing</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>recipient_importer.import(:overwrite_firstname =&gt; false, :overwrite_lastname =&gt; false)
+recipient_importer.all_problems # Look at problems
+recipient_importer.import(:overwrite_firstname =&gt; false, :overwrite_lastname =&gt; false, :record =&gt; true)
+
+recipient_importer.import(:overwrite_firstname =&gt; true, :overwrite_lastname =&gt; false)
+recipient_importer.all_problems # Look at problems
+recipient_importer.import(:overwrite_firstname =&gt; true, :overwrite_lastname =&gt; false, :record =&gt; true)
+
+recipient_importer.import(:overwrite_firstname =&gt; false, :overwrite_lastname =&gt; true)
+recipient_importer.all_problems # Look at problems
+recipient_importer.import(:overwrite_firstname =&gt; false, :overwrite_lastname =&gt; true, :record =&gt; true)
+
+recipient_importer.import(:overwrite_firstname =&gt; true, :overwrite_lastname =&gt; true)
+recipient_importer.all_problems # Look at problems
+recipient_importer.import(:overwrite_firstname =&gt; true, :overwrite_lastname =&gt; true, :record =&gt; true)
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="to-update-canada">To update Canada:</h3>
+<p><a href="#ca-step-1">Step 1 - Download and extract the shapefiles and .CSVs from our Cicero S3 bucket</a> <br />
+<a href="#ca-step-2">Step 2 - Update Australian Districts and Shapefiles</a> <br />
+<a href="#ca-step-3">Step 3 - Copy new .CSV files into the corresponding subfolder</a> <br />
+<a href="#ca-step-4">Step 4 - Updating Australian Recipients</a> <br />
+<a href="#ca-step-5">Step 5 - Troubleshooting (“Party … not found” messages)</a> <br /></p>
+
+<h4 id="ca-step-1">CA Step 1</h4>
+<p><strong>Download and extract the shapefiles and .CSVs from our Cicero S3 bucket.</strong></p>
+
+<p>You’ll need the AWS command line client, as well as an AWS profile with appropriate credentials.  On OSX, your credentials file should be saved to:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  ~/.aws/credentials  
+</code></pre></div></div>
+
+<p>and should include a user with access to our Cicero S3 bucket:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  [cicero_user]
+  aws_access_key_id = AKIARQTLGY25RK5ILJMC
+  aws_secret_access_key = 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
+</code></pre></div></div>
+
+<p>To access the latest Cicero data using these credentials, call:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  aws --profile cicero_user s3 ls --recursive s3://cicero-global-data-us-east-1/OneClickPolitics/
+</code></pre></div></div>
+
+<p>Retrieve the latest shapefiles by downloading and extracting cicero_ca_districts.zip:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  aws --profile cicero_user s3 cp s3://cicero-global-data-us-east-1/OneClickPolitics/latest/cicero_ca_districts.zip cicero_ca_districts.zip
+</code></pre></div></div>
+
+<p>Pull the latest .CSVs by downloading and extracting cicero_ca_officials.zip, cicero_ca_officials_roles.zip, and cicero_ca_officials_levels.zip:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  aws --profile cicero_user s3 cp s3://cicero-global-data-us-east-1/OneClickPolitics/latest/cicero_ca_officials.zip cicero_ca_officials.zip
+
+aws --profile cicero_user s3 cp s3://cicero-global-data-us-east-1/OneClickPolitics/latest/cicero_ca_officials_roles.zip cicero_ca_officials_roles.zip
+
+aws --profile cicero_user s3 cp s3://cicero-global-data-us-east-1/OneClickPolitics/latest/cicero_ca_officials_levels.zip cicero_ca_officials_levels.zip
+</code></pre></div></div>
+
+<h4 id="ca-step-2">CA Step 2</h4>
+<p><strong>Update Canadian Districts and Shapefiles</strong></p>
+
+<p>Follow the instructions for import_cicero_canada_shapefiles in update_canada.rake.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle exec rake import_cicero_canada_shapefiles RAILS_ENV=production
+</code></pre></div></div>
+
+<p>If this works without errors, record the changes with the [record] argument:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle exec rake import_cicero_canada_shapefiles[record] RAILS_ENV=production
+</code></pre></div></div>
+
+<p>To update shapefiles, extract the relevant .sql files from cicero_ca_districts.zip</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  STATELOWER_CA.sql
+  NATIONALLOWER_CA.sql
+</code></pre></div></div>
+
+<p>Then follow the instructions for the rake task import_cicero_canada_shapefiles in:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  /Users/dt/Projects/One-Click-Reboot/lib/tasks/update_canada.rake  
+</code></pre></div></div>
+
+<p>If running this on a local Docker setup, your psql commands might look more like this:
+  docker-compose exec postgres psql -U ocp -d ocp -f /ocp/postgres/NATIONALLOWER_CA.sql
+Just remember you will need to insert the .sql files into “/docker/postgres/”.</p>
+
+<h4 id="ca-step-3">CA Step 3</h4>
+<p><strong>Copy new .CSV files into the corresponding subfolder of:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  lib/import_data
+</code></pre></div></div>
+
+<p>You’ll want to extract cicero_ca_officials.zip and copy the .CSV:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  cicero_ca_officials.csv
+</code></pre></div></div>
+
+<p>into:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  One-Click-Reboot/lib/import_data/canada/cicero_ca_officials.csv
+</code></pre></div></div>
+
+<p>replacing any .csv file already there.</p>
+
+<p>As of March 2021 (and discovered in July 2021), Cicero has split their levels data and roles data out of the main CSV and into each one’s own CSV. This wrought havoc on our normal import process. Maged and Nate found and modified an existing CSV Merger script to recreate the original file’s data, so that we can get by for now. Here’s the file: https://www.dropbox.com/s/ilm7gp9lo4n1c9l/csv_merge.rb?dl=0
+The file currently assumes the CSV files are in the same directory as the file. Just run</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  ruby csv_merge.rb
+</code></pre></div></div>
+<p>with the correct filenames, and the result.csv should be the new officials csv.</p>
+
+<p>You’ll need to update this .CSV on any environment where you plan to update reps.  For this reason, it’s best to check this change into source, and deploy to both production and staging.</p>
+
+<h4 id="ca-step-4">CA Step 4</h4>
+<p><strong>Updating Canadian Recipients</strong></p>
+
+<p>Once you’ve updated cicero_ca_officials.csv, complete the imports using the CanadaRecipientImporter object.</p>
+
+<p>The CanadaRecipientImporter object in</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lib/importer_modules/canada/canada_importers.rb
+</code></pre></div></div>
+
+<p>operates in much the same way as the US imports described above.  Make sure to import Cicero’s district shapefiles as described above before importing recipients.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>require ('importer_modules/canada/canada_importers')
+</code></pre></div></div>
+
+<h5 id="if-we-need-to-import-any-of-the-parties-defined-in-importercanadaparties">If we need to import any of the parties defined in Importer::Canada.parties</h5>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>party_importer = Importer::CanadaPartyImporter.instance
+party_importer.import
+party_importer.import :record =&gt; true
+</code></pre></div></div>
+
+<h5 id="import-recipients-but-only-after-weve-imported-our-districts-1">import recipients, but only after we’ve imported our districts</h5>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>recipient_importer = Importer::CanadaRecipientImporter.instance
+recipient_importer.setup
+recipient_importer.match
+recipient_importer.all_problems # Look at problems
+recipient_importer.import
+recipient_importer.all_problems # Look at problems
+recipient_importer.import :record =&gt; true
+</code></pre></div></div>
+
+<p>If calling</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  recipient_importer.all_problems
+</code></pre></div></div>
+<p>returns “Party … not found” error messages, you may need to add new Party records to our system, and then attempt the imports again.</p>
+
+<h4 id="ca-step-5">CA Step 5</h4>
+<p><strong>“Party … not found” messages mean that we might be missing Party records from our database, and/or missing party names from our country_definitions.rb file.</strong></p>
+
+<p>First, for any missing party, make sure the party name and abbreviation appear in the Canada.parties method in:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  lib/importer_modules/country_definitions.rb
+</code></pre></div></div>
+
+<p>If they don’t appear in this list, add them.  Then run the rake task:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  bundle exec rake import_ca_parties[record] RAILS_ENV=production
+</code></pre></div></div>
+<p>to make sure all of these parties have a record in our database.</p>
+
+<h3 id="updating-canadian-districts-and-shapefiles">Updating Canadian Districts and Shapefiles</h3>
+
+<p>See steps 1-2 above.</p>
+
+<h2 id="notes-from-my-last-ca-import---local">Notes from my last CA import - LOCAL</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>susanprestage@Susans-MBP code % cd CiceroImports/canada
+susanprestage@Susans-MBP canada % ls cicero_ca_districts
+
+susanprestage@Susans-MBP canada % sudo shp2pgsql -s 4326 -g ca_geom ./cicero_ca_districts/district_statelower_ca.shp public.new_districts &gt; STATELOWER_CA.sql
+susanprestage@Susans-MBP canada % sudo shp2pgsql -s 4326 -g ca_geom ./cicero_ca_districts/district_nationallower_ca.shp public.new_districts &gt; NATIONALLOWER_CA.sql
+
+susanprestage@Susans-MBP canada % vi NATIONALLOWER_CA.sql
+susanprestage@Susans-MBP canada % vi STATELOWER_CA.sql
+susanprestage@Susans-MBP canada % mv *.sql ../../docker/postgres
+susanprestage@Susans-MBP canada % ls -l ../../docker/postgres
+total 389368
+ 64584 -rw-r--r--  1 susanprestage  staff   33064581 Sep 21 10:29 NATIONALLOWER_CA.sql
+324784 -rw-r--r--  1 susanprestage  staff  166287793 Sep 21 10:29 STATELOWER_CA.sql
+     0 drwxr-xr-x  3 susanprestage  staff         96 Jul 13 09:36 setup/
+susanprestage@Susans-MBP canada % pwd
+/Users/susanprestage/code/CiceroImports/canada
+susanprestage@Susans-MBP canada % ls -l ../../one-click-politics/docker/postgres
+total 835592
+190008 -rw-r--r--  1 susanprestage  staff   97281004 Sep 20 10:25 NATIONALLOWER_AU.sql
+ 83480 -rw-r--r--  1 susanprestage  staff   42739577 Sep 20 10:25 NATIONALUPPER_AU.sql
+191832 -rw-r--r--  1 susanprestage  staff   98216343 Sep 20 10:25 STATELOWER_AU.sql
+370272 -rw-r--r--  1 susanprestage  staff  189575779 Sep 20 10:25 STATEUPPER_AU.sql
+     0 drwxr-xr-x  3 susanprestage  staff         96 Jul 13 09:45 setup/
+susanprestage@Susans-MBP canada % mv ../../docker/postgres/*.sql ../../one-click-politics/docker/postgres
+susanprestage@Susans-MBP canada % ls -l ../../one-click-politics/docker/postgres                         
+
+susanprestage@Susans-MBP one-click-politics % docker-compose exec postgres psql -U ocp -d ocp -f docker/postgres/STATELOWER_CA.sql
+WARNING: Some networks were defined but are not used by any service: my-network-name
+docker/postgres/STATELOWER_CA.sql: No such file or directory
+susanprestage@Susans-MBP one-click-politics % docker-compose exec postgres psql -U ocp -d ocp -f /ocp/postgres/STATELOWER_CA.sql
+WARNING: Some networks were defined but are not used by any service: my-network-name
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+.
+.
+.
+.
+
+susanprestage@Susans-MBP one-click-politics % docker-compose exec postgres psql -U ocp -d ocp -f /ocp/postgres/NATIONALLOWER_CA.sql
+WARNING: Some networks were defined but are not used by any service: my-network-name
+INSERT 0 1
+INSERT 0 1
+.
+.
+.
+
+susanprestage@Susans-MBP one-click-politics % cd ../CiceroImports/canada                              
+susanprestage@Susans-MBP canada % cp ../australia/csv_merge.rb .
+susanprestage@Susans-MBP canada % ls
+total 186040
+     0 cicero_ca_districts/		   568 cicero_ca_officials.zip		   392 cicero_ca_officials_roles.csv
+182272 cicero_ca_districts.zip		   368 cicero_ca_officials_levels.csv	    56 cicero_ca_officials_roles.zip
+  2328 cicero_ca_officials.csv		    48 cicero_ca_officials_levels.zip	     8 csv_merge.rb
+susanprestage@Susans-MBP canada % l csv_merge.rb
+8 -rw-r--r--@ 1 susanprestage  staff  1392 Sep 21 10:54 csv_merge.rb
+susanprestage@Susans-MBP canada % ruby csv_merge.rb
+
+susanprestage@Susans-MBP canada % vi result.csv
+susanprestage@Susans-MBP canada % s
+zsh: command not found: s
+susanprestage@Susans-MBP canada % ls
+total 190152
+     0 cicero_ca_districts/		   368 cicero_ca_officials_levels.csv	     8 csv_merge.rb
+182272 cicero_ca_districts.zip		    48 cicero_ca_officials_levels.zip	  4112 result.csv
+  2328 cicero_ca_officials.csv		   392 cicero_ca_officials_roles.csv
+   568 cicero_ca_officials.zip		    56 cicero_ca_officials_roles.zip
+susanprestage@Susans-MBP canada % mv result.csv ../../one-click-politics/lib/import_data/canada/cicero_ca_officials.csv
+
+
+susanprestage@Susans-MBP one-click-politics % docker-compose exec ocp bundle exec rake import_ca_parties\[record\] RAILS_ENV=production
+
+susanprestage@Susans-MBP one-click-politics % ls -l docker/postgres/*CA.sql
+ 64584 -rw-r--r--  1 susanprestage  staff   33064581 Sep 21 10:29 docker/postgres/NATIONALLOWER_CA.sql
+324784 -rw-r--r--  1 susanprestage  staff  166287793 Sep 21 10:29 docker/postgres/STATELOWER_CA.sql
+</code></pre></div></div>
+
+<h2 id="notes-from-my-last-ca-import---staging">Notes from my last CA import - STAGING</h2>
+
+
+      <footer class="site-footer">
+        
+          <span class="site-footer-owner"><a href="https://github.com/sprestage/sprestage.github.io-personal-notes">sprestage.github.io-personal-notes</a> is maintained by <a href="https://github.com/sprestage">sprestage</a>.</span>
+        
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span>
+      </footer>
+    </main>
+  </body>
+</html>

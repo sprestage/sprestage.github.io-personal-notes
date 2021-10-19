@@ -1,0 +1,1557 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+
+<!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>OCP daily dev notes | Mother of cats and Kai</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="OCP daily dev notes" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Journal to track everything going on in my life." />
+<meta property="og:description" content="Journal to track everything going on in my life." />
+<link rel="canonical" href="http://localhost:4000/ocp_dev_notes.html" />
+<meta property="og:url" content="http://localhost:4000/ocp_dev_notes.html" />
+<meta property="og:site_name" content="Mother of cats and Kai" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="OCP daily dev notes" />
+<script type="application/ld+json">
+{"headline":"OCP daily dev notes","url":"http://localhost:4000/ocp_dev_notes.html","description":"Journal to track everything going on in my life.","@type":"WebPage","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preload" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap" as="style" type="text/css" crossorigin>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="/assets/css/style.css?v=af586400288b6425e2da485838f36de2bf709d0d">
+    <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
+
+<!-- Setup Google Analytics -->
+
+
+
+<!-- You can set your favicon here -->
+<!-- link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" -->
+
+<!-- end custom head snippets -->
+
+  </head>
+  <body>
+    <a id="skip-to-content" href="#content">Skip to the content.</a>
+
+    <header class="page-header" role="banner">
+      <h1 class="project-name">OCP daily dev notes</h1>
+      <h2 class="project-tagline">Journal to track everything going on in my life.</h2>
+      
+        <a href="https://github.com/sprestage/sprestage.github.io-personal-notes" class="btn">View on GitHub</a>
+      
+      
+    </header>
+
+    <main id="content" class="main-content" role="main">
+      <h1 id="ocp-daily-dev-notes">OCP daily dev notes</h1>
+<p>This doc will have unchecked tasks in the past.  These are either obsolete, or have been moved to the current day.  This is a different style from my personal tracking journal which either checks them or moves them to the current day.  The goal in this doc is to preserve my status report for later reference, so that is where the unchecked are likely to be preserved.</p>
+
+<p><a href="production.html">Production and Staging</a> - Quick notes on Production and Staging.</p>
+
+<p><a href="deploy.html">Deploy</a> - Steps for deployment to production and staging.</p>
+
+<p><a href="know_who_import.html">KnowWho Import</a> - Everything needed for the KnowWho import.</p>
+
+<p><a href="cicero_import.html">Cicero Import</a> - Everything needed for the CA and AU Cicero imports.</p>
+
+<h2 id="tue-oct-19-2021">Tue, Oct 19 2021</h2>
+<ul class="task-list">
+  <li>asked Alex about his rake task for harvesting CWC senate delivery data</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />convert Alex’s rake task for gathering the data for the house</li>
+  <li class="task-list-item">asked Nate for assistance on staging</li>
+  <li class="task-list-item">[ ]</li>
+</ul>
+
+<h2 id="mon-oct-18-2021">Mon, Oct 18 2021</h2>
+<p>CWC house who is actually receiving, for real.<br />
+How many are successfully delivered, from the recipients/delivery page
+each recipient has a page that show delivery info.  ask alex about his script that harvests this data</p>
+
+<h3 id="current-status">current status</h3>
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />check in with Alex about his merge before I deploy the widget fix to prod</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />KnowWho import</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />merge the Clearbrook UI semi-duplication fix and deploy to prod, https://github.com/one-click-politics/one-click-politics/pull/423</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />grab a pair of refactoring Jiras that I have pending</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />look for tests to fix</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />import shapefiles to staging</li>
+</ul>
+
+<p>DO ALL THESE WHEN WE HAVE AU DATA</p>
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />the business decided that yes, I can run the rake to de-activate the AU recipients without cicero code</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Cicero import, still waiting; 3 of 4 files are inaccessible</li>
+</ul>
+
+<h3 id="morning-status">morning status</h3>
+<p>Friday</p>
+<ul>
+  <li>tested the AU name updater without the overwrite flags and confirmed that the names are not updated</li>
+  <li>found where the widget semi-duplication was being triggered with the help of Alex</li>
+  <li>fixed it, PR’ed it</li>
+  <li>was able to reproduce the issue “locally” thus was able to confirm issue on prod and confirm fix on staging.  thanks to Nate for the suggestion to embed the widget code in the dev tools directly in Safari</li>
+  <li>added repro and test instructions into the PR and Jira ticket</li>
+  <li>tested locally the AU name updater with the overwrite flags and confirmed that the names are appropriately updated</li>
+</ul>
+
+<p>Today</p>
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Maged: has the business decided that yes, I can run the rake to de-activate the AU recipients without cicero code?</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />KnowWho import</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Cicero import, if it has come in?</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Merge the Clearbrook UI semi-duplication fix and deploy to prod, https://github.com/one-click-politics/one-click-politics/pull/423</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />ready for the next big task</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />grab a pair of refactoring Jiras that I have pending</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />look for tests to fix</li>
+</ul>
+
+<h2 id="fri-oct-15-2021">Fri, Oct 15 2021</h2>
+<h3 id="current-status-1">current status</h3>
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />test the AU name updater without the overwrite flags and confirmed that the names are not updated</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />found where the widget semi-duplication was being triggered with the help of Alex</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />fixed it, PR’ed it</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />was able to reproduce the issue “locally” thus was able to confirm issue on prod and confirm fix on staging.  thanks to Nate for the suggestion to embed the widget code in the dev tools directly in Safari</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />added repro and test instructions into the PR and Jira ticket</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />test the AU name updater locally, with the overwrite flags and confirmed that the names are appropriately updated.  I tried this with:
+    <ul>
+      <li>both first_name and last_name overwrite false</li>
+      <li>only first_name overwrite true</li>
+      <li>only last_name overwrite true</li>
+      <li>both first_name and last_name overwrite true</li>
+    </ul>
+  </li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />test the AU name updater on staging, with the overwrite flags and confirmed that the names are appropriately updated</li>
+</ul>
+
+<h3 id="daily-status">daily status</h3>
+<p>Yesterday</p>
+<ul class="task-list">
+  <li>reviewed various PRs</li>
+  <li>set up iphone safari simulators, repro’ed bug, iphone and safari is key, also only reproducible on client site…thouogh I tried many ways to do this.  Put together a write up of current status and emailed to Maged, and then @maged in Slack.  Hoping for more Alex assistance in tracking this down as I have some very interesting clues now that I have responsive design mode working in Safari.</li>
+  <li>
+    <p>all the AU stuff is merged into master</p>
+  </li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />working my way through the cicero import locally</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />I’d like to try staging next</li>
+  <li class="task-list-item">
+    <p><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />pairing with Alex this morning on the iphone display issue.  I’ve seen some clues that may help us understand why/how this semi-duplication is happening.</p>
+  </li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />YIKES!  Need to test import locally ASAP!!!</li>
+</ul>
+
+<h2 id="thu-oct-14-2021">Thu, Oct 14 2021</h2>
+<h3 id="current-status-2">current status</h3>
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />review Shams’ PRs</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />download xcode and try iphone/chrome and iphone/safari simulators.  Sounds like Nate and Maged have seen some consistency with safari.  Try on my iphone with incognito…after I learn how.</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />run AU importer locally</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />follow up on reviews from folks this morning for both AU PRs.</li>
+</ul>
+
+<h3 id="status-report">status report</h3>
+<ul>
+  <li>Got all the changes tested and checked in for the two Australia PRs.</li>
+  <li>RE: my message from yesterday on the zendest 1101 for the issue with iphone issue for display of their widget.  Maged: update on zendesk 1101: I’ve brought up the problem page with our widget on my iPhone several times.  The first time, I saw the issue.  All subsequent visits, the issue did not occur.  Who else on the engineering team has an iphone and can they try this link, https://www.clearbrook.org/advocacy/.  My tests were with Chrome.  When I get home, I’ll try to get another browser or two on my phone and test further.  Try running this incognito.</li>
+  <li>I’d like to run the AU imorter locally on our data from last month</li>
+</ul>
+
+<p>REMEMBER: smaller Jira breakdowns leads to smaller PRs and better (and quicker!) reviews.  Good times!!</p>
+
+<h2 id="wed-oct-13-2021">Wed, Oct 13 2021</h2>
+<h3 id="current-status-3">current status</h3>
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />need to respond and fix bits of ON-1359 (first/last name AU import update) from Dave and Nate’s feedback</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />ask for someone to take a look at the two tests in ON-1357 that I don’t understand how I broke in ON-1357; search for ‘skip do’ to find</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />also, ON-1357 is ready for re-review</li>
+</ul>
+
+<h3 id="status-report-1">status report</h3>
+<ul class="task-list">
+  <li>got the ON-1359 branch (first/last name AU import update) cleaned out and ready for Nate’s review</li>
+  <li>re-worked ON-1357 (AU recipient UI fixes) to DRYing of repetitions across 6 files, thanks Dave and Alex for the recomendations</li>
+  <li>Maged: I saw the note about the cicero data arriving next week</li>
+  <li>
+    <p>Maged: update on zendesk 1101: I’ve brought up the problem page with our widget on my iPhone several times.  The first time, I saw the issue.  All subsequent visits, the issue did not occur.  Who else on the engineering team has an iphone and can they try this link, https://www.clearbrook.org/advocacy/.  My tests were with Chrome.  When I get home, I’ll try to get another browser or two on my phone and test further.</p>
+  </li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />need to respond to feedback for ON-1359 (first/last name AU import update) from Dave and Nate</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />ask for someone to take a look at the two tests in ON-1357 that I don’t understand how I broke in ON-1357; search for ‘skip do’ to find</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />also, ON-1357 is ready for re-review</li>
+</ul>
+
+<h2 id="tue-oct-12-2021">Tue, Oct 12 2021</h2>
+<h3 id="current-status-4">current status</h3>
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />revert the ON-1357 files and re-check into ON-1359 so it can be reviewed by Nate; then give Nate a heads up</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Implement Alex’s suggestion on ON-1357 for the DRY.  We both admire Dave’s recommendation for ON-1357, but it does not actually save that much and adding a lot of higher level rails concepts to it.</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />ask for someone to take a look at the two tests in ON-1357 that I don’t understand how I broke in ON-1357; search for ‘skip do’ to find</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />also, ON-1357 is ready for re-review</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />look into Dave’s recommendations for ON-1359</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />make ticket for ongoing spec cleanup</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />review pending PRs</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />WAITING - as of 12:15pm, I am awaiting Nate’s review of ON-1359.  Once ready, look into Nate’s suggestions for ON-1359</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />WAITING - still waiting for the cicero data for AU (and CA), use this to check
+```
+aws –profile cicero_user s3 ls –recursive s3://cicero-global-data-us-east-1/OneClickPolitics/</li>
+</ul>
+
+<p>alias ls_cicero=”aws –profile cicero_user s3 ls –recursive s3://cicero-global-data-us-east-1/OneClickPolitics/”</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+### status
+#### yesterday
+- [ ]  I was responding to reviews on the UI.  Mostly done.
+#### today
+- [ ] make ticket for ongoing spec cleanup
+- [ ] need to get ON-1357 merged in so that ON-1359 can be reviewed since it needs rebasing
+- [ ] done with ON-1357 except for Dave's recommendation below
+- [ ] reviewing PRs
+- [ ] responding to PRs
+- [ ] what is the status of receiving the cicero data for AU (and CA)?
+- [ ] hope to wrap up PRs and get the AU recipient UI fixes and the cicero update of AU recipient names  improvement to the import merged to master this afternoon
+
+- [x] I tried to do KnowWho import on the side, but my internet is making this impossible.  Handed off to Alex in standup.
+- [x] notify team that tomorrow morning I will be out also post this in Slack.  I need to head to the city for an appointment.  The hours I worked Sunday should cover this (four times over).  More importantly, since I'm on call, that means I need someone to cover tomorrow morning.  Nate?  Alex?
+
+
+## Mon, Oct 11 2021
+
+### improvements for the views displaying only AU recipients with cicero codes
+The changes Dave suggests are good ones, but I've looked into it and I'm not clear exactly where to put things and implement them.  
+
+I'm pretty sure the method recommended by Dave goes here... -&gt;  /app/helpers/promoted_mesage_helper.rb.  While we probably want this in the helper, for reference this is the controller for the views below, /app/controllers/messages/one_click/posts_controller.rb.
+
+Here is the tree that leads to each piece of the UI affected by the cicero_code limitation.  I've put an arrow next to the 6 files with the repetitions.
+
+- /app/views/promoter/messages/selected_recipients.html.erb
+  - _australian_recipients_nav.html.erb
+    - _house_recipient_selectors.html.erb  &lt;-
+    - _senate_recipient_selectors.html.erb  &lt;-
+
+- /app/views/promoter/messages/state_selector.js.erb
+  - _state_selection
+    - _state_upper.html.erb  &lt;-
+    - _state_lower.html.erb  &lt;-
+
+- /app/views/widgets/oneclick/messages/one_click/posts/index.html.erb
+  - _click_to_post.html.erb  &lt;-
+
+- /app/views/promoter/messages/selected_recipients.html.erb
+  - _selected_recipients.html.erb
+    - _selected_recipients_list.html.erb  &lt;-
+
+
+#### Changes recommended by Dave
+Since we're using similar logic to this in several places, and we might need to change them all at some point, I'm wondering if there's a way to wrap these blocks with a single check defined at the helper level, and then use only one method throughout the views:
+
+</code></pre></div></div>
+<p>def conditionally_show_cicero_recipient(message, recipient, &amp;block)
+    if message.country.to_s == ‘australia’
+      if recipient.cicero_code.present? || recipient.model_type == ‘CustomRecipient’
+        proc[recipient]
+      end
+    else
+      proc[recipient]
+    end
+  end</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>which you could then call with message and recipient params to conditionally render a block with a recipient r:
+
+</code></pre></div></div>
+<p>conditionally_show_cicero_recipient(@message, recipient) do |r|
+&lt;%= render :partial =&gt; ‘whatever_partial’, :locals =&gt; { :recipient =&gt; r } %&gt;
+end</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+It sounds like maybe the logical or check for model_type == 'CustomRecipient' could be part of the logic across the board, since it probably wouldn't cause false positive issues in the Australian target selectors where it's always false?
+
+At any rate, if we wanted to change the logic when we have Cicero reps across the board, we could change just one helper method to implement the changes everywhere.
+
+
+### rspec and our test suite
+I am going to slowly work through running our entire test suite.  Piece by piece, initially.  Then all at once.  The aim here is to find the tests that aren't working on their own, then start working on the tests that don't run in a group.  I plan to have one of the below running most of the time until I'm much more familiar with the problem areas.
+
+#### Found rspec issues
+##### twitter related bugs here
+</code></pre></div></div>
+<p>rspec ./spec/features/widget/nodb_signature_spec.rb:140
+rspec ./spec/features/widget/nodb_signature_spec.rb:150</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+#### Last run on Thu, Oct 14, no issues
+</code></pre></div></div>
+<p>rspec spec/features/widget_setup -fd</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+#### Last run on Thu, Oct 14, with issues
+Run with 4 failures.  1 twitter.  2 are tests that run successfully for others in the spec/features/widget_signing/oneclick_widget_spec.rb.  4th is a problem testing the unsubscribe.  
+</code></pre></div></div>
+<p>rspec spec/features/widget_signing -fd</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+#### Last run on Thu, Oct 14, with group issues only
+Run with 15 failures.  12 for end_to_end_messaging_spec.rb, 3 for multi_content_deliveries_spec.rb.  When those two files were run individually, there were no failures.
+</code></pre></div></div>
+<p>rspec spec/features/rabbitmq_deliveries -fd</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+#### Last run on Mon, Oct 11, no issues
+</code></pre></div></div>
+<p>rspec spec/features/widget -fd
+rspec spec/libs/australia/ -fd
+rspec spec/libs/importer_modules/ -fd</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+#### Not yet run
+</code></pre></div></div>
+<p>rspec spec/libs/ -fd
+rspec spec/libs/* -fd
+rspec spec/libs/nation_builder_sync/ -fd
+rspec spec/libs/neon_client/ -fd
+rspec spec/libs/nodb/ -fd
+rspec spec/concerns/ -fd
+rspec spec/controllers/ -fd
+rspec spec/features/ -fd
+rspec spec/features/* -fd
+rspec spec/libs/ -fd
+rspec spec/mailers/ -fd
+rspec spec/models/ -fd
+rspec spec/pdfs/ -fd
+rspec spec/requests/ -fd
+rspec spec/routing/ -fd
+rspec spec/services/ -fd
+rspec spec/services/* -fd
+rspec spec/services/admin -fd
+rspec spec/services/cwc -fd
+rspec spec/services/promoter -fd
+rspec spec/support/ -fd
+rspec spec/* -fd</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+#### list of failures in spec/features/*
+51 failures total, however,
+17 in ./spec/features/rabbitmq_deliveries are successful when run individually.
+7 in ./spec/features/widget are successful when run individually. (2 fail both ways)
+
+Might find some low hanging fruit here.  Seems to be the bulk of the failures in /spec/features:
+
+./spec/features/help_static_pages_spec.rb
+./spec/features/signature_export_spec.rb
+./spec/features/video_delivery_spec.rb
+
+
+rspec './spec/features/help_static_pages_spec.rb[1:1:1:6]' # Help Actions Login active promoter with subscription and paid usage_plan logged in behaves like successful static page loads loads support page
+rspec './spec/features/help_static_pages_spec.rb[1:2:1:6]' # Help Actions Login proxied promoter logged in behaves like successful static page loads loads support page
+rspec './spec/features/help_static_pages_spec.rb[1:3:1:6]' # Help Actions Login promoter without email_blast_access logged in behaves like successful static page loads loads support page
+rspec './spec/features/help_static_pages_spec.rb[1:4:1:6]' # Help Actions Login promoter with twilio_id logged in behaves like successful static page loads loads support page
+rspec './spec/features/help_static_pages_spec.rb[1:5:1:6]' # Help Actions Login agency behaves like successful static page loads loads support page
+rspec './spec/features/help_static_pages_spec.rb[1:6:1:6]' # Help Actions Login office of agency behaves like successful static page loads loads support page
+rspec ./spec/features/rabbitmq_deliveries/email_delivery_end_to_end_spec.rb:110 # Delivery Agent Single recipient Failed delivery delivers to next priority address email -&gt; web address
+rspec ./spec/features/rabbitmq_deliveries/end_to_end_messaging_spec.rb:275 # End-to-end tests when there are no web_form_steps for web form when we have a backup email address gracefully fails the web_form send and sends an email
+rspec ./spec/features/rabbitmq_deliveries/end_to_end_messaging_spec.rb:490 # End-to-end tests The always-fail form when the web_form fails when we have a backup email address completes an end-to-end send and sets archive_internal_message sent_at and saves archive_message bodycachd
+rspec ./spec/features/rabbitmq_deliveries/end_to_end_messaging_spec.rb:834 # End-to-end tests Sending to Custom Recipients with constituents_only on in-city profile to local CustomRecipient completes an end-to-end send
+rspec ./spec/features/rabbitmq_deliveries/end_to_end_messaging_spec.rb:896 # End-to-end tests Sending to Custom Recipients with constituents_only on in-state profile to one state CustomRecipient completes an end-to-end send
+rspec ./spec/features/rabbitmq_deliveries/end_to_end_messaging_spec.rb:961 # End-to-end tests Sending to Custom Recipients with constituents_only on in-state profile to multiple state CustomRecipients completes an end-to-end send
+rspec ./spec/features/rabbitmq_deliveries/end_to_end_messaging_spec.rb:1149 # End-to-end tests Sending to in-district US Congress recipients delivers an email
+rspec ./spec/features/rabbitmq_deliveries/end_to_end_messaging_spec.rb:1862 # End-to-end tests End-to-end with Canadian Addresses for an L constituency in Toronto, Ontario when we sign &amp; send the widget from Toronto, Ontario delivers the email directly
+rspec ./spec/features/rabbitmq_deliveries/end_to_end_messaging_spec.rb:1956 # End-to-end tests End-to-end with Australian Addresses when we send to all of parliament from North Sydney, NSW delivers to the New South Wales Sen and Rep
+rspec ./spec/features/rabbitmq_deliveries/end_to_end_messaging_spec.rb:2053 # End-to-end tests End-to-end with Australian Addresses when we send to all of parliament from Melbourne Ports, Victoria delivers to the Victoria Sen and Rep
+rspec ./spec/features/rabbitmq_deliveries/end_to_end_messaging_spec.rb:2295 # End-to-end tests Email deliveries when our message has newline characters when it completes an end-to-end send preserves the newlines in the message body
+rspec ./spec/features/rabbitmq_deliveries/end_to_end_messaging_spec.rb:2300 # End-to-end tests Email deliveries when our message has newline characters when it completes an end-to-end send verifies the sender in the message body
+rspec ./spec/features/rabbitmq_deliveries/end_to_end_messaging_spec.rb:2471 # End-to-end tests Send with Verification Emails Disabled to a local CustomRecipient completes an end-to-end send
+rspec ./spec/features/rabbitmq_deliveries/multi_content_deliveries_spec.rb:149 # Multi-Content Deliveries The messages delivered when we make regular (not batched or collated) deliveries for Email sends a different body and subject to recipients for content_one and content_two
+rspec ./spec/features/rabbitmq_deliveries/multi_content_deliveries_spec.rb:420 # Multi-Content Deliveries with overlapping multi-content Groups content_one: All Republicans and content_two: All Senate delivers content_one to Republican Senators, content_two to Democratic Senators
+rspec ./spec/features/rabbitmq_deliveries/multi_content_deliveries_spec.rb:476 # Multi-Content Deliveries The archival process saves multi_content archival info on the Conversion
+rspec ./spec/features/rabbitmq_deliveries/video_delivery_end_to_end_spec.rb:56 # VideoDeliveryEndToEnd Single recipient sent through webmail after email failed
+rspec ./spec/features/selected_recipients_spec.rb:295 # SelectedRecipient with selected_recipient_group 'AR' and constituents_only ...preceded by a recipient id  signing the Conversion
+rspec ./spec/features/selected_recipients_spec.rb:296 # SelectedRecipient with selected_recipient_group 'AR' and constituents_only ...preceded by a recipient id  signing the Conversion
+rspec ./spec/features/signature_export_spec.rb:40 # Signature Export to CSV with NoDB signatures the promoter pages selecting a start_month and end_month sends an email
+rspec ./spec/features/signature_export_spec.rb:62 # Signature Export to CSV with NoDB signatures the promoter pages selecting a start_month and end_month creates a CSV
+rspec ./spec/features/signature_export_spec.rb:52 # Signature Export to CSV with NoDB signatures the promoter pages selecting a start_month and end_month visiting 'CSV Exports' shows and links the CSV export
+rspec ./spec/features/signature_export_spec.rb:71 # Signature Export to CSV with NoDB signatures the promoter pages selecting a start_month and end_month the CSV parses as a CSV
+rspec ./spec/features/signature_export_spec.rb:75 # Signature Export to CSV with NoDB signatures the promoter pages selecting a start_month and end_month the CSV has a header row
+rspec ./spec/features/signature_export_spec.rb:84 # Signature Export to CSV with NoDB signatures the promoter pages selecting a start_month and end_month the CSV includes specified records
+rspec ./spec/features/signature_export_spec.rb:90 # Signature Export to CSV with NoDB signatures the promoter pages selecting a start_month and end_month the CSV excludes unspecified records
+rspec ./spec/features/signature_export_spec.rb:109 # Signature Export to CSV with NoDB signatures the promoter pages UI Links when NoDBTransaction::USE_NODB_SYNCS_IN_UI is flipped to TRUE the reporting pages shows the new CSVs link in the Reporting pages
+rspec ./spec/features/signature_export_spec.rb:118 # Signature Export to CSV with NoDB signatures the promoter pages UI Links when NoDBTransaction::USE_NODB_SYNCS_IN_UI is flipped to TRUE the dashboard doesn't show the old CSVs link in the Promoter Sidebar
+rspec ./spec/features/signature_export_spec.rb:133 # Signature Export to CSV with NoDB signatures the promoter pages UI Links when NoDBTransaction::USE_NODB_SYNCS_IN_UI is flipped to FALSE the reporting pages shows the beta CSVs link in the Reporting pages
+rspec ./spec/features/signature_export_spec.rb:142 # Signature Export to CSV with NoDB signatures the promoter pages UI Links when NoDBTransaction::USE_NODB_SYNCS_IN_UI is flipped to FALSE the dashboard shows the old CSVs link in the Promoter Sidebar
+rspec ./spec/features/signature_export_spec.rb:151 # Signature Export to CSV with NoDB signatures the promoter pages UI Links when NoDBTransaction::USE_NODB_SYNCS_IN_UI is flipped to FALSE the old CSVs link links to the new beta CSVs
+rspec ./spec/features/video_delivery_spec.rb:184 # VideoDeliveryTransaction send_video with a rubberstamped conversion with 1 recipient having 2 emails when the first email raises a non-email exception sends an agent alert email and doesn't try the second email
+rspec ./spec/features/video_delivery_spec.rb:238 # VideoDeliveryTransaction send_video with a rubberstamped conversion with 1 recipient having 1 web_mail_address creates a service delivery
+rspec ./spec/features/video_delivery_spec.rb:245 # VideoDeliveryTransaction send_video with a rubberstamped conversion with 1 recipient having 1 web_mail_address doesn't publish back to the receiver
+rspec ./spec/features/video_delivery_spec.rb:294 # VideoDeliveryTransaction send_video with a rubberstamped conversion with 1 recipient having 1 web_mail_address and use_web_form_api == true when the request times out still returns a status message
+rspec ./spec/features/widget/nodb_signature_spec.rb:34 # One Click Widgets with NoDB signatures enabled with verification off signing creates a NoDB signature
+rspec ./spec/features/widget/nodb_signature_spec.rb:40 # One Click Widgets with NoDB signatures enabled with verification off signing the NoDB signature has Authenticated=''
+rspec ./spec/features/widget/nodb_signature_spec.rb:62 # One Click Widgets with NoDB signatures enabled with verification off signing clicking 'Submit' after verifying by email the NoDB Signature has Authenticated='yes'
+rspec ./spec/features/widget/nodb_signature_spec.rb:101 # One Click Widgets with NoDB signatures enabled with two messages signing and submitting message one creates one signature
+rspec ./spec/features/widget/nodb_signature_spec.rb:110 # One Click Widgets with NoDB signatures enabled with two messages signing and submitting message one then signing message two creates another signature
+rspec ./spec/features/widget/nodb_signature_spec.rb:116 # One Click Widgets with NoDB signatures enabled with two messages signing and submitting message one then signing message two NoDB Signature one doesn't change
+rspec ./spec/features/widget/nodb_signature_spec.rb:126 # One Click Widgets with NoDB signatures enabled with two messages signing and submitting message one then signing message two NoDB Signature two shows new signature info
+rspec ./spec/features/widget/nodb_signature_spec.rb:140 # One Click Widgets with NoDB signatures enabled with two messages signing and submitting message one then signing message two authenticating via Twitter the SenderProfile records the uid and sets confirmed_twitter to true
+rspec ./spec/features/widget/nodb_signature_spec.rb:150 # One Click Widgets with NoDB signatures enabled with two messages signing and submitting message one then signing message two authenticating via Twitter NoDB Signature two records a twitter_handle
+rspec ./spec/features/widget_signing/oneclick_widget_twitter_spec.rb:298 # Twitter transactions Service Calls post_to_all_pages with 2 Twitter pages shows 2 synced
+
+
+
+
+## Thu, Oct 7 2021
+### morning status
+- [x] Worked through the various PR comments that came in on the UI work yesterday.  
+- [x] The PR comments on the UI changes to stop showing the AU recipients without cicero codes led to me discovering FOUR other places this needed to be implemented.  This is done and checked in but needs another review.  Oddly, the rake task somehow got into this review though it had already been reviewed in another PR by Nate and Dave and subsequently merged, so I've responded to most of the comments, but not all.
+- [x] Merged and deployed rake task, ON-1355.
+- [x] Wrote explanation of consequences to the business of ON-1357...this turned into a writeup of all of the AU data issues and the solutions coming through as well as a heads up for support of the (probably very small) potential consequences of the solutions
+- [x] Start running the rake task and looking at the data on production.  I've also generated a report of which AU recipients are to remain unchanged to compare with the lists of AU recipients that are to be de-activated.  With one exception, these are all duplicates, with the older records being de-activated.
+- [x] Updated my Jiras
+- [ ] The only thing I haven't gotten to is the Cicero import improvement to update first and last names.  Work is mostly done.  I need to get to the specs, ON-1359.  
+- [ ] Maged suggested to rebase my branch ON-1357 to get the rake task out of there.  Nate offered his assistance if I run into problems.  
+
+
+## Wed, Oct 6 2021
+### morning status
+- [x] Read and responded to Nate's PR reviews of ON-1355 (rake task).
+- [x] Finished KnowWho data import.
+- [x] Create specs for no longer displaying the non-cicero AU recipients in the UI, ON-1357.
+- [x] Create PR for those UI changes, ON-1357.
+- [ ] Working through the various PR comments that came in on the UI work yesterday.  Almost done.
+- [ ] Merge and deploy rake task, ON-1355.
+- [ ] I haven't yet gotten back to the Cicero import improvement to update first and last names.  Work is mostly done.  I need to get to the specs, ON-1359.  
+- [ ] Write explanation of consequences to the business of ON-1357.
+- [ ] Start running the rake task and looking at the data on production.
+- [ ] Update my Jiras
+
+### notes for UI changes for AU recipients with no cicero code
+There are 3 bugs in the data and/or code that have been diagnosed as contributing to the issues seen by clients that have led to concerns with Cicero's imported Australia data.  The three diagnosed causes are:
+
+**Bug #1**. Duplications caused by old recipients with no Cicero code present in the database.  
+
+**Bug #2**. Many recipient first names are abbreviated.  These are older, valid records with Cicero codes.  The Australian State Council has most of these.  For example, 'Mason-Cox, M. R.' and 'Ward, N. P.'.  Depending on how the client searches for the recipients, the recipient being looked for will not come up in the UI.  
+
+**Bug #3**. The UI displays recipients that don't have Cicero codes.  No codes mean these recipients don't get updated by the Cicero import and are thus out of date and in all cases but 1 are duplicates of valid recipient records.
+
+Solutions for each of the above are nearly complete.  
+
+**Solution #1**, all recipients with no Cicero code present will be de-activated.  This will affect only 43 recipients.  40 of these are Australia House of Representative recipients that are duplicates.  3 of these are Australia State Assembly recipients.  2 of which are duplicates and 1 isn't a duplicate, but hasn't changed since 2018.  The list of active AU recipients both with and without Cicero code is available if desired.  This fix is ready to switch on with the approval of the Business side.
+
+**Solution #2**, the Australia Cicero import script is being changed to update first and last name.  This will have the additional benefit of updating last names for marriage associated name changes.  This fix is in progress and will be ready in time for the arrival of the new Cicero data on Oct 11.
+
+**Solution #3**, the campaign targeting page will no longer display recipients without Cicero codes, with the exception of custom recipients.  Also, the widget will no longer display these invalid recipients.  This fix is code complete and under engineering review.
+
+There is the possibility that these old and out of date recipient records have already been added to existing campaigns.  This cannot be straightforwardly fixed due to the extreme number of campaigns in the system.  This is a fix going forward for new campaigns as well as for adding recipients to existing campaigns.  
+
+***Support should be aware that if an issue comes in for a recipient no longer being shown in Selected Targets section that was present before this fix goes through, it was almost certainly one of these 43 old and out of date AU recipients.  Support should tell the client to re-add the recipient explaining there was some recent DB cleanup of duplicates.***
+
+
+## Tue, Oct 5 2021
+### morning status
+- I got some PRs reviewed.
+- I’m partway through the KnowWho data import.
+- I got the additional Jira tickets created.
+- I’m in the middle of the Cicero import improvement to update first and last names.  Work is mostly done.  I need to get to the specs.
+- Hope to merge and deploy this morning; thank you Nate for your planned review of the recipient deactivation rake task.
+- The UI fixes are in place for no longer displaying the non-cicero AU recipients; these are the tests I’m working on.
+
+### current status
+- [x] Read and respond to Nate's PR revies of ON-1355 (rake task).
+- [x] Finish KnowWho data import.
+- [x] Update top of ON-1355 (rake task) Jira.
+- [ ] I’m in the middle of the Cicero import improvement to update first and last names.  Work is mostly done.  I need to get to the specs, ON-1359.  
+- [ ] Merge and deploy rake task, ON-1355.
+- [x] Create specs for no longer displaying the non-cicero AU recipients in the UI, ON-1357.
+- [x] Create PR for the UI changes, ON-1357.
+- [ ] Write explanation of consequences to the business of ON-1357.
+- [ ] Addressing PR comments.
+
+### new Jira
+Dave made a good suggestion in the PR for the rake task (ON-1355). Improve the deactivate_au_recipients_with_no_cicero_code.rake task by putting the logic into a service object and then write tests against that.  I've created a Jira ticket for this as soon as this rake task gets touched again, if it does, for CA or US data.
+
+
+## Mon, Oct 4 2021
+
+### status
+
+#### today's todo list
+- [x] separate this into three tickets, [ON-1355](https://oneclickpolitics.atlassian.net/browse/ON-1355)
+  - [x] rake task to inactivate AU recipients without cicero code, [ON-1355](https://oneclickpolitics.atlassian.net/browse/ON-1355)
+  - [x] fix UI displaying active recipients without cicero code (plus specs?), [ON-1357](https://oneclickpolitics.atlassian.net/browse/ON-1357)
+  - [x] change AU import to update first/last names (plus specs) [ON-1359](https://oneclickpolitics.atlassian.net/browse/ON-1359)
+- [x] I need to review a PR or two
+- [x] kick off the KnowWho data import
+- [ ] finish the KnowWho data import
+- [ ] diving back into Cicero to get the first and last names updated on import, ON-1359
+- [ ] I’m going to merge my PR for the rake task de-activating the AU recipients without cicero ids and start using it to look at the data on prod, ON-1355 Get this to Dave asap.
+- [ ] check in UI code for ON-1357
+- [ ] write up explanation for ON-1357 for the business
+
+
+### running full rspec test suite
+Useful comands for running the full test suite, with and without the slow tests
+</code></pre></div></div>
+<p>alias test_suite=”docker-compose exec ocp bundle exec rspec spec”
+alias slow_tests=”docker-compose exec ocp bundle exec rspec spec –tag slow_tests”
+alias fast_tests=”docker-compose exec ocp bundle exec rspec spec –tag ‘~slow_tests’”</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+## Thu, Sep 30 2021
+
+### useful snippet for batching data on prod console
+</code></pre></div></div>
+<p>NewDistrict.find_in_batches(batch_size: 50) do |batch|
+  batch.each do |district|
+    puts district.ocd_id
+  end
+end</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+## Mon, 13 Sep 2021
+### deploy to production
+(says Dave) please deploy to the pre-production/nb box after major deploys to production (e.g. deploys with db migrations), so if you run a major deploy to chara via DEPLOY=chara branch=master cap deploy please follow it up with a deploy to the nb box via DEPLOY=pre_prod branch=master cap deploy.
+
+### PR 384
+Once PR-384 (by Dave) goes to production, update local docker
+</code></pre></div></div>
+<p>you should be able to update your “basic” docker image by running:
+aws ecr get-login-password –region us-east-1 | docker login –username AWS –password-stdin 104377796283.dkr.ecr.us-east-1.amazonaws.com</p>
+
+<p>docker pull 104377796283.dkr.ecr.us-east-1.amazonaws.com/ocp/development:basic</p>
+
+<p>after that, whenever you run docker-compose build ocp it should use the new “basic” image.  the changes i’ve made should be back-compatible with postgres 9.6, so it shouldn’t be necessary to tinker with database exports or anything yet</p>
+
+<p>since the pull request is now part of master, please make sure to run these two commands on your local environments
+aws ecr get-login-password –region us-east-1 | docker login –username AWS –password-stdin 104377796283.dkr.ecr.us-east-1.amazonaws.com</p>
+
+<p>docker pull 104377796283.dkr.ecr.us-east-1.amazonaws.com/ocp/development:basic</p>
+
+<p>before building your ocp image via docker-compose build ocp.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+## Fri, 10 Sep 2021
+### Analytics notes
+</code></pre></div></div>
+<p>+40521    @promoter_id = params[:promoter_id]</p>
+<ul>
+  <li>@promoter = PromoterUser.find(@promoter_id)
++13763, 13755, 13803,     @promoted_messages = PromotedMessage.where(creator_id: @promoter_id)
++count = 9,
++
++69, Conversion.where(promoted_message_id: 13803).count
++
++irb(main):009:0&gt; pm.email_activity
++=&gt; 21
++irb(main):010:0&gt; pm.total_activity
++=&gt; 21
++4 twitter_activity: 0,
++2 call_activity: 0,
++1 email_activity: 21,
++5 total_activity: 21
++conversion_activity: 69
++3 video_activity: 0,
++
++1 emails
++2 calls
++3 videos
++4 tweets
++5 total actions
++visits
++
++binding.pry
+```</li>
+</ul>
+
+<h2 id="thu-9-sep-2021">Thu, 9 Sep 2021</h2>
+<h3 id="environment-variables">environment variables</h3>
+<p>for production and staging</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo vi /home/deploy/apps/ocp/shared/config/application.yml
+
+sudo nginx -s reload
+</code></pre></div></div>
+
+<h2 id="thu-26-aug-2021">Thu, 26 Aug 2021</h2>
+<h3 id="covid">covid</h3>
+<p>Got my second vaccine today.  Kai got his first.  Yeay!</p>
+
+<h3 id="more-good-dave-advice-for-prod">more good Dave advice for prod</h3>
+<p>hi guys, it looks like the agents are in a corrupted state again where too many of them stuck around after the last stop_daemons.  just a reminder to check production for any agents still lingering around after you call stop_daemons by calling
+<code class="language-plaintext highlighter-rouge">ps aux | grep agent</code>
+and turning them off by passing their $process_id numbers to
+<code class="language-plaintext highlighter-rouge">sudo kill -9 $process_id</code></p>
+
+<h2 id="wed-25-aug-2021">Wed, 25 Aug 2021</h2>
+<h3 id="deployment-advice">deployment advice</h3>
+<p>from Dave:</p>
+
+<p>hey guys, just a reminder that after you change an env like PUBLISH_DELIVERY_RECEIPTS, you need to restart the services referencing it for the change to be locked in, because the rails environment only checks application.yml at startup.  that means if something in the webserver code is checking the env, restart the webserver with sudo nginx -s reload.  if something in the agents code is checking the env, restart the agents.</p>
+
+<h3 id="troubleshooting">troubleshooting</h3>
+<p>from Dave:</p>
+<ul>
+  <li>if it’s a 500 you should be able to check newrelic for the stacktrace</li>
+  <li>if it’s a 502, are we hitting the redis usage cap again?</li>
+  <li>one of the tickets i linked above has instructions on how to check redis usage from the console, or you can look in aws</li>
+  <li>you could check and see how many messages are sitting in the queues and whether the pileup of emails is related</li>
+</ul>
+
+<h2 id="mon-23-aug-2021">Mon, 23 Aug 2021</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rails generate migration AddTwitterEnabledToPromoterUsers twitter_enabled:boolean
+</code></pre></div></div>
+
+<h2 id="sat-21-aug-2021">Sat, 21 Aug 2021</h2>
+
+<h2 id="wed-18-aug-2021">Wed, 18 Aug 2021</h2>
+<h3 id="twitter-info">Twitter info</h3>
+<p>Here, https://gist.github.com/sprestage/5d7fd086b6555b3268db408e56c04eba#twitter</p>
+
+<h2 id="tuesday-17-aug-2021">Tuesday, 17 Aug 2021</h2>
+<h3 id="standup">standup</h3>
+<p>I explained the problems with the specs for the invalid address fix.</p>
+
+<p>When testing the invalid email address fix, the spec correctly populates Step 1, then gets the error message prompting for a correct email address while remaining on the Step 1 page.</p>
+
+<p>When testing the invalid street address fix, the spec appears to correctly populate Step 1, but then gets no error message and brings up Step 2.  When testing this by hand, I see that the fix is in place and the user is required to enter a vaild street address with the Next button inactivated, which is the correct behavior that the spec does not see.</p>
+
+<h2 id="monday-16-aug-2021">Monday, 16 Aug 2021</h2>
+
+<h3 id="standup-1">standup</h3>
+<p>Friday I worked on the front end portion of the Address field fix.  I’m working on the specs now.  Then onto Twitter and wrapping up the review of Alex’s PR.</p>
+
+<h4 id="friday-i">Friday I:</h4>
+<ul>
+  <li>got my PR done for the CWC error logging fix with some tests added/fixed</li>
+  <li>fought my environment, breaking and re-fixing it when actually the problem was in the tests.  Fixed it one last time, then re-implemented the address error fix, then the tests, piece by piece.
+    <h4 id="today-i-plan-to">Today I plan to:</h4>
+  </li>
+  <li>test the fix for the invalid address and get the specs working</li>
+  <li>work on Twitter</li>
+  <li>wrap up review of Alex’s PR</li>
+</ul>
+
+<h2 id="friday-13-aug-2021">Friday, 13 Aug 2021</h2>
+<h3 id="standup-2">standup</h3>
+<ul>
+  <li>Approved Shams’ PR.</li>
+  <li>Got most of the way through Alex’s (unfinished) CWC integration PR, so it’ll be quicker when the work is complete.</li>
+  <li>Thank you, Alex, for mentioning the oddities in the CWC error messages.  The process of implementing the exceptions and other captures of CWC errors meant that the cwc_message wasn’t being created, so it couldn’t be displayed in the logs.  I went back a step and am logging the agent_message instead, to correct for this problem in the logs.  I’ll have a PR ready for that shortly.  We can push that today, which I’m largely against on the principle that Friday pushes are a bad idea.  Also some tests were added/fixed, so it isn’t only log messages.</li>
+  <li>Today I will get back to the front end portion of the invalid address fix.</li>
+  <li>And, I hope, also to the Twitter stuff, though that last may be a stretch.</li>
+</ul>
+
+<p>I’m heading out today by 3:00 Central time for our beach trip</p>
+
+<h2 id="thursday-12-aug-2021">Thursday, 12 Aug 2021</h2>
+
+<h3 id="todays-plan">today’s plan</h3>
+<ul>
+  <li>Take a look at Alex and Shams PRs</li>
+  <li>Work on the front end work for the Invalid Address Issue.</li>
+  <li>Take a look at the logs since yesterday’s deployment.</li>
+</ul>
+
+<h3 id="logs-email-exception">logs, email exception</h3>
+<p>3:53
+Time to check the logs and investigate the CWC email error that came through.</p>
+
+<p>4:08 PM
+There is an email exception.  Make sure the backend captured this correctly so nothing was sent to CWC.  August 12, 2021 10:31:55.965</p>
+
+<h3 id="alexs-pr">Alex’s PR</h3>
+<p>10:59 AM
+Spent some time working my way through Alex’s PR.  Taking it in chunks since it is not yet complete.</p>
+
+<p>3:53 PM
+Got most of the way through Alex’s PR.  I’ll finish the last 4 files tomorrow as I’m going crosseyed from reviewing both Shams and Alex’s PRs.</p>
+
+<h2 id="wednesday-11-august-2021">Wednesday, 11 August 2021</h2>
+
+<h3 id="twitter">Twitter</h3>
+<p>tech@oneclickpolitics.com, use 1password, phone number for question 6128452310.  log into twitter account</p>
+
+<p>change our app to use the new keys</p>
+
+<p>need to log the tweets so we can track the number of tweets (and the offenders who cause trouble)</p>
+
+<h3 id="invalid-address-work">invalid address work</h3>
+<p>PR for the backend work of the Invalid Address CWC issue, ON-1238, is ready for review, https://github.com/one-click-politics/one-click-politics/pull/345</p>
+
+<p>I split this into two tickets for the backend work and the frontend work (ON-1281).</p>
+
+<h2 id="tuesday-10-august-2021">Tuesday, 10 August 2021</h2>
+<h3 id="new-thing-coming">new thing coming</h3>
+<p>I only heard the very last bit of this when Maged said my name.  Something about the question of is there a list of ISPs that are blocked.  I will sync with Maged when he finishes his initial info dive on this.</p>
+
+<p>Been pretty busy these last few days, so haven’t kept up these notes, but also very productive.</p>
+
+<h3 id="status">status</h3>
+<p>yesterday:</p>
+<ul>
+  <li>I finished the invalid delivery id work for another CWC error.  (if details: very occasionally, the generated delivery id for a cwc message was too short and we’d receive an error from the CWC).  Small fix, really.  PR is posted in Engineering.</li>
+  <li>I started in on the Address Invalid CWC error.</li>
+</ul>
+
+<p>today:</p>
+<ul>
+  <li>Working on the Address Invalid CWC error.  Unless something unexpected turns up, I’ll have the PR ready today.</li>
+  <li>look at Alex’s PR</li>
+</ul>
+
+<h3 id="office-codes">office codes</h3>
+<p>I was looking at the logs to see how if anything new showed up for CWC since yesterday’s push.  So, we have a fresh list of the currently supported office codes:</p>
+
+<p>Log details (~439 currently active offices).</p>
+
+<p>I’ll branch off of master and remove the log messages right after standup.  Done.  https://github.com/one-click-politics/one-click-politics/pull/342.  I created a Jira for tracking, ON-1279. The office codes we are storing in fixtures.rb are still up to date after 13 months.  I added a comment to this effect.</p>
+
+<p>message CWC CLIENT OFFICES AVAILABLE - [“HAK00”, “HAL01”, “HAL02”, “HAL03”, “HAL04”, “HAL05”, “HAL06”, “HAL07”, “HAR01”, “HAR02”, “HAR03”, “HAR04”, “HAZ01”, “HAZ02”, “HAZ03”, “HAZ04”, “HAZ05”, “HAZ06”, “HAZ07”, “HAZ08”, “HAZ09”, “HCA01”, “HCA02”, “HCA03”, “HCA04”, “HCA05”, “HCA06”, “HCA07”, “HCA08”, “HCA09”, “HCA10”, “HCA11”, “HCA12”, “HCA13”, “HCA14”, “HCA15”, “HCA16”, “HCA17”, “HCA18”, “HCA19”, “HCA20”, “HCA21”, “HCA22”, “HCA23”, “HCA24”, “HCA25”, “HCA26”, “HCA27”, “HCA28”, “HCA29”, “HCA30”, “HCA31”, “HCA32”, “HCA33”, “HCA34”, “HCA35”, “HCA36”, “HCA37”, “HCA38”, “HCA39”, “HCA40”, “HCA41”, “HCA42”, “HCA43”, “HCA44”, “HCA45”, “HCA46”, “HCA47”, “HCA48”, “HCA49”, “HCA50”, “HCA51”, “HCA52”, “HCA53”, “HCO01”, “HCO02”, “HCO03”, “HCO04”, “HCO05”, “HCO06”, “HCO07”, “HCT01”, “HCT02”, “HCT03”, “HCT04”, “HCT05”, “HDC00”, “HDE00”, “HFL01”, “HFL02”, “HFL03”, “HFL04”, “HFL05”, “HFL06”, “HFL07”, “HFL08”, “HFL09”, “HFL10”, “HFL11”, “HFL12”, “HFL13”, “HFL14”, “HFL15”, “HFL16”, “HFL17”, “HFL18”, “HFL19”, “HFL20”, “HFL21”, “HFL22”, “HFL23”, “HFL24”, “HFL25”, “HFL26”, “HFL27”, “HGA01”, “HGA02”, “HGA03”, “HGA04”, “HGA05”, “HGA06”, “HGA07”, “HGA08”, “HGA09”, “HGA10”, “HGA11”, “HGA12”, “HGA13”, “HGA14”, “HGU00”, “HHI01”, “HHI02”, “HIA01”, “HIA02”, “HIA03”, “HIA04”, “HID01”, “HID02”, “HIL01”, “HIL02”, “HIL03”, “HIL04”, “HIL05”, “HIL06”, “HIL07”, “HIL08”, “HIL09”, “HIL10”, “HIL11”, “HIL12”, “HIL13”, “HIL14”, “HIL15”, “HIL16”, “HIL17”, “HIL18”, “HIN01”, “HIN02”, “HIN03”, “HIN04”, “HIN05”, “HIN06”, “HIN07”, “HIN08”, “HIN09”, “HKS01”, “HKS02”, “HKS03”, “HKS04”, “HKY01”, “HKY02”, “HKY03”, “HKY04”, “HKY05”, “HKY06”, “HLA01”, “HLA02”, “HLA03”, “HLA04”, “HLA05”, “HLA06”, “HMA01”, “HMA02”, “HMA03”, “HMA04”, “HMA05”, “HMA06”, “HMA07”, “HMA08”, “HMA09”, “HMD01”, “HMD02”, “HMD03”, “HMD04”, “HMD05”, “HMD06”, “HMD07”, “HMD08”, “HME01”, “HME02”, “HMI01”, “HMI02”, “HMI03”, “HMI04”, “HMI05”, “HMI06”, “HMI07”, “HMI08”, “HMI09”, “HMI10”, “HMI11”, “HMI12”, “HMI13”, “HMI14”, “HMN01”, “HMN02”, “HMN03”, “HMN04”, “HMN05”, “HMN06”, “HMN07”, “HMN08”, “HMO01”, “HMO02”, “HMO03”, “HMO04”, “HMO05”, “HMO06”, “HMO07”, “HMO08”, “HMS01”, “HMS02”, “HMS03”, “HMS04”, “HMT00”, “HNC01”, “HNC02”, “HNC03”, “HNC04”, “HNC05”, “HNC06”, “HNC07”, “HNC08”, “HNC09”, “HNC10”, “HNC11”, “HNC12”, “HNC13”, “HND00”, “HNE01”, “HNE02”, “HNE03”, “HNH01”, “HNH02”, “HNJ01”, “HNJ02”, “HNJ03”, “HNJ04”, “HNJ05”, “HNJ06”, “HNJ07”, “HNJ08”, “HNJ09”, “HNJ10”, “HNJ11”, “HNJ12”, “HNM01”, “HNM02”, “HNM03”, “HNV01”, “HNV02”, “HNV03”, “HNV04”, “HNY01”, “HNY02”, “HNY03”, “HNY04”, “HNY05”, “HNY06”, “HNY07”, “HNY08”, “HNY09”, “HNY10”, “HNY11”, “HNY12”, “HNY13”, “HNY14”, “HNY15”, “HNY16”, “HNY17”, “HNY18”, “HNY19”, “HNY20”, “HNY21”, “HNY22”, “HNY23”, “HNY24”, “HNY25”, “HNY26”, “HNY27”, “HOH01”, “HOH02”, “HOH03”, “HOH04”, “HOH05”, “HOH06”, “HOH07”, “HOH08”, “HOH09”, “HOH10”, “HOH11”, “HOH12”, “HOH13”, “HOH14”, “HOH15”, “HOH16”, “HOK01”, “HOK02”, “HOK03”, “HOK04”, “HOK05”, “HOR01”, “HOR02”, “HOR03”, “HOR04”, “HOR05”, “HPA01”, “HPA02”, “HPA03”, “HPA04”, “HPA05”, “HPA06”, “HPA07”, “HPA08”, “HPA09”, “HPA10”, “HPA11”, “HPA12”, “HPA13”, “HPA14”, “HPA15”, “HPA16”, “HPA17”, “HPA18”, “HPR00”, “HRI01”, “HRI02”, “HSC01”, “HSC02”, “HSC03”, “HSC04”, “HSC05”, “HSC06”, “HSC07”, “HSD00”, “HTN01”, “HTN02”, “HTN03”, “HTN04”, “HTN05”, “HTN06”, “HTN07”, “HTN08”, “HTN09”, “HTX01”, “HTX02”, “HTX03”, “HTX04”, “HTX05”, “HTX06”, “HTX07”, “HTX08”, “HTX09”, “HTX10”, “HTX11”, “HTX12”, “HTX13”, “HTX14”, “HTX15”, “HTX16”, “HTX17”, “HTX18”, “HTX19”, “HTX20”, “HTX21”, “HTX22”, “HTX23”, “HTX24”, “HTX25”, “HTX26”, “HTX27”, “HTX28”, “HTX29”, “HTX30”, “HTX31”, “HTX32”, “HTX33”, “HTX34”, “HTX35”, “HTX36”, “HUT01”, “HUT02”, “HUT03”, “HUT04”, “HVA01”, “HVA02”, “HVA03”, “HVA04”, “HVA05”, “HVA06”, “HVA07”, “HVA08”, “HVA09”, “HVA10”, “HVA11”, “HVI00”, “HVT00”, “HWA01”, “HWA02”, “HWA03”, “HWA04”, “HWA05”, “HWA06”, “HWA07”, “HWA08”, “HWA09”, “HWA10”, “HWI01”, “HWI02”, “HWI03”, “HWI04”, “HWI05”, “HWI06”, “HWI07”, “HWI08”, “HWV01”, “HWV02”, “HWV03”, “HWY00”, “MP00”] (edited)</p>
+
+<h2 id="friday-6-august-2021">Friday, 6 August 2021</h2>
+
+<ul>
+  <li>need to correctly branch ON-1237 (delivery_id) off of master</li>
+  <li>then change branch back to ON-1235 (inactive office)</li>
+  <li>add logged messages in the office code validator within the validate method in client.rb</li>
+  <li>checkin the above and flag Alex and Nate for PR finalization with planned release on Monday</li>
+</ul>
+
+<h3 id="end">end</h3>
+
+<p>My first KnowWho import.</p>
+
+<p>Log into prod:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh_prod
+</code></pre></div></div>
+
+<p>Open up the production rails console</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd /home/deploy/apps/ocp/current
+bundle exec rails c production
+</code></pre></div></div>
+
+<p>Here are the files</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ls -l /home/deploy/apps/ocp/current/lib/import_data/us/federal/
+ls -l /home/deploy/apps/ocp/current/lib/import_data/us/state/
+</code></pre></div></div>
+
+<p>The USRecipientImporter (lib/importer_modules/us_importers.rb) object diffs the reps listed in /import_data against the existing database and prepares updates.</p>
+
+<p>Run .match() first to find changed seats, and then attempt a first .import() to see any anticipated problems.  If no problems are reported, then run .import() again with the flag :record =&gt; true to make changes to the database.</p>
+
+<p>This is currently tested in spec/libs/united_states_import_spec.rb</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>require ('importer_modules/united_states/us_importers')
+importer = Importer::USRecipientImporter.instance  
+importer.match :except_states =&gt; ['PR','AS','VI','GU','MP']
+</code></pre></div></div>
+
+<p>Look for problems matching.  If none, then</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>importer.all_problems
+</code></pre></div></div>
+
+<p>Comm upper errors are ok.
+Chamber lower American Samoa, Puerto Rico, Virgin Islands, Guam if there is vacancy that’s fine too.</p>
+
+<p>You can run the following to check which states are having issues:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>states_arr = []
+importer.all_problems[:district_matcher].last.each do |str|
+  states_arr &lt;&lt; str.split(', state ').last.slice(0, 2)
+end
+puts states_arr.uniq.join(", ")
+</code></pre></div></div>
+
+<p>If the results only include AS, GU, PR, VI, MP (American Samoa, Guam, Puerto Rico, Virgin Islands, Northern Mariana Islands), then you should be good to continue.</p>
+
+<p>(if no meaningful problems are found, then:)</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>importer.import :addresses_options =&gt; {:except =&gt; ['webform']}
+importer.import(:record =&gt; true, :addresses_options =&gt; {:except =&gt; ['webform']})
+</code></pre></div></div>
+
+<p>Next, to update US committees and committee assignments, use the USCommitteeMatcher and USAssignmentImporter objects:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>c = Importer::USCommitteeMatcher.instance
+c.import_and_update_committees
+c.import_and_update_committees :record =&gt; true
+</code></pre></div></div>
+
+<p>Then clean out old committees</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>c.inactivate_old_committees
+c.inactivate_old_committees :record =&gt; true
+</code></pre></div></div>
+
+<p>Then update committee relationships</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>c.import_committee_relationships
+c.import_committee_relationships :record =&gt; true
+</code></pre></div></div>
+
+<p>Then clean the committee relationships</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>c.clean_committee_relationships
+c.clean_committee_relationships :record =&gt; true
+
+
+a = Importer::USAssignmentImporter.instance
+a.import
+a.import :record =&gt; true
+</code></pre></div></div>
+
+<p>3pm make international transfer.</p>
+
+<p>5pm call Danny about</p>
+<ul>
+  <li>getting someone to cut lock off of the deposito</li>
+</ul>
+
+<p>5pm call Kevin about</p>
+<ul>
+  <li>advice about broken windshield</li>
+</ul>
+
+<p>Order allergy meds</p>
+
+<p>15672 guest/guest as the user/password</p>
+
+<h2 id="thu-5-aug-2021">Thu, 5 Aug 2021</h2>
+<h3 id="invalid-email-issue">invalid email issue</h3>
+<p>Further information on the invalid email issue still showing up in the logs after the front end fix was pushed to production:
+It was suggested in standup today that the reason this keeps happening is that the SenderProfile is an existing one and so the old email is automatically used and not entered through the UI.  I can confirm the UI in prod is validating the email.  I can also confirm that the offending invalid email addresses are SenderProfiles created before the fix was pushed to production.</p>
+
+<h4 id="potential-solutions">Potential solutions:</h4>
+<ul>
+  <li>Create a rake task to run an email validation on all SenderProfiles in production and flag those with issues or set them to an empty string or ?  Pro: This will catch all possible future Invalid Email CWC errors.  Con: There are 17 million SP records in prod.  This seems a solution that would want some though to see if it is worth it.</li>
+  <li>Have Susan or DevOps keep an eye on the logs and fix the SenderProfile for each invalid email that comes through the logs.  There have only been 13 different invalid emails in the last 90 days (which account for 29 errors logged).  Pro: The emails look straightforward to correct, so very low effort.  Con: I have not yet seen the same invalid email address come in on different days, so this seems like closing the barn door after the horses have escaped.</li>
+</ul>
+
+<h2 id="tue-3-aug-2021">Tue, 3 Aug 2021</h2>
+<p>Maged said in standup that the HDC98 deliver should indeed just be thrown onto the floor by the back end, (because the business needs all offices to be displayed on the front end).  Time to wrap up this issue and get the PR out.</p>
+
+<p>We need New Relic to send us email alerts then alerts are triggered.  Maybe look at elastic to see if they can do this.  Maaged asked me to look again to see if we can’t get this set on New</p>
+
+<h2 id="mon-2-aug-2021">Mon, 2 Aug 2021</h2>
+<h3 id="current-status-of-the-inactive-office-issue">Current status of the inactive office issue.</h3>
+<h4 id="back-end">Back end:</h4>
+<p>I’ve coded a capture of the issue that throws an exception and logs the issue.  I will finish the tests and get this finalized in the PR.</p>
+
+<h4 id="front-end">Front end:</h4>
+<p>Together, Alex and I could not find where the office HDC98 is coming from.  He suggested that this may be a case where if the CWC fails, the next possible methods of sending (fax or email) should be used according to priority order.  Once we discover what that priority order should be.</p>
+
+<h4 id="house-cwc-in-general">House CWC in general:</h4>
+<p>We need an offices endpoint that returns the active offices. Also, we need a current copy of the CWC API documentation.  Looking at the www.house.gov site about CWC, I see that we should have received “Technical information relevant to your firm’s participation and use of the CWC Service” when our CWC Application was approved.  With your approval, I would like to email CWCVendors@mail.house.gov to explain that we need a new copy of this documentation.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[2] pry(#&lt;CwcHandler&gt;)&gt; message = client.create_message(cwc_message)
+=&gt; #&lt;Cwc::Message:0x00000015233038
+ @constituent=
+  {:prefix=&gt;"Mx",
+   :first_name=&gt;"Jane",
+   :last_name=&gt;"Everyman",
+   :address=&gt;["1000 Providence Highway"],
+   :city=&gt;"Norwood",
+   :state_abbreviation=&gt;"MA",
+   :zip=&gt;"02062",
+   :email=&gt;"jeveryman@oneclickpolitics.com",
+   :phone=&gt;"617-555-0000",
+   :address_validation=&gt;true,
+   :email_validation=&gt;true},
+ @delivery=
+  {:agent=&gt;
+    {:name=&gt;"testing_delivery_agent",
+     :ack_email=&gt;"testing_delivery_ack@email.com",
+     :contact_name=&gt;"testing_agent_contact",
+     :contact_email=&gt;"testing_agent_contact@email.com",
+     :contact_phone=&gt;"202-800-8877"},
+   :organization=&gt;{},
+   :campaign_id=&gt;"c775788b4db45b59989df2c70fdbf7895f0de12023618a38f5c0a417b7f3699e"},
+ @delivery_id="hhhtbil0cwpwr2yr6vrt3yebwaigvxc0",
+ @message=
+  {:subject=&gt;"Save the whales 1",
+   :library_of_congress_topics=&gt;["Congress"],
+   :constituent_message=&gt;"From blue baleena to the mighty Melvilleian white, beautiful sea monsters, every one.",
+   :more_info=&gt;"",
+   :bills=&gt;[]},
+ @recipient={:member_office=&gt;"HDC98", :is_response_requested=&gt;true}&gt;
+[3] pry(#&lt;CwcHandler&gt;)&gt; valid = client.validate(message)
+=&gt; true
+[4] pry(#&lt;CwcHandler&gt;)&gt; status = client.deliver(message)
+=&gt; true
+</code></pre></div></div>
+
+<h2 id="thu-29-jul-2021">Thu, 29 Jul 2021</h2>
+
+<p>I’ve gotten rather stuck and would value your input.</p>
+
+<h3 id="first-part-trying-to-get-the-office-codes-from-the-cwc-api-from-within-the-testdev-environment">First part (trying to get the office codes from the CWC API from within the test/dev environment)</h3>
+<p>In client.rb we have this</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    def offices
+      if options[:host] =~ %r{^https://cwc.house.gov}
+          Cwc::OfficeCodes.map{ |code| Office.new(code) }
+      else
+        response = RestClient.get action("/offices")
+        JSON.parse(response.body).map{ |code| Office.new(code) }
+      end
+    end
+</code></pre></div></div>
+<p>We both initially thought that this was querying the CWC API to get the current office codes.  But it is not.</p>
+
+<p>I have found that if<br />
+```        Cwc::OfficeCodes.map{ |code| Office.new(code) }</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>then we get the list of office codes defined in app/services/cwc/fixtures.rb
+
+else
+```        response = RestClient.get action("/offices")
+           JSON.parse(response.body).map{ |code| Office.new(code) }
+</code></pre></div></div>
+<p>then we get the list of office codes defined in spec/support/fake_apis/fixtures/offices.json.  This seems odd.  To verify that this <code class="language-plaintext highlighter-rouge">.get</code> is internal, I turned off my wifi before I did the <code class="language-plaintext highlighter-rouge">.get</code> with the same results as before.  Both ways of retrieving the office codes do not turn up the offending office code, HDC98.</p>
+
+<h3 id="second-part-trying-to-get-the-office-codes-from-the-cwc-api-from-within-the-production-environment">Second part (trying to get the office codes from the CWC API from within the production environment)</h3>
+<p>I’ve successfully been able to ssh into prod and also to get the rails console to work.  I can make various DB queries also.  But I cannot figure out how to set up a call (get) to the CWC API.  I’m able to set a binding.pry in my dev environment to break out into the client (client.rb) or the CWC handler (cwc_handler.rb) to send the message to the CWC API.</p>
+
+<h3 id="tunnelblick">tunnelblick</h3>
+<p>I investigated tunnelblick and it is just an open source VPN.  VPNs are lovely, I use ExpressVPN myself to tell the world I’m in Seattle instead of Panama.  That said, the isn’t a way to have a VPN give your computer an IP address you define for yourself.  The best they can do is issue you an IP that defines you as coming from a given area.</p>
+
+<h3 id="testing">testing</h3>
+<p>I’m not convinced the CWC test API is throwing an error for this issue.</p>
+
+<p>The CWC’s test API does not return the offending inactive office code, HDC98.  However, what we need to see is what is returned by the actual CWC API.  And that API uses a whitelist that only has production’s IP address.  The information in the Dev Doc is very spare on this issue.  Fernando was the last person to work on this area.  I’m considering a rake task that I can put on prod to get this information.</p>
+
+<p>Question: I could not find a front end component to the HDC98, inactive office, issue.  I tried working in the front end to re-create this as well as looking through the code.  I would love to pair with someone who either knows where to find this or is willing to dive in with me.  If there is a front end component, I’ll create a Jira ticket to cover the work.</p>
+
+<p>Look into Alex’s CWC work for the delivery_id issue.  He found some weirdness going on and re-wrote some of it.</p>
+
+<p>Get the CWC response for the office codes and send that off to Maged to handle from a business perspective.</p>
+
+<h2 id="wed-28-jul-2021">Wed, 28 Jul 2021</h2>
+<h3 id="todays-plan-1">Today’s plan</h3>
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Fix test for invalid email backend work, ON-1250</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Finish reviewing the CWC API PR for Alex</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Finish the “Message delivery is not enabled for HDC98” fix on the back end, ON-1235.</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Implement test for HDC98 fix.</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Create a PR for the HDC98 (backend) fix, https://github.com/one-click-politics/one-click-politics/pull/331</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Work with someone to try to find a front end component for the HDC98 issue.</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Start investigating what is needed for ON-1237, CWC errors: “The ‘DeliveryId’ element is invalid”.</li>
+</ul>
+
+<h3 id="what-i-did-yesterday">What I did yesterday</h3>
+<ul>
+  <li>Wrapped up the work on the back end portion of the Email validation work and get the PR created.</li>
+  <li>Changed the New Relic alerts to capture the new CWC error message work pushed to prod on Friday.</li>
+  <li>No new Jira tickets were needed as all CWC errors are being captured.  I’ll be watching for new data on existing tickets, but so far the 5 new errors are well understood errors (3 are for invalid email, for example).</li>
+  <li>Started looking into the next CWC error Jira ticket, “Message delivery is not enabled for HDC98” (ON-1235).</li>
+</ul>
+
+<h2 id="tue-27-jul-2021">Tue, 27 Jul 2021</h2>
+<p>So, while trying to figure out how to test my fix for HDC98, I realized that I’m not actually testing anything for backend email validation.  Need to make sure that the message contains the invalid email for the test as I am not clear that this is happening yet even though the test passes and appears to do a useful test.  Since an invalid email is not being set in the test data, I don’t know why this test passes.  Must investigate.</p>
+
+<h3 id="what-i-plan-for-today">What I plan for today</h3>
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />wrap up the work on the back end portion of the Email validation work and get the PR created</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />set up the alerts for the new CWC error message work pushed to prod on Friday</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />look into the next CWC error Jira ticket, probably, “Message delivery is not enabled for HDC98” (ON-1235)</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />create any new Jira tickets needed if there are CWC errors not yet captured; no work needed here</li>
+</ul>
+
+<p>5 new errors since the 19th.  3 are the email error for two different senders.  1 is the delivery not enabled error for HDC98.  1 is a 503 error.</p>
+
+<h3 id="what-i-did-yesterday-1">What I did yesterday</h3>
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />create a PR for the Email validation work</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />split the ON-1234 ticket for the Email validation into front end and back end work</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />start the work on the back end portion of the Email validation work</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />reviewed Shams’ PR</li>
+</ul>
+
+<h3 id="standup-3">standup</h3>
+<p><strong>What I did yesterday</strong></p>
+<ul>
+  <li>Split the ON-1234 ticket for the Email validation into frontend and backend work.</li>
+  <li>Created the PR for the work on the Email validation of the widget (front end).</li>
+  <li>Extracted out the new tests from the existing monolithic test file.</li>
+  <li>Started the work on the back end portion of the Email validation.</li>
+  <li>Reviewed Shams’ PR.</li>
+</ul>
+
+<p><strong>Today’s plan</strong></p>
+<ul>
+  <li>Wrap up the work on the back end portion of the Email validation work and get the PR created.</li>
+  <li>Set up the alerts for the new CWC error message work pushed to prod on Friday</li>
+  <li>Create any new Jira tickets needed if there are CWC errors not yet captured</li>
+  <li>stretch goal: Look into the next CWC error Jira ticket, probably, “Message delivery is not enabled for HDC98” (ON-1235)</li>
+</ul>
+
+<h2 id="mon-26-jul-2021">Mon, 26 Jul 2021</h2>
+<h3 id="what-i-did-today">What I did today</h3>
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />create a PR for the Email validation work</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />split the ON-1234 ticket for the Email validation into front end and back end work</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />start the work on the back end portion of the Email validation work</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />set up the alerts for the new CWC error message work pushed to prod on Friday</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />create any new Jira tickets needed if there are CWC errors not yet captured</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />look into the next CWC error Jira ticket, probably, “Message delivery is not enabled for HDC98” (ON-1235)</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />reviewed Shams’ PR</li>
+</ul>
+
+<p>The back end work is mostly done.  I want to take a deeper look at the messages_controller to see if I need to put anything there.  The fixes are in the cwc_handler.rb since that is also where a lack of phone number is captured with an error.  Test put in the cwc_handler_spec.rb likewise.</p>
+
+<h2 id="fri-23-jul-2021">Fri, 23 Jul 2021</h2>
+<h3 id="what-i-did-today-1">What I did today</h3>
+<p>Spent the better half of the day pairing with Nate on the Cicero importing issue.  In the latter half of the day, I finished up the coding on the Email validation issue in the widget.  This is checked in.</p>
+
+<h3 id="what-i-plan-to-do-monday">What I plan to do Monday</h3>
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />create a PR for the Email validation work</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />split the ON-1234 ticket for the Email validation into front end and back end work</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />start the work on the back end portion of the Email validation work</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />set up the alerts for the new CWC error message work pushed to prod on Friday</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />create any new Jira tickets needed if there are CWC errors not yet captured</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />look into the next CWC error Jira ticket, probably, “Message delivery is not enabled for HDC98” (ON-1235)</li>
+</ul>
+
+<h2 id="thu-22-jul-2021">Thu, 22 Jul 2021</h2>
+
+<p>Well that was unexpected.  So, I did a brute force thing and put a bit of easily recognizable text in each “Please enter a valid email address” message throughout the code to find where the one showing up in the widget was coming from.  This is in /app/services/phone_widget_handler.rb and comes up when you click Next to go on to Step 2.</p>
+
+<h3 id="questions-to-answer">questions to answer</h3>
+<ul>
+  <li>where to better validate Email in the widget.  I think there are two places.  One happens as soon as you click out of the Email field.  Then second happens when you try to click Next.</li>
+  <li>where to confirm validation of Email in the backend.</li>
+  <li>which spec tests step 1 Email validation in the widget.</li>
+  <li>which spec tests the backend for validation of widget sent Email.</li>
+</ul>
+
+<h3 id="things-to-note-and-observe">things to note and observe</h3>
+<p>Need to check (account.rb) if a new account is created when there is an invalid email address used in step 1 of the widget.  In the console, check the count of Account before then after step 1.  This will tell me if validating on account creation is the right place to check things on the backend.  …  On further research, I think that it is a SenderProfile that is the important datatype being created.  It is a Message being created using the widget and message.rb says that it <code class="language-plaintext highlighter-rouge">belongs_to :sender, :class_name =&gt; 'SenderProfile'</code>.</p>
+
+<p>(messages_controller.rb) also has validation going on.  Take a further look at <code class="language-plaintext highlighter-rouge">def all_validations_pass</code> and see if additional email validation can be set up.  The <code class="language-plaintext highlighter-rouge">@form = :staged</code> line suggests that the account is created, but not yet saved at the end of step 1.</p>
+
+<p>(app/services/signature_handler.rb) I’m not sure how this ties in, but I think it does.  A signature is a filled out widget form, if I understand things correctly.  It also populates the SenderProfile with values.</p>
+
+<h3 id="existing-email-validation">existing email validation</h3>
+<p>/app/concerns/emailable.rb contains the regex for email validation.  /spec/concerns/emailable_spec.rb tests this.  The problem email addresses have been added to this and are all well covered by the email validation.  This tells me that whereever the Email validation problem is, it is not using Emailable.</p>
+
+<h3 id="nate">Nate</h3>
+<ul>
+  <li>PR for ON-1233, https://github.com/one-click-politics/one-click-politics/pull/326/files.  Is there a way we can set the logger tag to the calling class and thus be able to DRY up all those logger methods?  Just a thought since I twitch every time I see them in a PR.</li>
+  <li>Watch him do the csv import.</li>
+</ul>
+
+<h3 id="alex">Alex</h3>
+<ul>
+  <li>Walk through where to implement the REGEX for email validation.</li>
+</ul>
+
+<h2 id="wed-21-jul-2021">Wed, 21 Jul 2021</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/app/assets/javascript/widgets.js.erb
+</code></pre></div></div>
+
+<p>In standup, I mentioned that I’m weak in the front end and was encouraged to post questions in Slack as it appears that everyone else is stronger here.  Alex particularly raised his hand, so I might PM him when I feel particularly lame but otherwise post in @engineering channel.</p>
+
+<h3 id="plan-for-today">Plan for today</h3>
+<p>Start working on the Jira tickets for existing CWC errors.</p>
+
+<h3 id="what-i-did-yesterday-2">What I did yesterday</h3>
+<p>Finished the 8 Jira tickets representing all the CWC errors currently being logged.  Created New Relic alerts for each of those errors.  Reviewed Alex and Nate’s PRs.</p>
+
+<h3 id="docker">docker</h3>
+<p>Important comand for getting rid of the clutter that docker leaves lying around.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker image prune
+docker system prune
+</code></pre></div></div>
+
+<h2 id="tue-20-jul-2021">Tue, 20 Jul 2021</h2>
+<p>A total of 8 tickets were created, one for each type of CWC deliver error currently found in logging.  Learned how to create alerts in New Relic, based on the existing CWC alert.  Added myself to the small list (Nate, Maged, Eric) to receive all alerts for issues in CWC delivery.  I generally set these alerts for a single instance, since they generally only had a few (under 10) instances in the last 90 days.  I added metrics to each Jira ticket indicating how many alerts we have seen and when during the last 90 days to use as prioritization for the tickets if needed.</p>
+
+<p>These 8 tickets (and alerts) represented 129 CWC Handler logged errors.</p>
+
+<h3 id="plan-for-today-1">Plan for today</h3>
+<p>Review Nate and Alex’s PRs.  Make edits resulting from comments on my PR.  Finish creating Jira tickets for each type of CWC error found in current logging.  Create alerts for each type of CWC error found in current logging.</p>
+
+<h2 id="mon-19-jul-2021">Mon, 19 Jul 2021</h2>
+<p>Spent the day becoming familiar with each of the different types of CWC error.  Also became familiar with searching for each of these types of errors in New Relic.  Created Jira tickets for 6 of the errors so far, under the Epic, ON-1225 for “Identify and resolve delivery issues”, https://oneclickpolitics.atlassian.net/browse/ON-1225.</p>
+
+<h3 id="plan-for-today-2">Plan for today</h3>
+<p>Create Jira tickets for existing CWC errors.</p>
+
+<h3 id="what-i-did-yesterday-3">What I did yesterday</h3>
+<p>I finished ON-1228 as well on Friday and got the PR created.</p>
+
+<h2 id="fri-16-jul-2021">Fri, 16 Jul 2021</h2>
+<p>Yeay, finished ON-1228 as well.  Checked everything in.  Created the PR, https://github.com/one-click-politics/one-click-politics/pull/325.</p>
+
+<p>1:45pm update: If I’m not mistaken, I’ve just finished both ON-1226 (cwc.rb) and ON-1227 (cwc_handler.rb).  I still need to create the two branches and get each checked in.  Then I can move on the ON-1228, re-implementing the CWC validation in the cwc_handler.rb file.  Tempted to just create a branch for the epic, ON-1225, since I’d rather see it all code reviewed and pushed to production simultaneously, though I can see an argument against it too, since tasks for adding the alerts associated with this code are under that epic as well.  Things are flexible here, so I can probably just use ON-1225 (the epic)</p>
+
+<h3 id="on-1226-improve-cwcrb-logging">ON-1226, Improve cwc.rb logging</h3>
+<p>I’m not finding anything called “campaign id”.  I believe <code class="language-plaintext highlighter-rouge">@promoted_message_id=137</code> of the <code class="language-plaintext highlighter-rouge">agent_message</code> is the desired id.  Nope, wrong.  Found it.  Here’s how to access the pieces of data needed:</p>
+
+<h4 id="succeeded-and-failed">succeeded and failed</h4>
+<ul>
+  <li>campaign id: <code class="language-plaintext highlighter-rouge">cwc_handler.cwc_message[:campaign_id]</code>    &lt;- in cwc.rb</li>
+  <li>who sent it (by email): <code class="language-plaintext highlighter-rouge">agent_message.from_email.split("@")[0]</code>    &lt;- in cwc.rb</li>
+  <li>agent type (cwc): <code class="language-plaintext highlighter-rouge">"cwc"</code>    &lt;- in cwc.rb</li>
+</ul>
+
+<h4 id="failed-only">failed only</h4>
+<p>Log message for Failed CWC delivery should  capture why the CWC delivery failed:</p>
+<ul>
+  <li>CWC’s response error code: ` `    &lt;- in cwc_handler.rb</li>
+  <li>CWC’s response message body: ` `    &lt;- in cwc_handler.rb</li>
+  <li>what we sent to CWC: <code class="language-plaintext highlighter-rouge">agent_message</code>    &lt;- in cwc.rb</li>
+</ul>
+
+<p>How we are logging now:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      Rails.logger.error("CWC Handler error message: (#{message})")
+      Rails.logger.error("CWC Handler error processing: (#{e.message}, #{e.errors})")
+</code></pre></div></div>
+
+<p>From the logs (Elastic)</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CWC Handler error message: (#&lt;Cwc::Message:0x00559d485ada08&gt;)
+13:37:36.240
+CWC Handler error processing: (Cwc::BadRequest, ["The 'Email' element is invalid - The value 'anncook111@gmail' is invalid according to its datatype 'email_type' - The Pattern constraint failed.", "The 'Email' element is invalid - The value 'anncook111@gmail' is invalid according to its datatype 'email_type' - The Pattern constraint failed."])
+</code></pre></div></div>
+
+<h2 id="thu-15-jul-2021">Thu, 15 Jul 2021</h2>
+
+<h3 id="plan-for-tomorrow">Plan for tomorrow</h3>
+<p>Start in on the first Jira task, improve logging for cwc.rb.</p>
+
+<h3 id="what-i-did-today-2">What I did today</h3>
+<p>Today was all about figuring out what the Jira tickets would be.  Met with Maged to go over the various details to make sure my understanding was in line with his vision.  Finished the day by getting the Epic and associated Tasks created in Jira, with a clear understanding of what needs to be done.</p>
+
+<p>Jiras</p>
+<ul>
+  <li>Improve cwc.rb logging</li>
+  <li>Improve cwc_handler.rb logging</li>
+  <li>Re-implement CWC validation; log reason/reason if success=false</li>
+</ul>
+
+<h3 id="meet-with-maged-and-alex">Meet with Maged and Alex</h3>
+<p>Planning the Jira tickets and going through the details of what is the improvement we are trying to effect.  The solution is two sides of the same coin.  The goal is to capture the issues with deliveries when they happen and create Jira tickets towards investigating/fixing/changing in order to correct for failures in deliveries.  To do this, the plan is to add relevent logging then create alerts to watch for these logged errors.  When errors are logged, the info needed to track the issue needs to be included in the logs.</p>
+
+<h4 id="log-messages-for-succeededfailed-delivery">log messages for succeeded/failed delivery</h4>
+<p>succeeded cwc delivery log message should contain:</p>
+<ul>
+  <li>campaign id</li>
+  <li>who sent it (by email)</li>
+  <li>agent type (cwc)</li>
+</ul>
+
+<p>failed cwc deliver log message should contain</p>
+<ul>
+  <li>campaign id</li>
+  <li>who sent it (by email)</li>
+  <li>agent type (cwc)
+AND
+We need to capture why the CWC delivery failed:</li>
+  <li>CWC’s response error code</li>
+  <li>CWC’s response message body</li>
+  <li>what we sent to CWC</li>
+</ul>
+
+<p>Also take a look at NewRelic for examples of what the CWC’s responses look like.  (in Alerts/AI I think?)</p>
+
+<h4 id="areas-that-need-logging">areas that need logging</h4>
+<ul>
+  <li>cwc.rb</li>
+  <li>cwc_handler.rb
+    <ul>
+      <li>look at def cwc_message</li>
+      <li>look at the rescues</li>
+    </ul>
+  </li>
+  <li>take a look at mq_message.rb for STATUS_SUCCESS, STATUS_QUEUED, etc.</li>
+</ul>
+
+<h4 id="create-alerts-in-newrelic">create alerts in NewRelic</h4>
+<ul>
+  <li>Create alerts on one of the errors so we can create Jiras to start clearing up these issues one by one.</li>
+</ul>
+
+<h4 id="elastic">Elastic</h4>
+<p>Use Elastic (using 1password to access) to view and search logs.  I had a terrible 15 minutes when I couldn’t figure out my password.  I finally figured it out and have taken steps so I don’t run into this issue again.  <code class="language-plaintext highlighter-rouge">mp</code> is the key.</p>
+
+<p>A good phrase to use to look for issues in the logs is “CWC Handler error processing”.</p>
+
+<h3 id="bindingpry-info">binding.pry info</h3>
+<p>I was having trouble looking at the <code class="language-plaintext highlighter-rouge">agent_message</code> as a whole.  When trying to <code class="language-plaintext highlighter-rouge">puts</code>, I could only access different bits of data by naming them individually (defined in mq_message, like <code class="language-plaintext highlighter-rouge">agent_message.sender_email</code>.  And when using <code class="language-plaintext highlighter-rouge">agent_message</code> in a puts, only the id is printed.  The command needed here is <code class="language-plaintext highlighter-rouge">agent_message.inspect</code>, with many thanks to Alex for solving this dilemna for me in the meeting.</p>
+
+<h3 id="pre-prod">Pre Prod</h3>
+<p>Pre prod is a box on AWS that Eric uses that can be used when a developer is struggling with their local docker container.  New deployments can be made generally without interrupting what Eric is doing.</p>
+
+<h3 id="jira-plan-draft">Jira plan draft</h3>
+
+<h4 id="story">story</h4>
+<p>Improve logging for CWC - The goal is to have sufficient information logged for later diagnosis of failed deliveries.</p>
+
+<h4 id="tasks">tasks</h4>
+<ul>
+  <li>determine information needed for diagnosis of failed deliveries (sender name, sender email, constituent yes/no, recipients?)</li>
+  <li>which steps need logging (mq_message.rb, dispatcher.rb, cwc.rb, receiver.rb, I ???)
+    <ul>
+      <li>dispatcher: <code class="language-plaintext highlighter-rouge">log("User message created: #{user_message.attributes}"))</code> Do we want all messages logged?</li>
+      <li>cwc: This one is trickier, as I don’t see the way to print out all of <code class="language-plaintext highlighter-rouge">agent_message</code>; so, which pieces of information do we need for diagnosis?  If we aren’t logging all the message data in the dispatcher, then we’ll need more info here.</li>
+    </ul>
+  </li>
+  <li>I THINK NO: tests for logging?</li>
+  <li>after new logging is deployed to production, add alerts (NewRelic watching the logs, or how do we do this?)</li>
+</ul>
+
+<h2 id="wed-14-jul-2021">Wed, 14 Jul 2021</h2>
+
+<p>2:30p Today’s task is figuring out the what and where and how of the logging work I’ll be doing.  At tomorrow’s stand up we’ll talk about the breakdown into tasks and helping each other discover what tasks we might have missed.  Today’s work is to get to a point where I understand what I’ll need to do to accomplish my planned work.</p>
+
+<ul>
+  <li>read CWC section of Dev doc.</li>
+  <li>read CWC API doc created by Nate.</li>
+  <li>try to find the areas in the code that handle the CWC API calls and find the existing logging (possibly ask Maged or Nate where they look at the prod site’s logging that Maged showed us that had the client id info but not much else for a success=failed item.</li>
+</ul>
+
+<p>8:45a Good breakfast, started laundry, washed. some dishes, mocha in hand and water.  Ready to go.</p>
+
+<h3 id="front-end-admin-and-delivery-system-code-tour-from-nate-for-susanalexshams">Front end, admin, and delivery system code tour from Nate for Susan/Alex/Shams</h3>
+
+<p>messages once click controller is the beginning of the delivery from the widget
+@handler is step one</p>
+
+<p>edit.html shows the steps (1, 2, &amp; 3, i think)</p>
+
+<p>campaigns in the UI = promoted message in the code</p>
+
+<p>messages_controller.rb has step_one</p>
+
+<p>signature without a send is a staged conversion</p>
+
+<p>Maybe delivery handler is where the message for the dispatcher queue.  def deliver_message for creating email message</p>
+
+<p>conversion.rb instantiates the agents  &lt;- this is the start of creating the stuff for the dispatcher queue YEAY</p>
+
+<h3 id="admin-on-prod">admin on prod</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Admin on production PW:
+PaNaM4123!
+</code></pre></div></div>
+<p>www.oneclickpolitics.com/admin
+username: sprestage@oneclickpolitics.com</p>
+
+<p>User #28 is the test account</p>
+
+<h3 id="planning-meeting-with-maged-nate-alex-and-shams">Planning meeting with Maged, Nate, Alex, and Shams</h3>
+<p>Want to implement ES to support analytics.  And to get our data out of the .csvs (sender data)
+```attribute: city, String,
+attribute: city, String, mapping: {fields: {raw: {type: “keyword”}}}    &lt;- for ElasticSearch (ES)</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>oneclickpolitics/ ... /analytics/campaigns
+
+
+Starts in posts_controller.rb (the nested one in /one_click)
+Need to creat ES object to send to the new API for analytics.
+
+Need to better (much) log when we have issues from the CWC API (the US Senate API).  Just get a signature number with no further information.  I think this is what Maged wants me to work on.
+
+
+Logs present but worthless
+logs needed but don't exist
+logs that exist but overwhelm with crap
+
+1. enhance the logs
+2. connect the logs to new relic alerts
+
+CWC is the first agent to have log improvement &lt;- this is Susan's project initially, then others will do other agents
+then implement the alert in New Relic .. there is an example here that was just created by Maged(work w/ Maged or Eric for this step)
+
+Eventually, the Analytics server will be more of a front end to the current monolith (delivery system).  This will be Shamps and Alex's project.
+
+### Basic plan for today
+
+Follow a message through the delivery system from Conversion to Dispatcher Queue to ....¿Agent Queues?..... and finally to Receiver Queue.
+
+From signature to CWC or email.
+
+What is a Conversion vs a Signature.
+
+
+## Tue, 13 Jul 2021
+### Plan for tomorrow
+Hoping for server tour (Maged?) and delivery tour (Nate, but he says he doesn't know it well) after standup tomorrow.  Might be wishful thinking.  I need to figure out how to follow a message through the delivery system from Conversion to Dispatcher Queue to ....¿Agent Queues?..... and finally to Receiver Queue.
+
+### What I did today
+Finished the day on p52/139 (hmmm, that total went up a page today).  Did a lot of going through relevent code for MQ messaging, agents, and the delivery process.  Took until 2pm to get my container issue resolved and to establish the workaround for testing.  
+
+### Testing
+During standup I mentioned I had only found one test for agents so far, `spec/controllers/api_spec.rb`.  It turns out I needed to search on something other than `agent` or `api`.  Alex had tried `rabbit` and came up with 4 more tests for me in `spec/features/rabbitmq_deliveries/`
+
+### Container issues and resolution
+Shortly after standup, I realized that no tests were working.  Took the container down, but then couldn't get it to work correctly thereafter.  A variety of attempts and weird errors later I learned to:
+
+  1. delete the Gemfile.lock
+  2. run `docker-compose build --no-cache ocp`
+  3. run `docker-compose run ocp bundle install`
+</code></pre></div></div>
+<p>rm Gemfile.lock
+docker-compose build –no-cache ocp
+docker-compose run ocp bundle install</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The important step I was missing is that `ocp` usually needs to be rebuilt, especially after deleting the Gemfile.lock.  
+
+### Testing
+The container is up and running again, but I cannot successfully run tests locally.  The test(s) do nothing, which is to say that I can call them, but the command returns with zero delay and no messages, errors, or any other indication that something has happened.  Looks like this:
+
+```susanprestage@Susans-MBP one-click-politics % docker-compose exec ocp bundle exec rake db:test:prepare          
+susanprestage@Susans-MBP one-click-politics % docker-compose exec ocp bundle exec rspec spec/models/district_spec.rb          
+susanprestage@Susans-MBP one-click-politics % docker-compose exec ocp bundle exec rspec spec/models/*
+</code></pre></div></div>
+<p>To confirm, the docker container is indeed up when the tests are being run.  However, I can run the tests directly in the container.  First, bash into the container.  Don’t forget the prepare the test DB.  Then run test(s).</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>susanprestage@Susans-MacBook-Pro one-click-politics % docker-compose exec ocp bash      
+root@90b12c7ddf4c:/ocp# rake db:test:prepare
+root@90b12c7ddf4c:/ocp# rspec spec/models/district_spec.rb
+</code></pre></div></div>
+
+<p>Maged wants to meet to plan next bit of work, but got called away on a tech emergency.  He’s pleased we worked together to solve this technical challenge though and doesn’t seem worried that I cannot run locally.  Running the tests from the docker container is sufficient for my needs as well, so while it is weird, I can live with weird.</p>
+
+<h3 id="delivery">Delivery</h3>
+
+<p>Starts with Conversion, <code class="language-plaintext highlighter-rouge">app/models/conversion.rb</code> which decides which agents and queues to pass delivery instructions onto.
+First destination is the Dispatch Queue, <code class="language-plaintext highlighter-rouge">lib/agents/dispatcher</code>.  The Receiver Queue is the final destination for archival (for completed deliveries) or to send failed deliveries back into the queues for retries.</p>
+
+<h2 id="mon-12-jul-2021">Mon, 12 Jul 2021</h2>
+
+<p>Finishing the day at the beginning p42/138 at 6pm.  This covers the deliver process which deserves fresh attention in the morning.</p>
+
+<p>Relaxed day.  Took many little breaks to move my body and let my brain digest.  This is definitely the stull I’ll be working on, so it is worth taking time to let it soak in.  I’m also diving in and out of the code as well as the readmes for gem repos in github.  I have an increasingly good perspective on what is going on.  I still want a tour.  Tomorrow or maybe Wednesday, I’ll inquire at standup.</p>
+
+<h3 id="our-agents-and-rabbitmq">our agents and RabbitMQ</h3>
+<p>This is the ruby gem being used for RabbitMQ, https://github.com/ruby-amqp/amqp.  Good README explaining everything and worth reading.  Also checked out https://github.com/eventmachine/eventmachine.  Also, this is an even better explanation of queueing and how amqp works, https://www.rabbitmq.com/tutorials/amqp-concepts.html</p>
+
+<p>A question I’m interested in is where are the queues being hosted?  I believe the answer is in the <code class="language-plaintext highlighter-rouge">/config/amqp.yml</code> file: <code class="language-plaintext highlighter-rouge">production:
+  host: localhost
+</code>
+It seems to me that this style of our server hosting the queues is a bad idea in the longer term and a solution of remote hosting of the queues should be considered in our future more robust and stable system.</p>
+
+<p>RabbitMQ basically answers the same needs as the SNS and SQS systems on AWS, messaging middleware.</p>
+
+<p>4pm.  Only on p38/138, but that is with also looking at relevent code, figuring out which files are pertinent to this, reviewing the readmes for the 2 relevant gems, amqp and eventmachine, finding the test file and failing to successfully run it.  Wheee!</p>
+
+<p>In the context of starting the node_agent and node_controller locally, it is mentioned to check out the web server and the local agent logs.  <code class="language-plaintext highlighter-rouge">/log/nodeagent.log</code> or <code class="language-plaintext highlighter-rouge">/log/nodecontroller.log</code></p>
+
+<p>Note: Agents send stuff out.  I don’t want to start them up before I have more knowledge.  I think, once I have a good foundation, I’ll ask Maged (or Nate if he knows how) to give me a tour and talk about the existing tests and when is involved to run them.  The test file <code class="language-plaintext highlighter-rouge">/spec/controllers/api_spec.rb</code> does not give any indication that tests are running.  In the meantime, here is my best guess of how to run the agents, based on what I’ve been reading in the Dev doc.</p>
+
+<h4 id="guess-for-how-to-run-agents-locally">guess for how to run agents locally</h4>
+<p>the below order is the order they must be started and stopped”</p>
+
+<p>```&gt; bundle exec ruby ./daemon/node_controller.rb start</p>
+<blockquote>
+  <p>bundle exec ruby ./daemon/node_agent.rb start</p>
+</blockquote>
+
+<blockquote>
+  <p>bundle exec ruby ./daemon/node_agent.rb stop
+bundle exec ruby ./daemon/node_controller.rb stop
+```</p>
+</blockquote>
+
+<p>Note that the agents will start in “production” mode locally - they will load whatever is in the production section of your app_config.yml. We can’t figure out how to have them start in development mode. If you want to start an agent in development mode you should start that agent independently like so:</p>
+
+<p>```&gt;AGENT_ENV=development RAILS_ENV=development bundle exec ruby script/agent api -priority_class B development</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+Create an ocp superuser to make this issue go away:
+
+```&gt; psql postgres
+&gt; CREATE ROLE ocp SUPERUSER;
+&gt; ALTER ROLE ocp WITH LOGIN INHERIT CREATEROLE CREATEDB;
+</code></pre></div></div>
+
+<p>Also - If starting the agents above gives you an error about permissions for a pids folder you need to create a pids folder as a root folder for your app.  <strong>Do not commit this folder to github</strong></p>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Eventually, get the link to the “OCP Server Admin” Document, since that sounds useful, but possibly not for my current agent work.</li>
+</ul>
+
+<h3 id="question">Question:</h3>
+<p>What is the difference between /daemon/node_agent.rb and /lib/agent/node_agent.rb.  Same question for node_controller.rb.  This duality is referenced in the Dev doc, but not really explained.  I have some level of intuition on what’s going on, but I don’t think I’m quite catching it.</p>
+
+<h4 id="beware-that-often-only-most-the-agents-will-be-stopped-successfully">beware that often, only most the agents will be stopped successfully</h4>
+<p>To see if any agents are still running after your stop call, you can check the admin/queues page.</p>
+
+<p>If it shows a nonzero count in any queue, you’ll want to stop them via the console.</p>
+
+<p>Console in, and list all running processes with the path <code class="language-plaintext highlighter-rouge">/script/agent</code></p>
+
+<p><code class="language-plaintext highlighter-rouge">ps aux | grep "script/agent"</code></p>
+
+<h4 id="ohm-message-objects-stored-redis">OHM message objects stored redis</h4>
+<p>Many of our messaging objects are stored as hash maps (OHM) in Redis instead of our DB.  An example of a basic query to see all InternalMessage objects in Redis at any moment is <code class="language-plaintext highlighter-rouge">OCP::InternalMessage.all</code></p>
+
+<p>To see the list of objects returned by a find call just append .to_a - for example:
+```&gt; OCP::InternalMessage.find(parent_uuid: “db45b4f7-f6c7-49f8-b7b7-6621e2daf4c1”).to_a</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+### files for mailer stuff Nate was working on
+```ocp_base_mailer.rb  
+notifier_spec.rb  
+notifier.rb  
+loggable.rb.  
+</code></pre></div></div>
+
+<h2 id="fri-9-jul-2021">Fri, 9 Jul 2021</h2>
+
+<p>I think that on Monday, I’ll intersperse reading up on RabbitMQ agents with finding and reviewing the associated code in /lib/agents</p>
+
+<p>5:05, p35&amp;36/138. Getting into the RabbitMQ Agents.  Remember Maged mentioned agents as being key to the delivery process.  I’ll take my time with this section since it looks key to my understanding of what I’ll be working on very shortly.  It is also the next <strong>10</strong> pages, so take this in pieces.  I’m reading right away that these agents work on stuff in queues and seem to me at first glance to be like the workers I’d worked on at Sportrocket.  I very much see why Maged is pointing me in this direction.  Ok, done for the day.</p>
+
+<h3 id="question-1">Question:</h3>
+<ul>
+  <li>I’m seeing references to “The API” in the sections referring to conversions.  What functionality is currently in “The API”.  Looks like conversions are what “The API” handles?  As we add more APIs, we’ll want a good name for this one and to change the references in the Dev doc to reflect that new naming convention.</li>
+</ul>
+
+<p>4:45, p33/138.  Getting into constituency stuff now.</p>
+
+<h3 id="question-2">Question:</h3>
+<ul>
+  <li>Is the District object still enormous because of the <code class="language-plaintext highlighter-rouge">the_geom</code> column?  I’m guessing so but I want to see if the implementation on this has changed, since it seems awkward, but possible in a way that doesn’t have a good workaround.  Though I like the idea of a Districts API with the sole function of returning <code class="language-plaintext highlighter-rouge">the_geom</code> data when queried.  Possible good workaround as long as it is fast enough.  This is a question/discussion with Maged, I think.  Or a well written question in the Dev slack channel.</li>
+</ul>
+
+<p>2:45, p27/138.  Feels like it is going slowly.  I hope to get another 10-15 pages.  Also want to take some time to go through some code today.  Plenty of time after a good lunch and my mocha at hand.  I’ll update in an hour or so to see where I’ve gotten to.</p>
+
+<p>Met with Maged this morning.  Sounds like my understanding so far of the size of the system, the need to make it smaller and more modern by breaking off pieces into micro services and APIs according to areas of functionality is spot on.</p>
+
+<p>I took brief and scattered notes in a PM to myself in Slack.  Most of my attention was on the exchange of ideas and information, not on note taking.  I’ve rewritten the notes here to enhance my understandig for the future, especially since these are the areas in which I am likely to be working in the coming weeks and should be kept in mind as I become familiar with the code and the Dev doc.</p>
+
+<p>Also, I came out of the meeting with Maged feeling very much that my skills and understanding of the existing system and where we need to take our system are spot on.  Feeling very good about my ability to contribute well to the team and the company.</p>
+
+<h3 id="meeting-with-maged-notes">Meeting with Maged notes</h3>
+
+<h4 id="biggest-pain-points">biggest pain points</h4>
+<p>Delivery (of email, fax, webform, cwc, api) and Analytics are the biggest areas of pain and need for the business.</p>
+
+<h4 id="logging-in-delivery-process-libagents">logging in delivery process <code class="language-plaintext highlighter-rouge">/lib/agents</code></h4>
+<p>There are many problems with logging.  These fall into 3 categories.  Logs not where they should be.  The logs are present but contain no return messages.  The logs are there but caontain no useful info, like only id numbers.</p>
+
+<p>Alerts need to be added for when deliveries are failing (especially CWC!).  The agents are what need logging soonest, especially CWC.  The delivery may trace back to the relevent models and controllers, too, but mostly it is the library agents (email, fax, webform, cwc, api) in <code class="language-plaintext highlighter-rouge">/lib/agents</code>.  Ideally, the logging to be added will follow step by step through the process of delivery.  This should is to address the extreme pain of trying to diagnose delivery failure, which is often not possible currently.  Interestingly, I felt like I was getting distracted by a lot of little things outside of work yesterday, but in hindsight, I realize that with all the documentation reading and bits of research as a result of my readings, those distracted moments were largely my brain stepping back and digesting before diving back in.  So, yesterday was full and more occupied than I realized in the moment.</p>
+
+<h4 id="analytics">analytics</h4>
+
+<p>It was mentioned that CSV files or tables were (or should? be) used for Analytics.</p>
+
+<p>Analytics need to track who was the target and how many messages were delivered.  Additionally, the current tracking of views includes web crawlers and the edits to the page which should be omitted entirely or the views analytics is useless.  Additionally, views should also be tracked by Google Analytics instead of our code.</p>
+
+<p>There is a plan to convert Analytics into its own API over the next couple of weeks.</p>
+
+<p>Example: a signed petition generates email plus CWC.  This creates a delivery for each.  These should start in a Pending state then progress through states until Failed (due to well logged and alerted error) or Succeeded.</p>
+
+<p>Something about elastic search (nosql) for aggregates.</p>
+
+<p>See PMs for me for the morning of this day to see the original notes.</p>
+
+<h2 id="thu-8-jul-2021">Thu, 8 Jul 2021</h2>
+
+<p>Hmmmmm.  There does not appear to be a constituency section, though it is mentioned several times in the <code class="language-plaintext highlighter-rouge">More on Recipients</code> section of <code class="language-plaintext highlighter-rouge">Basic Database Objects</code>.</p>
+
+<p>p22/138 in Dev doc as of 4pm today.  Trying hard to pay attention to more important and relevant sections while only skimming other sections.  Oh right, I need to look at that list of important sections I received from Nate.</p>
+
+<h4 id="important-dev-doc-sections">Important Dev Doc sections</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Constituency
+Basic Database Objects
+RabbitMQ
+Delivery Process through RabbitMQ
+Reporting Rake Tasks
+Third Party #NationBuilder
+Conversions
+OneClick Widget
+</code></pre></div></div>
+
+<p>How to get rails and ruby versions from docker container.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  docker-compose exec ocp bundle exec rails --version    
+  docker-compose exec ocp bundle exec ruby --version
+</code></pre></div></div>
+
+<p>How to get Postgres and PostGis versions from docker container.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  docker-compose exec ocp bundle exec psql -V psql  
+  docker-compose exec postgres bash -c "psql -U ocp ocp -c 'SELECT PostGIS_full_version();'"
+</code></pre></div></div>
+
+<p>https://oneclickpolitics.atlassian.net/browse/ON-1206</p>
+
+<p>Today is dev doc reading, https://docs.google.com/document/d/1mG8TRVEyglQeQfrGsnnYRsxP5zJewE_hxa0IYPnR0bs, as a way to learn about all the various aspects of our system.  Updating anything I see that needs it.  Also, planning about how to break up this monolithic document into working pieces, while keeping the information very accessible, probably using Confluence.</p>
+
+<p>8:30-12:00, 1:30- (aim for 6pm). Actual hours today were in pieces.  I realized later that this was because I was digesting a lot of new material.  I kept reviewing into the evening, interspersed with dinner preparation breaks and a lovely dinner with an early bedtime.  In hindsight, I realized that far from the shorted day I had feared I’d worked, that I actually had worked an extra long day if I factor in the times I was doing food prep or feeding kitties as time I was also thinking about and digesting Dev doc material.  In a normal office, these would have been moments where I went to walk around the block or walk to coffee or something while my mind worked in the background</p>
+
+<p>In a little late today and also had a call with Erich Baumann, my longtime friend out of touch for almost 20 years.  I plan to work a bit late to make sure I cover my hours.</p>
+
+<p>Over time, keep an eye on how much space is available on my drive.  Apparently docker images don’t clean up well and start to clutter up a local drive.  Something to watch out for.  Remember that <code class="language-plaintext highlighter-rouge">df</code> is the command for disk capacity stuff.  And <code class="language-plaintext highlighter-rouge">docker image ls</code> will show the local repository of docker images.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>susanprestage@Susans-MBP one-click-politics % df
+Filesystem                              512-blocks      Used  Available Capacity iused      ifree %iused  Mounted on
+/dev/disk1s1s1                          1953595632  29904632 1650388536     2%  553757 9767424403    0%   /
+devfs                                          396       396          0   100%     686          0  100%   /dev
+/dev/disk1s5                            1953595632  10485800 1650388536     1%       5 9767978155    0%   /System/Volumes/VM
+/dev/disk1s3                            1953595632    558592 1650388536     1%     824 9767977336    0%   /System/Volumes/Preboot
+/dev/disk1s6                            1953595632       456 1650388536     1%      17 9767978143    0%   /System/Volumes/Update
+/dev/disk1s2                            1953595632 260640704 1650388536    14%  986877 9766991283    0%   /System/Volumes/Data
+map auto_home                                    0         0          0   100%       0          0  100%   /System/Volumes/Data/home
+/Applications/WhatsApp.app              1953595632  81010232 1840498584     5%  895466 9767082694    0%   /private/var/folders/xs/h3lhzlf13w77vtvw7w31p6_40000gn/T/AppTranslocation/D679049D-D903-4BD5-A553-29CF8675C599
+/dev/disk2s1                               2048000    602184    1445816    30%     364 4294966915    0%   /Volumes/Skype
+/dev/disk3s1                               3917744   3290904     626840    84%   22624 4294944655    0%   /Volumes/Docker
+/Users/susanprestage/Downloads/Atom.app 1953595632 204322424 1710901120    11%  985528 9766992632    0%   /private/var/folders/xs/h3lhzlf13w77vtvw7w31p6_40000gn/T/AppTranslocation/2D2615D8-FCCD-4B9C-9DC5-75C945D17FBA
+susanprestage@Susans-MBP one-click-politics % docker image ls
+REPOSITORY                                                     TAG            IMAGE ID       CREATED        SIZE
+ocp/development                                                latest         4a73aa89ea98   3 hours ago    1.91GB
+postgis/postgis                                                9.6-2.5        3681dd4db503   40 hours ago   333MB
+rabbitmq                                                       3-management   415614b8c071   7 days ago     252MB
+104377796283.dkr.ecr.us-east-1.amazonaws.com/ocp/development   latest         7aa14f9e0627   8 days ago     2.29GB
+104377796283.dkr.ecr.us-east-1.amazonaws.com/ocp/development   basic          d8d7e11a5c1b   8 days ago     1.16GB
+alpine/git                                                     latest         b8f176fa3f0d   6 weeks ago    25.1MB
+redis                                                          3.0.5          c72f1dae54bf   5 years ago    109MB
+</code></pre></div></div>
+
+<h2 id="wed-7-jul-2021">Wed, 7 Jul, 2021</h2>
+
+<p>Received my HR stuff.  Mostly straightforward.  Reading through docs and getting signed up to QuickBooks for W2…which is currently asking what my IL Withholding should be.  Working with John figure that out.</p>
+
+<p>The new db dump is taking a long time for Nate.  No surprise as yesterday proved to me that this data is large.</p>
+
+<p>Actual hours: 8:15-12, 1:00-5:15</p>
+
+<p>Getting a feel for the codebase.  This project has a staggering schema.rb file.  I think this and probably the routes.rb file as well will be the roadmaps to the overall architecture and how to break pieces off of this monolith bit by bit until there is nothing let but something straightforward to finally migrate to something more modern than <code class="language-plaintext highlighter-rouge">rails 3.2.22.5</code> and <code class="language-plaintext highlighter-rouge">ruby 2.2.10p489</code>.  Maged is a strong advocate for this and is keenly aware of the towering tech debt of this monolith.  Nate says Maged was talking about 10-15% of time chipping away at this with the rest dedicated to new (with supporting tests).</p>
+
+<p>That’s another thing.  There are a <strong>lot</strong> of tests in the project.  Also, all in rspec, not a bad thing, just a thing.  Also, Nate comes from a minispec background which makes me happy.  He seems to write clean test code without unnecessary extras.</p>
+
+<p>This is the dev doc.  13.5 screens of sections in the right hand outline.  First 1.5 were quite relevent and good to know.  Slowly review doc in spare moments, mostly skimming, to be aware what is there so I can find answers later as questions come up.  It appears to be a comprehensive explanation covering <strong>EVERY</strong> aspect of this project.  https://docs.google.com/document/d/1mG8TRVEyglQeQfrGsnnYRsxP5zJewE_hxa0IYPnR0bs/edit#</p>
+
+<p>These are the docker instructions.  I’ve gotten to the <strong>Terminals_and_tasks</strong> section, which is halfway through.  This covers all the installation stuff, how to run docker commands, run the migrations, do database creation/deletion/migration, and run tests all in the docker containers that I did yesterday and today.  https://docs.google.com/document/d/1EM7pIJSCQl4UzwaLWNOG1G1wGbHfOd3UXIRsqqh6ACo/edit?ts=60e4c33b</p>
+
+<p>A lot of time spent:</p>
+<ul>
+  <li>doing the new sql db dump (Nate)</li>
+  <li>uploading the new sql file to dropbox, <strong>17.8 G</strong> (Nate)</li>
+  <li>downloading the sql file from dropbox (Susan)</li>
+  <li>populating the db with the new data (Susan)</li>
+</ul>
+
+<p>After all that, I was able to successully migrate.  Or rather, run the migrate command with no errors and no actual migrations since I was using a fresh db dump.</p>
+
+<p>Got my ssh keys set up for staging and prod.</p>
+
+<p>Done with setup.  Spent the remainder of the day pairing on the mailer logging task, ON-1204.</p>
+
+<h2 id="tue-6-jul-2021">Tue, 6 Jul, 2021</h2>
+
+<h3 id="first-day-at-oneclickpolitics">First day at OneClickPolitics</h3>
+
+<ul>
+  <li>Find out what short version of the company name is used by the folks on the engineering team.</li>
+</ul>
+
+<h4 id="planned-hours">Planned hours</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>8-12 morning
+12-1 lunch
+1-5 afternoon
+</code></pre></div></div>
+
+<p>Each of the above times may slip as much as 30 minutes depending on the day, but the above is what I’m aiming for.  I plan to take the full hour for lunch to spend with Kai, to do chores, but mostly to do food prep and planning for both lunch and dinner.</p>
+
+<p>Timing plan is working perfectly.  I’m aiming for 8am each morning, that way if I’m late, I’m still starting by 8:30, which wraps up my day by 5-5:30.</p>
+
+<p>Installed Docker.  Got Jira account set up.  Very useful doc here on OCP Docker setup, https://docs.google.com/document/d/1EM7pIJSCQl4UzwaLWNOG1G1wGbHfOd3UXIRsqqh6ACo/edit?ts=60e4c33b</p>
+
+<p>Got most set up, but ran into problems with duplicated columns as a result of loading first the no_data sql followed by the with_data sql.  After trying to drop each column, Dave realized it was the big list, not just a few.  We stopped a bit after 5 with the plan for Nate to help me tomorrow to drop the existing database, then take a dump of his db data, then have me load that in.</p>
+
+<p>I was able to successully run a couple rspec tests, so some good progress has been made.</p>
+
+<p>Actual hours: 8:05-12:00, 1:05-5:15</p>
+
+
+      <footer class="site-footer">
+        
+          <span class="site-footer-owner"><a href="https://github.com/sprestage/sprestage.github.io-personal-notes">sprestage.github.io-personal-notes</a> is maintained by <a href="https://github.com/sprestage">sprestage</a>.</span>
+        
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span>
+      </footer>
+    </main>
+  </body>
+</html>

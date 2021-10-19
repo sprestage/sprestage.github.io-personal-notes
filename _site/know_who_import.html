@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+
+<!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>KnowWho import | Mother of cats and Kai</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="KnowWho import" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Journal to track everything going on in my life." />
+<meta property="og:description" content="Journal to track everything going on in my life." />
+<link rel="canonical" href="http://localhost:4000/know_who_import.html" />
+<meta property="og:url" content="http://localhost:4000/know_who_import.html" />
+<meta property="og:site_name" content="Mother of cats and Kai" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="KnowWho import" />
+<script type="application/ld+json">
+{"headline":"KnowWho import","url":"http://localhost:4000/know_who_import.html","description":"Journal to track everything going on in my life.","@type":"WebPage","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preload" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap" as="style" type="text/css" crossorigin>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="/assets/css/style.css?v=af586400288b6425e2da485838f36de2bf709d0d">
+    <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
+
+<!-- Setup Google Analytics -->
+
+
+
+<!-- You can set your favicon here -->
+<!-- link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" -->
+
+<!-- end custom head snippets -->
+
+  </head>
+  <body>
+    <a id="skip-to-content" href="#content">Skip to the content.</a>
+
+    <header class="page-header" role="banner">
+      <h1 class="project-name">KnowWho import</h1>
+      <h2 class="project-tagline">Journal to track everything going on in my life.</h2>
+      
+        <a href="https://github.com/sprestage/sprestage.github.io-personal-notes" class="btn">View on GitHub</a>
+      
+      
+    </header>
+
+    <main id="content" class="main-content" role="main">
+      <h1 id="knowwho-import">KnowWho import</h1>
+
+<h2 id="prep-for-knowwho-import">Prep for KnowWho import</h2>
+
+<h3 id="location-for-download-of-knowwho-data">Location for download of KnowWho data</h3>
+<p>Know who data is downloaded via ftp.  Click or copy/paste this url into a browser window:</p>
+
+<p><a href="ftp://205.134.170.180">ftp://205.134.170.180</a></p>
+
+<p>Your FTP login credentials are:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>User Name: ftp_oneclick
+Password: he77kv48
+</code></pre></div></div>
+
+<p>Bring up an additional browser window and drag over the two csv zip files to store in code/KnowWhoImports locally on my Mac.  They will look something like this:</p>
+
+<ul>
+  <li>fedleg_l1_csv_101821.zip</li>
+  <li>stateleg_l1_csv_101821.zip</li>
+</ul>
+
+<p>Double click each of them in Finder locally to unzip.  There will now be two folders that look something like this:</p>
+
+<ul>
+  <li>fedleg_l1_csv_101821/</li>
+  <li>stateleg_l1_csv_101821/</li>
+</ul>
+
+<h4 id="steps-to-backup-copy-to-correct-locations-and-checkin">steps to backup, copy to correct locations, and checkin</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git checkout master
+git pull
+
+mv lib/import_data/us/federal/* lib/import_data/us/backup/federal
+mv lib/import_data/us/state/* lib/import_data/us/backup/state
+
+cp ../KnowWhoImports/fedleg_l1_csv_101821/Committees.csv lib/import_data/us/federal
+cp ../KnowWhoImports/fedleg_l1_csv_101821/DistrictLUT.csv lib/import_data/us/federal
+cp ../KnowWhoImports/fedleg_l1_csv_101821/Members.csv lib/import_data/us/federal
+cp ../KnowWhoImports/fedleg_l1_csv_101821/Offices.csv lib/import_data/us/federal
+cp ../KnowWhoImports/fedleg_l1_csv_101821/Assignments.csv lib/import_data/us/federal
+
+cp ../KnowWhoImports/stateleg_l1_csv_101821/Assignments.csv lib/import_data/us/state
+cp ../KnowWhoImports/stateleg_l1_csv_101821/Committees.csv lib/import_data/us/state
+cp ../KnowWhoImports/stateleg_l1_csv_101821/DistrictLUT.csv lib/import_data/us/state
+cp ../KnowWhoImports/stateleg_l1_csv_101821/Members.csv lib/import_data/us/state
+cp ../KnowWhoImports/stateleg_l1_csv_101821/Offices.csv lib/import_data/us/state
+
+git add lib/import_data/
+git commit -m "KnowWho Import Data for 10-18-21"
+git push
+</code></pre></div></div>
+
+<h2 id="deploy-master-to-prod">Deploy master to prod</h2>
+<p><a href="deploy.html">Deploy</a> - Steps for deployment to production and staging.</p>
+
+<h2 id="do-the-actual-import-on-product">Do the actual import on product</h2>
+
+<p>Log into prod:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh_prod
+</code></pre></div></div>
+
+<p>Go the the correct directory</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd /home/deploy/apps/ocp/current
+</code></pre></div></div>
+
+<p>Confirm the files are the new ones copied above</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ls -l /home/deploy/apps/ocp/current/lib/import_data/us/federal/
+ls -l /home/deploy/apps/ocp/current/lib/import_data/us/state/
+</code></pre></div></div>
+
+<p>Open up the production rails console</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle exec rails c production
+</code></pre></div></div>
+
+<p>The USRecipientImporter (lib/importer_modules/us_importers.rb) object diffs the reps listed in /import_data against the existing database and prepares updates.</p>
+
+<p>Run .match() first to find changed seats, and then attempt a first .import() to see any anticipated problems.  If no problems are reported, then run .import() again with the flag :record =&gt; true to make changes to the database.</p>
+
+<p>This is currently tested in spec/libs/united_states_import_spec.rb</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>require ('importer_modules/united_states/us_importers')
+importer = Importer::USRecipientImporter.instance  
+importer.match :except_states =&gt; ['PR','AS','VI','GU','MP']
+</code></pre></div></div>
+
+<p>Look for problems matching.  If none, then</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>importer.all_problems
+</code></pre></div></div>
+
+<p>Comm upper errors are ok.
+Chamber lower American Samoa, Puerto Rico, Virgin Islands, Guam if there is vacancy that’s fine too.</p>
+
+<p>You can run the following to check which states are having issues:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>states_arr = []
+importer.all_problems[:district_matcher].last.each do |str|
+  states_arr &lt;&lt; str.split(', state ').last.slice(0, 2)
+end
+puts states_arr.uniq.join(", ")
+</code></pre></div></div>
+
+<p>If the results only include AS, GU, PR, VI, MP (American Samoa, Guam, Puerto Rico, Virgin Islands, Northern Mariana Islands), then you should be good to continue.</p>
+
+<p>(if no meaningful problems are found, then:)</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>importer.import :addresses_options =&gt; {:except =&gt; ['webform']}
+importer.import(:record =&gt; true, :addresses_options =&gt; {:except =&gt; ['webform']})
+</code></pre></div></div>
+
+<p>Next, to update US committees and committee assignments, use the USCommitteeMatcher and USAssignmentImporter objects:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>c = Importer::USCommitteeMatcher.instance
+c.import_and_update_committees
+c.import_and_update_committees :record =&gt; true
+</code></pre></div></div>
+
+<p>Then clean out old committees</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>c.inactivate_old_committees
+c.inactivate_old_committees :record =&gt; true
+</code></pre></div></div>
+
+<p>Then update committee relationships</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>c.import_committee_relationships
+c.import_committee_relationships :record =&gt; true
+</code></pre></div></div>
+
+<p>Then clean the committee relationships</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>c.clean_committee_relationships
+c.clean_committee_relationships :record =&gt; true
+
+
+a = Importer::USAssignmentImporter.instance
+a.import
+a.import :record =&gt; true
+</code></pre></div></div>
+
+
+      <footer class="site-footer">
+        
+          <span class="site-footer-owner"><a href="https://github.com/sprestage/sprestage.github.io-personal-notes">sprestage.github.io-personal-notes</a> is maintained by <a href="https://github.com/sprestage">sprestage</a>.</span>
+        
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span>
+      </footer>
+    </main>
+  </body>
+</html>
