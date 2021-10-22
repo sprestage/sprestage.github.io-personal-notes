@@ -175,6 +175,13 @@ Susan and Nate have also found that there have occasionally been a few troubleso
 
 <p>You’ll need to update this .CSV on any environment where you plan to update reps.  For this reason, it’s best to check this change into source, and deploy to both production and staging.</p>
 
+<h5 id="merge-troubleshooting">merge troubleshooting</h5>
+<p>If you see this error:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/csv/parser.rb:869:in `parse_quotable_robust':
+Any value after quoted field isn't allowed in line 445. (CSV::MalformedCSVError)
+</code></pre></div></div>
+<p>it is a result of this string, <code class="language-plaintext highlighter-rouge">'"</code>, being used in the description field.  In VI, a global search and replace will fix the issue.  <code class="language-plaintext highlighter-rouge">:%s/'"/'/</code>.  Feel free to go to each line in the editor of your choice to see what I mean.  When you run the merge again, it will stop at the next row with this issue.</p>
+
 <h4 id="au-step-4">AU Step 4</h4>
 <p><strong>Updating Australian Recipients</strong></p>
 
@@ -212,6 +219,13 @@ recipient_importer.import :record =&gt; true
 </code></pre></div></div>
 
 <p>returns “Party … not found” error messages, you may need to add new Party records to our system, and then attempt the imports again.</p>
+
+<h5 id="import-recipients-as-above-but-with-last_name-first_name-overwrite-enabled">import recipients as above, but with last_name, first_name overwrite enabled</h5>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>recipient_importer.import(:overwrite_firstname =&gt; true, :overwrite_lastname =&gt; false)
+recipient_importer.all_problems # Look at problems
+recipient_importer.import(:record =&gt; true, :overwrite_firstname =&gt; true, :overwrite_lastname =&gt; false)
+
+</code></pre></div></div>
 
 <h4 id="au-step-5">AU Step 5</h4>
 <p><strong>“Party … not found” messages mean that we might be missing Party records from our database, and/or missing party names from our country_definitions.rb file.</strong></p>
@@ -350,6 +364,12 @@ The file currently assumes the CSV files are in the same directory as the file. 
 <p>with the correct filenames, and the result.csv should be the new officials csv.</p>
 
 <p>You’ll need to update this .CSV on any environment where you plan to update reps.  For this reason, it’s best to check this change into source, and deploy to both production and staging.</p>
+
+<h5 id="merge-troubleshooting-1">merge troubleshooting</h5>
+<p>If you see this error:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/csv/parser.rb:869:in `parse_quotable_robust': Any value after quoted field isn't allowed in line 445. (CSV::MalformedCSVError)
+</code></pre></div></div>
+<p>it is a result of this string, <code class="language-plaintext highlighter-rouge">'"</code>, being used in the description field.  In VI, a global search and replace will fix the issue.  <code class="language-plaintext highlighter-rouge">:%s/'"/'/</code>.</p>
 
 <h4 id="ca-step-4">CA Step 4</h4>
 <p><strong>Updating Canadian Recipients</strong></p>

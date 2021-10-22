@@ -142,6 +142,14 @@ Susan and Nate have also found that there have occasionally been a few troubleso
 
 You'll need to update this .CSV on any environment where you plan to update reps.  For this reason, it's best to check this change into source, and deploy to both production and staging.
 
+##### merge troubleshooting
+If you see this error:
+```
+/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/csv/parser.rb:869:in `parse_quotable_robust':
+Any value after quoted field isn't allowed in line 445. (CSV::MalformedCSVError)
+```
+it is a result of this string, `'"`, being used in the description field.  In VI, a global search and replace will fix the issue.  `:%s/'"/'/`.  Feel free to go to each line in the editor of your choice to see what I mean.  When you run the merge again, it will stop at the next row with this issue.
+
 #### AU Step 4
 **Updating Australian Recipients**
 
@@ -184,6 +192,14 @@ If calling
 ```
 
 returns "Party ... not found" error messages, you may need to add new Party records to our system, and then attempt the imports again.  
+
+##### import recipients as above, but with last_name, first_name overwrite enabled
+```
+recipient_importer.import(:overwrite_firstname => true, :overwrite_lastname => false)
+recipient_importer.all_problems # Look at problems
+recipient_importer.import(:record => true, :overwrite_firstname => true, :overwrite_lastname => false)
+
+```
 
 #### AU Step 5
 **"Party ... not found" messages mean that we might be missing Party records from our database, and/or missing party names from our country_definitions.rb file.**
@@ -340,6 +356,13 @@ The file currently assumes the CSV files are in the same directory as the file. 
 with the correct filenames, and the result.csv should be the new officials csv.
 
 You'll need to update this .CSV on any environment where you plan to update reps.  For this reason, it's best to check this change into source, and deploy to both production and staging.
+
+##### merge troubleshooting
+If you see this error:
+```
+/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/csv/parser.rb:869:in `parse_quotable_robust': Any value after quoted field isn't allowed in line 445. (CSV::MalformedCSVError)
+```
+it is a result of this string, `'"`, being used in the description field.  In VI, a global search and replace will fix the issue.  `:%s/'"/'/`.
 
 #### CA Step 4
 **Updating Canadian Recipients**

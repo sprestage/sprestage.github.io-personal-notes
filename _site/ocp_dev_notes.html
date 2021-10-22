@@ -61,20 +61,68 @@
 
 <p><a href="cicero_import.html">Cicero Import</a> - Everything needed for the CA and AU Cicero imports.</p>
 
-<h2 id="tue-oct-19-2021">Tue, Oct 19 2021</h2>
+<h2 id="fri-oct-22-2021">Fri, Oct 22 2021</h2>
+<h3 id="status">status</h3>
+<p><strong>Yesterday I</strong></p>
 <ul class="task-list">
-  <li>asked Alex about his rake task for harvesting CWC senate delivery data</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />convert Alex’s rake task for gathering the data for the house</li>
-  <li class="task-list-item">asked Nate for assistance on staging</li>
-  <li class="task-list-item">[ ]</li>
+  <li>Got Alex’s rake task altered to generate the data for the House delivery report.  Ran this locally, then on production and am in the process of putting the data into a text file and updating the Jira with the attachments of the data and the new/altered rake task.</li>
+  <li>Discovered that my importing problems were due to the missing _role and _level files that Cicero failed to include.</li>
+  <li>Needed to clean up the data they sent.  Mostly, this was multiple instances extra double quotes in the, call it the description field, of the rows in the .csv data.  Once this was cleaned up, the merge succeeded, giving us importable .csv files which have been checked into master for AU and CA.</li>
+  <li>Tried to import locally, but got this weird error when running the matcher:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>irb(main):005:0&gt; recipient_importer.all_problems # Look at problems
+=&gt; {:district_matcher=&gt;[[], []], :party_matcher=&gt;[], :office_matcher=&gt;[["222No Office record found for comm JOINT)\n", "222No Office record found for comm JOINT)\n", "222No Office record found for comm JOINT)\n", "222No Office record found for comm JOINT)\n"]], :row_checker=&gt;[], :recipient_importer=&gt;[]}
+</code></pre></div>    </div>
+  </li>
+  <li>Deployed to staging to see if this was only a problem locally.
+<strong>Today I plan to</strong></li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />test the import on staging</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />deploy to production</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />run AU deactivation rake task on production, without save, then with save</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />do full AU cicero import on production with name update</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />do full CA cicero import on production</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />grab a pair of refactoring Jiras that I have pending</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />look for tests to fix</li>
 </ul>
+
+<h2 id="thu-oct-21-2021">Thu, Oct 21 2021</h2>
+<p>the delivery numbers do not match.  work with shams on this once done with the import stuff - the ticket exists (zendesk, I think).  need the ticket number</p>
+
+<h3 id="status-1">status</h3>
+<ul>
+  <li>I figured out that the problem I was having with the October Cicero import was entirely due to missing two critical files for each of AU and CA.  These are the _level and _role files.  These are the two that are merged with the officials file to get a .csv file with the data expected by our importer.  This was due to the change Cicero made in the presentation of the data as of June.  Wrote up explanation in email for Maged to forward on to Cicero.  Here is hoping they will respond quickly.</li>
+</ul>
+
+<h2 id="tue-oct-19-2021">Tue, Oct 19 2021</h2>
+<h3 id="current-status">current status</h3>
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />get the DB endpoint needed to run the psql command for shapefile import on staging</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />test full AU cicero import on staging, with and without name update</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />do full AU cicero import locally with name update using new Oct data</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />do full AU cicero import on staging with name update using new Oct data</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />run AU deactivation rake task on production, without save, then with save</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />do full AU cicero import on production with name update</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />do full CA cicero import on production</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />ask Alex about his rake task for harvesting CWC senate delivery data</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />convert Alex’s rake task for gathering the data for the house</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />grab a pair of refactoring Jiras that I have pending</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />look for tests to fix</li>
+</ul>
+
+<h3 id="rake-file-running-tips-and-tricks-and-advice">rake file running tips and tricks and advice</h3>
+<p>If you see the phantomjs/poltergeist error when trying to run a rake task, you need to specify <code class="language-plaintext highlighter-rouge">RAILS_ENV=production</code></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ubuntu@ip-172-30-1-231:/home/deploy/apps/ocp/current$ bundle exec rake import_cicero_australia_shapefiles[record]
+...
+rake aborted!
+LoadError: cannot load such file -- phantomjs/poltergeist
+ubuntu@ip-172-30-1-231:/home/deploy/apps/ocp/current$ bundle exec rake import_cicero_australia_shapefiles[record] RAILS_ENV=production
+</code></pre></div></div>
 
 <h2 id="mon-oct-18-2021">Mon, Oct 18 2021</h2>
 <p>CWC house who is actually receiving, for real.<br />
 How many are successfully delivered, from the recipients/delivery page
 each recipient has a page that show delivery info.  ask alex about his script that harvests this data</p>
 
-<h3 id="current-status">current status</h3>
+<h3 id="current-status-1">current status</h3>
 <ul class="task-list">
   <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />check in with Alex about his merge before I deploy the widget fix to prod</li>
   <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />KnowWho import</li>
@@ -113,7 +161,7 @@ each recipient has a page that show delivery info.  ask alex about his script th
 </ul>
 
 <h2 id="fri-oct-15-2021">Fri, Oct 15 2021</h2>
-<h3 id="current-status-1">current status</h3>
+<h3 id="current-status-2">current status</h3>
 <ul class="task-list">
   <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />test the AU name updater without the overwrite flags and confirmed that the names are not updated</li>
   <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />found where the widget semi-duplication was being triggered with the help of Alex</li>
@@ -148,7 +196,7 @@ each recipient has a page that show delivery info.  ask alex about his script th
 </ul>
 
 <h2 id="thu-oct-14-2021">Thu, Oct 14 2021</h2>
-<h3 id="current-status-2">current status</h3>
+<h3 id="current-status-3">current status</h3>
 <ul class="task-list">
   <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />review Shams’ PRs</li>
   <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />download xcode and try iphone/chrome and iphone/safari simulators.  Sounds like Nate and Maged have seen some consistency with safari.  Try on my iphone with incognito…after I learn how.</li>
@@ -166,7 +214,7 @@ each recipient has a page that show delivery info.  ask alex about his script th
 <p>REMEMBER: smaller Jira breakdowns leads to smaller PRs and better (and quicker!) reviews.  Good times!!</p>
 
 <h2 id="wed-oct-13-2021">Wed, Oct 13 2021</h2>
-<h3 id="current-status-3">current status</h3>
+<h3 id="current-status-4">current status</h3>
 <ul class="task-list">
   <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />need to respond and fix bits of ON-1359 (first/last name AU import update) from Dave and Nate’s feedback</li>
   <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />ask for someone to take a look at the two tests in ON-1357 that I don’t understand how I broke in ON-1357; search for ‘skip do’ to find</li>
@@ -187,7 +235,7 @@ each recipient has a page that show delivery info.  ask alex about his script th
 </ul>
 
 <h2 id="tue-oct-12-2021">Tue, Oct 12 2021</h2>
-<h3 id="current-status-4">current status</h3>
+<h3 id="current-status-5">current status</h3>
 <ul class="task-list">
   <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />revert the ON-1357 files and re-check into ON-1359 so it can be reviewed by Nate; then give Nate a heads up</li>
   <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Implement Alex’s suggestion on ON-1357 for the DRY.  We both admire Dave’s recommendation for ON-1357, but it does not actually save that much and adding a lot of higher level rails concepts to it.</li>
@@ -678,7 +726,7 @@ Got most of the way through Alex’s PR.  I’ll finish the last 4 files tomorro
 
 <p>Been pretty busy these last few days, so haven’t kept up these notes, but also very productive.</p>
 
-<h3 id="status">status</h3>
+<h3 id="status-2">status</h3>
 <p>yesterday:</p>
 <ul>
   <li>I finished the invalid delivery id work for another CWC error.  (if details: very occasionally, the generated delivery id for a cwc message was too short and we’d receive an error from the CWC).  Small fix, really.  PR is posted in Engineering.</li>

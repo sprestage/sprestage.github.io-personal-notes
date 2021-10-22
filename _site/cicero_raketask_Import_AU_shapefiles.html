@@ -66,7 +66,7 @@
 
 <p>Susan added: Copy the sql files to staging/production (/938hg3kk)</p>
 
-<p>staging -</p>
+<p>staging - 938hg3kk</p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scp -i ~/.ssh/ ../CiceroImports/australia/*AU.sql ubuntu@ec2-54-235-144-131.compute-1.amazonaws.com:~/australia/sep2021
 </code></pre></div></div>
 <p>prod - 938hg3kk</p>
@@ -79,33 +79,31 @@
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> NewDistrict.reset_table :au_geom_srid =&gt; '4326', :columns =&gt; { :district_i =&gt; :string, :city =&gt; :string, :state =&gt; :string, :district_t =&gt; :float, :subtype =&gt; :string, :valid_from =&gt; :string, :valid_to =&gt; :string, :ocd_id =&gt; :string }
 </code></pre></div></div>
 
-<p><strong>Step 4.</strong>  Now use psql to import these .sql shape records into the new_districts table.  Give the correct database endpoint after argument -h
-Production</p>
+<p><strong>Step 4.</strong>  Now use psql to import these .sql shape records into the new_districts table.  Give the correct database endpoint after argument -h</p>
+
+<p>Production</p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>psql -U ocp -d ocp_new -h new-production-2.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/sep2021/STATELOWER_AU.sql
 psql -U ocp -d ocp_new -h new-production-2.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/sep2021/STATEUPPER_AU.sql
 psql -U ocp -d ocp_new -h new-production-2.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/sep2021/NATIONALLOWER_AU.sql
 psql -U ocp -d ocp_new -h new-production-2.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/sep2021/NATIONALUPPER_AU.sql
 </code></pre></div></div>
-<p>Staging - STILL NEED CORRECT DB ENDPOINT FOR STAGING!!!!</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>psql -U ocp -d ocp_new -h new-production-2.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/sep2021/STATELOWER_AU.sql
-psql -U ocp -d ocp_new -h new-production-2.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/sep2021/STATEUPPER_AU.sql
-psql -U ocp -d ocp_new -h new-production-2.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/sep2021/NATIONALLOWER_AU.sql
-psql -U ocp -d ocp_new -h new-production-2.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/sep2021/NATIONALUPPER_AU.sql
+<p>Staging</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>psql -U ocp -d ocp_new -h new-staging-127.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/sep2021/STATELOWER_AU.sql
+psql -U ocp -d ocp_new -h new-staging-127.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/sep2021/STATEUPPER_AU.sql
+psql -U ocp -d ocp_new -h new-staging-127.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/sep2021/NATIONALLOWER_AU.sql
+psql -U ocp -d ocp_new -h new-staging-127.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/sep2021/NATIONALUPPER_AU.sql
 </code></pre></div></div>
-<ul>
-  <li>If running this locally with docker, you may want to insert the sql files into your docker/postgres/ folder and run the following commands instead:
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> docker-compose exec postgres psql -U ocp -d ocp -f /ocp/postgres/STATELOWER_AU.sql
- docker-compose exec postgres psql -U ocp -d ocp -f /ocp/postgres/STATEUPPER_AU.sql
- docker-compose exec postgres psql -U ocp -d ocp -f /ocp/postgres/NATIONALLOWER_AU.sql
- docker-compose exec postgres psql -U ocp -d ocp -f /ocp/postgres/NATIONALUPPER_AU.sql
-</code></pre></div>    </div>
-  </li>
-</ul>
+<p>Locally with docker, put the sql files into your docker/postgres/ folder and run the following commands instead:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>     docker-compose exec postgres psql -U ocp -d ocp -f /ocp/postgres/STATELOWER_AU.sql
+     docker-compose exec postgres psql -U ocp -d ocp -f /ocp/postgres/STATEUPPER_AU.sql
+     docker-compose exec postgres psql -U ocp -d ocp -f /ocp/postgres/NATIONALLOWER_AU.sql
+     docker-compose exec postgres psql -U ocp -d ocp -f /ocp/postgres/NATIONALUPPER_AU.sql
+</code></pre></div></div>
 
 <p><strong>Step 5.</strong>  Now you should be able to run import_cicero_canada_shapefiles.  Use the [record] flag to make changes to the database.</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>     bundle exec rake import_cicero_australia_shapefiles
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle exec rake import_cicero_australia_shapefiles
 
-     bundle exec rake import_cicero_australia_shapefiles[record]
+bundle exec rake import_cicero_australia_shapefiles[record]
 </code></pre></div></div>
 
 

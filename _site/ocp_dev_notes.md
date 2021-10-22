@@ -10,11 +10,57 @@ This doc will have unchecked tasks in the past.  These are either obsolete, or h
 [Cicero Import](cicero_import.html) - Everything needed for the CA and AU Cicero imports.
 
 
+## Fri, Oct 22 2021
+### status
+**Yesterday I**
+- Got Alex's rake task altered to generate the data for the House delivery report.  Ran this locally, then on production and am in the process of putting the data into a text file and updating the Jira with the attachments of the data and the new/altered rake task.
+- Discovered that my importing problems were due to the missing _role and _level files that Cicero failed to include.  
+- Needed to clean up the data they sent.  Mostly, this was multiple instances extra double quotes in the, call it the description field, of the rows in the .csv data.  Once this was cleaned up, the merge succeeded, giving us importable .csv files which have been checked into master for AU and CA.
+- Tried to import locally, but got this weird error when running the matcher:
+```
+irb(main):005:0> recipient_importer.all_problems # Look at problems
+=> {:district_matcher=>[[], []], :party_matcher=>[], :office_matcher=>[["222No Office record found for comm JOINT)\n", "222No Office record found for comm JOINT)\n", "222No Office record found for comm JOINT)\n", "222No Office record found for comm JOINT)\n"]], :row_checker=>[], :recipient_importer=>[]}
+```
+- Deployed to staging to see if this was only a problem locally.
+**Today I plan to**
+- [ ] test the import on staging
+- [ ] deploy to production
+- [ ] run AU deactivation rake task on production, without save, then with save
+- [ ] do full AU cicero import on production with name update
+- [ ] do full CA cicero import on production
+- [ ] grab a pair of refactoring Jiras that I have pending
+- [ ] look for tests to fix
+
+## Thu, Oct 21 2021
+the delivery numbers do not match.  work with shams on this once done with the import stuff - the ticket exists (zendesk, I think).  need the ticket number
+
+### status
+- I figured out that the problem I was having with the October Cicero import was entirely due to missing two critical files for each of AU and CA.  These are the _level and _role files.  These are the two that are merged with the officials file to get a .csv file with the data expected by our importer.  This was due to the change Cicero made in the presentation of the data as of June.  Wrote up explanation in email for Maged to forward on to Cicero.  Here is hoping they will respond quickly.
+
+
 ## Tue, Oct 19 2021
-- asked Alex about his rake task for harvesting CWC senate delivery data
+### current status
+- [x] get the DB endpoint needed to run the psql command for shapefile import on staging
+- [x] test full AU cicero import on staging, with and without name update
+- [ ] do full AU cicero import locally with name update using new Oct data
+- [ ] do full AU cicero import on staging with name update using new Oct data
+- [ ] run AU deactivation rake task on production, without save, then with save
+- [ ] do full AU cicero import on production with name update
+- [ ] do full CA cicero import on production
+- [ ] ask Alex about his rake task for harvesting CWC senate delivery data
 - [ ] convert Alex's rake task for gathering the data for the house
-- asked Nate for assistance on staging
-- [ ] 
+- [ ] grab a pair of refactoring Jiras that I have pending
+- [ ] look for tests to fix
+
+### rake file running tips and tricks and advice
+If you see the phantomjs/poltergeist error when trying to run a rake task, you need to specify `RAILS_ENV=production`
+```
+ubuntu@ip-172-30-1-231:/home/deploy/apps/ocp/current$ bundle exec rake import_cicero_australia_shapefiles[record]
+...
+rake aborted!
+LoadError: cannot load such file -- phantomjs/poltergeist
+ubuntu@ip-172-30-1-231:/home/deploy/apps/ocp/current$ bundle exec rake import_cicero_australia_shapefiles[record] RAILS_ENV=production
+```
 
 
 ## Mon, Oct 18 2021
