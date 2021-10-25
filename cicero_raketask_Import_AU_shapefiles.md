@@ -13,8 +13,9 @@ Before using rake import_cicero_austrlia_shapefiles, you'll need to import Cicer
 
 **Step 2.**  For each of the .sql files generated, delete the first few lines of sql, until you get to the INSERT INTO statements.
 
-Susan added: Copy the sql files to staging/production (/938hg3kk)
+Susan added: Copy the sql files to staging/production
 
+# STOP!!!  DISCONNECT FROM YOUR VPN FIRST!!!
 staging - 938hg3kk
 ```
 scp -i ~/.ssh/ ../CiceroImports/australia/*AU.sql ubuntu@ec2-54-235-144-131.compute-1.amazonaws.com:~/australia/sep2021
@@ -57,7 +58,7 @@ Locally with docker, put the sql files into your docker/postgres/ folder and run
 
 **Step 5.**  Now you should be able to run import_cicero_canada_shapefiles.  Use the [record] flag to make changes to the database.
 ```
-bundle exec rake import_cicero_australia_shapefiles
+bundle exec rake import_cicero_australia_shapefiles RAILS_ENV=production
 
-bundle exec rake import_cicero_australia_shapefiles[record]
+bundle exec rake import_cicero_australia_shapefiles[record] RAILS_ENV=production
 ```

@@ -1,11 +1,13 @@
 # Cicero import
 
 ### check to see if the new import is ready
+# STOP!!!  DISCONNECT FROM YOUR VPN FIRST!!!
 ```
 alias ls_cicero="aws --profile cicero_user s3 ls --recursive s3://cicero-global-data-us-east-1/OneClickPolitics/"
 ```
 
 ### copy cicero sql files to prod
+# STOP!!!  DISCONNECT FROM YOUR VPN FIRST!!!
 ```
 scp -i ~/.ssh/id_rsa ../../one-click-politics/docker/postgres/*CA.sql ubuntu@ec2-184-72-246-33.compute-1.amazonaws.com:~/australia/sep2021
 ```
@@ -39,6 +41,7 @@ For Australia and Canada, our third-party Cicero service provides both shapefile
 #### AU Step 1
 **Download and extract the shapefiles and .CSVs from our Cicero S3 bucket.**
 
+# STOP!!!  DISCONNECT FROM YOUR VPN FIRST!!!
 You'll need the AWS command line client, as well as an AWS profile with appropriate credentials.  On OSX, your credentials file should be saved to:
 
 ```
@@ -80,36 +83,7 @@ Pull the latest .CSVs by downloading and extracting cicero_au_officials.zip, cic
 
 Follow the instructions for import_cicero_australia_shapefiles in update_australia.rake.  [Rakefile instructions](cicero_raketask_import_au_shapefiles.html)
 
-
-```
-  bundle exec rake import_cicero_australia_shapefiles RAILS_ENV=production
-```
-
-If this works without errors, record the changes with the [record] argument:
-
-```
-  bundle exec rake import_cicero_australia_shapefiles[record] RAILS_ENV=production
-```
-
-To update shapefiles, extract the relevant .sql files from cicero_au_districts.zip
-
-```
-  STATELOWER_AU.sql
-  STATEUPPER_AU.sql
-  NATIONALLOWER_AU.sql
-```
-
-Then follow the instructions for the rake task import_cicero_australia_shapefiles in:
-
-```
-  One-Click-Reboot/lib/tasks/update_australia.rake  
-```
-
-If running this on a local Docker setup, your psql commands might look more like this:
-```
-  docker-compose exec postgres psql -U ocp -d ocp -f /ocp/postgres/NATIONALLOWER_AU.sql
-```
-Just remember you will need to insert the .sql files into “/docker/postgres/”.
+Just remember you will need to put the .sql files into “/docker/postgres/” locally.
 
 #### AU Step 3
 **Copy new .CSV files into the corresponding subfolder of:**
@@ -200,6 +174,20 @@ recipient_importer.all_problems # Look at problems
 recipient_importer.import(:record => true, :overwrite_firstname => true, :overwrite_lastname => false)
 
 ```
+
+##### troubleshooting problems with match or import
+When running the matcher step, `recipient_importer.match` and see this when looking at `recipient_importer.all_problems`:
+```
+:office_matcher=>[["No Office record found for comm JOINT)\n", "No Office record found for comm JOINT)\n", "No Office record found for comm JOINT)\n", "No Office record found for comm JOINT)\n", "No Office record found for comm JOINT)\n", "No Office record found for comm JOINT)\n"]]
+```
+look through the .csv file for weird roles.  There should be only two, in AU anyway, legislatorUpperBody and legislatorLowerBody.  This error was most recently caused (in the October import) by some duplicated headofGovernment rows being added.  Further investigation showed this duplication is being introduced during the merge.  Need to create a Jira to fix this issue in the csv_merge.rb ruby script.
+
+When running the import `recipient_importer.import` and see this when looking at `recipient_importer.all_problems`:
+```
+:recipient_importer=>[["Row cannot be imported with missing fields", "Row cannot be imported with missing fields"]]
+```
+This is the same problem as above, just the .import step instead of the .match step.
+
 
 #### AU Step 5
 **"Party ... not found" messages mean that we might be missing Party records from our database, and/or missing party names from our country_definitions.rb file.**
@@ -298,34 +286,9 @@ aws --profile cicero_user s3 cp s3://cicero-global-data-us-east-1/OneClickPoliti
 #### CA Step 2
 **Update Canadian Districts and Shapefiles**
 
-Follow the instructions for import_cicero_canada_shapefiles in update_canada.rake.
+Follow the instructions for import_cicero_canada_shapefiles in update_canada.rake.  [Rakefile instructions](cicero_raketask_import_ca_shapefiles.html)
 
-```
-bundle exec rake import_cicero_canada_shapefiles RAILS_ENV=production
-```
-
-If this works without errors, record the changes with the [record] argument:
-
-```
-bundle exec rake import_cicero_canada_shapefiles[record] RAILS_ENV=production
-```
-
-To update shapefiles, extract the relevant .sql files from cicero_ca_districts.zip
-
-```
-  STATELOWER_CA.sql
-  NATIONALLOWER_CA.sql
-```
-
-Then follow the instructions for the rake task import_cicero_canada_shapefiles in:
-
-```
-  /Users/dt/Projects/One-Click-Reboot/lib/tasks/update_canada.rake  
-```
-
-If running this on a local Docker setup, your psql commands might look more like this:
-  docker-compose exec postgres psql -U ocp -d ocp -f /ocp/postgres/NATIONALLOWER_CA.sql
-Just remember you will need to insert the .sql files into “/docker/postgres/”.
+Just remember you will need to insert the .sql files into “/docker/postgres/” locally.
 
 #### CA Step 3
 **Copy new .CSV files into the corresponding subfolder of:**

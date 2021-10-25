@@ -9,7 +9,7 @@ ssh-add ~/.ssh/susan_keys/id_rsa
 DEPLOY=chara branch=master bundle exec cap deploy
 DEPLOY=pre_prod branch=master cap deploy
 DEPLOY=chara bundle exec cap stop_daemons
-ps aux | grep agent
+ps aux | grep agent  <-- RUN THIS ON PRODUCTION, not this deployment server
 DEPLOY=chara bundle exec cap start_daemons
 ```
 
@@ -21,6 +21,6 @@ eval `ssh-agent -s` ssh-add
 ssh-add ~/.ssh/susan_keys/id_rsa
 DEPLOY=stage branch=ON-1297 bundle exec cap deploy
 DEPLOY=stage bundle exec cap stop_daemons
-ps aux | grep agent
+ps aux | grep agent  <-- RUN THIS ON STAGING, not this deployment server
 DEPLOY=stage bundle exec cap start_daemons
 ```

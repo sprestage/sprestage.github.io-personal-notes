@@ -20,14 +20,13 @@
 ### Coming soon tasks
 Because I cannot keep such a huge daily list, it is becoming unmanageable.  Also for the tasks that are pending, but I don't know when they are happening.  This list should be reviewed whenever I meet with Danny, in case there are things she should follow up on.  These are also weekend tasks more than weekday tasks, at least for the tasks that I need to do.
 
-- [ ] find my old phone or ipod for my music this weekend.  It turns out that music is key to keeping my stress levels low.  Key!  I need to be able to still have music offline.
-- [ ] clean moldy dress shoes
-- [ ] clean moldy riding boots
 - [ ] meticulously clean and oil the china cabinet
 - [ ] meticulously clean and oil the piano
-- [ ] meticulously clean and oil the photo album cabinet
 - [ ] meticulously clean and oil the display hutch in the corner
-- [ ] BLOCKED BY THIS WEEK'S TERRIBLE INTERNET PROBLEMS IN BOQUETE.  Supervise Nodier - install third Mesh Wi-Fi Range Extender.  Nodier plans to return Friday, I think?  See if he can figure out why it stalls every few minutes during my Zoom calls.  It isn't enough for my VPN to disconnect, just enough for the incomming video and audio to freeze for a few seconds.
+- [ ] unpack boxes I had brought upstairs
+- [ ] unpack long box in my room
+- [ ] unpack another pantry box
+- [ ] find boxes of china to be brought up
 - [ ] Dev notes, personal.  Set this up in Pages.
 - [ ] Business notes, for Orchideas Car Rentals.  Set this up in Pages.
 - [ ] move these to the index as I get them set up:
@@ -36,6 +35,7 @@ Because I cannot keep such a huge daily list, it is becoming unmanageable.  Also
   - [ ] my OCP dev notes: https://gist.github.com/sprestage/5d7fd086b6555b3268db408e56c04eba
   - [ ] my bullet journal and life notes (this gist): https://gist.github.com/sprestage/6f9bae4762be078c8c14aae7791a6883
   - [ ] financial, list of things needed that cost money to buy or implement or install or make: https://gist.github.com/sprestage/a68dd09f133250d97971de69065d0d62. Needs a little updating to convert it to my current needs, particularly that of creating the prioritized list of things needed to be done or bought
+  - [ ] put away photo albums and yearbooks
 
 ### Check in with Danny on these
 - [ ] Weekly nag of Jorge to pay his portion of this.  It has been six months now.  I've tasked Danny with this.  Last nage was Sat, Oct 2, I think.
@@ -44,22 +44,36 @@ Because I cannot keep such a huge daily list, it is becoming unmanageable.  Also
 - [ ] fix shower in Susan's bathroom.  Fulo started looking into this on Sat, Oct 2, but I don't know the status.  Check with Danny.  
 
 ## shopping
-- [ ] shopping (dry catfood mix, snacks, cookies, fruit, eggs, kai milk)
+- [ ] shopping (dry & wet catfood, fruit)
 
+
+## Fri, 22 Oct 2021
+- [ ] pay AT&T
+- [ ] pay AIB
+- [ ] buy NorWesCon memberships
+- [ ] make snack order from Target
+- [ ] plan a visit from Al & Sela
+- [ ] plan mammogram trip to David with Day Stefanelli for after October 20th
+- [ ] make mental health appointment for Kai
+- [ ] meet with Rodrigo for insurance for the fleet
+
+
+## Fri-Thu, 15-21, 2021
+- [x] pay namecheap for my domains
+- [x] find my old phone or ipod for my music this weekend.  It turns out that music is key to keeping my stress levels low.  Key!  I need to be able to still have music offline.
+- [x] clean moldy dress shoes
+- [x] clean moldy riding boots
+- [x] meticulously clean and oil the photo album cabinet
+- [x] unpack several boxes
+- [x] unpack and clean photo albums and yearbooks
+- [x] lots and lots of laundry
+- [x] updated to say that I'm not sure I want to do more on this yet.  The internet is stable again, with no more blinks during video calls.  Maybe leave this alone for a while.  BLOCKED BY THIS WEEK'S TERRIBLE INTERNET PROBLEMS IN BOQUETE.  Supervise Nodier - install third Mesh Wi-Fi Range Extender.  Nodier plans to return Friday, I think?  See if he can figure out why it stalls every few minutes during my Zoom calls.  It isn't enough for my VPN to disconnect, just enough for the incomming video and audio to freeze for a few seconds.
 
 
 ## Thu, 14 Oct 2021
 - [x] continue work on inbox zero, down to 476, and I probably shouldn't do too much of this during work hours
  - 462 on phone screen, 348 susan.prestage in phone, 476 in gmail.com browser
-- [ ] pay AT&T
-- [ ] pay AIB
-- [ ] buy NorWesCon memberships
-- [ ] make snack order from Target
-- [ ] IMPORTANT, 7 DAYS LEFT TO pay namecheap for my domains
-- [ ] make mental health appointment for Kai
-- [ ] plan a visit from Al & Sela
 - [x] shopping (dry catfood, milk - both fresh and stable, cereal for Kai and Susan, snacks, cookies, coffee, fruit, eggs, whipped cream, tortillas, refried beans, kai milk)
-- [ ] plan mammogram trip to David with Day Stefanelli for after October 20th
 
 
 ## Wed, 13 Oct 2021

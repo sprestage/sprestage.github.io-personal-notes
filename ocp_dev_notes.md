@@ -10,7 +10,30 @@ This doc will have unchecked tasks in the past.  These are either obsolete, or h
 [Cicero Import](cicero_import.html) - Everything needed for the CA and AU Cicero imports.
 
 
+## Mon, Oct 25 2021
+**Friday I**
+- tested the AU import on staging
+- deployed to production
+- ran AU deactivation rake task on production, without save, then with save...this turned out to be harder than it should have been as many in the AU House had invalid `state`.  I went through by hand and corrected the state, then ran the rake task successfully.  Since all had a valid duplicate, this was how I got the correct state.
+- did the full AU cicero import on production with name update
+- did the CA cicero import locally.  The recipient portion succeeded, but the match portion generated this error:
+```
+=> {:district_matcher=>[[], ["District record not found for (900157), for state CA-NS, state, LOWER", "District record not found for (900157), for state CA-NS, state, LOWER", "District record not found for (900160), for state CA-NS, state, LOWER", "District record not found for (900160), for state CA-NS, state, LOWER", "District record not found for (900161), for state CA-NS, state, LOWER", "District record not found for (900161), for state CA-NS, state, LOWER", "District record not found for (900163), for state CA-NS, state, LOWER", "District record not found for (900163), for
+...
+state CA-NS, state, LOWER", "District record not found for (900209), for state CA-NS, state, LOWER", "District record not found for (900211), for state CA-NS, state, LOWER"]], :party_matcher=>[], :office_matcher=>[], :row_checker=>[], :recipient_importer=>[]}
+```
+
+**Today I plan to**
+- [ ] run the CA cicero import on staging
+- [ ] do the full CA cicero import on production
+- [ ] grab a pair of refactoring Jiras that I have pending
+- [ ] look for tests to fix
+
+
+
 ## Fri, Oct 22 2021
+
+- [ ] this afternoon: look into importer that touches s3.  post to engineering what I find.
 ### status
 **Yesterday I**
 - Got Alex's rake task altered to generate the data for the House delivery report.  Ran this locally, then on production and am in the process of putting the data into a text file and updating the Jira with the attachments of the data and the new/altered rake task.
@@ -23,19 +46,24 @@ irb(main):005:0> recipient_importer.all_problems # Look at problems
 ```
 - Deployed to staging to see if this was only a problem locally.
 **Today I plan to**
-- [ ] test the import on staging
-- [ ] deploy to production
-- [ ] run AU deactivation rake task on production, without save, then with save
-- [ ] do full AU cicero import on production with name update
+- [x] test the import on staging
+- [x] deploy to production
+- [x] run AU deactivation rake task on production, without save, then with save...this turned out to be harder than it should have been as many in the AU House had invalid `state`.  I went through by hand and corrected the state, then ran the rake task successfully.  Since all had a valid duplicate, this was how I got the correct state.
+- [x] do full AU cicero import on production with name update
 - [ ] do full CA cicero import on production
 - [ ] grab a pair of refactoring Jiras that I have pending
 - [ ] look for tests to fix
+
 
 ## Thu, Oct 21 2021
 the delivery numbers do not match.  work with shams on this once done with the import stuff - the ticket exists (zendesk, I think).  need the ticket number
 
 ### status
 - I figured out that the problem I was having with the October Cicero import was entirely due to missing two critical files for each of AU and CA.  These are the _level and _role files.  These are the two that are merged with the officials file to get a .csv file with the data expected by our importer.  This was due to the change Cicero made in the presentation of the data as of June.  Wrote up explanation in email for Maged to forward on to Cicero.  Here is hoping they will respond quickly.
+
+
+## Wed, Oct 20 2021
+Felt poorly this morning after liquid diarhea all night.  Spent the day sleeping, dozing, and resting in bed.
 
 
 ## Tue, Oct 19 2021

@@ -3,19 +3,19 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
-<title>Instructions from update_australia.rake | Your awesome title</title>
+<title>Instructions from update_canada.rake | Your awesome title</title>
 <meta name="generator" content="Jekyll v3.9.0" />
-<meta property="og:title" content="Instructions from update_australia.rake" />
+<meta property="og:title" content="Instructions from update_canada.rake" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
 <meta property="og:description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
-<link rel="canonical" href="http://localhost:4000/cicero_raketask_Import_AU_shapefiles.html" />
-<meta property="og:url" content="http://localhost:4000/cicero_raketask_Import_AU_shapefiles.html" />
+<link rel="canonical" href="http://localhost:4000/cicero_raketask_Import_CA_shapefiles.html" />
+<meta property="og:url" content="http://localhost:4000/cicero_raketask_Import_CA_shapefiles.html" />
 <meta property="og:site_name" content="Your awesome title" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Instructions from update_australia.rake" />
+<meta property="twitter:title" content="Instructions from update_canada.rake" />
 <script type="application/ld+json">
-{"headline":"Instructions from update_australia.rake","url":"http://localhost:4000/cicero_raketask_Import_AU_shapefiles.html","description":"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.","@type":"WebPage","@context":"https://schema.org"}</script>
+{"headline":"Instructions from update_canada.rake","url":"http://localhost:4000/cicero_raketask_Import_CA_shapefiles.html","description":"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.","@type":"WebPage","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Your awesome title" /></head>
 <body><header class="site-header" role="banner">
@@ -38,19 +38,17 @@
         <article class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Instructions from update_australia.rake</h1>
+    <h1 class="post-title">Instructions from update_canada.rake</h1>
   </header>
 
   <div class="post-content">
-    <h2 id="instructions-from-update_australiarake">Instructions from update_australia.rake</h2>
+    <h2 id="instructions-from-update_canadarake">Instructions from update_canada.rake</h2>
 
-<p>Before using rake import_cicero_austrlia_shapefiles, you’ll need to import Cicero’s latest shapefiles into the new_districts table</p>
+<p>Before using rake import_cicero_canada_shapefiles, you’ll need to import Cicero’s latest shapefiles into the new_districts table</p>
 
 <p><strong>Step 1.</strong>  Start with shp2pgsql calls to convert the two relevant .shp files into usable .sql:</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>     sudo shp2pgsql -t 2D -s 4326 -g au_geom /Users/dt/Downloads/cicero_au_districts/district_statelower_au.shp public.new_districts &gt; STATELOWER_AU.sql
-     sudo shp2pgsql -t 2D -s 4326 -g au_geom /Users/dt/Downloads/cicero_au_districts/district_stateupper_au.shp public.new_districts &gt; STATEUPPER_AU.sql
-     sudo shp2pgsql -t 2D -s 4326 -g au_geom /Users/dt/Downloads/cicero_au_districts/district_nationallower_au.shp public.new_districts &gt; NATIONALLOWER_AU.sql
-     sudo shp2pgsql -t 2D -s 4326 -g au_geom /Users/dt/Downloads/cicero_au_districts/district_nationalupper_au.shp public.new_districts &gt; NATIONALUPPER_AU.sql
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo shp2pgsql -s 4326 -g ca_geom /Users/dt/Downloads/cicero_ca_districts/district_statelower_ca.shp public.new_districts &gt; STATELOWER_CA.sql
+sudo shp2pgsql -s 4326 -g ca_geom /Users/dt/Downloads/cicero_ca_districts/district_nationallower_ca.shp public.new_districts &gt; NATIONALLOWER_CA.sql
 </code></pre></div></div>
 <p>The national upper shapes are just the state/territory boundaries themselves, which we won’t need to match against lats and lons.</p>
 
@@ -60,44 +58,36 @@
 
 <h1 id="stop--disconnect-from-your-vpn-first">STOP!!!  DISCONNECT FROM YOUR VPN FIRST!!!</h1>
 <p>staging - 938hg3kk</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scp -i ~/.ssh/ ../CiceroImports/australia/*AU.sql ubuntu@ec2-54-235-144-131.compute-1.amazonaws.com:~/australia/sep2021
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scp -i ~/.ssh/ ../CiceroImports/canada/*CA.sql ubuntu@ec2-54-235-144-131.compute-1.amazonaws.com:~/canada/oct2021
 </code></pre></div></div>
 <p>prod - 938hg3kk</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scp -i ~/.ssh/id_rsa ../../one-click-politics/docker/postgres/*AU.sql ubuntu@ec2-184-72-246-33.compute-1.amazonaws.com:~/australia/sep2021
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scp -i ~/.ssh/id_rsa ../../one-click-politics/docker/postgres/*CA.sql ubuntu@ec2-184-72-246-33.compute-1.amazonaws.com:~/canada/oct2021
 </code></pre></div></div>
 
 <p>The preceding lines are used to set up our new_districts table, and we won’t need them - we’re going to do this with the NewDistrict.reset_table command.</p>
 
 <p><strong>Step 3.</strong>  Now use .reset_table to give us the precise new_districts table we need:</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> NewDistrict.reset_table :au_geom_srid =&gt; '4326', :columns =&gt; { :district_i =&gt; :string, :city =&gt; :string, :state =&gt; :string, :district_t =&gt; :float, :subtype =&gt; :string, :valid_from =&gt; :string, :valid_to =&gt; :string, :ocd_id =&gt; :string }
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NewDistrict.reset_table :ca_geom_srid =&gt; '4326', :columns =&gt; { :district_i =&gt; :string, :city =&gt; :string, :state =&gt; :string, :district_t =&gt; :float, :subtype =&gt; :string, :valid_from =&gt; :string, :valid_to =&gt; :string, :ocd_id =&gt; :string }
 </code></pre></div></div>
 
 <p><strong>Step 4.</strong>  Now use psql to import these .sql shape records into the new_districts table.  Give the correct database endpoint after argument -h</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> psql -U ocp -d ocp_new -h new-production-2.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f STATELOWER_CA.sql
+ psql -U ocp -d ocp_new -h new-production-2.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f NATIONALLOWER_CA.sql
+</code></pre></div></div>
+<ul>
+  <li>If running this locally with docker, you may want to insert the sql files into your docker/postgres/ folder and run the following commands instead:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   docker-compose exec postgres psql -U ocp -d ocp -f /ocp/postgres/STATELOWER_CA.sql
+   docker-compose exec postgres psql -U ocp -d ocp -f /ocp/postgres/NATIONALLOWER_CA.sql
+</code></pre></div>    </div>
+  </li>
+</ul>
 
-<p>Production</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>psql -U ocp -d ocp_new -h new-production-2.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/sep2021/STATELOWER_AU.sql
-psql -U ocp -d ocp_new -h new-production-2.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/sep2021/STATEUPPER_AU.sql
-psql -U ocp -d ocp_new -h new-production-2.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/sep2021/NATIONALLOWER_AU.sql
-psql -U ocp -d ocp_new -h new-production-2.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/sep2021/NATIONALUPPER_AU.sql
-</code></pre></div></div>
-<p>Staging</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>psql -U ocp -d ocp_new -h new-staging-127.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/sep2021/STATELOWER_AU.sql
-psql -U ocp -d ocp_new -h new-staging-127.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/sep2021/STATEUPPER_AU.sql
-psql -U ocp -d ocp_new -h new-staging-127.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/sep2021/NATIONALLOWER_AU.sql
-psql -U ocp -d ocp_new -h new-staging-127.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/sep2021/NATIONALUPPER_AU.sql
-</code></pre></div></div>
-<p>Locally with docker, put the sql files into your docker/postgres/ folder and run the following commands instead:</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>     docker-compose exec postgres psql -U ocp -d ocp -f /ocp/postgres/STATELOWER_AU.sql
-     docker-compose exec postgres psql -U ocp -d ocp -f /ocp/postgres/STATEUPPER_AU.sql
-     docker-compose exec postgres psql -U ocp -d ocp -f /ocp/postgres/NATIONALLOWER_AU.sql
-     docker-compose exec postgres psql -U ocp -d ocp -f /ocp/postgres/NATIONALUPPER_AU.sql
-</code></pre></div></div>
+<p><strong>Step 5.</strong>  Now you should be able to run import_cicero_canada_shapefiles.  Use the record flag to make changes to the database.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle exec rake import_cicero_canada_shapefiles RAILS_ENV=production
 
-<p><strong>Step 5.</strong>  Now you should be able to run import_cicero_canada_shapefiles.  Use the [record] flag to make changes to the database.</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle exec rake import_cicero_australia_shapefiles RAILS_ENV=production
-
-bundle exec rake import_cicero_australia_shapefiles[record] RAILS_ENV=production
+bundle exec rake import_cicero_canada_shapefiles[record] RAILS_ENV=production
 </code></pre></div></div>
+<p>You can include the noconvert flag if you don’t need to convert ca_geom to geom.</p>
 
   </div>
 
