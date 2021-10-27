@@ -36,26 +36,33 @@ Because I cannot keep such a huge daily list, it is becoming unmanageable.  Also
   - [ ] my bullet journal and life notes (this gist): https://gist.github.com/sprestage/6f9bae4762be078c8c14aae7791a6883
   - [ ] financial, list of things needed that cost money to buy or implement or install or make: https://gist.github.com/sprestage/a68dd09f133250d97971de69065d0d62. Needs a little updating to convert it to my current needs, particularly that of creating the prioritized list of things needed to be done or bought
   - [ ] put away photo albums and yearbooks
+- [ ] the creta (Dolega) needs to be yearly registered...Danny will go after insurance is gotten next week
+- [ ] business sign with logo, name, hours, phone, and email....talked to Danny about this sign for the gate on 25 Oct
 
 ### Check in with Danny on these
 - [ ] Weekly nag of Jorge to pay his portion of this.  It has been six months now.  I've tasked Danny with this.  Last nage was Sat, Oct 2, I think.
-- [ ] Business cards.  Asked Danny on Saturday, Oct 2, to order two more boxes.  Check in with Danny on the progress and what I owe PSG Graphics.
-- [ ] 3 layer contracts.  Asked Danny on Saturday, Oct 2, to find someone to do this.  Check in with Danny on the progress.
-- [ ] fix shower in Susan's bathroom.  Fulo started looking into this on Sat, Oct 2, but I don't know the status.  Check with Danny.  
+- [ ] Business cards.  Update: Danny has ordered, but needs an update, 25 Oct.  I'm hoping for these by Tues, 2 Nov.  Asked Danny on Saturday, Oct 2, to order two more boxes.  Check in with Danny on the progress and what I owe PSG Graphics.
+- [ ] 3 layer contracts.  Update: Danny has ordered, but needs an update, 25 Oct.  I'm hoping for these by Tues, 2 Nov.  Asked Danny on Saturday, Oct 2, to find someone to do this.  Check in with Danny on the progress.
 
 ## shopping
-- [ ] shopping (dry & wet catfood, fruit)
-
-
-## Fri, 22 Oct 2021
+- [ ] shopping (dry & wet catfood, fruit, whipped cream, whipping cream, coffee)
+- [ ] Mitsubishi needs new battery.  I want to put the small battery currently in the truck into the Mitsubishi, then buy a larger/stronger battery for the truck
+- [ ] maintenance for truck
+- [ ] I need to rework the prices
+- [ ] do the FB page for the Business
+- [ ] work on inbox zero
 - [ ] pay AT&T
 - [ ] pay AIB
 - [ ] buy NorWesCon memberships
 - [ ] make snack order from Target
 - [ ] plan a visit from Al & Sela
-- [ ] plan mammogram trip to David with Day Stefanelli for after October 20th
 - [ ] make mental health appointment for Kai
-- [ ] meet with Rodrigo for insurance for the fleet
+- [ ] fix shower in Susan's bathroom.  Update, I need to check this as he might have fixed what is there.  Fulo started looking into this on Sat, Oct 2, but I don't know the status.  Check with Danny.  
+
+
+## Fri, 22 Oct 2021
+- [x] plan mammogram trip to David with Day Stefanelli for after October 20th
+- [x] meet with Rodrigo for insurance for the fleet
 
 
 ## Fri-Thu, 15-21, 2021

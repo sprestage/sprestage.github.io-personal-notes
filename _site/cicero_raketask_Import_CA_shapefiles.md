@@ -31,10 +31,19 @@ NewDistrict.reset_table :ca_geom_srid => '4326', :columns => { :district_i => :s
 ```
 
 **Step 4.**  Now use psql to import these .sql shape records into the new_districts table.  Give the correct database endpoint after argument -h
+
+Production
 ```
- psql -U ocp -d ocp_new -h new-production-2.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f STATELOWER_CA.sql
- psql -U ocp -d ocp_new -h new-production-2.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f NATIONALLOWER_CA.sql
+ psql -U ocp -d ocp_new -h new-production-2.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/canada/oct2021/STATELOWER_CA.sql
+ psql -U ocp -d ocp_new -h new-production-2.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/canada/oct2021/NATIONALLOWER_CA.sql
 ```
+
+Staging
+```
+psql -U ocp -d ocp_new -h new-staging-127.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/canada/oct2021/STATELOWER_CA.sql
+psql -U ocp -d ocp_new -h new-staging-127.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/canada/oct2021/NATIONALLOWER_CA.sql
+```
+
 - If running this locally with docker, you may want to insert the sql files into your docker/postgres/ folder and run the following commands instead:
 ```
      docker-compose exec postgres psql -U ocp -d ocp -f /ocp/postgres/STATELOWER_CA.sql

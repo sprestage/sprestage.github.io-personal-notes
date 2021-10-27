@@ -71,9 +71,17 @@ sudo shp2pgsql -s 4326 -g ca_geom /Users/dt/Downloads/cicero_ca_districts/distri
 </code></pre></div></div>
 
 <p><strong>Step 4.</strong>  Now use psql to import these .sql shape records into the new_districts table.  Give the correct database endpoint after argument -h</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> psql -U ocp -d ocp_new -h new-production-2.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f STATELOWER_CA.sql
- psql -U ocp -d ocp_new -h new-production-2.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f NATIONALLOWER_CA.sql
+
+<p>Production</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> psql -U ocp -d ocp_new -h new-production-2.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/canada/oct2021/STATELOWER_CA.sql
+ psql -U ocp -d ocp_new -h new-production-2.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/canada/oct2021/NATIONALLOWER_CA.sql
 </code></pre></div></div>
+
+<p>Staging</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>psql -U ocp -d ocp_new -h new-staging-127.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/canada/oct2021/STATELOWER_CA.sql
+psql -U ocp -d ocp_new -h new-staging-127.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/canada/oct2021/NATIONALLOWER_CA.sql
+</code></pre></div></div>
+
 <ul>
   <li>If running this locally with docker, you may want to insert the sql files into your docker/postgres/ folder and run the following commands instead:
     <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   docker-compose exec postgres psql -U ocp -d ocp -f /ocp/postgres/STATELOWER_CA.sql

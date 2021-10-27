@@ -10,13 +10,66 @@ This doc will have unchecked tasks in the past.  These are either obsolete, or h
 [Cicero Import](cicero_import.html) - Everything needed for the CA and AU Cicero imports.
 
 
+## Wed, Oct 27 2021
+**Yesterday I**
+- paired with Nate and solved the CA cicero import issues.  It turns out that due to an August election, the shape files had changed for Canada (not AU), but Cicero did not include these updated files in the October drop.  And yes, you do remember correctly that they also forgot the role and level files for both AU & CA.  Since this was only CA, I didn't trip over the issue last week in the midst of the AU import circus.
+- wrote up the Jira tickets for the CA data cleanup
+  - deactivate those w/o cicero_codes,
+  - name update in import,
+  - remove those w/o cicero codes from CA UI (widget and edit widget pages)
+- reworked to house delivery method report to answer more questions for Maged; looking at the data, I see why he wants this
+- wrote the rake task to deactivate CA recipients w/o Cicero codes
+- I have downloaded and unzipped the shapefiles that were missing from the CA Cicero import data
+
+**Today I**
+- [ ] now that we have the shape files, I'll first test the CA cicero import locally, then on staging due to the name update changes which shouldn't affect CA, but I'm cautious
+- [ ] do the full CA cicero import on production 🤞
+- [ ] make the PR for the deactivation rake task
+- [ ] start the UI work for the CA recipients with no cicero code (widget editor and widget)
+- [ ] specs for the UI work
+- [ ] start the name update work for CA
+- [ ] get the deactivation PR merged and deployed to staging for test
+- [ ] get the deactivation rake task deployed to production to see how the recipient data really looks before touching anything
+
+- [ ] LATER (THIS IS FOR THE NAME UPDATE) write the specs for the name update, plus some spec refactoring from the AU work that will be used here being pulled into a spec helper that both specs will use
+
+
+## Tue, Oct 26 2021
+**Yesterday I**
+- I deactivated the extra AU Heidi that was created to get a client through until we got the new October Cicero data
+- I finished the house report.  Which promptly confused Maged.  So I split it into two with better descriptions.
+- staging was super slow but that seemed to resolve itself once I spoke with Dave and Eric.  I think staging was scared of them and decided to shape up.  :D
+- deployed CA cicero import to staging
+- tried to do the CA cicero import locally.  The recipient portion succeeded, but the match portion generated this error:
+```
+=> {:district_matcher=>[[], ["District record not found for (900157), for state CA-NS, state, LOWER", "District record not found for (900157), for state CA-NS, state, LOWER", "District record not found for (900160), for state CA-NS, state, LOWER", "District record not found for (900160), for state CA-NS, state, LOWER", "District record not found for (900161), for state CA-NS, state, LOWER", "District record not found for (900161), for state CA-NS, state, LOWER", "District record not found for (900163), for state CA-NS, state, LOWER", "District record not found for (900163), for
+...
+state CA-NS, state, LOWER", "District record not found for (900209), for state CA-NS, state, LOWER", "District record not found for (900211), for state CA-NS, state, LOWER"]], :party_matcher=>[], :office_matcher=>[], :row_checker=>[], :recipient_importer=>[]}
+```
+- tried to do the CA cicero import on staging.  Got more district errors.  Wrote up all the issues, local and staging, and Slacked Dave and Nate for assistance on Tuesday.  I told them not to respond yesterday (monday).
+  - the shapefile import showed many `does not match any existing District` errors
+- Also, this morning I saw a second ticket on the safari issue of the widget just spinning after clicking submit.  I've reproduced this locally using Safari 14 and also by simulating version 13 of Safari.
+
+**Today I**
+- [ ] hope to solve the CA cicero import issues locally and on staging
+- [ ] do the full CA cicero import on production
+- [ ] assess efforts for doing to CA what I did with AU (duplication cleanup, deactivating, maybe name update as well).  Below is a guess as I've not gotten into the code, but should be pretty accurate.  If we are adding in refactoring leftover from AU, lets add 1 more day, so 6 days total.
+  - 1 day to rework rake file for and to perform deactivation of CA recipients with no cicero code.  Depending on PR comments.  Could drag to 2 days.
+  - Duplication cleanup will not be well known until the above rake file is run, but I expect this will fold into the above estimate.
+  - Name update, I estimate 2 days to make sure that the specs are in order, plus PR comment responses.
+  - Implement same UI changes as for AU to prevent recipients with no cicero code from being displayed in the UI.  1 day
+  - Total for all work, 1 week.  3 different tickets, includes specs, and testing on staging.
+- [ ] grab a pair of refactoring Jiras that I have pending
+- [ ] look for tests to fix
+
+
 ## Mon, Oct 25 2021
 **Friday I**
 - tested the AU import on staging
 - deployed to production
 - ran AU deactivation rake task on production, without save, then with save...this turned out to be harder than it should have been as many in the AU House had invalid `state`.  I went through by hand and corrected the state, then ran the rake task successfully.  Since all had a valid duplicate, this was how I got the correct state.
 - did the full AU cicero import on production with name update
-- did the CA cicero import locally.  The recipient portion succeeded, but the match portion generated this error:
+- tried to do the CA cicero import locally.  The recipient portion succeeded, but the match portion generated this error:
 ```
 => {:district_matcher=>[[], ["District record not found for (900157), for state CA-NS, state, LOWER", "District record not found for (900157), for state CA-NS, state, LOWER", "District record not found for (900160), for state CA-NS, state, LOWER", "District record not found for (900160), for state CA-NS, state, LOWER", "District record not found for (900161), for state CA-NS, state, LOWER", "District record not found for (900161), for state CA-NS, state, LOWER", "District record not found for (900163), for state CA-NS, state, LOWER", "District record not found for (900163), for
 ...
@@ -24,16 +77,21 @@ state CA-NS, state, LOWER", "District record not found for (900209), for state C
 ```
 
 **Today I plan to**
+- [x] also finish house report
+- [x] deploy CA cicero import to staging; this is taking a while...mostly the getting back into the rails console
 - [ ] run the CA cicero import on staging
+  - the shapefile import showed many `does not match any existing District` errors
 - [ ] do the full CA cicero import on production
 - [ ] grab a pair of refactoring Jiras that I have pending
+- [ ] assess efforts for doing to CA what I did with AU (duplication cleanup, deactivating, maybe name update as well)
 - [ ] look for tests to fix
+- [x] confirm that old HEidi is deactivated.
 
 
 
 ## Fri, Oct 22 2021
-
 - [ ] this afternoon: look into importer that touches s3.  post to engineering what I find.
+
 ### status
 **Yesterday I**
 - Got Alex's rake task altered to generate the data for the House delivery report.  Ran this locally, then on production and am in the process of putting the data into a text file and updating the Jira with the attachments of the data and the new/altered rake task.
