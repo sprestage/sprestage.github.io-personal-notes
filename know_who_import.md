@@ -15,13 +15,13 @@ Password: he77kv48
 
 Bring up an additional browser window and drag over the two csv zip files to store in code/KnowWhoImports locally on my Mac.  They will look something like this:
 
-- fedleg_l1_csv_102521.zip
-- stateleg_l1_csv_102521.zip
+- fedleg_l1_csv_120621.zip
+- stateleg_l1_csv_120621.zip
 
 Double click each of them in Finder locally to unzip.  There will now be two folders that look something like this:
 
-- fedleg_l1_csv_102521/
-- stateleg_l1_csv_102521/
+- fedleg_l1_csv_120621/
+- stateleg_l1_csv_120621/
 
 
 #### steps to backup, copy to correct locations, and checkin
@@ -32,20 +32,20 @@ git pull
 mv lib/import_data/us/federal/* lib/import_data/us/backup/federal
 mv lib/import_data/us/state/* lib/import_data/us/backup/state
 
-cp ../KnowWhoImports/fedleg_l1_csv_102521/Committees.csv lib/import_data/us/federal
-cp ../KnowWhoImports/fedleg_l1_csv_102521/DistrictLUT.csv lib/import_data/us/federal
-cp ../KnowWhoImports/fedleg_l1_csv_102521/Members.csv lib/import_data/us/federal
-cp ../KnowWhoImports/fedleg_l1_csv_102521/Offices.csv lib/import_data/us/federal
-cp ../KnowWhoImports/fedleg_l1_csv_102521/Assignments.csv lib/import_data/us/federal
+cp ../KnowWhoImports/fedleg_l1_csv_120621/Committees.csv lib/import_data/us/federal
+cp ../KnowWhoImports/fedleg_l1_csv_120621/DistrictLUT.csv lib/import_data/us/federal
+cp ../KnowWhoImports/fedleg_l1_csv_120621/Members.csv lib/import_data/us/federal
+cp ../KnowWhoImports/fedleg_l1_csv_120621/Offices.csv lib/import_data/us/federal
+cp ../KnowWhoImports/fedleg_l1_csv_120621/Assignments.csv lib/import_data/us/federal
 
-cp ../KnowWhoImports/stateleg_l1_csv_102521/Assignments.csv lib/import_data/us/state
-cp ../KnowWhoImports/stateleg_l1_csv_102521/Committees.csv lib/import_data/us/state
-cp ../KnowWhoImports/stateleg_l1_csv_102521/DistrictLUT.csv lib/import_data/us/state
-cp ../KnowWhoImports/stateleg_l1_csv_102521/Members.csv lib/import_data/us/state
-cp ../KnowWhoImports/stateleg_l1_csv_102521/Offices.csv lib/import_data/us/state
+cp ../KnowWhoImports/stateleg_l1_csv_120621/Assignments.csv lib/import_data/us/state
+cp ../KnowWhoImports/stateleg_l1_csv_120621/Committees.csv lib/import_data/us/state
+cp ../KnowWhoImports/stateleg_l1_csv_120621/DistrictLUT.csv lib/import_data/us/state
+cp ../KnowWhoImports/stateleg_l1_csv_120621/Members.csv lib/import_data/us/state
+cp ../KnowWhoImports/stateleg_l1_csv_120621/Offices.csv lib/import_data/us/state
 
 git add lib/import_data/
-git commit -m "KnowWho Import Data for 10-18-21"
+git commit -m "KnowWho Import Data for 12-06-21"
 git push
 ```
 

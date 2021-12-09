@@ -10,6 +10,1229 @@ This doc will have unchecked tasks in the past.  These are either obsolete, or h
 [Cicero Import](cicero_import.html) - Everything needed for the CA and AU Cicero imports.
 
 
+## Thu, Dec 9 2021
+### update for Maged on NationBuilder tags
+I did some good pairing with Alex brainstorming additional ideas to track the “lack of tagging” issue for the client complaints in zendesk #1128.
+
+Here are the questions I will work to answer to try to identify problems:
+
+- Check how did we deliver for each conversion for that sender profile, (email/phone/etc)?  
+- Are they constituents?  If not, then conversion will not be created.
+- Did the signer only fill out the first step of the widget and click to go to the next step but not do anything, thus not completing the widget.  If so, then would this create a conversion still?  I think no, but want to confirm.
+- What about the recipient that has no way to be reached?  The presentation of our analytics would indicate that this succeeded (confirmed by Alex).  But NB would not, since only a successful conversion delivery sends a tag.
+- In lib/jobs/nation_builder_sync/nation_builder_sync.rb:L53-55 there is an ordering for NB syncs.  First are the email conversions, then tags, then service deliveries.  Service deliveries includes video, twitter, and phone.  Are there types of deliveries that are falling through the cracks, causing advocates to not get synced and therefore those advocates do not get tags?
+- What if a conversion has no associated advocate profile, conversion.advocate_profile.  This is accessed at the beginning of the sync.  The latest conversion I looked at on prod didn’t have one, so this is another thing to investigate.
+
+**Yesterday I**
+- merged and deployed the country_code fix and tests
+- this morning I took a look at our admin syncs page and I'm seeing no failures and I am seeing successes, which concurs with the lack of emails; after this I'll check the new logs for NB sync tags
+- created the Jira, checked in, and PR'ed the logging addition for NationBuilder tags
+- wrote an email to business summarizing what we are sending to NB and asking if this is what they want to send or something different, or if they want different possible options (a new feature)
+- created a Jira ticket for changing overly long NB sync cutoff from 4 to 2.
+- changed cutoff to 2 and created the PR
+- reviewed Nate's PR
+
+not email = video, twitter, _facebook_, phone, _photo_
+email = CWC, webform, email, fax, webmail, web address,
+
+### Additional ideas for #1128 from Alex
+- Check how did we deliver for each conversion for that sender profile, (email/phone/etc)?
+- Are they reaching their recipients (are they constituents), because if not, then conversion will not be created.
+- Did the signer only fill out the first step of the widget and click to go to the next step but not do anything, thus not completing the widget.  If so, then would this create a conversion still?  I think no, but want to confirm.
+- What about the recipient has no way to be reached?  The presentation of our analytics would indicate that this succeeded.  But NB would not, since only a successful conversion sends a tag.
+- In lib/jobs/nation_builder_sync/nation_builder_sync.rb:L53-55 there is an ordering for NB syncs.  First are the email conversions, then tags, then service deliveries.  Service deliveries includes video, twitter, and phone.  Are there types of deliveries that are falling through the cracks, causing advocates to not get synced and therefore those advocates do not get tags?
+
+**Today I plan to:**
+- [x] confirm country_code fix deployed yesterday has corrected the undefined method error
+- [x] check the new logs for NB sync tags
+- [ ] create Jira ticket to research how to detect a stale overly long sync
+trigger an email or a restart of an overly long sync that needed to be cut off
+- [ ] create Jira ticket to implement from the above research how to trigger an email or a restart of an overly long sync that needed to be cut off
+- [ ] read through Dave's import instructions for US to see how it works/reads; the writeup is in this jira https://oneclickpolitics.atlassian.net/browse/ON-1407 the instructions are at the top, plus a ton of comments below tracking what he's doing.  It is also in the comments for the shape file rake task.
+- [ ] tagging:
+2pm cats
+- [x] what are the business rules; when do we send tags?  Posted the answer in #engineering channel.
+
+
+## Wed, Dec 8 2021
+**Yesterday I**
+- tracked down the undefined method error from the add_country_code method being triggered in the NB syncs by advocates with nil addresses...from petitions; added a check for nil addresses and made a change to not add a country code when the address is nil  (recap: the purpose of adding the country_code is so advocates will be re-districted as needed; however, when there is no address, there will be no districting or re-districting, and thus no country_code needed)  Maged is contacting the business to verify our NB syncing of advocates without addresses.
+- created a test to trigger the above issue
+- got the fix and the test added to the PR, https://github.com/one-click-politics/one-click-politics/pull/480
+- sync'ed the advocates not affected by the above issue (which is the minority of the failures)
+- results from the tagging investigation: we are not logging when we send a tag to NB; so when a client asks why a given signer doesn't have that tag in NB, we have no answers other than to confirm the tag is present or absent according to NB.  
+
+This is the crux of the problem with zendesk ticket #1128.  I can confirm that it is the internal_campaign_name that is being sent as a tag for a signer.  
+
+One signer does not have the expected tag and instead is only tagged as a new signer
+Another signer's expected tag does not exist as a tag in NationBuilder
+
+I have added some logging to the tags.rb file just before we send the tag off to NB that should help diagnose this further.  Need to create a Jira, check it in, and create a PR for this.
+
+**Today I plan to:**
+- [x] Get the country_code stuff merged.  Anyone else want to look and approve first?  ON-1470
+- [x] create the Jira, check in, and PR the logging addition for NationBuilder tags, https://oneclickpolitics.atlassian.net/browse/ON-1476
+- [x] write email to business summarizing what we are sending to NB and asking if this is what they want to send or something different, or different options (a new feature)
+- [ ] read through Dave's import instructions for US to see how it works/reads; the writeup is in this jira https://oneclickpolitics.atlassian.net/browse/ON-1407 the instructions are at the top, plus a ton of comments below tracking what he's doing.  It is also in the comments for the shape file rake task.
+- [x] research about the nightly jobs
+  - I'm seeing roughly 50 +/- 25 syncs starting each evening at 6pm eastern.
+  - the failures are being timed out by NationBuilder
+- [x] create Jira ticket to change overly long NB sync cutoff from 4 to 2.
+- [x] change cutoff to 2, create PR
+- [ ] create Jira ticket to research how to trigger an email or a restart of an overly long sync that needed to be cut off
+- [ ] create Jira ticket to implement from the above research how to trigger an email or a restart of an overly long sync that needed to be cut off
+- [x] PR review Nate, https://github.com/one-click-politics/one-click-politics/pull/481
+
+### sync research in admin pages
+admin pages have a syncs status page for NB and Neon.  All scheduled tasks have these.  There is a check to terminate a sync that takes more than x (4?) days. <- change this to terminate after 48 hours
+nationbuilder_unsyncable (makes an external connection call (polymorphic join; ==)
+
+Also, https://oneclickpolitics.com/admin/synchronize_calls/ is a great place to look for failed and succeeded syncs and for any other rake task!!!
+
+### tagging info
+From Dave: if no external connection record joined to that advocate, then no sync will occur for tags
+This will change nationbuilder_unsyncable to true
+
+### how to research tagging problems
+To research tagging problems, in lib/jobs/nation_builder_sync/lib/tags.rb:L57-59 in `def get_conversions_for_tag_sync`
+- check the external_connections for an advocate profile to verify existence of the NB id, if it is missing, then that is why the advocate was not tagged.
+- check that conversions.nation_builder_unsyncable is false; if it is true, then that is why the advocate was not tagged.
+
+### 7 NationBuilder failures from last night, 7 Dec
+Great page for checking failure/success for syncs by promoter, https://oneclickpolitics.com/admin/synchronize_calls
+```
+7 Dec
+39387, 39520, 39524, 39169, 39529   <- BUG with country_code
+
+7225    <- lack of authentication failure
+20176   <- normal failure, this was resynced yesterday, 6 Dec
+```
+
+I'm seeing roughly 50 +/- 25 syncs starting each evening at 6pm eastern.
+
+### NationBuilder sync failure for PromoterUser 7225
+This user has failed to sync due to a lack of authentication.  Dave mentioned that it could be this promoter is slipping through the cracks of `def self.get_promoters` in lib/jobs/nation_builder_sync/nation_builder_sync.rb.  Making a note here since the priority of this is very low compared to other issues
+
+
+## Tue, Dec 7 2021
+**Yesterday I**
+- reviewed two small PRs
+- rubocop'ed the files I had worked on for country code and reduced the offenses from 292 to 73
+- got the country code tests checked in and PR'ed
+- KnowWho import ran into troubles downloading and unzipping the state file, so I turned to Nate who got the files downloaded, unzipped, and checked in for me; after that, the import was completed successfully
+- I working my way through re-syncing the failed syncs
+- I went through the new NB syncing logs.  The good news is that I am seeing many succeeded syncs, but there have been a block of failures every day since Friday.  There are two main reasons the syncs are failing; the usual too many files are open error (this is its own concern, but is a know issue) and a new undefined method error that looks to be introduced with the country_code change but not caught with the new tests
+
+**Today I plan to:**
+- [x] investigate the new undefined method error in the NB syncs
+- [x] continue re-syncing one by one (in the background while doing other things)  I've put together a list
+- [ ] I'd like to read through Dave's import instructions for US to see how it works/reads; is this the writeup I saw in this jira?  https://oneclickpolitics.atlassian.net/browse/ON-1407
+- [x] tagging
+
+### current state of NationBuilder tagging
+Found where and what we send to NationBuilder's /people/:id/taggings
+
+In lib/jobs/nation_builder_sync/lib/tags.rb:L43
+```
+conversion.promoted_message.internal_campaign_name
+```
+PromoterUser: 39610, slug: afa, token: 013c160f46caf07d4b39b9a34efa1a988023b4898f3ef46241070a34f003c598
+
+Confirmed with PromoterUser 39610/39517, PromotedMessage 14441, PromotedMessage.internal_campaign_name: '2021 - HR2377 - Nadler Red Flags - Email'  There are 2694 persons with this tag (GET /tags/:tag/people).
+
+PromoterUser 25179, slug: firearmspolicycoalition, token: 986c90c22feceafba5b77844a4b7a0a8053acb35b6b01193462dd3686cf649aa
+PromotedMessage 14061, PromotedMessage.internal_campaign_name: 'US S 2725 Online Firearms Marketplace Immunity Removal'  There are 8877 persons with this tag.  NB ID: 1711626, Brian K. Wittmeier, does not have this tag.
+
+PromoterUser 25179, slug: firearmspolicycoalition, token: 986c90c22feceafba5b77844a4b7a0a8053acb35b6b01193462dd3686cf649aa
+PromotedMessage 14328, PromotedMessage.internal_campaign_name: 'IL Ghost Gun Bans'  There are 0 persons with this tag.  NB ID: 1561400, Adam Emery, does (not???) have this tag.
+
+PromoterUser 25179, slug: firearmspolicycoalition, token: 986c90c22feceafba5b77844a4b7a0a8053acb35b6b01193462dd3686cf649aa
+PromotedMessage 14328, PromotedMessage.internal_campaign_name: 'IL Ghost Gun Bans'  There are 0 persons with this tag.  NB ID: 1711700, Mike Murphy, does (not???) have this tag.
+
+
+## Mon, Dec 6 2021
+**Friday I**
+- changed the faxage creds on prod and bounced the agents; fix confirmed by a flood faxage success emails
+- reviewed Sham's PR for the advocate details endpoint
+- PR'ed, merged, and deployed the NB sync logging addition to prod
+- got tests working for all three new country code related methods.  finished all tests for the first two (checked in).  now that the US example is working for the third method, I'll be finishing the tests for CA & AU in the next hour.  
+- also been running rubocop on the files I'm touching and making improvements, which are complete, but need to be checked in.  Rubocop has a lot to say, so I'll be leaving things much better, but not perfect  (try with -A)
+
+**Today I plan to:**
+- [x] KnowWho Import (already downloaded)
+- [x] as mentioned above, wrapping up the last of the country code tests now that all is working.  The big challenge from last week was getting the fixtures working the way I needed them as well as adding a method to the advocate profile model to make the country code more accessible
+- [x] AFTER DEPLOY - I noticed that a number of syncs failed during the nightly cron jobs on Friday/Sat/Sun nights.  I plan to re-run these in the background while I do other work today, unless you feel they should be investigated further; I did notice that Saturday evening's sync triggered an AWS ALARM: "volume read high
+- [x] I also plan to look at the logs in hopes to see some patterns from the NB sync logging I added on Friday
+- [x] I hope to get to some PR reviewing as well
+
+### KnowWho import
+So, the import took a turn for the problematic when I could not download a state file that would unzip.  After fighting with this for 15 or 20 mins, I turned to Nate who got it downloaded, unzipped, and checked in.  Wacky.  Never had problems before.
+
+### failed NB syncs from weekend
+Total of 29 failures (15 are duplicates)
+```
+7 Dec
+39387, 39520, 39524, 39169, 39529 <- BUG with country_code
+7225 <- lack of authentication failure
+20176 <- normal failure, this was resynced yesterday, 6 Dec
+
+6 Dec (, 7 failed)
+d 39169 see below        BUG with country_code
+d 7225  see below     failing due to a lack of authentication; cannot sync
+d 20176 see below     resynced on 12/6
+d 39387 see below        BUG with country_code
+d 37990 see below     resynced on 12/7
+d 39524 see below        BUG with country_code
+d 39529 see below        BUG with country_code
+
+5 Dec (78 syncs initiated, 11 failed)   106-183 = 1-78
+d 7725        failing due to a lack of authentication; cannot sync
+20176     success 12/2, 12/3;     failure 12/5;      resynced on 12/6 with success
+d 39387       PromoterUser.find(user).master_account.authentications looks good, but this fails every time with the error: Caused by: OAuth2::Error: : {"code":"not_found","message":"Record not found"}
+d 37990   success 12/3;           failure 12/2, 12/5, 12/6;     resynced on 12/7
+d 37916   success 12/6;           failure 12/2, 12/3, 12/5;     no resync needed
+d 39522   success 12/3, 12/6;     failure 12/2, 12/5;           no resync needed
+d 39520   success 12/6;           failure 12/2, 12/3, 12/5;     no resync needed
+d 39524   success 12/2, 12/3, 12/6;   failure 12/5;             no resync needed
+d 25179   success 12/2, 12/3, 12/4, 12/6;   failure 12/5;       no resync needed
+d 39169   success 12/1            failure 12/2 - 12/6         BUG with country_code
+d 39529   success 12/2            failure 12/3 - 12/6         BUG with country_code
+
+4 Dec (26 syncs initiated, 2 failed) 80-105
+d 39169        BUG with country_code
+d 39529        BUG with country_code
+
+3 Dec (79 syncs initiated, 7 failed)  1-79
+d 7225 <- WHY DIDN'T THIS KICK OFF ON 4 DEC?
+d 39387 <- WHY DIDN'T THIS KICK OFF ON 4 DEC?
+d 37916 <- WHY DIDN'T THIS KICK OFF ON 4 DEC?
+d 39520 <- WHY DIDN'T THIS KICK OFF ON 4 DEC?
+39524 <- WHY DIDN'T THIS KICK OFF ON 4 DEC?       
+d 39169        BUG with country_code
+39529        BUG with country_code
+
+2 Dec (not stats yet because no logs yet; new logging deployed 3 Dec)
+7225
+39387
+37990
+37916
+40601
+39522
+39520
+39169        BUG with country_code
+25179
+
+user = 39522
+PromoterUser.find(user).master_account.authentications
+PromoterUser.where(agency_id: user)
+NationBuilderSynchronizeCall.where(promoter_user_id: user).where("created_at > ?", 7.days.ago)
+
+
+exit
+bundle exec rake nation_builder_sync:sync_one[] RAILS_ENV=production
+bundle exec rake nation_builder_sync:sync_one[
+] RAILS_ENV=production
+```
+
+
+## Fri, Dec 3 2021
+### NationBuilder tagging
+Found where and what we send to NationBuilder's /people/:id/taggings
+
+In lib/jobs/nation_builder_sync/lib/tags.rb:L43
+```
+conversion.promoted_message.internal_campaign_name
+```
+
+**Yesterday I**
+- determined we do have a cron job to sync with NationBuilder daily at 23:00 UTC, 6pm EST
+- discovered that we are only logging NB sync failures, so there is no way to track what syncs are started
+- responded to country code PR reviews
+- merged country code PR
+- deployed country code PR
+- created a Jira for the country code test work plus the logging additions for NB syncs
+- added logging for when a NationBuilder sync starts, since right now all we get are the failures, so it is hard to track what Is happening with syncs
+- tried to chase down a test in NB sync that has been failing for over half a year, to no avail.  Made a TODO comment in the code for assistance when I PR this work
+
+**Today I plan to:**
+- [ ] put back the non-working tests I have for country code, then reach out for assistance with rspec and testing once I get blocked...should be before lunch, though I have some ideas after my conversation with Maged.
+- [ ] tags: go back to the code to verify what we are sending when we PUT to NB's /people/:id/taggings
+- [ ] I'd like to PR and deploy the sync logging this morning, Maged.  I want the data from tonight and this weekend's NB syncs to analyze on Monday.
+- [ ] re-sync failed syncs from last evening
+
+
+syncing with NationBuilder; the crontabs are set to run daily.  I'm not seeing the number of failures I would expect in the logs.  I'm also not seeing syncing on the daily basis that I expect.  
+
+
+
+## Thu, Dec 2 2021
+- make tests for country code
+- add logging for sync start
+- tags
+- syncing with NationBuilder; the crontabs are set to run daily.  I'm not seeing the number of failures I would expect in the logs.  I'm also not seeing syncing on the daily basis that I expect.
+
+
+**Yesterday I**
+- reviewed PRs
+- checked in country code work and created PR
+
+**Today I plan to**
+- [x] respond to country code PR reviews
+- [x] merge country code PR
+- [x] deploy country code PR
+- [ ] tags: go back to the code to verify what we are sending when we PUT to NB's /people/:id/taggings
+
+
+## Wed, Dec 1 2021
+- re-sync'ed for ticket 1128
+- added updates to ticket 1128 with my findings:
+  - sync dates and success/fail for November
+  - NB data for the advocates being asked about
+  - lack of expected tags found on those advocates
+  - confusion about the combined data the client provided for two different advocates presented as a single advocate
+
+- [ ] need to continue in the code to determine exactly what we are sending to NB when we create tags.  I though I knew what we are sending, but seeing what data NB has, I am doubting my findings.
+- [ ] writeup tags we are sending to NB vs the ones being asked for <- what I'm seeing on NB does not correspond to what I though we were sending; this is why I'm going back to the code to verify
+- [ ] finish country code work <- URGENT!!!  finish this as soon as possible
+- [ ] PR country code work
+- [ ] post in dev channel when country code work PR is ready
+- [ ] how often are we supposed to be syncing with NationBuilder
+- [ ] investigate crontabs on prod to figure out how ofter we are running the NB syncs
+
+
+## Tue, Nov 30 2021
+- [x] re-sync 1128
+```
+"success", action: "428 AdvocateProfiles - 0 Recipients - 1556 Emails -...", updated_at: "2021-11-06
+"failure", action: "165 AdvocateProfiles - 0 Recipients - 527 Emails - ...", updated_at: "2021-11-16 "success", action: "594 AdvocateProfiles - 79 Recipients - 2251 Emails ...", updated_at: "2021-11-17 "failure", action: "430 AdvocateProfiles - 91 Recipients - 1962 Emails ...", updated_at: "2021-11-19 "success", action: "143 AdvocateProfiles - 0 Recipients - 688 Emails - ...", updated_at: "2021-11-22 "success", action: "15 AdvocateProfiles - 0 Recipients - 101 Emails - 0...", updated_at: "2021-11-25
+```
+slug = firearmspolicycoalition
+api key = 986c90c22feceafba5b77844a4b7a0a8053acb35b6b01193462dd3686cf649aa
+firearmspolicycoalition.nationbuilder.com/api/v1/people/1711626?access_token=986c90c22feceafba5b77844a4b7a0a8053acb35b6b01193462dd3686cf649aa
+
+- 1711626         "updated_at": "2021-11-16T21:42",
+        "id": 1711626,
+        "first_name": "Brian",
+        "last_name": "K. Wittmeier",
+        "email": "bkwittmeier@gmail.com",
+            "address1": "78 Hoot Owl Rd",
+            "city": "New Castle",
+            "state": "VA",
+            "zip": "24127",
+        "tags": [
+            "new_person"
+        ],
+- 1561400         "updated_at": "2021-11-04T10:38",
+        "id": 1561400,
+        "last_name": "Emery",
+        "first_name": "Adam",
+        "email": "aemery214@gmail.com",
+            "address1": null,
+            "city": "Chatham",
+            "state": "IL",
+            "country_code": "US",
+            "zip": "62629",
+        "tags": [
+            "Active National",
+            "ActiveNonCA",
+            "HR1207_AD",
+            "Executive Actions",
+            "Biden",
+            "unconstitutional",
+            "FB AD",
+            "David Chipman ATF Nomination",
+            "Took Action 2021",
+            "i360 append 1001",
+            "ta_ana_1104"
+        ],
+- 1711700         "updated_at": "2021-11-19T15:33",
+        "id": 1711700,
+        "first_name": "Mike",
+        "last_name": "Murphy",
+        "email": "murphy@ilhousegop.org",
+            "address1": null,
+            "city": "Springfield",
+            "state": "IL",
+            "country_code": "US",
+            "zip": "62706",
+        "tags": [],
+
+
+
+- writeup tags we are sending to NB vs the ones being asked for
+- finish country code work
+- PR country code work
+- post in dev channel when country code work PR is ready
+
+**Monday I**
+- reviewed PRs
+- did the KnowWho import
+- wrote the tests for the lat/long fix
+- wrote up the Jira ticket for the lat/long fix
+- got the PR ready for the lat/long fix once the tests are ready
+
+**Today I plan to**
+- [ ] confirm that the AdvocateProfile is the info sent to NationBuilder, not SenderProfile
+- [ ] email business about the lat/long fix coming out
+- [ ] review Dave's PR
+- [ ] follow up when I receive responses to my PR
+- [ ] get back to the tags work (NB zendesk ticket 1128);
+
+can we sent other fields as the tags.  possibly creating a drop down for this.  possibly adding column in the database to track which types of tags we are setting.  is this something customizable in NB or in our stuff.
+
+
+## Mon, Nov 29 2021
+**Wednesday I**
+- reviewed a pair of PRs
+- learned about NationBuilder tags for the customer doesn't like what we are sending
+- mostly figured out where in the code we are setting the tags
+
+**Today I plan to**
+- [ ] review PRs
+- [ ] KnowWho import
+- [ ] write the tests for the lat/long fix
+- [ ] write up the Jira ticket for the lat/long fix
+- [ ] get the PR ready for the lat/long fix once the tests are ready
+- [ ] learn what is the difference between SenderProfile and AdvocateProfile
+
+can we sent other fields as the tags.  possibly creating a drop down for this.  possibly adding column in the database to track which types of tags we are setting.  is this something customizable in NB or in our stuff.
+
+
+## Wed, Nov 24 2021
+**Yesterday I**
+- reviewed Hager's PR; congratulations!
+- emailed NB with slug of lat/long client (ZD 1012) & updated ticket
+- NB responded saying that omiting the lat/long will have no repercussions
+- spent much of the rest of the day deep in NationBuilder code and their API docs, learning what we are sending them, what we can retrieve from them and how, and making example calls to see what they are giving to the client who has complaints.  so far, I've exactly reproduced what the customer is getting back from NB, but I'm still working on understanding the tags we are sending and why the customer doesn't like what we are sending
+- largely done with the coding on the lat/long fix
+
+**Today I plan to**
+- [ ] reviewing a pair of PRs
+- [ ] write the tests for the lat/long fix
+- [ ] write up the Jira ticket for the lat/long fix
+- [ ] get the PR ready for the lat/long fix once the tests are ready
+- [ ] working on understanding the tags we are sending and why the customer doesn't like what we are sending
+
+
+## Tue, Nov 23 2021
+### Rubocop
+```
+bundle exec rubocop lib/
+bundle exec rubocop lib/nation_builder_client/
+```
+
+### NationBuilder
+:create_tag
+:create_person
+:push_person
+:update_person
+:contact_builder
+
+ticket #1128
+```
+Brian K. Wittmeier
+78 Hoot Owl Rd, NULL, New Castle, VA 24127
+bkwittmeier@gmail.com
+NB ID: 1711626
+- Synced 2 days ago: Contacted Senators Kaine and Warner, and Rep. Griffith with "Vote Against US S 2725" which should have tagged him with "US S 2725 Online Firearms Marketplace Immunity Removal." Instead, he's just marked as a new person in our nation.
+```
+email_subject in step 2 of widget: `Vote Against US S 2725`  <----this is the /people/:id/capitals['content']['note'] returned by NB for NB id 1711626 for three signatures on 16 Nov.
+campaign name (internal): `US S 2725 Online Firearms Marketplace Immunity Removal`
+
+```
+Mike Murphy
+Springfield, IL 62629
+aemery214@gmail.com
+NB ID: 1561400
+- Synced 23 Hours Ago (profile first created in NB 6 months ago): Contacted IL Sen Steve McClure and IL Rep Mike Murphy about "OPPOSE Illinois "Ghost Gun" Ban!" and should have been tagged with "IL Ghost Gun Bans."
+```
+email_subject in step 2 of widget: `OPPOSE Illinois "Ghost Gun" Ban!`  <---this is the /people/:id/capitals['content']['note'] that returned by NB for NB id 1561400 for two signatures on 17 Nov.
+campaign name (internal): `IL Ghost Gun Bans`
+
+**Yesterday I**
+- met with Hager and Dave for a good long knowledge share, particularly on Districts
+- reviewed a couple quick PRs
+- did the KnowWho import
+- looked through the NationBuilder sync code to be ready to make the lat/long change once we get confirmation back from NB that won't have repercussions, share the slug for that client
+- sent an email with an update on all the NB issues to Darren and Dominique
+
+**Today I plan to**
+- [x] reviewing Hager's PR on modifying the NewDistrict temporary table; I'm almost done with this
+- [ ] this ticket came back again, https://oneclickpolitics.zendesk.com/agent/tickets/1128,  Re-sync performed successfully on 22 Nov.  The ticket was updated with a new issue that the Tags that NB send are not correct.  This is into a level of NationBuilder that I do not know yet, so this will take some time investment to understand.  Perhaps Dave or Nate have a starting point for me on this as it seems beyond simple re-syncing and into the realm of challenging the validity of the date being received from NB.  Follow up with Darren to make sure I know what he's looking for on this one.
+- [ ] if I get the NB response, I'll continue with NB zendesk ticket 1012 and remove lat/long from what we send to NB.  slug = 'mnrtl'  Also, the client's `PromoterUser.find(39902).master_account.authentications` shows a `write_access: false`.  I sent another email to NB this morning with the slug of the client and cc'ed Maged.  
+- [ ] continue to be available for any knowledge sharing on import that Hager needs
+- [ ] set up the basics for the new API
+- [ ] let Maged know as soon as I have the new API basics put together as he has the next task waiting
+
+
+## Mon, Nov 22 2021
+**Friday I**
+- reviewed Nate's twitter PR pretty carefully since it is a familiar area for me; also checked things out on staging and asked a few questions to confirm functionality
+- fixed several failing specs that had been broken by cicero code requirements in the UI from the list Dave provided in ON-1424, https://github.com/one-click-politics/one-click-politics/pull/449, reviewed and merged
+- fixed several more failing specs triggered by cwc handler changes and widget UI changes, https://github.com/one-click-politics/one-click-politics/pull/450, ready for review
+- NationBuilder zendesk ticket 1106 updated.  These campaigns have been retired since 25 October, so have no activity since then.  Retired widgets do not permit signing and instead display a message that "This campaign has ended and is no longer taking action."
+- all other NB zendesk tickets (except one) regarding sync issues have been re-synced and updated with details (this happened Thursday)
+- for the final NationBuilder zendesk ticket 1012, https://oneclickpolitics.zendesk.com/agent/tickets/1012, email sent asking for confirmation that removing latitude/longitude from what we send them won't have repercussions
+- same ticket, looking into where to remove lat/long from what we send them; L826-7 in spec/libs/nation_builder_sync/people_spec.rb tests this, I think
+- create Jira for this work once confirmation is received (or maybe sooner to track the effort in research?)
+
+**Today I plan to**
+- [ ] this ticket came back again, https://oneclickpolitics.zendesk.com/agent/tickets/1128, this time it looks like the Tags that NB send are not correct.  This is into a level of NationBuilder that I do not know yet, so this will take some time investment to understand.  Perhaps Dave or Nate have a starting point for me on this as it seems beyond simple re-syncing and into the realm of challenging the validity of the date being received from NB.
+- [ ] continue with NB zendesk ticket 1012, looking for where to remove lat/long from what we send to NB (and watch for the email response from NB on the potential repercussions for removing lat/long)
+- [ ] continue to be available for any knowledge sharing on import that Hager needs
+- [ ] set up the basics for the new API
+  - docker
+  - ElasticSearch
+  - set up the repo
+  - Deploy checklist
+  - Logrotate
+  - SSL
+  - Nginx Config
+  - install rails 6 locally
+  - then do `rails new swtichboard --api-only `
+  - then copy over  the dockerfile, dockercompose .env-rc .env-rc.secrets files and configure them for what you need
+  - from there you should be able to docker up confirm it runs locally
+  - ssh into wherever it's going.. probably a new ec2 at that point
+  - clone the repo. look at the .prod_deploy.sh scripts i have on Micro.
+  - make one for there.
+  - then setup the nginx using micro as an example as well
+  - SSl, https://certbot.eff.org/instructions?ws=nginx&os=ubuntu-20
+  - logrotate, https://gorails.com/guides/rotating-rails-production-logs-with-logrotate
+  - Keep your log files in check as time goes on and make sure they don't fill up your server's disk space
+
+
+## Fri, Nov 19 2021
+
+#### zendesk ticket 1012, Data sync to NB Promoter ID 39902
+- start looking at code for where we send stuff to NB in order to prepare for the lat/long removal from what we send
+##### draft of email to nation builder
+bpalmer@nationbuilder.com
+
+Brian
+
+Warm regards,
+I am Susan with OneClickPolitics.  We have a client that has been troubleshooting issues with one of your folks.  They were told that when we, OCP, send data over for people that include latitude/longitude, auto-redistricting does not occur.  Our client would like us to only send the raw address and no longer send latitude/longitude as well.  I am writing to confirm that omitting the latitude/longitude won't have other possible repercussions.  
+Thank you for your time,
+Susan Prestage
+OneClickPolitics
+
+Darren requests:
+```
+We noticed that people’s records were not being automatically placed into the correct voting district. Nation Builder, as I understand it, says the issue stems from the way the information is coming over from OCP. The addresses for people are being overridden by their latitude/longitude location. Is it possible for the addresses to be pulled through in a raw form instead of including the lat/long?
+
+We need people’s records to be auto-districted since we send out our email alerts often based on their legislative district.
+```
+we are being asked if it is possible for a senders address to be send to the NB database instead of the lat/long that we are currently sending, https://oneclickpolitics.zendesk.com/agent/tickets/1012 Maged says yes, this is a BUG, research to confirm first, go into NB libs and remove that bit.  I should contact NB directly to confirm that this change won't break anything else...I'll send the initial email
+
+**Yesterday I**
+- did a quick and thorough info share with Alex on new APIs, then tucked away the info to bring back out when I get past the higher priority items 👍
+- met with Hager and we walked through the key files for existing cicero import, including the specs and particular tests that I found useful for end-to-end import
+- discovered that Slack video conference individual window share does not permit the draw tool
+- investigated each of the NationBuilderSynchronizeCall catastrophic failures that have come through email this last three weeks
+
+**Summary of NationBuilder syncs**
+  - there have been occasional failures, particularly for big promoters
+  - in all cases of failed syncs, re-running the sync succeeded (or succeeded the second time in a single case)
+
+nationbuilder logged erros file in the log folder: nb syncs are on that other, pre-prod.oneclickpolitics.com box for the NB sync logs
+
+**A possible NationBuilder syncing bug???**
+  - I have noticed an interesting and possibly concerning thing about the NationBuilder syncs.  It is interesting that a failed sync still shows numbers for `:action`.  These numbers are also not seen as a part of the next succeeded sync...which begs the question of just how this was a `failed` sync?  The reason I say that the numbers are not seen as a part of the next succeeded sync is that I saw a failed sync with higher numbers followed by a successful sync with lower numbers.  I can dig this proof up again if needed.
+
+  What are the parameters on what data we get from NationBuilder?  Do we tell them the cutoff date for the numbers, so the next call starts from there?  If so, how does a failed sync affect this "bookmark"?  My concern is that we are losing our "place" and thus are losing numbers in our totals over time.
+
+  ```
+  irb(main):037:0> foo.action
+  => "160 AdvocateProfiles - 28 Recipients - 3326 Emails - 0 ServiceDeliveries - 0 Tags"
+  ```
+
+**Today I plan to**
+- [ ] set up the basics for the new API
+  - docker
+  - ElasticSearch
+  - set up the repo
+  - Deploy checklist
+  - Logrotate
+  - SSL
+  - Nginx Config
+  - install rails 6 locally
+  - then do `rails new swtichboard --api-only `
+  - then copy over  the dockerfile, dockercompose .env-rc .env-rc.secrets files and configure them for what you need
+  - from there you should be able to docker up confirm it runs locally
+  - ssh into wherever it's going.. probably a new ec2 at that point
+  - clone the repo. look at the .prod_deploy.sh scripts i have on Micro.
+  - make one for there.
+  - then setup the nginx using micro as an example as well
+  - SSl, https://certbot.eff.org/instructions?ws=nginx&os=ubuntu-20
+  - logrotate, https://gorails.com/guides/rotating-rails-production-logs-with-logrotate
+  - Keep your log files in check as time goes on and make sure they don't fill up your server's disk space
+3169
+
+
+## Thu, Nov 18 2021
+### NationBuilder
+
+#### zendesk ticket 1106, NB sync for Promotor ID 40592
+**Update** The most recent conversions are from October, so NB returning zeros is correct.  If the client could give us a link to the page hosting the widget, this issue can be investigated further.  **Need to update the zendesk ticket with this info** -Susan, 6pm Thu
+
+Tried this with Fastly and this is what was seen for both campaigns, which is likely due to their being Retired.:
+```
+Send Your Comments to DEQ
+This campaign has ended and is no longer taking action.
+```
+
+**Next step**
+Look for activity on prod, since there are all zeros with NationBuilder  
+
+https://oneclickpolitics.zendesk.com/agent/tickets/1106
+
+**Initial assessment**
+In the last 7 days, I saw one sync, which was from today, and it had succeeded.  However, when I look at the actions returned from NationBuilder, it shows "0 AdvocateProfiles - 0 Recipients - 0 Emails - 0 ServiceDeliveries - 0 Tags".
+
+PromoterUser 40592 has no active campaigns on our site, https://oneclickpolitics.com/promoter/40592/messages.  The two campaigns listed below, Oregon DEQ Unique Comment (14157) & Oregon DEQ Comment (14132), have been marked as Retired since 25 October, 2021.
+
+#### zendesk ticket 1012, Data sync to NB Promoter ID 39902
+- start looking at code for where we send stuff to NB in order to prepare for the lat/long removal from what we send
+
+##### draft of email to nation builder
+Good morning,
+I am Susan with OneClickPolitics.  We have a client that has been troubleshooting issues with one of your folks.  They were told that when we, OCP, send data over for people that include latitude/longitude, auto-redistricting does not occur.  Our client would like us to only send the raw address and no longer send latitude/longitude as well.  I am writing to confirm that omitting the latitude/longitude won't have other possible repercussions.  
+Thank you for your time,
+Susan Prestage
+OneClickPolitics
+
+Darren requests:
+```
+We noticed that people’s records were not being automatically placed into the correct voting district. Nation Builder, as I understand it, says the issue stems from the way the information is coming over from OCP. The addresses for people are being overridden by their latitude/longitude location. Is it possible for the addresses to be pulled through in a raw form instead of including the lat/long?
+
+We need people’s records to be auto-districted since we send out our email alerts often based on their legislative district.
+```
+we are being asked if it is possible for a senders address to be send to the NB database instead of the lat/long that we are currently sending, https://oneclickpolitics.zendesk.com/agent/tickets/1012 Maged says yes, this is a BUG, research to confirm first, go into NB libs and remove that bit.  I should contact NB directly to confirm that this change won't break anything else...I'll send the initial email
+
+#### data on promoters that had catastrophic failures in email
+
+##### 16 November
+- 39522 & 39520 only run once a week.  They failed on the on 16 November.  **They were manually rerun on 18 November, both succeeded.**
+- 25179 ran on 16 Nov when it failed.  It reran automatically on 17 Nov, successfully.  **No rerun needed.**
+- 39169 ran on the 17, 15, 12, & 11 of November.  On the 17th, it failed.  **Manually rerun on 18 November.  The first run failed, which is common for this promoter.  Second time succeeded.**
+
+##### 30 October
+- 37916 ran on 17 November but hasn't run since 29 and 31 October otherwise.  It is unclear why this is the case.  Both syncs from October failed.  The 17 Nov sync succeeded.  **No rerun needed.**  
+
+```
+<NationBuilderSynchronizeCall id: 293654, promoter_user_id: 37916, status: "failure", action: "160 AdvocateProfiles - 28 Recipients - 3326 Emails ...", model_type: "NationBuilderSynchronizeCall", service_type: nil, created_at: "2021-10-29 00:48:47", updated_at: "2021-10-29 01:02:50", extra_data: nil, log: nil, start_id: nil, end_id: nil, table_name: nil>
+```
+
+- 39523, the 17 Nov sync succeeded.  **No rerun needed.**  
+```
+17 Nov, success
+7 Nov, In progress
+3 Nov, success
+31 Oct, failure
+29 Oct, success
+```
+
+- 39610, the 17 Nov sync succeeded.  **No rerun needed.**  
+```
+17 Nov, success
+7 Nov, success
+3 Nov, success
+31 Oct, failure
+29 Oct, success
+```
+
+- 39171, 13, 14, 15, 16, 17 Nov sync succeeded.  **No rerun needed.**
+
+#### POSSIBLE ISSUE WITH NATIONBUILDER
+I find it interesting that a failed sync still shows numbers for `:action`.  These numbers are also not seen as a part of the next succeeded sync...which begs the question of just how this was a `failed` sync?  The reason I say that the numbers are not seen as a part of the next succeeded sync is that I saw a failed sync with higher numbers followed by a successful sync with lower numbers.  I can dig this proof up again if needed.
+
+What are the parameters on what data we get from NationBuilder?  Do we tell them the cutoff date for the numbers, so the next call starts from there?  If so, how does a failed sync affect this "bookmark"?  My concern is that we are losing our "place" and thus are losing numbers in our totals over time.
+
+
+#### checking NB syncs
+How to sync with NationBuilder aka NB sync
+```
+ssh_prod
+cd /home/deploy/apps/ocp/current/
+bundle exec rails c production
+
+user = 39522
+PromoterUser.find(user).master_account.authentications
+PromoterUser.where(agency_id: user)
+NationBuilderSynchronizeCall.where(promoter_user_id: user).where("created_at > ?", 7.days.ago)
+
+
+exit
+bundle exec rake nation_builder_sync:sync_one[39522] RAILS_ENV=production
+```
+
+**Yesterday I**
+- [ ] resolved three NationBuilder issues and am working on the remaining two
+
+**Today I plan to**
+- [ ] continue to be available for any knowledge sharing on import that Hager needs
+- [ ] set up the basics for the new API
+  - docker
+  - ElasticSearch
+  - set up the repo
+  - Deploy checklist
+  - Logrotate
+  - SSL
+  - Nginx Config
+  - install rails 6 locally
+  - then do `rails new swtichboard --api-only `
+  - then copy over  the dockerfile, dockercompose .env-rc .env-rc.secrets files and configure them for what you need
+  - from there you should be able to docker up confirm it runs locally
+  - ssh into wherever it's going.. probably a new ec2 at that point
+  - clone the repo. look at the .prod_deploy.sh scripts i have on Micro.
+  - make one for there.
+  - then setup the nginx using micro as an example as well
+  - SSl, https://certbot.eff.org/instructions?ws=nginx&os=ubuntu-20
+  - logrotate, https://gorails.com/guides/rotating-rails-production-logs-with-logrotate
+  - Keep your log files in check as time goes on and make sure they don't fill up your server's disk space
+- [ ] look to see what NB jobs have failed...emails have been coming through on this
+39169
+
+### NationBuilder
+
+#### sync catastrophic failures
+- 16 November  39522, 39520, 25179, 39169
+- 6 November  39169
+- 30 October  37916, 39523, 39610, 39169
+- 28 October  37916, 39522, 39171, 39169
+- 19 October  37990, 39169
+- 15 October  39703, 20176, 39169
+- 14 October  39169
+- 1 October  25179
+
+Next step here is to look up these PromoterUsers and see
+```
+user = 39522
+PromoterUser.find(user).master_account.authentications
+```
+
+possible need to look for the sub-promoters for an agency
+```
+PromoterUser.where(agency_id: user)
+```
+
+then check for last NB syncs for the last 7 days
+```
+NationBuilderSynchronizeCall.where(promoter_user_id: user).where("created_at > ?", 7.days.ago)
+```
+
+When a new sync is needed, this is how to run:
+```
+bundle exec rake nation_builder_sync:sync_one[39523] RAILS_ENV=production
+```
+
+#### zendesk tickets - in progress (2)
+- #1106 NB sync for Promotor ID 40592, https://oneclickpolitics.zendesk.com/agent/tickets/1106
+In the last 7 days, I saw one sync, which was from today, and it had succeeded.  However, when I look at the actions returned from NationBuilder, it shows "0 AdvocateProfiles - 0 Recipients - 0 Emails - 0 ServiceDeliveries - 0 Tags".
+
+PromoterUser 40592 has no active campaigns on our site, https://oneclickpolitics.com/promoter/40592/messages.  The two campaigns listed below, Oregon DEQ Unique Comment & Oregon DEQ Comment, have been marked as Retired since 25 October, 2021.
+
+- #1012 Data sync to NB Promoter ID 39902
+Darren requests:
+
+```
+We noticed that people’s records were not being automatically placed into the correct voting district. Nation Builder, as I understand it, says the issue stems from the way the information is coming over from OCP. The addresses for people are being overridden by their latitude/longitude location. Is it possible for the addresses to be pulled through in a raw form instead of including the lat/long?
+
+We need people’s records to be auto-districted since we send out our email alerts often based on their legislative district.
+```
+
+we are being asked if it is possible for a senders address to be send to the NB database instead of the lat/long that we are currently sending, https://oneclickpolitics.zendesk.com/agent/tickets/1012 Maged says yes, this is a BUG, research to confirm first, go into NB libs and remove that bit.  I should contact NB directly to confirm that this change won't break anything else...I'll send the initial email
+
+#### zendesk tickets - resolved (3)
+- #1130 URGENT NB sync issue for Promoter ID 39610/ Slug afa, https://oneclickpolitics.zendesk.com/agent/tickets/1130  **Resolved and updated 3 November**  Darren updated saying thanks and he'll update if anything changes
+- #1128 NB not syncing  Promoter ID 25179, https://oneclickpolitics.zendesk.com/agent/tickets/1128  **Resolved and updated 17 November**  "In the last 7 days, I saw one sync but it had failed.  The slug looked good, so I kicked off another sync, which succeeded.  All looks good and up to date at this moment.  -S"
+- #1095 Login w/ NB issue, https://oneclickpolitics.zendesk.com/agent/tickets/1095  **Resolved and updated 17 November**  I see a new campaign created on 3 Nov, 2021, which means the promoter is successfully logging into the system.  Though perhaps not through the NB portal as they would prefer.
+
+The one oddity I noticed is that the client is typing in 'acceaction' as their slug.  Most promoters have slugs that are all lower case, however, this one is in our database with the slug 'ACCEACTION'.  I would recommend the client try the change to a fully capitalized slug.  The video helped diagnose this issue, thank you.  -S
+
+
+## Wed, Nov 17 2021
+**Yesterday I**
+- created tickets for the first tasks of the API
+- started looking throught the pile of NationBuilder tickets
+- injured cat update; caught her too late in the day for any vet availablility, but she is contained and I'm taking her to the vet right after standup and the sprint meeting
+
+**Today I**
+- [ ] NationBuilder issues:
+  - [ ] we are being asked if it is possible for a senders address to be send to the NB database instead of the lat/long that we are currently sending, https://oneclickpolitics.zendesk.com/agent/tickets/1012 Maged says yes, this is a BUG, research to confirm first, go into NB libs and remove that bit.  I should contact NB directly to confirm that tis change won't break anything else...I'll send the initial email
+  - [ ] PromotorUser 11233 unable to login in to OCP via the NB portal, https://oneclickpolitics.zendesk.com/agent/tickets/1095
+  - [ ] more NB sync issues (Nov 1, Oct 29, Sep 30) though last message from Darren after I looked into this on Nov 3 was "Thanks for looking into this. I will update you if anything changes."
+- [ ] set up the basics for the new API
+  - docker
+  - ElasticSearch
+  - set up the repo
+- [ ] continue to be available for any knowledge sharing on import that Hager needs
+
+
+
+## Tue, Nov 16 2021
+**Yesterday I**
+- KnowWho import
+- replace MSA with TeamUSA logo on the home page, got the PR created and reviewed, and just finished deploying this to production
+
+**Today I**
+- [ ] create tickets for the first tasks of the API
+- [ ] set up the basics for the new API
+  - docker
+  - ElasticSearch
+  - set up the repo
+- [ ] continue to be available for any knowledge sharing on import that Hager needs
+- [ ] injured cat; if I can catch her, I may suddenly be away from my keyboard without warning to take her to the vet
+- [ ] send Maged the zendesk/jira tickets from this last week over to Maged
+
+
+## Mon, Nov 15 2021
+### Jira tickets
+
+**Friday I**
+- removed Evan from the website and got that pushed to prod
+- paired with Alex on a front end issue
+- met with Hager with a huge information share
+- planned with Maged on the new API
+- did thinking and planning on the new API
+
+**Today I**
+- [x] KnowWho import
+- [x] Replace MSA with TeamUSA logo on the home page
+- [ ] create tickets for the first tasks of the API
+- [ ] set up the basics for the new API
+- [ ] naming of the API (first take recommendations, then hold a vote, then Maged gives final decision)
+
+
+## Fri, Nov 12 2021
+- ocp-core-api
+- ocp-enterprise-api
+- ocp-mercury-api
+- one-click-atc
+- ocp-switchboard-api
+
+- set up shell for new API
+
+**Yesterday I**
+- review multiple PRs
+- deployed current master to production (contained recent PRs from both me and Alex)
+- assisted Hager in setup and Cicero imput familiarity
+- walked through the instructions for an existing Cicero import of AU/CA data
+- confirmed that shp2pgsql successfully generates a district SQL file
+- confirmed that the csv_merge.rb (once adjusted for UK naming) works successfully to merge officials with levels and roles
+
+**Today I**
+- [ ] break down the work on the new Recipients API into tasks
+- [ ] create Jira tickets for the Recipients API tasks
+- [x] remove Evan Ashy from the website. ON-1406
+
+## Thu, Nov 11 2021
+
+### Recipients API
+- it will also live in Elasticsearch
+- the analytics/delivery API is probably a good start
+- also think about it from the importer side as well
+
+#### Recipients API - OPEN QUESTIONS
+- Importer side: Cicero import or Promoters wanting to import custom recipients?
+
+#### Recipients API - LIST OF TASKS
+- figure out how elastic search is implemented in Analytics/Delivery API and do that here; I don't know if this should be the first task, but better to have it first so that the rest of the tasks can be altered as needed by ES
+- create docker images
+- add elasticsearch model gem
+- create Recipients model
+- create Recipients controller
+- controller - create one
+- controller - create many
+- controller - index all
+- controller - show one
+- add search
+- add routes
+- create API GET
+- create API POST (UPDATE?)
+- probably don't need a DELETE, just a POST that can change to inactive
+- add controller specs
+- add rescues, logging, and error logs
+
+
+**Yesterday I**
+- did a formal writeup to Darren, Chazz, Dominique on the situation with the changing shapefiles
+- deployed all the AU/CA stuff which includes deactivation rake task refactor
+- wrap up all AU/CA data cleanup on prod; the data is looking great; the only reps with initials are those who use only initials in current Cicero data
+
+**Today I**
+- [x] review multiple PRs
+- [x] deployed current master to production
+- [x] top priority is pairing/assisting Hager in setup and Cicero imput familiarity; should demonstrate existing Cicero import of AU/CA
+
+
+## Wed, Nov 10 2021
+**Yesterday I**
+- researched the redistricting that is affecting our shapefiles
+- got the various AU/CA PRs checked in and ready deployment
+
+**Today I**
+- [x] do a formal writeup to Darren, Chazz, Dominique on the situation with the changing shapefiles
+- [x] deploy all the AU/CA stuff and run through the cleanup
+- [x] deploy the deactivation rake task refactor
+- [x] wrap up all AU/CA data cleanup on prod
+
+Zendesk ticket #1124 with the incorrect state representative coming up for a signer in SC.
+
+The US is in the early stages of redistricting as a result of the 2020 US census.  This means that shapefiles on production are not and cannot be fully up to date until the redistricting process is complete in each state and the new shapefiles are "enacted" by each state.  This process is tracked in detail here, https://ballotpedia.org.  This site is updated daily.  Please see below for links to current status of both State Legistature and Congressional redistricting.
+
+**Data from the Census arrival timeline**
+August 12, 2021, the U.S. Census Bureau delivered redistricting data to states in a legacy format.  September 16, 2021, the U.S. Census Bureau released data from the 2020 census in an easier-to-use format to state redistricting authorities and the public.
+
+**State Legislature redistricting status**, https://ballotpedia.org/State_legislative_district_maps_implemented_after_the_2020_census As of November 9, 2021, 12 states have adopted legislative district maps, one state’s legislative map is awaiting approval by the state supreme court, one state enacted its legislative boundaries based on Census estimates which will be revised in an upcoming special session, and 36 states have not yet adopted legislative redistricting plans after the 2020 census.
+
+Nationwide, legislative redistricting has been completed for 444 of 1,972 state Senate seats (22.5%) and 1,243 of 5,411 state House seats (23.0%).
+
+**Congressional redistricting status**, https://ballotpedia.org/Status_of_redistricting_after_the_2020_census As of November 9, 2021, 10 states have adopted congressional district maps, six states were apportioned one congressional district (so no congressional redistricting is required) and 34 states have not yet adopted congressional redistricting plans after the 2020 census.
+
+Congressional redistricting has been completed for 99 of the 435 seats (22.7%) in the U.S. House of Representatives.
+
+Additionally, Dave has confirmed that the latitude/longitude of the signer in South Carolina successfully maps to House District 26 and state representative Raye Felder in the new Cicero US data being tested that goes live in the new year.
+
+
+## Tue, Nov 9 2021
+### redistricting and shapefiles
+[https://ballotpedia.org/Status_of_redistricting_after_the_2020_census](https://ballotpedia.org/Status_of_redistricting_after_the_2020_census) <- good site for current status of the "enacting" of new maps for congressional and state legislative maps as a result of the 2020 census.
+
+[https://www.scstatehouse.gov/legislatorssearch.php](https://www.scstatehouse.gov/legislatorssearch.php) <- current "mapping"
+
+**Current status of redistricting as a result of the 2020 US census:**
+
+**State Legislature redistricting**
+https://ballotpedia.org/State_legislative_district_maps_implemented_after_the_2020_census  As of November 8, 2021, 12 states have adopted legislative district maps, one state's legislative map is awaiting approval by the state supreme court, one state enacted its legislative boundaries based on Census estimates which will be revised in an upcoming special session, and 36 states have not yet adopted legislative redistricting plans after the 2020 census.
+
+Nationwide, legislative redistricting has been completed for 444 of 1,972 state Senate seats (22.5%) and 1,243 of 5,411 state House seats (23.0%).
+
+**Congressional redistricting**
+https://ballotpedia.org/Status_of_redistricting_after_the_2020_census  As of November 8, 2021, 10 states have adopted congressional district maps, six states were apportioned one congressional district (so no congressional redistricting is required) and 34 states have not yet adopted congressional redistricting plans after the 2020 census.
+
+Congressional redistricting has been completed for 99 of the 435 seats (22.7%) in the U.S. House of Representatives.
+
+**Yesterday I**
+- spoke with Nate and Dave to determine what could be done about the zendesk ticket with the incorrect state representative coming up for a signer in SC (summary below)  Also Dave has just confirmed that this lat/long successfully maps to House District 26 and state rep Raye Felder in the new Cicero US data that goes live in the new year.
+
+THIS: Can Dave provide the encoding that is needed for a shapefile found online.  Maged wants us to find a solution now, not to wait. (there was a NC one in March-ish)
+
+- merged ON-1378 (PR 432), the refactor of the Cicero AU/CA import specs
+- made recommended improvements to the deactivation rake task refactor
+- KnowWho import
+
+**Today I**
+- [ ] looking at PRs, mostly done
+- [ ] need final reviews for the deactivation rake task refactor from Maged and Nate, https://github.com/one-click-politics/one-click-politics/pull/429; changes are checked in
+- [ ] merge the deactivation rake task refactor, ON-1366
+- [ ] deploy the deactivation rake task refactor
+- [ ] wrap up all AU/CA data cleanup on prod
+- [ ] need the next big task or I'm going to start planning the Recipients API or talking to Alex about which areas he's found broken tests
+
+- dropbox link to the UK data in prep for meeting with Hager (Hogger?) for the UK cicero data import
+Nai (UX person)    Maagid
+
+## Mon, Nov 8 2021
+**Friday I**
+- finished the refactor of the tests for the cicero import name updater
+- went back and forth with Darren about delievery details for the NSW AU premier
+
+**Today I**
+- [x] Zendesk 1124, https://oneclickpolitics.zendesk.com/agent/tickets/1124
+The wrong state rep is bring brought up in the widget for the signer.  See summary below.  Ticket is updated with findings.
+- [ ] need final reviews for the deactivation rake task refactor from Maged and Nate, https://github.com/one-click-politics/one-click-politics/pull/429; changes are checked in
+- [ ] merge the deactivation rake task refactor, ON-1366
+- [x] merged ON-1378 (PR 432), the refactor of the Cicero AU/CA import specs
+
+- [ ] think about how to implement next big project will probably be a Recipients API
+
+### zendesk 1124
+Engineering has confirmed that according to geocod.io, this address (and the Lat/Long) put this sender in House District 26 with state rep Raye Felder.
+
+Unfortunately, the live site consistently brings up Bryant, Bruce due to the shapefile.  It appears that our shapefiles for the US are becoming out of date.  Probably due to last year’s census results finally triggering changes.  
+
+The longterm solution is very good.  Cicero provides shapefiles along with the rest of the data, so when we change to Cicero in the new year, we will receive updated shapefiles with which we can get out system back up to date.
+
+However, there is no immediate solution.  Previously, shapefiles for US were something that were found on the internet and imported in.  However, the shapefiles used must be the same as the rest of the shapefiles used, or the mapping will not work as expected.  It has been over a year since this was done for US and is a long and tedious process.  Best recommendation is to hold on until the US Cicero data project is complete and functional.  
+
+The answer to the question of "when will the next data refresh occur" is: no later that the beginning of 2022.  Dave knows of this issue and will do what is possible sooner.
+
+
+## Fri, Nov 5 2021
+### .as_json
+https://jsonlint.com/
+
+To use jsonlint on the results from rails console queries, all `.as_json` to the end of the query and the output format will be json that can be parsed by jsonlint.
+
+### Zendesk 1124, https://oneclickpolitics.zendesk.com/agent/tickets/1124
+The wrong state rep is bring brought up in the widget for the signer.
+
+The sender’s address is: 1425 Lurecliff Pl, Fort Mill, SC, 29708.  According to https://www.scstatehouse.gov/legislatorssearch.php, this sender’s South Carolina State Representative is: SC House District 26 - R. Raye Felder
+
+According to geocod.io, this address (and the Lat/Long) put this sender in House District 26 with state rep Raye Felder.
+
+Unfortunately, the live site consistently brings up Bryant, Bruce and I cannot determine why.
+
+
+I created my own widget on the live site.
+
+In the first test, I added both reps (as always send).  The wrong one was the only one displayed in the widget.
+
+In the second test, I added no reps.  The wrong one was the only one displayed in the widget.
+
+### geocode.io
+```
+user: susan.prestage@gmail.com
+password: BseeingU2!
+```
+
+Geocode.io calls for the address 1425 Lurecliff Pl, Fort Mill, SC, 29708
+```
+curl "https://api.geocod.io/v1.6/geocode?q=1425+Lurecliff+Pl%2c+Fort+Mill+SC&fields=stateleg&api_key=8ef516fcc66efb86fe0b6165511cb0b6866ba00"
+curl "https://api.geocod.io/v1.6/reverse?q=35.073789,-80.961816&fields=stateleg&api_key=8ef516fcc66efb86fe0b6165511cb0b6866ba00"
+```
+
+Example calls to geocode.io
+```
+curl "https://api.geocod.io/v1.6/geocode?q=1109+N+Highland+St%2c+Arlington+VA&api_key=8ef516fcc66efb86fe0b6165511cb0b6866ba00"
+curl "https://api.geocod.io/v1.6/geocode?q=1109+N+Highland+St%2c+Arlington+VA&fields=cd,stateleg&api_key=8ef516fcc66efb86fe0b6165511cb0b6866ba00"
+curl "https://api.geocod.io/v1.6/reverse?q=38.886672,-77.094735&fields=cd,stateleg&api_key=8ef516fcc66efb86fe0b6165511cb0b6866ba00"
+```
+
+https://dash.geocod.io/apikey
+
+8ef516fcc66efb86fe0b6165511cb0b6866ba00
+
+https://www.geocod.io/docs/#state-legislative-districts
+
+
+**Yesterday I**
+- reviewed a couple of pending PRs
+- merged the name updater name update work for CA import, ON-1392
+- paired with Alex on the widget Safari issue
+- Worked on https://oneclickpolitics.zendesk.com/agent/tickets/1124
+  - I can confirm that the sender is being mapped incorrectly to Rep. Bruce Bryant's district, when they should be mapped to R. Raye Felder: https://www.scstatehouse.gov/legislatorssearch.php.  1425 Lurecliff Pl, Fort Mill, SC, 29708
+  - Nate: how do we check if KnowWho is mapping someone correctly?  Did you check this last time using Postman calls?  Or is this an error in the shapefiles from KnowWho?  Or?  Also, what is used to "map" a sender, address, lat/long?
+
+  address -> geocoder service (us = geocode.io, au/ca = opencage)
+  field for good up until
+
+**Today I**
+- [x] 1/2 done with the refactor of the tests for the cicero import name updater with Dave's advice here, https://oneclickpolitics.atlassian.net/browse/ON-1378
+- [ ] think about how to implement next big project will probably be a Recipients API
+- [ ] need final reviews for the deactivation rake task refactor, https://github.com/one-click-politics/one-click-politics/pull/429; alex has finalized, Nate or Dave haven't looked yet.  Merge when needed but work on other things first.
+- [ ] merge the deactivation rake task refactor, ON-1366
+
+
+## Thu, Nov 4 2021
+**Yesterday I**
+- researched and updated https://oneclickpolitics.zendesk.com/agent/tickets/1130, regarding NationBuilder syncs...the syncs look good, no older than 31 Oct.  1 of these failed on 31 Oct, so I kicked off a new one, which succeeded.  Full details of when syncs occurred for each of the sub-promoters is listed in the zendesk ticket.  
+- responded to PR reviews
+
+**Today I**
+- [x] review a couple of pending PRs
+- [x] merge the name updater name update work for CA import, ON-1392
+- [x] paired with Alex on the widget Safari issue
+- [ ] refactor the tests for the cicero import name updater with Dave's advice here, https://oneclickpolitics.atlassian.net/browse/ON-1378 - this should be straightforward but I think I should consider doing this on another branch than the implementation of the name updater
+- [ ] https://oneclickpolitics.zendesk.com/agent/tickets/1124
+- [ ] think about how to implement next big project will probably be a Recipients API
+- [ ] need final reviews for the deactivation rake task refactor, https://github.com/one-click-politics/one-click-politics/pull/429; alex has finalized, Nate or Dave haven't looked yet.  Merge when needed but work on other things first.
+- [ ] merge the deactivation rake task refactor, ON-1366
+
+### example elastic search queries
+```
+{
+  "query": {
+    "bool": {
+      "must":
+        [
+          {
+            "match": {"promoter.id": "13607"}
+          }
+          {
+            "range": {
+              "delivery_date": {
+                "gte": "2021-10-28",
+                "lte": "2021-11-03"
+              }
+            }
+          }
+        ]
+    }
+  },
+  "size": 0,
+  "aggs": {
+    "by_date_medium": {
+      "multi_terms": {
+        "terms": [{
+          "field": "delivery_date.raw"
+        }, {
+          "field": "medium.raw"
+        }]
+      }
+    },
+    "senders_per_day": {
+      "date_histogram": {
+        "field": "delivery_date",
+        "calendar_interval": "day"
+      },
+      "aggs": {
+        "distinct_senders": {
+          "cardinality": {
+            "field": "sender.email.raw"
+          }
+        }
+      }
+    }
+  }
+}
+
+Shams Baig  9:25 AM
+{
+  "query": {
+    "bool": {
+      "must":
+        [
+          {
+            "match": {"promoter.id": "13607"}
+          },
+          {
+            "range": {
+              "delivery_date": {
+                "gte": "2021-10-28",
+                "lte": "2021-11-03"
+              }
+            }
+          }
+        ]
+    }
+  },
+  "size": 0,
+  "aggs": {
+    "by_date_medium": {
+      "multi_terms": {
+        "terms": [{
+          "field": "delivery_date.raw"
+        }, {
+          "field": "medium.raw"
+        }]
+      },
+      "aggs": {
+        "distinct_senders": {
+          "cardinality": {
+            "field": "sender.email.raw"
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+## Wed, Nov 3 2021
+**Latest status**
+- [ ] refactor the tests for the cicero import name updater with Dave's advice here, https://oneclickpolitics.atlassian.net/browse/ON-1378 - this should be straightforward but I think I should consider doing this on another branch than the implementation of the name updater
+- [x] respond to PR reviews
+
+**Yesterday I**
+- fixed the 10 CA broken import tests (broken in ON-1391) - I believe this may have something to do with the addition of cicero_codes to several of the factory generated CA recipients
+- started and finished the name update work for CA import, ON-1392
+- wrote tests for the name update work for CA import, ON-1392
+- created PR for name update work for CA import, ON-1392, https://github.com/one-click-politics/one-click-politics/pull/431
+
+**Today I plan to**
+- [ ] refactor the tests for the cicero import name updater with Dave's advice here, https://oneclickpolitics.atlassian.net/browse/ON-1378 - this should be straightforward but I think I should consider doing this on another branch than the implementation of the name updater
+- [ ] respond to PR reviews
+
+
+## Tue, Nov 2 2021
+**Latest status**
+- [ ] fix the 10 CA broken import tests (broken in ON-1391) - I believe this may have something to do with the addition of cicero_codes to several of the factory generated CA recipients
+- [ ] start the name update work for CA import
+- [ ] write tests for the name update work for CA import
+
+
+**Yesterday I**
+- test out the CA deactivation rake task on staging, branch ON-1366
+- test out the CA/AU rake task refactoring on staging, branch ON-1366
+- KnowWho import on production in process...
+- deploy the (pre-refactored) deactivation rake task to production
+- test the deactivation rake task on production to see how the recipient data really looks before touching anything.  Data looks great.  Only 8 without cicero codes and those are only the CA house recipients.
+- deploy master to staging to test out the CA UI changes
+- test out the CA UI changes for no cicero codes on staging (CustomRecipient vs CA w/ code vs CA w/o code)
+- discovered that 10 of the CA import tests were broken with the CA UI changes
+
+**Today I plan to**
+- [ ] fix the 10 CA broken import tests (broken in ON-1391) - I believe this may have something to do with the addition of cicero_codes to several of the factory generated CA recipients
+- [ ] start the name update work for CA import
+- [ ] write tests for the name update work for CA import
+
+
+## Mon, Nov 1 2021
+**Latest status**
+- [x] deployed ON-1366 is deployed to staging
+- [x] deployed master with latest KnowWho to production
+- [x] test out the CA deactivation rake task on staging, branch ON-1366
+- [x] test out the CA/AU rake task refactoring on staging, branch ON-1366
+- [x] KnowWho import on production in process...
+- [x] get the deactivation rake task deployed to production to see how the recipient data really looks before touching anything <- this is already done; doesn't include refactor, but is fine for looking at the data.  Data looks great.  Only 8 without cicero codes and those are only the CA house recipients.
+- [x] deploy the (pre-refactored) deactivation rake task to production
+- [x] test the deactivation rake task on production to see how the recipient data really looks before touching anything.  Data looks great.  Only 8 without cicero codes and those are only the CA house recipients.
+- [x] deploy master to staging to test out the CA UI changes
+- [x] test out the CA UI changes for no cicero codes on staging (CustomRecipient vs CA w/ code vs CA w/o code)
+- [ ] start the name update work for CA import
+
+
+**Monday I**
+- finished the refactoring of the deactivation rake tasks into a single rake task
+- implemented tests of the new method being used by the deactivation rake task
+- got the CA deactivation PR deployed to staging for test
+- got the CA & AU deactivation refactor branch deployed to staging for test
+
+**Today I plan to**
+- [x] test out the CA deactivation rake task on staging
+- [x] test out the CA/AU rake task refactoring on staging
+- [x] get the deactivation rake task deployed to production to see how the recipient data really looks before touching anything <- this is already done; doesn't include refactor, but is fine for looking at the data
+- [x] try to get the CA UI PR merged and deployed to staging as well, depends on PR comments since the PR was created late yesterday, Wed
+- [ ] start the name update work for CA import
+- [x] KnowWho import
+
+
+## Fri, Oct 29 2021
+**Yesterday I**
+- responded to Nate's PR comments
+- refactored the deactivation rake tasks for AU and CA to use a service object
+
+**Today I plan to**
+- [ ] implement tests of the new service object being used by the deactivation rake tasks
+- [ ] get the deactivation PR merged and deployed to staging for test
+- [ ] get the deactivation rake task deployed to production to see how the recipient data really looks before touching anything
+- [ ] try to get the CA UI PR merged and deployed to staging as well, depends on PR comments since the PR was created late yesterday, Wed
+- [ ] start the name update work for CA import
+- [ ] LATER (THIS IS FOR THE NAME UPDATE) write the specs for the name update, plus some spec refactoring from the AU work that will be used here being pulled into a spec helper that both specs will use
+
+
+## Thu, Oct 28 2021
+**Yesterday I**
+- tested the CA cicero import locally and on staging.  There was an odd error as a result of the odd way they gave us the districts and shapes...first with extra and old districts, then only the new ones.  Nate and I determined that the "errors" were really more "warnings" and the district import was successful.  The actual match and import succeeded with no issues.
+- the full CA cicero import on production succeeded with no issues
+- made the PR for the deactivation rake task
+- did the UI work to no longer show the CA recipients with no cicero code (in the widget editor and widget)
+- wrote the specs for the CA UI work; also split out these CA & AU specific tests out of the main widget spec (rather too big)
+- made the PR for the CA UI work
+- update Jira, move backlog items into sprint
+- did some local by hand testing to confirm the UI work for CA recipients with and without codes
+
+**Today I plan to**
+- [ ] respond to various PR comments
+- [ ] get the deactivation PR merged and deployed to staging for test
+- [ ] get the deactivation rake task deployed to production to see how the recipient data really looks before touching anything
+- [ ] try to get the CA UI PR merged and deployed to staging as well, depends on PR comments since the PR was created late yesterday, Wed
+- [ ] rake task refactoring to use a service object and implement some tests; this gives some direction and pointers to examples, https://oneclickpolitics.atlassian.net/browse/ON-1366
+- [ ] start the name update work for CA import
+
+
 ## Wed, Oct 27 2021
 **Yesterday I**
 - paired with Nate and solved the CA cicero import issues.  It turns out that due to an August election, the shape files had changed for Canada (not AU), but Cicero did not include these updated files in the October drop.  And yes, you do remember correctly that they also forgot the role and level files for both AU & CA.  Since this was only CA, I didn't trip over the issue last week in the midst of the AU import circus.
@@ -22,11 +1245,14 @@ This doc will have unchecked tasks in the past.  These are either obsolete, or h
 - I have downloaded and unzipped the shapefiles that were missing from the CA Cicero import data
 
 **Today I**
-- [ ] now that we have the shape files, I'll first test the CA cicero import locally, then on staging due to the name update changes which shouldn't affect CA, but I'm cautious
-- [ ] do the full CA cicero import on production 🤞
-- [ ] make the PR for the deactivation rake task
-- [ ] start the UI work for the CA recipients with no cicero code (widget editor and widget)
-- [ ] specs for the UI work
+- [x] now that we have the shape files, I'll first test the CA cicero import locally, then on staging due to the name update changes which shouldn't affect CA, but I'm cautious
+- [x] do the full CA cicero import on production 🤞
+- [x] make the PR for the deactivation rake task
+- [x] start the UI work for the CA recipients with no cicero code (widget editor and widget)
+- [x] specs for the UI work
+- [x] update Jira, move backlog items into sprint
+- [x] do by hand testing to confirm the UI work for CA recipients of the three types with and without codes
+- [ ] rake task refactoring to use a service object and implement some tests; this gives some direction and pointers to examples, https://oneclickpolitics.atlassian.net/browse/ON-1366
 - [ ] start the name update work for CA
 - [ ] get the deactivation PR merged and deployed to staging for test
 - [ ] get the deactivation rake task deployed to production to see how the recipient data really looks before touching anything
@@ -1551,7 +2777,7 @@ redis                                                          3.0.5          c7
 ```
 
 
-## Wed, 7 Jul, 2021
+## Wed, 7 Jul 2021
 
 Received my HR stuff.  Mostly straightforward.  Reading through docs and getting signed up to QuickBooks for W2...which is currently asking what my IL Withholding should be.  Working with John figure that out.  
 
@@ -1580,7 +2806,7 @@ Got my ssh keys set up for staging and prod.
 Done with setup.  Spent the remainder of the day pairing on the mailer logging task, ON-1204.
 
 
-## Tue, 6 Jul, 2021
+## Tue, 6 Jul 2021
 
 ### First day at OneClickPolitics
 

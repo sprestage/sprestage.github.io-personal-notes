@@ -12,9 +12,9 @@ alias ls_cicero="aws --profile cicero_user s3 ls --recursive s3://cicero-global-
 scp -i ~/.ssh/id_rsa ../../one-click-politics/docker/postgres/*CA.sql ubuntu@ec2-184-72-246-33.compute-1.amazonaws.com:~/australia/sep2021
 ```
 
-don't use `new-production-2` like below, use the ip address above:
+don't use `new-production-3` like below, use the ip address above:
 ```
-scp -i ~/.ssh/id_rsa docker/postgres/*.sql new-production-2.c8rvchfbyjh2.us-east-1.rds.amazonaws.com:/australia/sep2021
+scp -i ~/.ssh/id_rsa docker/postgres/*.sql new-production-3.c8rvchfbyjh2.us-east-1.rds.amazonaws.com:/australia/sep2021
 ```
 54.235.144.131
 
@@ -23,11 +23,13 @@ scp -i ~/.ssh/id_rsa docker/postgres/*.sql new-production-2.c8rvchfbyjh2.us-east
 
 [Import CA](#to-update-canada)
 
+[Import UK](#to-update-united-kingdom)
+
 ---
 
-## Updating Cicero data for Australia and Canada
+## Updating Cicero data for Australia, Canada, and United Kingdom
 
-For Australia and Canada, our third-party Cicero service provides both shapefiles and recipient .CSVs.  
+For Australia, Canada, and United Kingdom, our third-party Cicero service provides both shapefiles and recipient .CSVs.  
 
 ### To update Australia:
   [Step 1 - Download and extract the shapefiles and .CSVs from our Cicero S3 bucket](#au-step-1) <br>
@@ -101,7 +103,7 @@ You'll want to extract cicero_au_officials.zip and copy the .CSV:
 into:
 
 ```
-  One-Click-Reboot/lib/import_data/australia/cicero_au_officials.csv
+  One-Click-Politics/lib/import_data/australia/cicero_au_officials.csv
 ```
 
 replacing any .csv file already there.  
@@ -267,13 +269,13 @@ To access the latest Cicero data using these credentials, call:
   aws --profile cicero_user s3 ls --recursive s3://cicero-global-data-us-east-1/OneClickPolitics/
 ```
 
-Retrieve the latest shapefiles by downloading and extracting cicero_ca_districts.zip:
+**Retrieve the latest shapefiles** by downloading and extracting cicero_ca_districts.zip:
 
 ```
   aws --profile cicero_user s3 cp s3://cicero-global-data-us-east-1/OneClickPolitics/latest/cicero_ca_districts.zip cicero_ca_districts.zip
 ```
 
-Pull the latest .CSVs by downloading and extracting cicero_ca_officials.zip, cicero_ca_officials_roles.zip, and cicero_ca_officials_levels.zip:
+**Pull the latest .CSVs** by downloading and extracting cicero_ca_officials.zip, cicero_ca_officials_roles.zip, and cicero_ca_officials_levels.zip:
 
 ```
   aws --profile cicero_user s3 cp s3://cicero-global-data-us-east-1/OneClickPolitics/latest/cicero_ca_officials.zip cicero_ca_officials.zip
@@ -306,7 +308,7 @@ You'll want to extract cicero_ca_officials.zip and copy the .CSV:
 into:
 
 ```
-  One-Click-Reboot/lib/import_data/canada/cicero_ca_officials.csv
+  One-Click-Politics/lib/import_data/canada/cicero_ca_officials.csv
 ```
 
 replacing any .csv file already there.  
@@ -468,3 +470,212 @@ susanprestage@Susans-MBP one-click-politics % ls -l docker/postgres/*CA.sql
 ```
 
 ## Notes from my last CA import - STAGING
+
+
+### To update United Kingdom:
+  [Step 1 - Download and extract the shapefiles and .CSVs from our Cicero S3 bucket](#uk-step-1) <br>
+  [Step 2 - Update United Kingdom Districts and Shapefiles](#uk-step-2) <br>
+  [Step 3 - Copy new .CSV files into the corresponding subfolder](#uk-step-3) <br>
+  [Step 4 - Updating United Kingdom Recipients](#uk-step-4) <br>
+  [Step 5 - Troubleshooting ("Party ... not found" messages)](#uk-step-5) <br>
+
+  [UK name updater testing](#uk-name-updater-testing)
+
+#### UK Step 1
+**Download and extract the shapefiles and .CSVs from our Cicero S3 bucket.**
+
+# STOP!!!  DISCONNECT FROM YOUR VPN FIRST!!!
+You'll need the AWS command line client, as well as an AWS profile with appropriate credentials.  On OSX, your credentials file should be saved to:
+
+```
+  ~/.aws/credentials  
+```
+
+and should include a user with access to our Cicero S3 bucket:
+
+```
+  [cicero_user]
+  aws_access_key_id = AKIARQTLGY25RK5ILJMC
+  aws_secret_access_key = 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
+```
+
+To access the latest Cicero data using these credentials, call:
+
+```
+  aws --profile cicero_user s3 ls --recursive s3://cicero-global-data-us-east-1/OneClickPolitics/
+```
+
+Retrieve the latest shapefiles by downloading and extracting cicero_uk_districts.zip:
+
+```
+  aws --profile cicero_user s3 cp s3://cicero-global-data-us-east-1/OneClickPolitics/latest/cicero_uk_districts.zip cicero_uk_districts.zip
+```
+
+Pull the latest .CSVs by downloading and extracting cicero_uk_officials.zip, cicero_uk_officials_levels.zip, and cicero_uk_officials_roles.zip:
+
+```
+  aws --profile cicero_user s3 cp s3://cicero-global-data-us-east-1/OneClickPolitics/latest/cicero_uk_officials.zip cicero_uk_officials.zip
+
+  aws --profile cicero_user s3 cp s3://cicero-global-data-us-east-1/OneClickPolitics/latest/cicero_uk_officials_levels.zip cicero_uk_officials_levels.zip
+
+  aws --profile cicero_user s3 cp s3://cicero-global-data-us-east-1/OneClickPolitics/latest/cicero_uk_officials_roles.zip cicero_uk_officials_roles.zip
+```
+
+#### UK Step 2
+**Update United Kingdom Districts and Shapefiles**
+
+Follow the instructions for import_cicero_united_kingdom_shapefiles in update_united_kingdom.rake.  [Rakefile instructions](cicero_raketask_import_uk_shapefiles.html)
+
+Just remember you will need to put the .sql files into “/docker/postgres/” locally.
+
+#### UK Step 3
+**Copy new .CSV files into the corresponding subfolder of:**
+
+```
+  lib/import_data
+```
+
+You'll want to extract cicero_uk_officials.zip and copy the .CSV:
+
+```
+  cicero_uk_officials.csv
+```
+
+into:
+
+```
+  One-Click-Politics/lib/import_data/united_kingdom/cicero_uk_officials.csv
+```
+
+replacing any .csv file already there.  
+
+As of March 2021 (and discovered in July 2021), Cicero has split their levels data and roles data out of the main CSV and into each one’s own CSV. This wrought havoc on our normal import process. Maged and Nate found and modified an existing CSV Merger script to recreate the original file’s data, so that we can get by for now. Here’s the file: https://www.dropbox.com/s/ilm7gp9lo4n1c9l/csv_merge.rb?dl=0
+The file currently assumes the CSV files are in the same directory as the file. Just run
+```
+  ruby csv_merge.rb
+```
+with the correct filenames, and the result.csv should be the new officials csv.
+Susan and Nate have also found that there have occasionally been a few troublesome rows - specifically ones with a “level” of “headOfGovernment”. These have sparked an error finding the id for nil:NilClass in the importer_modules.rb file. You can safely delete these rows.
+
+You'll need to update this .CSV on any environment where you plan to update reps.  For this reason, it's best to check this change into source, and deploy to both production and staging.
+
+##### merge troubleshooting
+If you see this error:
+```
+/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/csv/parser.rb:869:in `parse_quotable_robust':
+Any value after quoted field isn't allowed in line 445. (CSV::MalformedCSVError)
+```
+it is a result of this string, `'"`, being used in the description field.  In VI, a global search and replace will fix the issue.  `:%s/'"/'/`.  Feel free to go to each line in the editor of your choice to see what I mean.  When you run the merge again, it will stop at the next row with this issue.
+
+#### UK Step 4
+**Updating United Kingdom Recipients**
+
+Once you’ve updated cicero_uk_officials.csv, complete the imports using the UnitedKingdomRecipientImporter object.
+
+The UnitedKingdomRecipientImporter object in
+
+```
+lib/importer_modules/united_kingdom/united_kingdom_importers.rb
+```
+
+operates in much the same way as the US imports described above.  Make sure to import Cicero’s district shapefiles as described above before importing recipients.
+
+```
+require ('importer_modules/united_kingdom/united_kingdom_importers')
+```
+
+##### If we need to import any of the parties defined in Importer::UnitedKingdom.parties
+```
+party_importer = Importer::UnitedKingdomPartyImporter.instance
+party_importer.import
+party_importer.import :record => true
+```
+
+##### import recipients, but only after we’ve imported our districts
+```
+recipient_importer = Importer::UnitedKingdomRecipientImporter.instance
+recipient_importer.setup
+recipient_importer.match
+recipient_importer.all_problems # Look at problems
+recipient_importer.import
+recipient_importer.all_problems # Look at problems
+recipient_importer.import :record => true
+```
+
+If calling
+
+```
+  recipient_importer.all_problems
+```
+
+returns "Party ... not found" error messages, you may need to add new Party records to our system, and then attempt the imports again.  
+
+##### import recipients as above, but with last_name, first_name overwrite enabled
+```
+recipient_importer.import(:overwrite_firstname => true, :overwrite_lastname => false)
+recipient_importer.all_problems # Look at problems
+recipient_importer.import(:record => true, :overwrite_firstname => true, :overwrite_lastname => false)
+
+```
+
+##### troubleshooting problems with match or import
+When running the matcher step, `recipient_importer.match` and see this when looking at `recipient_importer.all_problems`:
+```
+:office_matcher=>[["No Office record found for comm JOINT)\n", "No Office record found for comm JOINT)\n", "No Office record found for comm JOINT)\n", "No Office record found for comm JOINT)\n", "No Office record found for comm JOINT)\n", "No Office record found for comm JOINT)\n"]]
+```
+look through the .csv file for weird roles.  There should be only two, in AU anyway, legislatorUpperBody and legislatorLowerBody.  This error was most recently caused (in the October import) by some duplicated headofGovernment rows being added.  Further investigation showed this duplication is being introduced during the merge.  Need to create a Jira to fix this issue in the csv_merge.rb ruby script.
+
+When running the import `recipient_importer.import` and see this when looking at `recipient_importer.all_problems`:
+```
+:recipient_importer=>[["Row cannot be imported with missing fields", "Row cannot be imported with missing fields"]]
+```
+This is the same problem as above, just the .import step instead of the .match step.
+
+
+#### UK Step 5
+**"Party ... not found" messages mean that we might be missing Party records from our database, and/or missing party names from our country_definitions.rb file.**
+
+First, for any missing party, make sure the party name and abbreviation appear in the UnitedKingdom.parties method in:
+
+```
+  lib/importer_modules/country_definitions.rb
+```
+
+If they don't appear in this list, add them.  Then run the rake task:
+
+```
+  RAILS_ENV=production bundle exec rake import_uk_parties[record]
+```
+
+to make sure all of these parties have a record in our database.  
+
+
+### Updating United Kingdom Districts and Shapefiles
+
+See steps 1-2, above.
+
+### Updating United Kingdom Recipient Data
+
+See steps 1 and 3-5, above.
+
+
+#### AU name updater testing
+```
+recipient_importer.import(:overwrite_firstname => false, :overwrite_lastname => false)
+recipient_importer.all_problems # Look at problems
+recipient_importer.import(:overwrite_firstname => false, :overwrite_lastname => false, :record => true)
+
+recipient_importer.import(:overwrite_firstname => true, :overwrite_lastname => false)
+recipient_importer.all_problems # Look at problems
+recipient_importer.import(:overwrite_firstname => true, :overwrite_lastname => false, :record => true)
+
+recipient_importer.import(:overwrite_firstname => false, :overwrite_lastname => true)
+recipient_importer.all_problems # Look at problems
+recipient_importer.import(:overwrite_firstname => false, :overwrite_lastname => true, :record => true)
+
+recipient_importer.import(:overwrite_firstname => true, :overwrite_lastname => true)
+recipient_importer.all_problems # Look at problems
+recipient_importer.import(:overwrite_firstname => true, :overwrite_lastname => true, :record => true)
+```
+
+---

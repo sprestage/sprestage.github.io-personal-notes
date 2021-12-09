@@ -56,7 +56,7 @@ Locally with docker, put the sql files into your docker/postgres/ folder and run
      docker-compose exec postgres psql -U ocp -d ocp -f /ocp/postgres/NATIONALUPPER_AU.sql
 ```
 
-**Step 5.**  Now you should be able to run import_cicero_canada_shapefiles.  Use the [record] flag to make changes to the database.
+**Step 5.**  Now you should be able to run import_cicero_australia_shapefiles.  Use the [record] flag to make changes to the database.
 ```
 bundle exec rake import_cicero_australia_shapefiles RAILS_ENV=production
 

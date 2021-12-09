@@ -34,8 +34,8 @@ NewDistrict.reset_table :ca_geom_srid => '4326', :columns => { :district_i => :s
 
 Production
 ```
- psql -U ocp -d ocp_new -h new-production-2.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/canada/oct2021/STATELOWER_CA.sql
- psql -U ocp -d ocp_new -h new-production-2.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/canada/oct2021/NATIONALLOWER_CA.sql
+ psql -U ocp -d ocp_new -h new-production-3.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/canada/oct2021/STATELOWER_CA.sql
+ psql -U ocp -d ocp_new -h new-production-3.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/canada/oct2021/NATIONALLOWER_CA.sql
 ```
 
 Staging

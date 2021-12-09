@@ -20,13 +20,7 @@
 ### Coming soon tasks
 Because I cannot keep such a huge daily list, it is becoming unmanageable.  Also for the tasks that are pending, but I don't know when they are happening.  This list should be reviewed whenever I meet with Danny, in case there are things she should follow up on.  These are also weekend tasks more than weekday tasks, at least for the tasks that I need to do.
 
-- [ ] meticulously clean and oil the china cabinet
 - [ ] meticulously clean and oil the piano
-- [ ] meticulously clean and oil the display hutch in the corner
-- [ ] unpack boxes I had brought upstairs
-- [ ] unpack long box in my room
-- [ ] unpack another pantry box
-- [ ] find boxes of china to be brought up
 - [ ] Dev notes, personal.  Set this up in Pages.
 - [ ] Business notes, for Orchideas Car Rentals.  Set this up in Pages.
 - [ ] move these to the index as I get them set up:
@@ -44,10 +38,6 @@ Because I cannot keep such a huge daily list, it is becoming unmanageable.  Also
 - [ ] Business cards.  Update: Danny has ordered, but needs an update, 25 Oct.  I'm hoping for these by Tues, 2 Nov.  Asked Danny on Saturday, Oct 2, to order two more boxes.  Check in with Danny on the progress and what I owe PSG Graphics.
 - [ ] 3 layer contracts.  Update: Danny has ordered, but needs an update, 25 Oct.  I'm hoping for these by Tues, 2 Nov.  Asked Danny on Saturday, Oct 2, to find someone to do this.  Check in with Danny on the progress.
 
-## shopping
-- [ ] shopping (dry & wet catfood, fruit, whipped cream, whipping cream, coffee)
-- [ ] Mitsubishi needs new battery.  I want to put the small battery currently in the truck into the Mitsubishi, then buy a larger/stronger battery for the truck
-- [ ] maintenance for truck
 - [ ] I need to rework the prices
 - [ ] do the FB page for the Business
 - [ ] work on inbox zero
@@ -57,7 +47,102 @@ Because I cannot keep such a huge daily list, it is becoming unmanageable.  Also
 - [ ] make snack order from Target
 - [ ] plan a visit from Al & Sela
 - [ ] make mental health appointment for Kai
-- [ ] fix shower in Susan's bathroom.  Update, I need to check this as he might have fixed what is there.  Fulo started looking into this on Sat, Oct 2, but I don't know the status.  Check with Danny.  
+- [ ] unpack a box from the pantry
+- [ ] unpack another box from the pantry
+- [ ] unpack yet another box from the pantry
+- [ ] meticulously clean and oil the display hutch in the corner
+- [ ] unpack a knick knack box
+- [ ] pick 3 boxes with books and graphic novels to come upstairs for unpacking into the office
+
+
+## Wed, 8 Dec 2021
+- [ ] get data for paying rent to Roddy (still need email and account type - asked Danny today for this)
+- [ ] pay December rent to Roddy
+- [ ] give stack of house repair receipts to Sissy for organization and totals
+- [ ] find out how much is the monthly insurance payment
+- [ ] pay monthly insurance payment
+
+### rent payment details
+CARMEN CECILIA TEDMAN MACINTYRE
+$1300
+Banco Nacional de Panamá
+100-000-36-871
+
+
+
+## Tue, 30 Nov 2021
+- [x] pay Kai's phone, 66718724 (#1638746)  **paid $44.84** on 30 Nov 2021 <- confirmed in email
+- [x] pay business phone, 63932521 (#1678356)  **paid $22.42** on 30 Nov 2021 <- confirmed in email
+- [x] pay Susan's phone, 63305175 (#1678296)  **paid $22.42** on 30 Nov 2021 <- confirmed in email
+- [x] pay house internet, (#311019100000)  **paid $62.66** on 30 Nov 2021 <- confirmed in email
+
+
+## Mon, 22 Nov 2021
+- [x] take out compost
+- [x] load of Alanna bedding (reds)
+- [ ] folding bedding
+- [ ] finish re-working prices
+- [ ] pay Rodrigo the difference in payment
+- [ ] find out amount for monthly insurance payment
+- [ ] transfer moneys to business account to cover insurance
+- [ ] fill out paper for Rodrigo for auto-transfer of monthly insurance payment
+- [ ] do a bunch of filing
+- [ ] prep house receipts for Sissy
+- [ ] print out brochure examples
+- [ ] send brochure choices to Sissy
+- [ ] send car prices and contract and car inspection and form for client/car info to Sissy
+- [ ] check on status of all the journals in regards to using Google Pages
+- [ ] pay Columba
+- [ ] change Susan bedding
+- [ ] work on unpacking big red suitcase
+- [ ] work on unpacking bin of clothes
+
+## Sun, 21 Nov 2021
+- [x] another load of towels laundry
+- [x] load of Alanna bedding (afghan)
+- [x] load of Alanna bedding (blanket)
+- [x] unpack smaller suitcase in Susan bedroom
+- [x] unpack tall box with kites
+- [x] unpack and organize legos
+- [x] sort and put away PS4
+- [x] sort and put away cables
+- [x] put away towels and Kai clothes
+- [x] clean out ice receptical in freezer
+- [x] unpack box with lampshade for horse lamp
+
+
+## Sat, 20 Nov 2021
+- [x] clean kitchen, second half
+- [x] clean off dining table
+- [x] change tablecloth
+- [x] hot load of Kai/Susan laundry
+- [x] warm load of Kai school whites laundry
+- [x] fold hot, warm, cold loads plus towels
+- [x] warm load of Alanna laundry
+
+
+## Fri, 19 Nov 2021
+Time to try to update and catch up with this.  Adelina's broken arm 3 weeks ago has severely affected my ability to keep up with everything and is threatening to interfere with Christmas planning and decorating and is already impacting the cleanliness of the house as well as my ability to put in needed time on the business.  And Alanna's birthday is tomorrow.  yikes!
+- [x] fold all the existing laundry
+- [x] put away all existing folded laundry
+- [x] organize left closet so it will close again
+- [x] clean kitchen, first half
+- [x] pillows laundry
+- [x] cold load of Kai/Susan laundry
+
+
+## Mon, 1 Nov 2021
+- [x] initiate wire transfer; MCTBPAPA 10152531173 ref# 20213050070400
+
+
+## Sat-Sun, 23-31 Oct 2021
+- [x] re-clean photo album cabinet and move de-humidifier
+- [x] meticulously clean and oil the china cabinet
+- [x] unpack long box in my room
+- [x] find boxes of china to be brought up
+- [x] unpack first box of china
+- [x] unpack second box of china
+- [x] unpack box with remaining photo albums and yearbooks
 
 
 ## Fri, 22 Oct 2021
@@ -150,6 +235,8 @@ Fecha límite de pago 20/10
 ### notes on my BECU ATM card
 I remember having it work successfully about a month ago at Banco General.  I've has a terrible time getting it to work at Multibank.  Today I tried each combination of Savings/Checking and 8967 and 8976.  I'm pretty sure it is that first one.  I tried for $250 each time.  12 Oct - 9867  I have a feeling.  Try this one next time.
 
+9/8/2021
+9/8/2021	 	ATM Withdrawal - BANCO GENERAL BG/SUC BOQUETE/2491 BAJO BOQUETE PA - Card Ending In 7892	$255.25
 
 ## Sun, 10 Oct 2021
 - [x] meticulously clean and oil the secretary
