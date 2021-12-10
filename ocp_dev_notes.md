@@ -10,18 +10,51 @@ This doc will have unchecked tasks in the past.  These are either obsolete, or h
 [Cicero Import](cicero_import.html) - Everything needed for the CA and AU Cicero imports.
 
 
+## Mon, Dec 13 2021
+**Friday I**
+
+**Today I plan to:**
+- [ ]
+
+
+## Fri, Dec 10 2021
+**Yesterday I**
+- looked through the NationBuilder syncs from the night before, confirming that things look good
+- checked the new logs for NB sync tags; and I'm confused why tags aren't sent with every sync
+- researched what are the business rules; when do we send tags?  Posted the answer in #engineering channel.
+- paired with Alex to track down ideas for chasing down the tagging issue
+- used those ideas to track the problem conversions from end to end
+- wrote a long explanation of what I found and what didn't make sense in my findings and posted it to the engineering channel, flagging Dave and inviting others for possible explanations and better understanding
+
+**This morning I**
+- merged and deployed the sync cutoff change to 2 days
+- created a Jira ticket to research how to detect a stale overly long sync, https://oneclickpolitics.atlassian.net/browse/ON-1478
+- created Jira ticket to implement from the above research how to trigger an email or a restart of an overly long sync that needed to be cut off, https://oneclickpolitics.atlassian.net/browse/ON-1479
+
+**Today I plan to:**
+- [ ] research how to detect a stale overly long sync
+- [ ] read through Dave's import instructions for US to see how it works/reads; the writeup is in this jira https://oneclickpolitics.atlassian.net/browse/ON-1407 the instructions are at the top, plus a ton of comments below tracking what he's doing.  It is also in the comments for the shape file rake task.
+
+
 ## Thu, Dec 9 2021
+
+### handy commands, aws
+#### how to scp aws
+```
+ scp -i ~/.ssh/id_rsa ../../one-click-politics/docker/postgres/*CA.sql ubuntu@ec2-184-72-246-33.compute-1.amazonaws.com:~/canada/oct2021
+```
+
 ### update for Maged on NationBuilder tags
 I did some good pairing with Alex brainstorming additional ideas to track the “lack of tagging” issue for the client complaints in zendesk #1128.
 
 Here are the questions I will work to answer to try to identify problems:
 
-- Check how did we deliver for each conversion for that sender profile, (email/phone/etc)?  
-- Are they constituents?  If not, then conversion will not be created.
-- Did the signer only fill out the first step of the widget and click to go to the next step but not do anything, thus not completing the widget.  If so, then would this create a conversion still?  I think no, but want to confirm.
-- What about the recipient that has no way to be reached?  The presentation of our analytics would indicate that this succeeded (confirmed by Alex).  But NB would not, since only a successful conversion delivery sends a tag.
-- In lib/jobs/nation_builder_sync/nation_builder_sync.rb:L53-55 there is an ordering for NB syncs.  First are the email conversions, then tags, then service deliveries.  Service deliveries includes video, twitter, and phone.  Are there types of deliveries that are falling through the cracks, causing advocates to not get synced and therefore those advocates do not get tags?
-- What if a conversion has no associated advocate profile, conversion.advocate_profile.  This is accessed at the beginning of the sync.  The latest conversion I looked at on prod didn’t have one, so this is another thing to investigate.
+- email - Check how did we deliver for each conversion for that sender profile, (email/phone/etc)?  
+- yes - Are they constituents?  If not, then conversion will not be created.
+- no - Did the signer only fill out the first step of the widget and click to go to the next step but not do anything, thus not completing the widget.  If so, then would this create a conversion still?  I think no, but want to confirm.
+- successfully sent - What about the recipient that has no way to be reached?  The presentation of our analytics would indicate that this succeeded (confirmed by Alex).  But NB would not, since only a successful conversion delivery sends a tag.
+- uncertain answer; posted questions in #engineering channel - In lib/jobs/nation_builder_sync/nation_builder_sync.rb:L53-55 there is an ordering for NB syncs.  First are the email conversions, then tags, then service deliveries.  Service deliveries includes video, twitter, and phone.  Are there types of deliveries that are falling through the cracks, causing advocates to not get synced and therefore those advocates do not get tags?
+- looks like this isn't the problem - What if a conversion has no associated advocate profile, conversion.advocate_profile.  This is accessed at the beginning of the sync.  The latest conversion I looked at on prod didn’t have one, so this is another thing to investigate.
 
 **Yesterday I**
 - merged and deployed the country_code fix and tests
@@ -42,16 +75,79 @@ email = CWC, webform, email, fax, webmail, web address,
 - What about the recipient has no way to be reached?  The presentation of our analytics would indicate that this succeeded.  But NB would not, since only a successful conversion sends a tag.
 - In lib/jobs/nation_builder_sync/nation_builder_sync.rb:L53-55 there is an ordering for NB syncs.  First are the email conversions, then tags, then service deliveries.  Service deliveries includes video, twitter, and phone.  Are there types of deliveries that are falling through the cracks, causing advocates to not get synced and therefore those advocates do not get tags?
 
+### current state of NationBuilder tagging
+This is the situation I'm finding for a client seeing tagging issues that I am hoping you can shed some light upon.  The givens that I am working with are:
+
+- Each campaign should have only one SenderProfile. This is not a limitation defined in the code, it just doesn't make sense to me to have a two different campaigns having the same sender profile.  If not, please help me understand why.
+- Assuming that an email sync for a conversion succeeds (conversion.nation_builder_email_synced: true) and that it isn't unsyncable (conversion.nation_builder_unsyncable: false), then my understanding is that the tag sync should occur.
+
+However, I'm seeing a couple things that don't make sense.  
+
+First, I find the conversion that matches the given campaign name and sender profile:
+```
+conversion.promoted_message.internal_campaign_name = 'US S 2725 Online Firearms Marketplace Immunity Removal' (PromotedMessage 14441)
+conversion.sender_id = 17943393 (SenderProfile.email = 'bkwittmeier@gmail.com')
+```
+
+I found this conversion, Conversion.id = 24772017
+
+What I don't understand about this conversion is why it has:
+  nation_builder_tag_synced: false
+when these are:
+  conversion.nation_builder_email_synced: true
+  conversion.nation_builder_unsyncable: false
+
+Another thing I don't understand is why SenderProfile.id = 17943393 has TWO different conversions (24771995 and 24772017).
+
+
+PromoterUser: 39610, slug: afa, token: 013c160f46caf07d4b39b9a34efa1a988023b4898f3ef46241070a34f003c598
+
+Confirmed with PromoterUser 39610/39517, PromotedMessage 14441, PromotedMessage.internal_campaign_name: '2021 - HR2377 - Nadler Red Flags - Email'  There are 2694 persons with this tag (GET /tags/:tag/people).
+
+PromoterUser 25179,
+PromotedMessage 14061, https://oneclickpolitics.com/promoter/25179/messages/14061/edit
+AdvocateProfile 2711448
+SenderProfile 4145052, 8673465, 8794569, 8860259, 8897350, 9324451, 11177338, <- ALL FROM 2020 OR EARLIER
+
+17943393-24771995-"CI |Biden Budget AA | 10-13-21"
+        -24772017-"US S 2725 Online Firearms Marketplace Immunity Removal" recipients-"20910:21286:21330"
+reached_recipient_ids: "20910:21286:21330", redelivered: false, nation_builder_email_synced: true, nation_builder_tag_synced: false, nation_builder_unsyncable: false
+
+
+18004668-24840197-"CI | Voter Fraud AA | 10-19-21"
+18025479-24863443-"US H 5427 Bump Stock NFA"
+18128153-24974218-"CI | House Judiciary Red Flags AA |10-25-21"
+18131178-24977503-"CI | House Judiciary Red Flags AA |10-25-21"
+Conversion
+slug: firearmspolicycoalition, token: 986c90c22feceafba5b77844a4b7a0a8053acb35b6b01193462dd3686cf649aa
+PromotedMessage.internal_campaign_name: 'US S 2725 Online Firearms Marketplace Immunity Removal'  There are 8877 persons with this tag.  
+NB ID: 1711626, Brian K. Wittmeier, bkwittmeier@gmail.com, does not have this tag.
+email
+
+PromoterUser 25179,
+PromotedMessage 14328, https://oneclickpolitics.com/promoter/25179/messages/14328/edit
+slug: firearmspolicycoalition, token: 986c90c22feceafba5b77844a4b7a0a8053acb35b6b01193462dd3686cf649aa
+PromotedMessage.internal_campaign_name: 'IL Ghost Gun Bans'  There are 0 persons with this tag.  
+NB ID: 1561400, Adam Emery, aemery214@gmail.com, does (not???) have this tag.
+
+PromoterUser 25179,
+PromotedMessage 14328, https://oneclickpolitics.com/promoter/25179/messages/14328/edit
+slug: firearmspolicycoalition, token: 986c90c22feceafba5b77844a4b7a0a8053acb35b6b01193462dd3686cf649aa
+PromotedMessage.internal_campaign_name: 'IL Ghost Gun Bans'  There are 0 persons with this tag.  
+NB ID: 1711700, Mike Murphy, murphy@ilhousegop.org, does (not???) have this tag.
+
+
 **Today I plan to:**
 - [x] confirm country_code fix deployed yesterday has corrected the undefined method error
 - [x] check the new logs for NB sync tags
+- [x] what are the business rules; when do we send tags?  Posted the answer in #engineering channel.
+- [x] paired with Alex to track down ideas for chasing down the tagging issue
+- [x] used those ideas to track the problem conversions from end to end
+- [x] wrote a long explanation of what I found and what didn't make sense in my findings and posted it to the engineering channel, flagging Dave and inviting others for possible explanations and better understanding
 - [ ] create Jira ticket to research how to detect a stale overly long sync
 trigger an email or a restart of an overly long sync that needed to be cut off
 - [ ] create Jira ticket to implement from the above research how to trigger an email or a restart of an overly long sync that needed to be cut off
 - [ ] read through Dave's import instructions for US to see how it works/reads; the writeup is in this jira https://oneclickpolitics.atlassian.net/browse/ON-1407 the instructions are at the top, plus a ton of comments below tracking what he's doing.  It is also in the comments for the shape file rake task.
-- [ ] tagging:
-2pm cats
-- [x] what are the business rules; when do we send tags?  Posted the answer in #engineering channel.
 
 
 ## Wed, Dec 8 2021

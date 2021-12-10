@@ -34,7 +34,6 @@ Because I cannot keep such a huge daily list, it is becoming unmanageable.  Also
 - [ ] business sign with logo, name, hours, phone, and email....talked to Danny about this sign for the gate on 25 Oct
 
 ### Check in with Danny on these
-- [ ] Weekly nag of Jorge to pay his portion of this.  It has been six months now.  I've tasked Danny with this.  Last nage was Sat, Oct 2, I think.
 - [ ] Business cards.  Update: Danny has ordered, but needs an update, 25 Oct.  I'm hoping for these by Tues, 2 Nov.  Asked Danny on Saturday, Oct 2, to order two more boxes.  Check in with Danny on the progress and what I owe PSG Graphics.
 - [ ] 3 layer contracts.  Update: Danny has ordered, but needs an update, 25 Oct.  I'm hoping for these by Tues, 2 Nov.  Asked Danny on Saturday, Oct 2, to find someone to do this.  Check in with Danny on the progress.
 
@@ -55,12 +54,51 @@ Because I cannot keep such a huge daily list, it is becoming unmanageable.  Also
 - [ ] pick 3 boxes with books and graphic novels to come upstairs for unpacking into the office
 
 
+## Fri, 10 Dec 2021
+- [x] Jorge has paid his remaining portion of the electricity bill.  Yeay!!!
+- [x] electricity: send Jean with remaining money to pay Naturgy in full, $200 <- Jean went on his own.  Combined with Jorge's payment, this is paid in full and didn't require the $200 from me I think, which is awesome in this money-tight time
+Pikmin and Mario Party date with Kai after work.  Make cookies, mocha, popcorn, and hot chocolate.
+
+Kai agreed to wake by noon every day so I can enjoy his company for 1/2 of the day time.
+
+## Thu, 9 Dec 2021
+Busy couple of days.  Last minute information meant I had to run around crazily today to get the foster kittens to their vet visit while also trying to get to the bank for cash to pay the insurance.  All the while needing to be very productive at work and get my hours in at work since Maged complained that my work has been declining these last few weeks.  This has me frantic to work well while also being frantic about money because I somehow need to pay:
+-  $1300 rent
+-  $1267 car insurance
+-   $200 in electricity bills because I havn't paid since August!?! (Paid $80 already, but have $200 more, eek!)
+-   $220 4 phone bills (150 + 23 + 23 + 23)
+-    $67 house internet
+-   $140-280 house cleaning
+-   $800 more or less to employ Jean
+-   $360 spanish classes
+- =$4500
+
+That is about $4000 and doesn't include food and misc.  All the while trying to save enough for travel and hotel for NorWesCon which I need to book very soon.
+
+Oh, and did I mention that since the cars aren't renting, I do not and will not have the money for rental on the business property, much less be able to develop it.  Opening talks with Danny to get that figured out.
+
+Also, Rody called on Tuesday and I've been too intimidated by him and by phones to return his call.  Yikes!!!
+
+Current progress on the stress items:
+- house rent: asked Danny to contact Rody for email and account type so I can deposit December rent
+- business rent: planned meeting with Danny for Saturday to make difficult decisions which probably include giving up the business property (for now?)
+- car insurance: sent the payment through Sissy to Banco General as requested  
+- electricity: sent Jean to pay $80 towards electricity
+
+Need to:
+- [ ] house rent: give Sissy the stack of receipts to organize to see what I've paid towards rent so far
+- [ ] business rent: meet with Danny on Saturday to make difficult decisions which probably include giving up the business property (for now?)
+- [ ] car insurance: get the paperwork for the car policies from Jean
+- [ ] car insurance: get the receipt for payment of this month from Sissy and get the change ($1700 - 1266.77)
+- [ ] electricity: get the Naturgy receipt from Jean
+
+
 ## Wed, 8 Dec 2021
 - [ ] get data for paying rent to Roddy (still need email and account type - asked Danny today for this)
 - [ ] pay December rent to Roddy
 - [ ] give stack of house repair receipts to Sissy for organization and totals
-- [ ] find out how much is the monthly insurance payment
-- [ ] pay monthly insurance payment
+- [x] find out how much is the monthly insurance payment
+- [x] pay monthly insurance payment
 
 ### rent payment details
 CARMEN CECILIA TEDMAN MACINTYRE
