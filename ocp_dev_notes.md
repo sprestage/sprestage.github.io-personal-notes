@@ -8,9 +8,11 @@ This doc will have unchecked tasks in the past.  These are either obsolete, or h
 - pulled examples of Recipient (person_data) that we are sending to NB and wrote up findings and sent to Maged, ON-1599, short version:
   - Yes, we always send party.  I have examples of both R & D that were sent Monday.
   - Yes, we always send prefix.  Since all congress persons have prefix of nil, then we are sending nil.  
-- got everything copied down, checked in, and merged for the Cicero US import, ON-1608
 - reviewed a couple of quick PRs
 - made a ticket for the Advocate Universe Uploads, ON-1605
+- got everything copied down from s3, checked in, and merged for the Cicero US import, ON-1608
+- this morning I deployed the above (and Alex's widget changes)
+- and ran the Cicero US import
 
 **Today I plan to**
 - [ ] deploy to production
@@ -21,12 +23,14 @@ This doc will have unchecked tasks in the past.  These are either obsolete, or h
   - [ ] list those who don't have cwc
 - [ ] at some point I hope to get back to responding to the reviews on the rake task PR for ON-1580
 - [ ] do the Advocate Universe Uploads, ON-1605
+- [ ] wrap up [#529] ON-1580 Rake task to reset conversions for re-sync to NationBuilder (sprestage)
 
 # today's personal items
 - [ ] respond to and pay AIB
 - [ ] plan covid booster shots
 - [ ] order lotion, butt balm, underwear, FloNase,
 - [ ] arrange for local allergy meds
+- [ ] pack for the beach!
 
 ### NationBuilder backlogged syncs (6pm, Mon, Jan 24)
 irb(main):029:0> promoter = PromoterUser.find 20176

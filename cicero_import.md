@@ -55,8 +55,8 @@ You'll need the AWS command line client, as well as an AWS profile with appropri
 and should include a user with access to our Cicero S3 bucket:
 ```
   [cicero_user]
-  aws_access_key_id = AKIARQTLGY25RK5ILJMC
-  aws_secret_access_key = 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
+  aws_access_key_id = xxx
+  aws_secret_access_key = yyy
 ```
 
 To access the latest Cicero data using these credentials, call:
@@ -182,8 +182,8 @@ and should include a user with access to our Cicero S3 bucket:
 
 ```
   [cicero_user]
-  aws_access_key_id = AKIARQTLGY25RK5ILJMC
-  aws_secret_access_key = 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
+  aws_access_key_id = xxx
+  aws_secret_access_key = yyy
 ```
 
 To access the latest Cicero data using these credentials, call:
@@ -387,8 +387,8 @@ and should include a user with access to our Cicero S3 bucket:
 
 ```
   [cicero_user]
-  aws_access_key_id = AKIARQTLGY25RK5ILJMC
-  aws_secret_access_key = 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
+  aws_access_key_id = xxx
+  aws_secret_access_key = yyy
 ```
 
 To access the latest Cicero data using these credentials, call:
@@ -623,8 +623,8 @@ and should include a user with access to our Cicero S3 bucket:
 
 ```
   [cicero_user]
-  aws_access_key_id = AKIARQTLGY25RK5ILJMC
-  aws_secret_access_key = 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
+  aws_access_key_id = xxx
+  aws_secret_access_key = yyy
 ```
 
 To access the latest Cicero data using these credentials, call:
