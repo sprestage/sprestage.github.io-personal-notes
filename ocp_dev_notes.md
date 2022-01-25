@@ -11,19 +11,40 @@ This doc will have unchecked tasks in the past.  These are either obsolete, or h
 - reviewed a couple of quick PRs
 - made a ticket for the Advocate Universe Uploads, ON-1605
 - got everything copied down from s3, checked in, and merged for the Cicero US import, ON-1608
-- this morning I deployed the above (and Alex's widget changes)
-- and ran the Cicero US import
+- this morning I deployed the cicero US data (and Alex's widget changes)
+- and am nearly done running the Cicero US import
 
 **Today I plan to**
-- [ ] deploy to production
-- [ ] do the Cicero US import
-- [ ] check for the missing VA, WA, and MD data <- isn't there another state that was added yesterday, Monday?
+- [x] finish the Cicero US import
+- [ ] check for the missing FL, VA, WA, and MD data <- isn't there another state that was added yesterday, Monday?
 - [ ] today I hope to finish both house and senate <- 2ND TOP PRIORITY (ON-1527: ON-1530 & 1531)
   - [ ] Priority order needs to be changed to this: cwc, email, web, fax
   - [ ] list those who don't have cwc
 - [ ] at some point I hope to get back to responding to the reviews on the rake task PR for ON-1580
-- [ ] do the Advocate Universe Uploads, ON-1605
+- [ ] do the Advocate Universe Uploads, ON-1605 <- 1st TOP PRIORITY
 - [ ] wrap up [#529] ON-1580 Rake task to reset conversions for re-sync to NationBuilder (sprestage)
+- [ ] also, I keep seeing one particular AU cicero imported recipient failing to NB sync.  I'm going to write up the bug so you can schedule it in sometime soon, Maged:
+{"message":"FAILURE for Promoter 20176 (Australian Christian Lobby): 2022-01-25 14:34:11 +0000 - Conversion 25328631 failed to sync Email because Recipient 121877 failed to sync.","@timestamp":"2022-01-25T14:34:11.132+00:00","@version":"1","severity":"ERROR","host":"ip-172-30-1-220","tags":["nation_builder","task","sync"],"environment":"production"}
+- [ ] Jira ticket to improve importer to filter out rows with territories (PR, AS, 3 others)
+```
+the longer term fix will likely use the filter_rows method in cicero_us_recipient_importer.rb
+so it will add an extra condition that filters out rows that have a state matching the territories
+right now it is just filtering out rows with the wrong level and chamber columns
+we’d just be adding another line of logic to exclude states that we don’t cover
+hmm i think that’s probably the only thing that would need to change to filter out those states
+
+def self.filter_rows(row, &block)
+  if [:state, :comm].include? row['level']
+    if ['UPPER','LOWER'].include? row['chamber']
+      block[]
+    end
+  end
+end
+```
+
+```
+RAILS_ENV=production bundle exec rake nation_builder_sync:sync_one[39169] &
+```
 
 # today's personal items
 - [ ] respond to and pay AIB
