@@ -10,14 +10,989 @@ This doc will have unchecked tasks in the past.  These are either obsolete, or h
 [Cicero Import](cicero_import.html) - Everything needed for the CA and AU Cicero imports.
 
 
+## Mon, Jan 17 2021
+This is concerning.  This should be part of the sprint, https://oneclickpolitics.atlassian.net/browse/ON-1578, but the automation moved it through to done before it entered the sprint so it isn't showing up in my done column 🙃
+
+**Friday I**
+Look at the list below with the completed x's.  Long and challenging week.
+
+**Today I plan to**
+
+
+## Fri, Jan 14 2021
+**Yesterday I**
+- Assisted with the NationBuilder box issues, which conveniently tied into gathering data for the opt_in issue for MD Catholic.
+- Spent the day on opt_in diagnosis for MD Catholic and NationBuilder.  ON-1567 for this research.
+
+Maged, we should meet so I can bring you up to date on my findings on how opt_in is handled.  As well as discuss the request that is being made by MD Catholic.  I want to confirm what the business and client are asking for.
+
+**Today I plan to**
+- [x] Answer any questions on opt_in.
+- [x] make sure there is a Jira ticket for the opt_in research, ON-1567
+- [x] change email_opt_in to `true` for all Recipients; Maged confirmed this with Chazz, ON-1578
+- [x] PR, merge, deploy ON-1578
+- [x] find the toggle ticket; add it to the epic; add it to the sprint <- forgot to do this yesterday; nope, I'm wrong.  I did this yesterday here, ON-1574
+- [x] re-run the MD sync so the Recipients get their email_opt_in changed to true; hmmm, re-running doesn't, of course, do anything since there is nothing new.  I'm thinking about what would be needed to truly re-run the sync on those conversions.  What makes a conversion synced is this `conversions.nation_builder_email_synced` needs to be false for a conversion to sync.  I could write a very small rake task that pulled all recent (last xxx days) conversions for MD Catholic, 40449, and change the `nation_builder_email_synced` field on those conversions to `false`.
+- [x] create and run a rake task that resets NB syncing for all MD Catholics Conversions; there are less than 100; I see why now as these are all custom recipients
+- [x] re-run the sync after the rake task is run and verify that `email_opt_in` is now `true` for all the recipients
+- [ ] get back to the recipient delivery address epic <- TOP PRIORITY (ON-1527 & ON-1530)
+
+```
+desc "Reset NationBuilder campaigns so next sync will pick them up"
+task :reset_conversions_for_nb_resync do
+  messages = PromotedMessage.where(creator_id: 40449)
+  messages.each do |message|
+    conversion_count = 0
+    conversions = Conversion.where(promoted_message_id: message.id)
+    conversions.each do |conversion|
+      conversion_count += 1
+      puts "Promoter 40449, PromotedMessage #{conversion.promoted_message_id}, Conversion ##{conversion_count} id:#{conversion.id}, email synced #{conversion.nation_builder_email_synced}, tag synced #{conversion.nation_builder_tag_synced}"
+      #conversion.update_attribute(:nation_builder_email_synced, false)
+      #conversion.update_attribute(:nation_builder_tag_synced, false)
+    end
+  end
+end
+
+PromotedMessage.where(creator_id: 40449).pluck(:id)
+=> [13663, 14706, 14277, 14372, 13512, 14747]
+
+```
+
+### NationBuilder opt_in
+Maged: should the NB opt_in research be its own ticket separate from the ticket for whatever change we decide to make?
+
+#### NationBuilder's email_opt_in details:
+
+We only send the `email_opt_in` field when we sync Recipients in order to set it to `false`.  
+
+When we sync Advocates, we NEVER send this field.  However, the NB API defaults this field to `true` when it is not sent.  So, every advocate sync we make will omit this field causing it to be set by the NB API to `"email_opt_in": true`.
+
+Here is an exact AdvocateProfile update made today:
+```
+{:email=>"modrell211@charter.net", :phone=>"6032064331", :prefix=>nil, :first_name=>"Carol", :last_name=>"Modrell", :middle_name=>nil, :external_id=>6806789, :home_address=>{:address1=>"211 Kearsarge Dr,", :address2=>nil, :city=>"Woodsville", :state=>"NH", :zip=>"03785", :country_code=>"US", :lat=>44.116254, :lng=>-71.958218}}
+```
+
+I do not have an example of a new AdvocateProfile being synced.  However, I just signed this campaign, https://oneclickpolitics.com/promoter/25179/messages/13484/edit#.  I hope to sync tonight and have data by morning.  🤞  The NB API page is already loaded to search for my name on this promoter.  <- update Fri 10:30am, 3 syncs later and this still hasn't synced.  Helps me understand the frustrations of the clients of the delays in analytics data.  😂
+
+Re-reading the ticket, it really does look like MD Catholic wants RECIPIENTS to be set to `"email_opt_in": true`.  
+
+Here is the text of the most recent update from MD Catholic:
+The issue that Maryland Catholic is experiencing is that target profiles are being opted out of email in NationBuilder when an OCP interaction is logged via the integration. I'm assuming that this could be the intended functionality, as most OCP customers would only want to include advocates (rather than both advocates and targets), in their email blasts. However, MD Catholic wants the targets to be opted in to emails in their database as well. Is there a way that we can customize the integration for this customer to allow for this?
+
+
+```
+user = 28
+PromoterUser.find(user).master_account.authentications
+PromoterUser.where(agency_id: user)
+NationBuilderSynchronizeCall.where(promoter_user_id: user).where("created_at > ?", 7.days.ago)
+
+PromoterUser: oneclickpolitics, slug: afa, token: 1467df86991cc7567d23d6555880b1afedccacdd7bb2fe9f326325bf12203c52
+```
+
+
+## Thu, Jan 13 2021
+```
+message":"NationBuilder person_data for advocate: {:email=>\"dantella@zoominternet.net\", :phone=>nil, :prefix=>nil, :first_name=>\"ROBERT\", :last_name=>\"P DANTELLA\", :middle_name=>nil, :external_id=>3826749, :home_address=>{:address1=>\"138 WOODBINE DR\", :address2=>nil, :city=>\"CRANBERRY TWP\", :state=>\"PA\", :zip=>\"16066\", :country_code=>\"US\", :lat=>40.716663, :lng=>-80.148722}}","@timestamp":"2022-01-13T21:33:45.025+00:00","@version":"1","severity":"INFO","host":"ip-172-30-1-201","tags":["nation_builder","task","sync"],"environment":"production"}
+```
+
+```
+message":"NationBuilder person_data for advocate: {:email=>\"sprigg98@gmail.com\", :phone=>\"2172640103\", :prefix=>nil, :first_name=>\"Caleb\", :last_name=>\"Sprigg\", :middle_name=>nil, :external_id=>8000451, :home_address=>{:address1=>\"18715 Cc Hwy\", :address2=>nil, :city=>\"Blackwater\", :state=>\"MO\", :zip=>\"65323\", :country_code=>\"US\", :lat=>38.454863, :lng=>-93.608588}}","@timestamp":"2022-01-13T20:42:24.814+00:00","@version":"1","severity":"INFO","host":"ip-172-30-1-201","tags":["nation_builder","task","sync"],"environment":"production"}
+{"
+```
+
+Damn.  This is only showing recipients so far.  Changing the logging so it will only show advocates.
+
+Next interesting question.  Why does the process listing show THREE separate instances of the rake running!?!
+```
+ubuntu@ip-172-30-1-201:/home/deploy/apps/ocp/current$ ps -ef | grep sync
+systemd+   628     1  0 17:23 ?        00:00:00 /lib/systemd/systemd-timesyncd
+ubuntu   14379   711  0 20:14 pts/3    00:00:00 grep --color=auto sync
+ubuntu   24060 24059  0 19:00 ?        00:00:00 /bin/sh -c /bin/bash -l -c 'export PATH="$HOME/../rubyists/.rbenv/shims:$HOME/../rubyists/.rbenv/bin:$PATH"; cd /home/deploy/apps/ocp/current && NEW_RELIC_AGENT_ENABLED=true RAILS_ENV=production bundle exec rake nation_builder_sync:sync_all['39082','2019-06-18T23:19'] --silent'
+ubuntu   24061 24060  0 19:00 ?        00:00:00 /bin/bash -l -c export PATH="$HOME/../rubyists/.rbenv/shims:$HOME/../rubyists/.rbenv/bin:$PATH"; cd /home/deploy/apps/ocp/current && NEW_RELIC_AGENT_ENABLED=true RAILS_ENV=production bundle exec rake nation_builder_sync:sync_all[39082,2019-06-18T23:19] --silent
+ubuntu   24066 24061 26 19:00 ?        00:19:42 /home/deploy/apps/ocp/shared/bundle/ruby/2.2.0/bin/rake nation_builder_sync:sync_all[39082,2019-06-18T23:19] --silent
+ubuntu@ip-172-30-1-201:/home/deploy/apps/ocp/current$
+```
+When I run this rake at the command line, I only see a single instance.  Could this be contributing to the Too many open files issue?
+```
+ubuntu@ip-172-30-1-201:/home/deploy/apps/ocp/current$ ps -ef | grep sync
+systemd+   628     1  0 17:23 ?        00:00:00 /lib/systemd/systemd-timesyncd
+ubuntu   14530   711 18 20:16 pts/3    00:00:42 /home/deploy/apps/ocp/shared/bundle/ruby/2.2.0/bin/rake nation_builder_sync:sync_all[39082,2019-06-18T23:19]
+ubuntu   15723   711  0 20:20 pts/3    00:00:00 grep --color=auto sync
+```
+
+Here is an AdvocateProfile we send to NB, with the exact person_data hash being sent:
+```
+{"message":"NationBuilder person_data for advocate:
+
+{:email=>"modrell211@charter.net", :phone=>"6032064331", :prefix=>nil, :first_name=>"Carol", :last_name=>"Modrell", :middle_name=>nil, :external_id=>6806789, :home_address=>{:address1=>"211 Kearsarge Dr,", :address2=>nil, :city=>"Woodsville", :state=>"NH", :zip=>"03785", :country_code=>"US", :lat=>44.116254, :lng=>-71.958218}}
+
+","@timestamp":"2022-01-13T19:31:38.322+00:00","@version":"1","severity":"INFO","host":"ip-172-30-1-201","tags":["nation_builder","task","sync"],"environment":"production"}
+
+ #<SenderProfile id: 18166514, account_id: nil, email: "modrell211@charter.net", first_name: "Carol", last_name: "Modrell", middle_name: nil, line1: "211 Kearsarge Dr,", line2: nil, city: "Woodsville", state_id: 30, phone: nil, zip4: nil, prefix: nil, latitude: 44.116254, longitude: -71.958218, zip: "03785", country: nil, custom_field_ids: nil, custom_values_json: nil, facebook_handle: nil, facebook_token: nil, twitter_handle: nil, twitter_token: nil, confirmed_facebook: nil, confirmed_twitter: nil, confirmed_phone: nil, created_at: "2021-10-28 21:33:37", updated_at: "2021-10-28 21:33:37", twitter_nickname: nil, facebook_nickname: nil, advocate_profile_id: 6806789, imported: false, image: nil, import_uid: nil, external_id: "">
+
+ => [#<OptIn id: 17262517, account_id: nil, promoter_user_id: 25179, created_at: "2021-10-28 21:33:37", updated_at: "2021-10-28 21:33:37", sender_profile_id: 18166514>]
+
+=> [#<Conversion id: 25015889, archive_message_id: nil, sender_id: 18166514, created_at: "2021-10-28 21:33:37", updated_at: "2022-01-13 19:31:38", promoted_message_id: 14435, perishable_token: nil, permitted: false, subject: "OPPOSE U.S. House Bill 2377 (Red Flag/ERPO Legislat...", bodycachd: nil, topic: nil, recipients: "20738:73552:21321", external_message_id: nil, recipient_count: 3, finished_and_archived_to: nil, reached_recipient_count: nil, staged: true, oppose_flag: nil, allow_responses: true, comment: nil, widget_send: true, rubberstamped: false, quorum_gated: nil, preselected_recipients_at_creation: nil, deliveries_sent_at: nil, recipients_calculated_at: "2021-10-28 21:33:38", recipient_ids_always_send_and_local: "20738:73552:21321", reached_recipient_names: nil, recipient_ids_local: "20738:73552:21321", recipient_ids_always_send: "", recipient_ids_expanded: "77660:81660:182954:182696:182707:184015:182732:1827...", disable_email_verifications: true, sender_address_for_recipients: "211 Kearsarge Dr,", sender_city_for_recipients: "Woodsville", sender_zip_for_recipients: "03785", sender_state_id_for_recipients: 30, sender_latitude_for_recipients: 44.116254, sender_longitude_for_recipients: -71.958218, queued_at: nil, reached_recipient_ids: nil, redelivered: false, nation_builder_email_synced: false, nation_builder_tag_synced: true, nation_builder_unsyncable: false, multi_content: false, recipient_ids_expanded_content_one: nil, recipient_ids_expanded_content_two: nil, bodycachd_two: nil, subject_two: nil, reached_recipient_count_content_one: nil, reached_recipient_count_content_two: nil, reached_recipient_names_content_one: nil, reached_recipient_names_content_two: nil, reached_recipient_ids_content_one: nil, reached_recipient_ids_content_two: nil, signature_in_nodb_at: "2021-10-28 21:33:38", signature_in_nodb: true, backup_in_nodb_at: nil, backup_in_nodb: nil>]
+```
+This promoted message has no optin box on the campaign.  Does this mean we auto-opt-in?  <- ANSWER IS YES
+```
+=> #<PromotedMessage id: 14435, message_id: nil, promoted_from: nil, promoted_by: nil, created_at: "2021-10-27 19:38:24", updated_at: "2021-11-03 16:06:19", creator_id: 25179, goal: 3000, front_page_flg: nil, external_message_id: nil, uuid: nil, bodycachd: "As your constituent, a gun rights advocate, and a s...", subject: "OPPOSE U.S. House Bill 2377 (Red Flag/ERPO Legislat...", topic: "Congress", total_cnt: nil, processed_cnt: nil, shared_flg: nil, require_address: true, require_zip_only: false, require_phone: false, call_to_action: "<p>U.S. House Bill 2377 is making waves in D.C. &nb...", constituents_only: true, editable_widgets: true, widget_height: nil, widget_width: nil, country: nil, enable_comments_flg: false, hosted_at_url: "", internal_campaign_name: "U.S. House Bill 2377 (Red Flag/ERPO)", alternate_delivery_header: nil, donation_url: "https://secure.anedot.com/firearmspolicycoalition/d...", widget_redirect: true, remove_fb_link: nil, disable_email_verifications: true, custom_share_url: "", allow_opting_out: false, recipients_text: "", banner: nil, image: nil, model_type: nil, quorum_edit_token: nil, built_in_image: nil, custom_field_ids: nil, custom_fields_json: nil, call_sheet: "", phone_recipients_text: "", widget_font_family: nil, widget_background: "#0E0A3C", widget_button: "#FF6300", widget_font: "#FFFFFF", custom_widget_flg: true, tweet_text: "", socmed_recipients_text: nil, socmed_link: nil, share_tweet_text: "", share_tweet_via: "", share_facebook_text: nil, custom_campaign_image: "0EC2C8E9-75D4-45A0-A92D-C3238299D805.jpeg", recorded_greeting: nil, oneclick_recipients_text: "Use FPC's convenient constituent outreach tool belo...", oneclick_title: "Americans Have Due Process Rights! Tell Congress to...", facebook_text: nil, recorded_greeting_sid: nil, twitter_activity: 0, call_activity: 0, email_activity: 24234, total_activity: 24234, email_action_flg: true, social_action_flg: nil, phone_action_flg: false, conversion_activity: 11802, international_signatures: false, campaign_page_title: "Protect Your Second and Fourth Amendment Rights By ...", campaign_page_template: "topimg", video_action_flg: false, draft_kings_photo_campaign: nil, show_identity: true, show_counter: false, altstyles: false, opt_in_text: "", disable_email_verifications_last_switched: nil, kiosk_mode: false, show_actions_progress: true, video_activity: 0, multi_content: false, video_text: "", video_opt_in_text: "", cwc_campaign_id: "25b0ba2ec0a414cddabc1c2f330de251354be594f7ebc3c19a4...", bodycachd_two: nil, subject_two: nil, content_one_name: nil, content_two_name: nil, disabled: false>
+
+```
+However, this is for an update.  I don't think we are sending opt_in when updating an existing sender_profile.  Especially since we don't appear to update this in our own system.  The OptIn model with the SenderProfile doesn't seem to have a way to deactivate, unless it is by setting the sender_profile_id to nil.  Likely, since 1 in 7 are this way in prod. However, when I unchecked the box in order to opt out, nothing was updated.  :(
+
+
+
+**Yesterday I**
+- got the both phone required PRs approved and merged (ON-1538, 39, & 40)
+- got everything deployed this morning; agents are back up and the queues are looking good
+- met with Maged to discuss the plan for MD Catholic <- I need to create a ticket for this
+- I'm still in process of determining exactly what we are sending to NB regarding `email_opt_in` <- serious magic going on here with the OptIn model and opt_in_sharing, but I made a leap of progress this morning on where we are storing it, but it doesn't seem consistent.  Like when the same sender profile signs again but opts out, nothing is changed it seems in the back end, meaning once a signer has opted in, they can't change to opting out.
+
+
+
+**Today I plan to**
+- [ ] try to quickly wrap up the question of opting in and what we then send to NB, 1st; get back to Maged on this as soon as I figure this out.  Try for ASAP this morning, then send to Maged what is being sent for opt in.  NationBuilder wants this at this point, so it is CRITICAL.
+- [ ] get back to the recipient delivery address epic <- TOP PRIORITY (ON-1527 & ON-1530), 3rd
+
+
+## Wed, Jan 12 2021
+Shams knows how to set up rabbitmq locally to get deliveries working from end to end.  If I ever need this.
+
+**Yesterday I**
+- code complete on frontend, backend, and testing for the phone required
+- PR for back end is awaiting the merge for the front end
+- looked at MD Catholic,
+
+**Today I plan to**
+- working actively with folks to get through the PR reviews so I can get things deployed for business to see
+- [x] get the front end phone required change PR approved and merged
+- [x] get the back end phone required change checked in and PR'ed
+- [x] get the back end phone required change PR approved and merged
+- [x] get the phone required changes deployed <- FIRST THING TOMORROW
+- [x] meet with Maged to discuss the plan for MD Catholic, https://oneclickpolitics.atlassian.net/browse/ON-1567
+  - add new advocates as opted out
+  - leave the opt-in status unchanged when the advocates already exists in the database.
+  - MD Catholic wants the advocates to be opted in to emails whether existing or new
+- [ ] determine exactly what we are sending to NB regarding `email_opt_in` <- serious magic going on here with the OptIn model and opt_in_sharing
+- [ ] get back to the recipient delivery address epic <- TOP PRIORITY
+- [x] Fix my admin password on staging/prod
+
+### Test bugs introduced by shams:
+
+https://github.com/one-click-politics/one-click-politics/pull/510 broke 7 tests.  I checked out master just before this merge and confirmed:
+```
+rspec ./spec/controllers/promoter/messages_controller_spec.rb:54 # Promoter::MessagesController all actions #index renders html and assigns instance variables
+rspec ./spec/controllers/promoter/messages_controller_spec.rb:63 # Promoter::MessagesController all actions #index renders js
+rspec ./spec/controllers/promoter/messages_controller_spec.rb:143 # Promoter::MessagesController all actions #retire renders js and sets flash notice on successful retire
+rspec ./spec/controllers/promoter/messages_controller_spec.rb:170 # Promoter::MessagesController all actions #retire redirects_to index on html render
+rspec ./spec/controllers/promoter/messages_controller_spec.rb:178 # Promoter::MessagesController all actions #resume renders js and sets flash notice on successful resume
+rspec ./spec/controllers/promoter/messages_controller_spec.rb:212 # Promoter::MessagesController all actions #resume redirects_to index on html render
+rspec ./spec/controllers/promoter/messages_controller_spec.rb:220 # Promoter::MessagesController all actions #duplicate renders js and sets flash notice on successful duplication
+```
+
+## Tue, Jan 11 2021
+**Yesterday I**
+- implemented the phone required message for groups
+- found 7 tests in the messages_controller_spec.rb that were broken in Friday's merge of Shams' PR 510
+- finalizing the tests for the phone required addition, should have the PR by lunch
+- I got lucky and have already reviewed Hager's pull request unless I should re-review.
+
+**Today I plan to**
+- the back end portion of the phone required ticket is done and just needs tests
+- this afternoon I hope to get back to the recipient delivery address epic <- TOP PRIORITY
+
+- Fix my admin password on staging  
+
+### new work from Maged
+- assess the Maryland Catholic ticket with an eye towards the solution and time estimate
+- get the phone stuff deployed
+
+
+## Mon, Jan 10 2021
+**Friday I**
+- Investigated the syncs and by the time I looked (after a restart of the system by Eric), all was working correctly.
+- Implemented for the front end portion of requiring phone for a US national level target, ON-1539, for:
+  - house
+  - senate
+  - committees
+- This morning I checked up on the weekend syncs and it looks like the every 6 hour NB syncs are running with no recurrance of last week's issue
+
+**Today I plan to**
+- Need to implement
+  - groups
+- Fix my admin password on staging  
+- Need to think how to implement the front end tests
+- Need to think how to implement the back end tests
+
+Maybe give Eric a call and 15 mins of my time to aid his ruby challenges.
+
+## Fri, Jan 7 2021
+**Yesterday I**
+- Followed up the missing phone number issue, researching and answering Chazz's questions.
+- Changed the missing phone number task into and epic, and created two more tickets under that epic to handle the requiring of phone numbers for US campaigns targeting at the national level, for both front end and back end changes.
+- started on the front end task for the US national level target requirement for phone number, ON-1539
+
+**Today I plan to**
+- finish the front end task for the US national level target requirement for phone number, ON-1539
+- started on the back end task for the US national level target requirement for phone number, ON-1539
+- then maybe get back to the first recipient delivery address task, The House, ON-1530
+
+Based on messages from Dave, I will also take a look at the NB syncs from the last couple of days and see what is (or isn't) going on.
+
+
+## Thu, Jan 6 2021
+**Yesterday I**
+- Spent the day chasing why 60% of the deliveries were failing for Yamaha's Foraging Fish campaign.  After many dead ends for cause, I turned to Alex, who later brought in Shams for Elastic Search assistance.  We finally discovered the biggest of the three separate issues was the lack of phone numbers.  This was targetting the house, which uses the CWC, which requires those phone numbers.  ON-1529
+
+**Today I**
+- [x] expect I'll be looking into Chazz's follow up questions and potentially making an addition to our API (¿who is familiar with our API and can they walk me through it briefly?):
+  - [x] Does our API currently accept phone numbers for third party import of data into our system?  Chazz believes the answer to this is no.  If/when we do, he'll require all third party vendors to collect a phone number for these types of campaigns.
+  - [x] Chazz has noticed in the past that when the campaign settings have the "no phone number required" button selected, signatures will pass through our API without incident. However, if it is turned ON, then our system refuses to accept the new signatures.
+- [x] change original ticket to an epic with two tasks, one for front end, one for back end.  ON-1538 Require phone numbers for US campaigns targeting at the national level.
+- [x] create front end task for the US national level target requirement for phone number, ON-1539
+- [x] create back end task for the US national level target requirement for phone number, ON-1540
+- [x] start front end task for the US national level target requirement for phone numberj, ON-1539
+- [ ] then maybe get back to the first recipient delivery address task, The House, ON-
+
+### use postman to verify with our API that:
+#### tried both with phone required = off and with phone required = on
+- the phone is sendable to the API.  I have confirmed that no error is received when the phone is included. Succeeds with and without dashes.
+- the phone is stored when sent to the API aka is the phone being used
+- wrote up these details and sent to Chazz and Darren.
+- asked Maged if a Jira ticket should be created for this work:
+  - add a check for any campaign targeting US recipients at the national level to require phone numbers from the signers.
+If so, when the promoter tries to add a US national level target on a campaign that has phone numbers required switched off, they should get a warning only, or should the phone required automatically switched back on, perhaps with a warning this has been changed?
+
+
+## Wed, Jan 5 2021
+**Yesterday I**
+- wrapped up the last estimates for the recipient delivery address tasks, epic, ON-1527
+- created Jira tickets for those tasks, ON-1530 to ON-1537
+- finished various PR reviews
+- Interrupted everything for #1, the pixel addition.  Got that done, PR'ed, and deployed.  ON-1528
+- Then interrupted everything for #2, this: why have 1800/3000 deliveries failed for Foraging Fish Campaign for Yamaha Promoter ID 40719. < look at the new Cicero data and see if this campaign is using new or old contact data.  Initial assessment by Alex suggests that this is running into a lack of...  ON-1529
+- Still working on that last when everything was interrupted for #3, the NoDB sync and csv download issue.
+
+**Today I plan to**
+- get back to #2 in the morning, or if there is no Dave, we'll need to dive in the code to figure out #3.
+- then back to the first recipient delivery address task, The House, ON-1530
+
+Recipient.find 40719
+
+
+## Tue, Jan 4 2021
+Start squashing commits, so there is just one per feature.  For me, this mostly applies to refactoring and PR review changes.
+
+**Yesterday I**
+- did a little pairing with Nate on rubocop
+- got the NB fix deployed.  the too many open files issue still occurs
+- did a lot of PR review
+- I've written up the Jira for the recipient delivery address epic with a breakdown of all the tasks including estimates; I still need to create the actual Jira tickets for the tasks under that epic.  
+
+**Today I plan to**
+- add tracking pixels, ON-1528
+- why have 1800 deliveries failed for Foraging Fish Campaign for Yamaha Promoter ID 40719
+- finishing the PR reviews
+- wrap up the last estimates for the recipient delivery address tasks
+- create the recipient delivery address tasks
+
+Fibonacci (..1,2,3,5,8,13) ~= [2,4,8,16-24,...] in hours (if the fibonacci # is more than 5, the task is too big.  And 5 is often too big)
+
+(F3) 1. Find House delivery addresses and priorities.  Top should be cwc.  Confirm this.  All of the House are supposed to be using cwc. 435 Recipients (1/2 day for analysis, 1/2 day for script, 2-4 hours to write up the summary)  
+
+(F3) 2. Find Senate delivery addresses and priorities.  At last check, only 29 members are using cwc.  Confirm this is #1 priority address for delivery.  100 Recipients (1/2 day for analysis, 1-2 hours to write up the summary)
+
+(F3) 3. Who can we not deliver to at all because they have no viable addresses?  Does non-viable address here mean that no address works, or does it mean nothing works except fax? (1/2 day for analysis, 2-4 hours to write up the summary) <- if this needs a script, the additional 2 hours is build into the summary write up estimate
+
+(F3) 4. Find Recipients who have webforms but no steps to do the webform. Is this web form address un-deliverable for any other reason?  (1/2 day for analysis, 2-4 hours to write up the summary)  <- if this needs a script, the additional 2 hours is build into the summary write up estimate
+
+(F5) 5. When Recipient has a web address, can we produce the steps for the webform? (1 day for analysis, 1-2 days for step production)
+
+6. Identify all those for whom fax is the only method of delivery.
+
+7. People marked as bad email by amazon (aws)...what can we do to correct the not_delivered_to.  Once we mark as bad, does/can this get reset over time?
+
+8. we want to send #7 through a service for email verification; Maged used briteverify.  And sent me this link, https://get.validity.com/bv-demo/
+
+## Mon, Jan 3 2021
+**Thursday I**
+- Discovered a bug that was failing the syncing on a number of campaigns.  This was due to a singly used REGEX stuck in the NB sync code that was not permitting an apostrophe in an email address.  For Australian recipients, this can be a problem.  I fixed it, the PR has been reviewed, I'd like to get it deployed **this morning**.
+- The above slowed me down, so **today** I'll be finishing putting together the epic ticket and estimations for the various tasks of recipient delivery address analysis
+- I'll also be reviewing the results of the long weekend of many syncs to see how things went.  I saw a couple CAT failures come through, but no more than I would expect.
+- Review a couple of Shams' PRs that slack pinged me about this morning
+
+1. find house, should be cwc.  confirm this, all are supposed to be using cwc (1/2 day for analysis, 1/2 day for script, 1-2 hours to write up the summary)
+2. senate, only 29 members are using.  confirm this is #1 priority
+3. who can we not deliver to at all; no viable addresses
+4. people who have webforms but no steps to do the webform. is this address un-deliverable in any other fashion
+5. person has web address, can we produce the steps for the webform
+6. identify all those for whom fax is the only method of delivery
+7. people marked as bad email by amazon (aws)...what can we do to correct the not_delivered_to.  Once we mark as bad, does/can this get reset over time?
+8. we want to send #7 through a service for email verification; Maged used briteverify.  And sent me this link, https://get.validity.com/bv-demo/
+
+
+## Thu, Dec 30 2021
+**Yesterday I**
+- met with Maged to plan for the US recipient delivery data collecting
+- deployed the fix for the sync's extra_data field
+- looked at the results from the last 3 sync crons since yesterday and found a bug!
+- emailed NationBuilder
+- found a bug when we prep for a NB sync where we are rejecting valid recipient addresses if they contain an apostrophe.  Big problem in AU with names like O'Donohue, etc.  This is causing many campaign syncing failures.  Not sure yet how many that is, but I was seeing many sync failures for campaigns to the same recipient.
+
+**Today I plan to**
+US recipient research project
+
+
+## Wed, Dec 29 2021
+### last night's NB sync failures:
+20176
+25179
+39169
+39520
+39522, fully caught up 29 Dec, 2021, 11am
+
+user = 20176
+PromoterUser.find(user).master_account.authentications
+acl
+d111b8b049646b592799ae69da9eba4fdbee7e39fe03dbf9e23278fbb3df2ae7
+
+**Yesterday I**
+- Got a late start due to a power and internet outage.  Fortunately got power back before noon, so I was able to work out may day, just shifted later.  
+- Paired with Eric and Alex (with Nate listening in) until we got deployment to the NationBuilder (pre-prod) to work.  It appears that the deployment script did not like the elastic IP for the rabbit mq server.  This issue should only occur if the rabbit server has been rebooted since the last deployment.  
+- Changed the NB sync cron to every 6 hours, `0 5,11,17,23 * * *`.  
+- Found and fixed an error in how I was adding to the sync's .extra_data field which the NB sync is now using to track the (major) steps it has taken in the sync.  PR is here, https://github.com/one-click-politics/one-click-politics/pull/513
+
+**Today I plan to**
+- deploy the fix for the sync's extra_data field
+- look at the results from the last 3 sync crons since yesterday
+
+- [x] email to NB
+  - we are increasing our sync cron from 1 every 24 hours to 1 every 6 hours, with a possible planned increase to 1 every 3 hours.
+  - please increase our rate limitation from 250 calls per 10 seconds
+
+
+## Tue, Dec 28 2021
+### additional work
+- [ ] create a ticket to create a migration to change the length limit for the .log and .extra_data fields on SynchronizeCalls
+- [ ] saw a zendesk come through on a NationBuilder issue I plan to take a look at once prod console is working
+
+### new work upcoming:
+pre-work: epic ticket and estimations for the various tasks
+1. find house, should be cwc.  confirm this, all are supposed to be using cwc (1/2 day for analysis, 1/2 day for script, 1-2 hours to write up the summary)
+2. senate, only 29 members are using.  confirm this is #1 priority
+3. who can we not deliver to at all; no viable addresses
+4. people who have webforms but no steps to do the webform. is this address un-deliverable in any other fashion
+5. person has web address, can we produce the steps for the webform
+6. identify all those for whom fax is the only method of delivery
+7. people marked as bad email by amazon (aws)...what can we do to correct the not_delivered_to.  Once we mark as bad, does/can this get reset over time?
+8. we want to send #7 through a service for email verification; Maged used briteverify.  
+
+recipient analysis, find the non-cwc users
+failed deliveries due to web forms, need to figure out how to do That
+who is unreachable at all
+
+### longterm NationBuilder Jira ticket tracking the steps needed to do the improvements that NationBuilder syncing will need to run reliably
+https://oneclickpolitics.atlassian.net/browse/ON-1293
+
+### troubleshooting production issues document
+https://docs.google.com/document/d/1dGrvRMmDjdsfqcnqUJoz1iAGoEjW6wYE7deH6AiyJm8/edit
+
+### current tasks
+- [x] Work with someone to get the pre-prod deployment issue sorted.  Posted pre-prod update to @engineering.  Blocked until I get some help.
+- [ ] Send that email to NationBuilder as it was awaiting the list of the most affected promoters (which was the last thing I did last night before the pre-prod deployment issues).
+- [x] Change sync cron to every 6 hours, `0 5,11,17,23 * * *`.  
+
+From:
+```
+0 23 * * *        rake nation_builder_sync:sync_all['39082','2019-06-18T23:19'] --silent'
+```
+To:
+```
+0 5,11,17,23 * * *          rake nation_builder_sync:sync_all['39082','2019-06-18T23:19'] --silent'
+```
+
+### Power/internet outage notification to team
+_I had to drive over to Sugar and Spice to use their internet with 15% battery remaining on my laptop.  Terrible night to forget to plug in my laptop._
+
+Hi folks.  Power is out and this time that means cell connectivity as well.  Sadly, I did not plug my computer in last night, so this also means I'll be running out of laptop shortly.
+
+Depending on how long it takes the power to return, I'll either:
+  - start work as soon as the power returns and work late to make up the time
+  - start work as soon as the power returns working the rest of the day and calling the morning a half day off
+  - take the day as a full day off and spend the time with Kai who is very bored with no power/internet/computer
+
+
+
+{
+"email": "melanie.faraday@gmail.com",
+"email_opt_in": true,
+"first_name": "Melanie",
+"last_name": "Faraday"
+}
+
+
+
+
+### Today's status:
+**Yesterday I**
+- Spent the morning reviewing various PRs for Shams and Hager.
+- Responded to reviews, merged, and deployed both:
+  - NB sync.extra_data (ON-1507)  
+  - exception handling for notifier (ON-1510)
+- Identified the 6 promoters most affected by NB syncing issues.
+- Wrote up the email to NationBuilder about increasing the 250 limit on the above 6 promoters.  Included information about our plan to increase our sync interval to every 6 hours.  I have confirmed this limitation is by slug and not a blanket limitation.  
+
+**Today I plan to**
+- Work with someone to get the pre-prod deployment issue sorted.
+- Send that email to NationBuilder as it was awaiting the list of the most affected promoters (which was the last thing I did last night before the pre-prod deployment issues).
+- Change sync cron to every 6 hours.
+
+
+## Mon, Dec 27 2021
+**Thursday I**
+- created a ticket for the logging additions, ON-1507
+- put out a PR for more logging additions to NB syncs, https://github.com/one-click-politics/one-click-politics/pull/506
+- created ticket for notifier call exception handling, ON-1510
+- wrapped the notifier calls that are crashing the entire sync into some exception handling, https://github.com/one-click-politics/one-click-politics/pull/507
+
+**Today I plan to**
+- [x] review various PRs for Shams and Hager
+- [x] respond to reviews, merge, and deploy both:
+  - NB sync.extra_data (ON-1507)  
+  - exception handling for notifier (ON-1510)
+- [x] identify 2-10 promoters most affected by NB syncing issues
+- [ ] Ask NB to increase our 250 limit.  <- send message about out every 6 hours syncing plan; ask to increase limit to brian builder  (ask what is this maximum); read through Alex's Jira ticket on this first to confirm the limitation.  Also, this is a slug limitation not a blanket limitation, so determine which slugs need this improvement.
+- [ ] Change sync cron to every 6 hours.
+- [ ] I also think I need to set up log rotation for the NationBuilder logs since those are in heavy use at the moment.  Info from Dave tells me this is set up and straightforward.
+- [ ] create a ticket for NB log rotation
+
+- [ ] create a ticket to create a migration to change the length limit for the .log and .extra_data fields on SynchronizeCalls
+- [ ] saw a zendesk come through on a NationBuilder issue I plan to take a look at once prod console is working
+
+Good morning Brian,
+
+This is Susan from OneClickPolitics.  
+
+I would like to increase our 250 calls per 10 seconds limit.  My understanding is that it is possible for this to be a blanket change for all of our calls to your API on behalf of all our clients, is that correct?   
+
+Additionally, we currently run the syncing of our clients daily at 2300 UTC.  We are increasing that to every six hours with a possible increase towards every three hours and wanted you to know of the increase coming through.
+
+Thank you for your time, Brian.  Best regards and happy holidays.
+
+Susan Prestage
+OneClickPolitics
+
+
+## Fri, Dec 24 2021
+### Paid Holiday, Christmas observed
+
+
+## Thu, Dec 23 2021
+**Yesterday I**
+- worked on getting things ready for checkin plus Rubocop cleanup
+
+- Ask NB to increase our 250 limit.  <- send message about out every 6 hours syncing plan; ask to increase limit to brian builder  (ask what is this maximum); read through Alex's Jira ticket on this first to confirm the limitation.  Also, this is a slug limitation not a blanket limitation, so determine which slugs need this improvement.
+- And sync every 6 hours.
+
+**Today I plan to**
+- [x] create a ticket for the logging additions, ON-1507
+- [x] put out a PR for more logging additions to NB syncs, https://github.com/one-click-politics/one-click-politics/pull/506
+- [x] wrap the notifier calls that are crashing the entire sync into some exception handling, https://github.com/one-click-politics/one-click-politics/pull/507
+- [x] create ticket for notifier call exception handling, ON-1510
+- [ ] I also think I need to set up log rotation for the NationBuilder logs since those are in heavy use at the moment.  Info from Dave tells me this is set up and straightforward.
+- [ ] create a ticket for NB log rotation
+
+- [ ] create a ticket to create a migration to change the length limit for the .log and .extra_data fields on SynchronizeCalls
+- [ ] saw a zendesk come through on a NationBuilder issue I plan to take a look at once prod console is working
+
+### new work upcoming:
+recipient analysis, find the non-cwc users
+failed deliveries due to web forms, need to figure out how to do That
+who is unreachable at all
+
+
+## Wed, Dec 22 2021
+
+### conversion call for NationBuilder sync:
+```
+promoter = PromoterUser.find 25179
+promoter = PromoterUser.find 39610
+@epoch = '2019-06-18T23:19'
+@epoch_id ||= Conversion.where("created_at > ?", @epoch).first.try(:id) || 1
+@apocalypse = '3000-12-31T23:19'
+@apocalypse_id ||= Conversion.where("created_at > ?", @apocalypse).first.try(:id) || Conversion.last.try(:id) || 1000000000
+QUERY_LIMIT = 10000
+
+# get_service_deliveries_for_sync
+@service_delivery_epoch_id ||= ServiceDelivery.where("created_at > ?", @epoch).first.try(:id) || 1
+@service_delivery_apocalypse_id ||= ServiceDelivery.where("created_at < ?", @apocalypse).last.try(:id) || ServiceDelivery.last.try(:id) || 1000000000
+
+promoted_message_count = promoter.promoted_messages.count
+
+count = 0
+promoted_message_count.times do |x|
+  promoted_message = promoter.promoted_messages(promoted_message_count)[x]
+
+  pm_count = promoted_message.service_deliveries.includes(sender_profile: {advocate_profile: [:advocate_for_promoters, :state, :external_connections]}).includes(:conversion).includes(recipient: [:recipient_addresses, :party]).where('service_deliveries.id >= ?', @service_delivery_epoch_id).where('service_deliveries.id <= ?', @service_delivery_apocalypse_id).where('service_deliveries.nation_builder_synced = ?', false).where('service_deliveries.nation_builder_unsyncable = ?', false).where("(service_deliveries.delivery_type IN ('Twitter','Phone')) OR (service_deliveries.model_type = 'VideoServiceDelivery')").where('sender_profiles.advocate_profile_id IS NOT NULL').where('advocate_for_promoters.opt_in_id IS NOT NULL').count
+
+  count += pm_count
+end
+
+promoter.promoted_messages.each do |promoted_message|
+  pm_count = promoted_message.service_deliveries.includes(sender_profile: {advocate_profile: [:advocate_for_promoters, :state, :external_connections]}).includes(:conversion).includes(recipient: [:recipient_addresses, :party]).where('service_deliveries.id >= ?', @service_delivery_epoch_id).where('service_deliveries.id <= ?', @service_delivery_apocalypse_id).where('service_deliveries.nation_builder_synced = ?', false).where('service_deliveries.nation_builder_unsyncable = ?', false).where("(service_deliveries.delivery_type IN ('Twitter','Phone')) OR (service_deliveries.model_type = 'VideoServiceDelivery')").where('sender_profiles.advocate_profile_id IS NOT NULL').where('advocate_for_promoters.opt_in_id IS NOT NULL').count
+  count += pm_count
+end
+```
+
+
+### status
+**Yesterday I**
+- Deployed the logo swap (from IAPPA to Yamaha).
+- Created a Jira ticket and wrote up the details of what we send in the various calls to the NationBuilder API during the course of our nightly sync.  This includes the service delivery portion and a full explanation of the steps we take for data collation as well as each API call we make to do a full sync.  This also includes the limitations imposed by us or NB.  Here https://oneclickpolitics.atlassian.net/browse/ON-1505
+
+**Today I plan to**
+- [ ] create a ticket for the logging additions
+- [ ] put out a PR for more logging additions to NB syncs
+- [ ] wrap the notifier calls that are crashing the entire sync into some exception handling
+- [ ] create ticket for notifier call exception handling
+- [ ] I also think I need to set up log rotation for the NationBuilder logs since those are in heavy use at the moment.  Info from Dave tells me this is set up and straightforward.
+- [ ] create a ticket for NB log rotation
+
+- [ ] create a ticket to create a migration to change the length limit for the .log and .extra_data fields on SynchronizeCalls
+- [ ] saw a zendesk come through on a NationBuilder issue I plan to take a look at once prod console is working
+
+
+## Tue, Dec 21 2021
+
+**Friday I**
+- [x] send reminder email to the business to decide if they:
+  - like the data we currently send to tag a campaign (the name of the campaign)
+  - prefer we use different data
+  - want to implement a new feature where what is sent as a tag is configurable by the client
+- [x] send Maged the CATASTROPHIC error stack trace and how to run the single sync for the error promoter
+- [x] changed client logo from IAPPA to Yamaha, checked in, PR created
+- [x] Worked on putting together exactly what info we send to the NationBuilder API for each call made during syncing.  (every field and where the data came from in our system)
+  - [x] AdvocateProfile
+  - [x] Recipient
+
+**Today I plan to**
+- [x] continue to put together exactly what information (every field and where the data came from in our system) that we send to the NationBuilder API for each call made during syncing
+  - sync advocate contact to recipient
+  - Tags
+  - Authentication
+  - Anything other data I can find that we send over.
+- [x] dive into the service delivery portion of the NB syncs for the data needed for the NB API calls
+- [x] research what other limitations we have for NationBuilder in addition to:  <- I'm watching for these as I'm collecting data above
+  - 250 calls per 10 seconds (NB limitation)
+  - 10,000 conversions per promoter per night
+  - RESULTS: I can find no other limitations.  Interestingly, I also cannot find the slowdown we implemented for the 250 calls per 10 seconds that I keep hearing about.  I see where we added error handling/logging about 2 years ago for when we hit the rate limit, but nothing that changes the timing of how we send.  
+- [ ] create a ticket for the logging additions
+- [ ] put out a PR for more logging additions to NB syncs
+- [ ] wrap the notifier calls that are crashing the entire sync into some exception handling
+- [ ] create ticket for notifier call exception handling
+- [x] create research ticket to track the information I'm collecting
+- [ ] I also think I need to set up log rotation for the NationBuilder logs since those are in heavy use at the moment.  Info from Dave tells me this is set up and straightforward.
+- [ ] create a ticket for NB log rotation
+- [ ] create a ticket to create a migration to change the length limit for the .log and .extra_data fields on SynchronizeCalls
+
+
+## Mon, Dec 20 2021
+** sick day **
+
+I've no focus today and I'm sleepy.  Going to take a day for mental health and de-stressing.
+
+
+## Fri, Dec 17 2021
+### mark_unsyncable
+A conversion is marked unsyncable=true if:
+  - promoter user doesn't have valid authentication with NB
+  - person is unsyncable  (advocate or very unlikely a recipient)
+      person.mark_unsyncable!(:nation_builder, 'email_is_invalid', @promoter)
+      person.mark_unsyncable!(:nation_builder, 'email_is_invalid', @promoter)
+      person.mark_unsyncable!(:nation_builder, 'county_id_file_missing', @promoter)
+      person.mark_unsyncable!(:nation_builder, 'profile_website_not_real_url', @promoter)
+      person.mark_unsyncable!(:nation_builder, 'billing_address_phone_unmber_cannot_be_blank', @promoter)
+      person.mark_unsyncable!(:nation_builder, 'recruiter_name_with_email_should_not_be_the_same_person', @promoter)
+      person.mark_unsyncable!(:nation_builder, 'custom_value_married_is_not_valid', @promoter)
+      person.mark_unsyncable!(:nation_builder, 'email_has_already_been_taken', @promoter)
+      person.mark_unsyncable!(:nation_builder, 'username_is_already_taken', @promoter)
+      person.mark_unsyncable!(:nation_builder, 'zip_is_too_short', @promoter)
+      person.mark_unsyncable!(:nation_builder, 'phone_number_invalid', @promoter)
+    when /base You must supply at least a first and last name, an email address, or a phone number\./
+      person.mark_unsyncable!(:nation_builder, 'missing_required_values', @promoter)
+
+### sync recipient
+Recipient data needed from our system
+  Recipient.prefix
+  Recipient.first_name
+  Recipient.last_name
+  Recipient.middle_name
+  Recipient.email_addresses <- has many
+  Recipient.phone_addresses <- has many
+  Recipient.party
+  Recipient.district_address
+    DistrictAddress.line1
+    DistrictAddress.line2
+    DistrictAddress.city
+    DistrictAddress.state
+    DistrictAddress.zip
+  Recipient.external_connections <- need this to create a contact the advocate for this recipient
+
+Call to the NB API, if new recipient
+`post("people", {person: person_data})`
+
+Call to the NB API, if recipient exists
+`put("people/#{person_id}", {person: person_data})`
+
+where person_data:
+```
+{:prefix=>nil,
+ :first_name=>nil,
+ :last_name=>nil,
+ :middle_name=>nil,
+ :email=>"test1@ocp.com",
+ :email1=>"test1@ocp.com",
+ :phone=>"202-225-5601",
+ :party=>"R",
+ :work_address=>{:address1=>nil, :address2=>nil, :city=>nil, :state=>nil, :zip=>"02062"},
+ :email_opt_in=>false}
+```
+
+### sync advocate
+AdvocateProfile data needed from our system
+  AdvocateProfile.id
+  AdvocateProfile.email
+  AdvocateProfile.phone
+  AdvocateProfile.line1
+  AdvocateProfile.line2
+  AdvocateProfile.city
+  AdvocateProfile.state
+  AdvocateProfile.zip
+  AdvocateProfile.country <- not sent, but needed to determine country_code
+  AdvocateProfile.country_code
+  AdvocateProfile.latitude
+  AdvocateProfile.longitude
+  AdvocateProfile.external_connections
+
+Call to the NB API, if new advocate
+`post("people", {person: person_data})`
+
+Call to the NB API, if advocate exists
+`put("people/#{person_id}", {person: person_data})`
+
+where person_data:
+```
+{:email=>"test_advocate_5@example.com",
+ :phone=>nil,
+ :prefix=>nil,
+ :first_name=>nil,
+ :last_name=>nil,
+ :middle_name=>nil,
+ :external_id=>14562,
+ :home_address=>
+  {:address1=>nil, :address2=>nil, :city=>nil, :state=>nil, :zip=>nil,
+   :country_code=>nil, :lat=>nil, :lng=>nil}}
+```
+
+### sync advocate contact to recipient
+Data needed to sync advocate to recipient; provided by with default values or earlier sync steps
+  recipient_nation_builder_id         <- we have this from the just performed recipient sync
+  advocate_profile_nation_builder_id  <- we have this from the just performed advocate sync
+  contact_type_id                     <- this is generated from NATION_BUILDER_CONTACT_TYPE
+  method                              <- 'email' or other service_delivery_method
+  status                              <- 'Left Message'  This appears hardcoded
+Conversion data needed from our system
+  note  <- conversion.subject
+
+Call to the NB API:
+`post("people/#{recipient_id}/contacts", {contact: contact_data})`
+
+where contact_data =
+```
+{:sender_id=>223456,
+ :type_id=>11,
+ :status=>'Left Message',
+ :method=>'email',
+ :note=>'Save the Whales'}
+```
+
+### sync tag to advocate
+Actual data sent to NB API to create tag on advocate
+  advocate_profile_nation_builder_id  <- we have this from the just performed advocate sync
+  Conversion.promoted_message.internal_campaign_name
+
+Call to the NB API:
+`put("people/#{person_id}/taggings", tag_data)`
+
+where tag_data =
+```
+{:tag=>'Save the Whales'}
+```
+
+
+- [x] SYNC the advocate for that conversion (update_person or create_person call to NB API)
+- [x] SYNC each recipient (update_person or create_person call to NB API)
+- [x] SYNC each recipient's contact which is the sending advocate (create_contact call to NB API)
+- [x] SYNC the tag (create_tag call to NB API)
+
+
+### all calls to NationBuilder
+lib/nation_builder_client/lib/people.rb
+`get("people/#{person_id}")`
+`post("people", {person: person_data})`
+`put("people/#{person_id}", {person: person_data})`
+`put("people/push", {person: person_data})`
+`get('people/count')`
+`delete("people/#{person_id}")`
+`get("people/search?page=#{page}&#{q}")`
+`get "people?page=#{page}"`
+
+lib/nation_builder_client/lib/contacts.rb
+`post("people/#{recipient_id}/contacts", {contact: contact_data})`
+
+lib/nation_builder_client/lib/tags.rb
+`put("people/#{person_id}/taggings", tag_data)`
+
+
+**Yesterday I**
+Researched the question of why aren't we kicking off syncs every day for all promoters with syncs?  The upshot is that we ARE syncing all qualified promoters with qualified new conversions each evening.  That said, we have at least one large promoter who is over a week behind in syncing due to the "too many open files" issue.
+
+**Today I plan to**
+- [ ] put together exactly what information (every field and where the data came from in our system) that we send to the NationBuilder API for each call made during syncing
+  - [x] AdvocateProfile
+  - [x] Recipients
+  - Tags
+  - Authentication
+  - Anything other data I can find that we send over.
+- [ ] dive into the service delivery portion of the NB syncs for the data needed for the NB API calls
+- [ ] research what other limitations we have for NationBuilder in addition to:
+  - 250 calls per 10 seconds (NB limitation)
+  - 10,000 conversions per promoter per night
+- [ ] create a ticket for the logging additions
+- [ ] put out a PR for more logging additions to NB syncs
+- [ ] wrap the notifier calls that are crashing the entire sync into some exception handling
+- [ ] create ticket for notifier call exception handling
+- [ ] create research ticket to track the information I'm collecting
+- [ ] I also think I need to set up log rotation for the NationBuilder logs since those are in heavy use at the moment.  Info from Dave tells me this is set up and straightforward.
+- [ ] create a ticket for NB log rotation
+- [x] send Maged the CATASTROPHIC error stack trace and how to run the single sync for the error promoter
+- [ ] create a ticket to create a migration to change the length limit for the .log and .extra_data fields on SynchronizeCalls
+- [x] send reminder email to the business to decide if they:
+  - like the data we currently send to tag a campaign (the name of the campaign)
+  - prefer we use different data
+  - want to implement a new feature where what is sent as a tag is configurable by the client
+- [x] change client logo from IAPPA to Yamaha, checked in, PR created
+
+
+## Thu, Dec 16 2021
+**Yesterday I**
+- Researched the over long syncs.  
+With the new logging that has been added (on the sync), these can now be clearly identified:
+    - sync = NationBuilderSynchronizeCall.where(status: "In progress").first
+    - if sync.log does not contain today's (or yesterday's date), then we can change the status to `failure`
+
+So...cronjob rake task to look for 'In progress' syncs, fail them, and write to the sync.extra_data field that this was marked failed due to being stale.
+
+It does not appear that the sync process is still running in any of these cases, so it does not look like we'll to need to kill the process.
+
+- still looking into the two big failures and would value help:
+
+  - too many open files which causes syncing failures (the CATASTROPHIC failure) for our largest customers on a nightly basis, causing the sync to get further and further behind for these clients.  I've been digging into the stack trace and looking at the code and try to figure out whether some gem that we're using is treating api calls like files or something.  I would value additional perspective on this.
+
+  - sync crashing when notifier is called; I'm not seeing recent changes that are related, yet this is a recent new issue; I would value more direction on this.  
+
+**Today I plan to**
+- [ ] continue as best I can on all three critical NB issues
+
+long syncs - Maged - wants to know why these are happening.  I feel they are so rare as to not be an issue and can just be cleaned up.  Alternatively, they can be better monitored now as a result of the step by step logging being done on the sync itself (starting each phase of syncing) and logging to the log file (every call to NB is logged now)
+
+### THE QUESTION I AM RESEARCHING IN THIS MOMENT
+Why aren't we kicking off syncs every day for all promoters with syncs?  Details follow, but I'm thinking that we are syncing all qualified promoters with qualified new conversions each evening.  That said, we have at least one large promoter who is over a week behind in syncing due to the "too many open files" issue
+  - first, we get all promoters who are:
+      - not the master account
+      - are tied to NB
+      - have a NB token
+      - have NB write access
+
+  - second, for each promoter we:
+      - create a sync
+      - skip them if they already a recent and In progress sync (logging the issue on the new sync we just created...BUT NOT FAILING IT??!?)
+
+      - get conversions for the email sync that:
+          - are from June 2019 to now.  I think we should slim the `default_epoch` to the end of 2020.  
+          - are not yet synced
+          - are not marked un-syncable
+          - have reached recipient ids
+          - the advocate has not opted out of their data being collected
+          - max out at 10,000
+
+          - for each conversion, we then
+              - SYNC the advocate for that conversion (update_person or create_person call to NB API)
+              - get the recipients for that conversion
+                  - SYNC each recipient (update_person or create_person call to NB API)
+                  - SYNC each recipient's contact which is the sending advocate (create_contact call to NB API)
+
+      - get conversions for the tag sync that:
+          - are from June 2019 to now.  I think we should slim the `default_epoch` to the end of 2020.  
+          - the promoted_message_id is not null or empty string <- WE DON'T CHECK THIS FOR EMAIL SYNCS
+          - are not yet synced
+          - are not marked un-syncable
+          - the advocate has not opted out of their data being collected
+          - max out at 10,000
+
+          - for each conversion, we then
+              - SYNC the advocate (update_person or create_person call to NB API)
+              - SYNC the tag (create_tag call to NB API)
+
+##### note: the individual service deliveries are (simplified) conversions split into each recipient)
+      - get the service deliveries for the the service delivery sync that:
+          - includes the sender_profile and corresponding advocate profile's advocate_for_promoters, state, and external_connections
+          - includes the whole conversion
+          - includes the recipient's recipient_addresses and party
+          - are from June 2019 to now.  I think we should slim the `default_epoch` to the end of 2020.  
+          - are not yet synced
+          - are not marked un-syncable
+          - are delivery_type of Twitter','Phone', or 'VideoServiceDelivery
+          - the sender_profiles.advocate_profile_id is not null
+          - the advocate has not opted out of their data being collected
+          - max out at 10,000
+
+          - for each service delivery (conversion split into 1 per recipient)
+                - SYNC the recipient (update_person or create_person call to NB API)
+                - SYNC the advocate (update_person or create_person call to NB API)
+                - SYNC the recipient's contact which is the sending advocate (create_contact call to NB API)
+
+
+AdvocateProfile - what do we send, exactly
+Recipients - what do we send, exactly
+Tag - per conversion
+
+limitations for NB, 250 per 10 seconds <- are there others
+how often do we run the sync, every night at 6pm EST, 23:00 UTC
+
+- [ ] look into service deliveries
+- [ ] send all fields we send for each (type) of user
+
+- [ ] send error and how to run the single sync for the error promoter
+
+- [ ] create research ticket;
+
+5% increase, $82,000 said Maged, but if the 5% is correct, then this raises my salary to $84,000I 4I
+
+
+## Wed, Dec 15 2021
+
+### three big NationBuilder issues:
+
+#### over long syncs - ready to report to Maged
+These can now be identified by the following characteristics:
+- sync = NationBuilderSynchronizeCall.where(status: "In progress").first
+- if sync.log does not contain today's (or yesterday's date), then we can change the status to `failure`
+
+So...cronjob rake task to look for 'In progress' syncs
+
+It does not appear that the sync process is still running in any of these cases, so it does not look like we'll to need to kill the process.
+
+#### too many open files
+This is the failure that happens to the big promoters.  We aren't doing any file opens in these syncs.  This was the error triggering the CATASTROPHIC failures that was triggering the error emails we are sending to ourselves which was crashing the sync.  
+
+Looking at the last rescue in the sync to try to resolve this issue.
+
+Also, continue to dig into the stack trace and look at the code and try to figure out whether some gem that we're using is treating api calls like files or something.  
+
+#### why is sync crashing when notifier is called
+- check what changes (for Rubocop?) might have affected notifier or the calls to notifier <- Nope, not seeing any changes from the last month that should affect notifier or its use in nation_builder_sync.rb.
+- not sure what to look at next
+
+
+
+**Yesterday I**
+- checked in and deployed the patch changes from Monday night's NB sync issues discovered by me and Dave.  Commented out the code sending us error emails which was crashing the entire sync.  This is a temporary patch where the actual error must be fixed and this workaround (commented out email notifiers) must be restored to working order.
+- demo of new UI design coming in 2022
+- retro
+- met with Eric to brainstorm on NationBuilder, particularly the `too many open files` failure that happens to the big promoters
+- I have added some lines to store how the sync is progressing on the sync and these now show in the admin pages for synchronize calls.  I'm only seeing one so far and it got stuck in tag syncing and hasn't progressed for the last day and a half.
+
+This morning, i've been working my way through PR reviews...almost done with Hager's PR, then on to Shams'.
+
+**Today I plan to**
+- [ ] finish researching the overly long sync issues;
+
+
+## Tue, Dec 14 2021
+- [x] MUST CHECK IN THE FIXES FROM LAST NIGHT'S SYNC!!!
+
+### rubocop tips and tricks
+`rubocop -a` can fix smaller issues.  Give this a try.
+
+There is also an "overcommit" that Hager is using that auto-runs Rubocop when you are going to commit to github.
+
+### NationBuilder ideas from Dave
+we may need to bring up a box specifically to catch up on the 74,000 campaigns behind client.
+
+**Yesterday I**
+researching the overly long sync issues
+paired with Dave at length on this
+
+new prs to review
+
+Start with the bottom rescues in sync_all.
+Crux of issue: sending the sync error emails to ourselves was crashing the whole sync.  We (Dave and I) monkey patched prod to remove the `notifier.error_notification` lines and the `sync.send(:notifier)...` lines.
+
+Also, here is where to start:
+```
+but i’d look at “cannot load such file -- action_view/lookup_context” to see if it’s possible to fix the emails
+6:40
+that, or just wrap the emails themselves in exception handling
+6:40
+so if it can’t send out the email it doesn’t break the whole sync
+6:40
+that will probably be easiest and won’t break tests that listen for the emails
+```
+
 ## Mon, Dec 13 2021
 **Friday I**
+- researched how to detect a stale overly long sync; reported to Maged on my findings as well as updating the Jira ticket with the same
+- read through Dave's import instructions for US to see how it works/reads; the writeup is in this jira https://oneclickpolitics.atlassian.net/browse/ON-1407 the instructions are at the top, plus a ton of comments below tracking what he's doing.  It is also in the comments for the shape file rake task.
+- reviewed Dave's cicero US PR in detail; many comments but only because it was huge and I had some ideas based on domain knowledge of cicero and imports for different countries
+
+The new KnowWho data has not yet been pushed, so I'll look for it later today or tomorrow.
 
 **Today I plan to:**
-- [ ]
+- [ ] work on the overlong syncing solution
+- [ ] check KnowWho again after lunch
+
+### tagging status
+findings and questions posted to engineering.  link to findings sent to Dave.  Blocked until further direction is found/given.
+
+### overlong syncing status
+Summary from the call with Maged at 5pm, Friday.  As each advocate and each tag is synced, we need a field to be updated on the NationBuilderSyncCall so we can tell when the sync is no longer `In progress`.  It may be that the `updated_at` field does this, but we must be sure.
+
+Looking at nation_builder_sync.rb and tags.rb, I'll need to touch the sync from within tags.rb (and email.rb and person.rb and service_delivery.rb) and I'm not sure how.  After all of each of those withing nation_builder_sync.rb, sure.  But within them for each one...that is what I'm trying to figure out.
 
 
 ## Fri, Dec 10 2021
+
+### overly long syncs
+The In Progress label is misleading.  Once it is stale after 2 days,
+
+Results from how to detect a stale overly long sync
+
+A stale, overly long sync would be a sync that is still “In progress”.  At the moment, there are only four of these in our system, three are for the same promoter.  All were created before December 5.
+
+NationBuilderSynchronizeCall.where(status: 'In progress')
+
+During the nightly sync, when a promoter has stuff to sync, we detect if that promoter has any ongoing syncs less than 2 days old.  If so, we log that we are skipping their sync.  Ongoing syncs older than 2 days are ignored even if still in progress, meaning that a new sync is created for that promoter.
+
+The next question is how shall we proceed?
+
+### Dave's recommended Nationbuilder (syncing) improvements
+Good example for how to do each step of syncing with NationBuilder, but pulling those steps out into their own file.  Here lib/tasks/etl/daily_all_advocate_etls_update.rake
+
+### PR review of ON-1407, US cicero import
+Dayum!! Spent from 11 to 1:30 on Dave's big PR review.  Made over 40 comments.  Some trivial, but many with questions based on my understanding of import and cicero.
+
 **Yesterday I**
 - looked through the NationBuilder syncs from the night before, confirming that things look good
 - checked the new logs for NB sync tags; and I'm confused why tags aren't sent with every sync
@@ -32,8 +1007,9 @@ This doc will have unchecked tasks in the past.  These are either obsolete, or h
 - created Jira ticket to implement from the above research how to trigger an email or a restart of an overly long sync that needed to be cut off, https://oneclickpolitics.atlassian.net/browse/ON-1479
 
 **Today I plan to:**
-- [ ] research how to detect a stale overly long sync
-- [ ] read through Dave's import instructions for US to see how it works/reads; the writeup is in this jira https://oneclickpolitics.atlassian.net/browse/ON-1407 the instructions are at the top, plus a ton of comments below tracking what he's doing.  It is also in the comments for the shape file rake task.
+- [x] research how to detect a stale overly long sync; reported to Maged on my findings as well as updating the Jira ticket with the same; kinda waiting to hear how he wants to proceed
+- [x] read through Dave's import instructions for US to see how it works/reads; the writeup is in this jira https://oneclickpolitics.atlassian.net/browse/ON-1407 the instructions are at the top, plus a ton of comments below tracking what he's doing.  It is also in the comments for the shape file rake task.
+- [x] reviewed Dave's cicero US PR in detail; many comments but only because it was huge and I had some ideas based on domain knowledge of cicero and imports for different countries
 
 
 ## Thu, Dec 9 2021
@@ -325,7 +1301,7 @@ NationBuilderSynchronizeCall.where(promoter_user_id: user).where("created_at > ?
 
 
 exit
-bundle exec rake nation_builder_sync:sync_one[] RAILS_ENV=production
+RAILS_ENV=production bundle exec rake nation_builder_sync:sync_one[] &
 bundle exec rake nation_builder_sync:sync_one[
 ] RAILS_ENV=production
 ```

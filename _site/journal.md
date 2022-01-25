@@ -29,21 +29,42 @@ Because I cannot keep such a huge daily list, it is becoming unmanageable.  Also
   - [ ] my OCP dev notes: https://gist.github.com/sprestage/5d7fd086b6555b3268db408e56c04eba
   - [ ] my bullet journal and life notes (this gist): https://gist.github.com/sprestage/6f9bae4762be078c8c14aae7791a6883
   - [ ] financial, list of things needed that cost money to buy or implement or install or make: https://gist.github.com/sprestage/a68dd09f133250d97971de69065d0d62. Needs a little updating to convert it to my current needs, particularly that of creating the prioritized list of things needed to be done or bought
-  - [ ] put away photo albums and yearbooks
-- [ ] the creta (Dolega) needs to be yearly registered...Danny will go after insurance is gotten next week
 - [ ] business sign with logo, name, hours, phone, and email....talked to Danny about this sign for the gate on 25 Oct
 
 ### Check in with Danny on these
 - [ ] Business cards.  Update: Danny has ordered, but needs an update, 25 Oct.  I'm hoping for these by Tues, 2 Nov.  Asked Danny on Saturday, Oct 2, to order two more boxes.  Check in with Danny on the progress and what I owe PSG Graphics.
 - [ ] 3 layer contracts.  Update: Danny has ordered, but needs an update, 25 Oct.  I'm hoping for these by Tues, 2 Nov.  Asked Danny on Saturday, Oct 2, to find someone to do this.  Check in with Danny on the progress.
 
-- [ ] I need to rework the prices
-- [ ] do the FB page for the Business
-- [ ] work on inbox zero
-- [ ] pay AT&T
+
+## Sun, 2 Jan 2021
+### current tasks
+- [ ] have Jean work with Ana for resolution; forward him the email
+
+- [ ] car insurance: get the paperwork for the car policies from Jean and make sure a copy is in all vehicles
+- [ ] hand off house receipts to Sissy for identification, catagorization, and tallying
+- [ ] pay AT&T 1st 50% (current due)
+- [x] pay AT&T 2nd 50% (over due)
 - [ ] pay AIB
 - [ ] buy NorWesCon memberships
+- [ ] reserve hotel room
 - [ ] make snack order from Target
+- [ ] alcumus for Kai
+- [ ] pay January rent to Roddy DO THIS NOWWWW!!!!!!!
+- [x] pay January car insurance
+- [x] pay $500 to Ivans for materials
+- [ ] pay 3 PA phones
+- [ ] pay house internet
+- [x] pay Naturgy for electricity
+- [ ] pay $600 business taxes to Fanny
+
+- [ ] fold laundry
+- [ ] fill out paper for Rodrigo for auto-transfer of monthly insurance payment <- check up on this with Sissy
+- [ ] do a bunch of filing
+- [ ] change Susan bedding
+- [ ] work on unpacking big red suitcase
+- [ ] work on unpacking bin of clothes
+
+- [ ] work on inbox zero
 - [ ] plan a visit from Al & Sela
 - [ ] make mental health appointment for Kai
 - [ ] unpack a box from the pantry
@@ -53,27 +74,120 @@ Because I cannot keep such a huge daily list, it is becoming unmanageable.  Also
 - [ ] unpack a knick knack box
 - [ ] pick 3 boxes with books and graphic novels to come upstairs for unpacking into the office
 
+- [x] put away photo albums and yearbooks
+- [x] the creta (Dolega) needs to be yearly registered...Danny will go after insurance is gotten next week
+
+
+## Fri, 31 Dec 2021
+Trying to support a business on my personal salary is rough.
+
+Good news though is that rentals are picking up.  Little ones got me through December.  Doing my budget for January, I'm going to be in trouble...and then news came in that the Creta is renting out for a month!!  I'll miss the Creta, but that will cover 75% of the Jan insurance for the fleet.  Hopefully enough rentals will come through to cover the $1000 in foundation for the office and $600 for the taxes.  And maybe even the $800 for Jean's pay.
+
+Here is hoping.  Looks like lowering the prices was a brilliant move for now.
+
+Monthly expenses:
+### PA cash
+-  $1300 rent
+-  $1267 car insurance (this turned into just under $1000)
+-   $100 electricity
+-   $600 business taxes
+-   $500 foundation materials (this turned into $534)
+-   $500 foundation labor
+-       1300 + 1267 + 100 + 600 + 500 + 500 = 4267
+
+-   $140-280 house cleaning
+-   $800 more or less to employ Jean
+-   $360 spanish classes
+        280 + 800 + 360 = 1440
+-       
+### US account
+-   $220 4 phone bills (150 + 23 + 23 + 23)
+-    $67 house internet
+        (150 + 23 + 23 + 23) + 67 = 286
+
+- $6000 ($5993)
+
+That is about $4500 and doesn't include food and misc.  All the while trying to save enough for travel and hotel for NorWesCon which I need to book very soon.  
+
+1300 + 1267 + 100 + 600 + 500 + 500
++ (150 + 23 + 23 + 23) + 67
++ 280 + 800 + 360
+
+
+## Tue, 14 Dec 2021
+### current balance
+ref# 20213480062200
+BECU Checking 	$2,639.19          180.19    -2500  = -2600
+BECU Advantage Savings  $251.13    151.13     -100
+Multibank Checking	$28.70         100
+Multibank Savings  $223.52         142.54
+
+2639.19 + 251.13 + 28.70 + 223.52 = 3142.54
+
+3142.54 - 2600  
+=> 542.54
+
+Member Advantage Checking 3590507106	$2.44	$2,739.19	$2,739.19    like the one on Nov 30, but different amount
+Member Advantage Savings 3590507099	$5.43	$151.13	$151.13
+
+
+
+## Sun, 12 Dec 2021
+- [x] finish re-working prices
+- [x] pay Rodrigo the difference in payment <- has this been done?
+- [x] find out amount for monthly insurance payment for Jan
+- [x] transfer moneys to business account to cover insurance for Jan
+- [x] prep house receipts for Sissy
+- [x] send brochure choices to Sissy
+- [x] send car prices and contract and car inspection and form for client/car info to Sissy
+- [x] check on status of all the journals in regards to using Google Pages
+- [x] pay Columba
+
+- [x] get data for paying rent to Roddy (still need email and account type - asked Danny today for this)
+- [x] pay December rent to Roddy
+
+### rent payment details
+CARMEN CECILIA TEDMAN MACINTYRE
+$1300
+Banco Nacional de Panamá
+100-000-36-871
+
+- [ ] house rent: give Sissy the stack of receipts to organize to see what I've paid towards rent so far
+- [ ] business rent: what should be the next steps on giving up the business property (for now?)
+- [ ] car insurance: get the paperwork for the car policies from Jean
+- [ ] electricity: get the Naturgy receipt from Jean
+
 
 ## Fri, 10 Dec 2021
+- [x] car insurance: get the receipt for payment of this month from Sissy and get the change ($1700 - 1266.77)
 - [x] Jorge has paid his remaining portion of the electricity bill.  Yeay!!!
-- [x] electricity: send Jean with remaining money to pay Naturgy in full, $200 <- Jean went on his own.  Combined with Jorge's payment, this is paid in full and didn't require the $200 from me I think, which is awesome in this money-tight time
+- [x] electricity: send Jean with remaining money to pay Naturgy in full, $200 <- Jean went on his own.  Combined with Jorge's payment, this is paid in full
+
 Pikmin and Mario Party date with Kai after work.  Make cookies, mocha, popcorn, and hot chocolate.
 
 Kai agreed to wake by noon every day so I can enjoy his company for 1/2 of the day time.
+
 
 ## Thu, 9 Dec 2021
 Busy couple of days.  Last minute information meant I had to run around crazily today to get the foster kittens to their vet visit while also trying to get to the bank for cash to pay the insurance.  All the while needing to be very productive at work and get my hours in at work since Maged complained that my work has been declining these last few weeks.  This has me frantic to work well while also being frantic about money because I somehow need to pay:
 -  $1300 rent
 -  $1267 car insurance
--   $200 in electricity bills because I havn't paid since August!?! (Paid $80 already, but have $200 more, eek!)
+-   $90 electricity ($300 this month to catch up)
 -   $220 4 phone bills (150 + 23 + 23 + 23)
 -    $67 house internet
 -   $140-280 house cleaning
 -   $800 more or less to employ Jean
 -   $360 spanish classes
-- =$4500
 
-That is about $4000 and doesn't include food and misc.  All the while trying to save enough for travel and hotel for NorWesCon which I need to book very soon.
+That is about $4500 and doesn't include food and misc.  All the while trying to save enough for travel and hotel for NorWesCon which I need to book very soon.  
+```updated to add: Little bits of good financial news has come through.  
+Jorge paid his part of the electricity bill and a couple hours later, I got notification of nearly $600 in dividends auto-deposited to my account.  
+
+If I economize, this should work if nothing shocking comes up.  Kai agress that stuff isn't nearly as important for Christmas since he got the big early gift of his computer.  We all want presents to unwrap, so the plan is to write up gift certificates for dinners, snacks, treats (liquados/donuts/gelado), maybe adventure like beach trip and/or horse rides in Boquete or Las Lajas and then actually wrap them up as presents to go under the tree.  Kai would also very much like to do his big annual egg hunt on Christmas since the weather is much better.  
+```
+```
+Shit!  2 steps forward and 5 steps backwards.  Rody says the first rent payment must be $2600 to include the deposit.  So instead of being $600 ahead, I am now $700 behind.  Really don't know how I'll make it work.  Um...  So, pay all of rent...somehow...I think I have it plus expenses for the month, but it will delay booking the flight for NorWesCon.  However, I think I can book the hotel, which is the more critical step to get done soonest (in December)
+```
 
 Oh, and did I mention that since the cars aren't renting, I do not and will not have the money for rental on the business property, much less be able to develop it.  Opening talks with Danny to get that figured out.
 
@@ -85,27 +199,11 @@ Current progress on the stress items:
 - car insurance: sent the payment through Sissy to Banco General as requested  
 - electricity: sent Jean to pay $80 towards electricity
 
-Need to:
-- [ ] house rent: give Sissy the stack of receipts to organize to see what I've paid towards rent so far
-- [ ] business rent: meet with Danny on Saturday to make difficult decisions which probably include giving up the business property (for now?)
-- [ ] car insurance: get the paperwork for the car policies from Jean
-- [ ] car insurance: get the receipt for payment of this month from Sissy and get the change ($1700 - 1266.77)
-- [ ] electricity: get the Naturgy receipt from Jean
-
 
 ## Wed, 8 Dec 2021
-- [ ] get data for paying rent to Roddy (still need email and account type - asked Danny today for this)
-- [ ] pay December rent to Roddy
-- [ ] give stack of house repair receipts to Sissy for organization and totals
 - [x] find out how much is the monthly insurance payment
 - [x] pay monthly insurance payment
-
-### rent payment details
-CARMEN CECILIA TEDMAN MACINTYRE
-$1300
-Banco Nacional de Panamá
-100-000-36-871
-
+- [x] print out brochure examples
 
 
 ## Tue, 30 Nov 2021
@@ -118,22 +216,7 @@ Banco Nacional de Panamá
 ## Mon, 22 Nov 2021
 - [x] take out compost
 - [x] load of Alanna bedding (reds)
-- [ ] folding bedding
-- [ ] finish re-working prices
-- [ ] pay Rodrigo the difference in payment
-- [ ] find out amount for monthly insurance payment
-- [ ] transfer moneys to business account to cover insurance
-- [ ] fill out paper for Rodrigo for auto-transfer of monthly insurance payment
-- [ ] do a bunch of filing
-- [ ] prep house receipts for Sissy
-- [ ] print out brochure examples
-- [ ] send brochure choices to Sissy
-- [ ] send car prices and contract and car inspection and form for client/car info to Sissy
-- [ ] check on status of all the journals in regards to using Google Pages
-- [ ] pay Columba
-- [ ] change Susan bedding
-- [ ] work on unpacking big red suitcase
-- [ ] work on unpacking bin of clothes
+
 
 ## Sun, 21 Nov 2021
 - [x] another load of towels laundry
@@ -272,6 +355,8 @@ Fecha límite de pago 20/10
 
 ### notes on my BECU ATM card
 I remember having it work successfully about a month ago at Banco General.  I've has a terrible time getting it to work at Multibank.  Today I tried each combination of Savings/Checking and 8967 and 8976.  I'm pretty sure it is that first one.  I tried for $250 each time.  12 Oct - 9867  I have a feeling.  Try this one next time.
+
+12/17/2021 update ATM pin.  I found a note on my phone from June 2012.  9867 is it!!!
 
 9/8/2021
 9/8/2021	 	ATM Withdrawal - BANCO GENERAL BG/SUC BOQUETE/2491 BAJO BOQUETE PA - Card Ending In 7892	$255.25

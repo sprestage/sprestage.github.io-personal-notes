@@ -27,9 +27,137 @@ scp -i ~/.ssh/id_rsa docker/postgres/*.sql new-production-3.c8rvchfbyjh2.us-east
 
 ---
 
-## Updating Cicero data for Australia, Canada, and United Kingdom
 
-For Australia, Canada, and United Kingdom, our third-party Cicero service provides both shapefiles and recipient .CSVs.  
+## Updating Cicero data for Australia, Canada, United Kingdom, and United States
+
+For Australia, Canada, United Kingdom, and United States, our third-party Cicero service provides both shapefiles and recipient .CSVs.  
+
+
+### To update US
+
+  [Step 1 - Download and extract the shapefiles and .CSVs from our Cicero S3 bucket](#us-step-1) <br>
+  [Step 2 - Copy new .CSV files into the corresponding subfolder](#us-step-3) <br>
+  [Step 3 - rarely needed - Update US Districts and Shapefiles](#us-step-2) <br>
+  [Step 4 - Updating US Recipients](#us-step-4) <br>
+  [Step 5 - Troubleshooting ("Party ... not found" messages)](#us-step-5) <br>
+
+  [US name updater testing](#us-name-updater-testing)
+
+#### US Step 1
+**Download and extract the shapefiles and .CSVs from our Cicero S3 bucket.**
+
+# STOP!!!  DISCONNECT FROM YOUR VPN FIRST!!!
+You'll need the AWS command line client, as well as an AWS profile with appropriate credentials.  On OSX, your credentials file should be saved to:
+```
+  ~/.aws/credentials  
+```
+
+and should include a user with access to our Cicero S3 bucket:
+```
+  [cicero_user]
+  aws_access_key_id = AKIARQTLGY25RK5ILJMC
+  aws_secret_access_key = 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
+```
+
+To access the latest Cicero data using these credentials, call:
+```
+  aws --profile cicero_user s3 ls --recursive s3://cicero-global-data-us-east-1/OneClickPolitics/
+```
+
+Retrieve the latest shapefiles by downloading and extracting cicero_us_districts.zip:
+```
+  aws --profile cicero_user s3 cp s3://cicero-global-data-us-east-1/OneClickPolitics/latest/cicero_us_state_and_federal_districts.zip cicero_us_districts.zip
+```
+
+Pull the latest .CSVs by downloading and extracting cicero_us_officials.zip, cicero_us_officials_levels.zip, and cicero_us_officials_roles.zip:
+```
+  aws --profile cicero_user s3 cp s3://cicero-global-data-us-east-1/OneClickPolitics/latest/cicero_us_state_and_federal_officials_identifiers.zip cicero_us_state_and_federal_officials_identifiers.zip
+
+  aws --profile cicero_user s3 cp s3://cicero-global-data-us-east-1/OneClickPolitics/latest/cicero_us_state_and_federal_officials.zip cicero_us_state_and_federal_officials.zip
+
+  aws --profile cicero_user s3 cp s3://cicero-global-data-us-east-1/OneClickPolitics/latest/cicero_us_state_and_federal_officials_committees.zip cicero_us_state_and_federal_officials_committees.zip
+
+```
+
+
+#### US Step 2
+Unzip these, and rename the .csvs
+```
+cicero_us_state_and_federal_officials_identifiers.csv -> cicero_us_officials_identifiers.csv
+cicero_us_state_and_federal_officials.csv -> cicero_us_officials.csv
+cicero_us_officials_committees.csv -> cicero_us_officials_committees.csv
+```
+
+Lastly, copy these .csv files into lib/import_data/us/cicero/
+
+
+#### US Step 3 - this step should rarely be needed
+**Update US Districts and Shapefiles**
+We shouldn’t need to update shapes often, but when it’s necessary to update shapes, download the US shapes from our Cicero source, and follow the instructions in
+
+lib/tasks/update_congress.rake
+
+in the comments above the task :import_cicero_us_shapefiles.
+
+When you reach step 5, skip the section labeled 5 (alt), which includes alternate steps needed on the very first Cicero import.  Just follow the instructions for step 5, listed underneath 5 (alt).
+
+
+#### US Step 4
+**Updating US Recipients**
+```
+require ('importer_modules/united_states/cicero/cicero_us_importers')
+Importer::CiceroUSDistrictMatcher.instance.setup
+Importer::CiceroUSPartyMatcher.instance.setup
+Importer::CiceroUSRowChecker.instance.setup
+Importer::CiceroUSRecipientImporter.instance.setup
+Importer::CiceroUSRecipientImporter.instance.match
+Importer::CiceroUSRecipientImporter.instance.all_problems
+```
+
+Here you'll see a number of problems related to missing districts and parties for Puerto Rico, the Virgin Islands, Guam, etc.  You can ignore these.
+
+```
+Importer::CiceroUSRecipientImporter.instance.import
+Importer::CiceroUSRecipientImporter.instance.all_problems
+
+Importer::CiceroUSRecipientImporter.instance.import(:record => true)
+```
+
+You can then update our list of active committees via:
+
+```
+Importer::CiceroUSCommitteeMatcher.instance.setup
+Importer::CiceroUSCommitteeMatcher.instance.import_and_update_committees(:record => true)
+Importer::CiceroUSCommitteeMatcher.instance.inactivate_old_committees(:record => true)
+```
+
+And update committee assignments via:
+
+```
+Importer::CiceroUSAssignmentImporter.instance.setup
+Importer::CiceroUSAssignmentImporter.instance.import(:record => true)
+```
+
+Finally, you can use
+
+```
+Importer::CiceroUSRecipientImporter.instance.deactivate_non_cicero_us_reps
+Importer::CiceroUSRecipientImporter.instance.deactivate_non_cicero_us_reps(:record => true)
+```
+
+to deactivate any old non-Cicero US reps lingering in the system.
+
+Newly imported US Congress members will need to have CwcAddress or CwcApiAddress records made for them.
+
+To do this automatically, exit the Rails console, and run the rake tasks:
+
+```
+RAILS_ENV=production bundle exec rake cwc_office_code
+RAILS_ENV=production bundle exec rake populate_cwc_api_address
+```
+
+These tasks shouldn't duplicate or override any existing address records.
+
 
 ### To update Australia:
   [Step 1 - Download and extract the shapefiles and .CSVs from our Cicero S3 bucket](#au-step-1) <br>
