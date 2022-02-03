@@ -2,7 +2,191 @@
 This doc will have unchecked tasks in the past.  These are either obsolete, or have been moved to the current day.  This is a different style from my personal tracking journal which either checks them or moves them to the current day.  The goal in this doc is to preserve my status report for later reference, so that is where the unchecked are likely to be preserved.
 
 
-## Tue, Jan 25 2021
+```
+irb(main):011:0> e = h.keep_if
+=> #<Enumerator: {"12643"=>0, "36311"=>0, "38991"=>1, "39521"=>0, "23691"=>0, "39516"=>1, "39529"=>0, "39518"=>0, "39168"=>0, "39169"=>240237, "39171"=>0, "39170"=>0, "39082"=>0, "39282"=>0, "39288"=>7, "29631"=>0, "40468"=>0, "319"=>0, "7320"=>0, "25179"=>1200, "12537"=>0, "12174"=>4, "40476"=>0, "24403"=>0, "39610"=>0, "39523"=>5, "39517"=>18, "39524"=>3, "39520"=>2, "39528"=>60, "39522"=>29, "39519"=>10, "40066"=>1, "40449"=>0, "40326"=>4, "40553"=>0, "40563"=>0, "40581"=>9, "36120"=>0, "40592"=>0, "40601"=>0, "40645"=>0, "40654"=>0, "36896"=>0, "37916"=>0, "37862"=>0, "38023"=>0, "10958"=>0, "35975"=>0, "37990"=>0, "39667"=>0, "39538"=>0, "39387"=>1, "39543"=>0, "39634"=>0, "20176"=>14512, "39674"=>0, "39549"=>0, "39653"=>0, "39556"=>0, "16660"=>0, "39754"=>1, "13607"=>330, "39686"=>289, "39811"=>0, "39557"=>0, "39846"=>0, "39850"=>0, "39703"=>6, "39911"=>0, "7225"=>1, "39967"=>0, "40015"=>0, "40021"=>0, "39960"=>0, "39896"=>0, "40196"=>0, "40190"=>5, "40218"=>0, "40796"=>0}:keep_if>
+
+irb(main):012:0> e.each { |key, value| value != 0 }
+=> {"38991"=>1, "39516"=>1, "39169"=>240237, "39288"=>7, "25179"=>1200, "12174"=>4, "39523"=>5, "39517"=>18, "39524"=>3, "39520"=>2, "39528"=>60, "39522"=>29, "39519"=>10, "40066"=>1, "40326"=>4, "40581"=>9, "39387"=>1, "20176"=>14512, "39754"=>1, "13607"=>330, "39686"=>289, "39703"=>6, "7225"=>1, "40190"=>5}
+
+data = {"12643"=>nil, "36311"=>nil, "38991"=>135, "39521"=>nil}
+e = data.keep_if
+e.each { |key, value| !value.nil? }
+
+foo = h.keep_if.each { |key, value| !value.nil? }
+```
+
+logger.info("NationBuilder person_data for advocate: #{data.delete_if { |_, val| val.nil? }}")
+
+
+## Thu, Feb 3 2022
+**Question**
+- Do we create a Jira for every Zendesk ticket we research, even when there are no code modifications involved?  YES
+
+**Yesterday I**
+- finished second half of Hager's big UK PR; let me know when you are ready for re-review (which should be quick)
+- wrote up questions and potential solutions for two of the ZD tickets (1155 & 767)
+- BLOCKED (need response from Maged) ON-1636: Training video update (ZD-1155)
++ researched and wrote up my findings in response to https://oneclickpolitics.zendesk.com/agent/tickets/1231 aka the lat/lng ticket
+- reviewed Alex's PRs, which catches me up on PR review for this brief moment
+
+**Today I plan to**
+- [x] ON-1641 - remote Kris Koenen's admin access to the OCP admin portal
+- [x] ON-1640 - create Jira and stop sync for NRA, promoter user 39169
+- [ ] ON-1639 - US cicero import
+- [ ] create Jira for ZD-767: Advocate upload
+- [ ] prep file for Advocate upload
+- [ ] check in and merge file for Advocate upload
+- [ ] perform Advocate upload
+- [ ] With a brief re-review and approval from Shams, ON-1617 Omit all nil fields in person_data sent to NationBuilder is ready for merge and deployment.  https://github.com/one-click-politics/one-click-politics/pull/559
+- [ ] ON-1620 to add Senate Dems/Repubs and House Dems/Repubs is in progress
+  - [x] implemented at the national level
+  - [ ] tests are in progress for national
+- [ ] email to confirm with Darren and if so, create a second ticket
+  - [ ] implement at the state level
+  - [ ] implement tests for state
+
+
+## Wed, Feb 2 2022
+**Yesterday I**
+- ON-1634 merge and deployed the extended video size for CA Cancer Society
+- reviewed a pile of PRs that had accumulated; I'm about halfway through the big UK PR, Hager
+- created ON-1636: Training video update <- I've done the legwork and have a couple different solutions along with several questions.  Maged, I've written them up in the ticket, or we can meet since I'd like to share screen or have you looking at production to clarify some of the questions.
+- I was looking at ZD 767 for advocate upload and I notice that this ticket is 10 months old.  Is this something still desired to be uploaded?  Promotor ID 40237
+- Are we doing Cicero US imports weekly?  What about CA & AU?
+
+**Today I plan to**
+- [x] send questions to Maged on 2 of the zendesk tix, 1155-training video update & 767-old advocate upload
+- [ ] await response from Maged on ZD-1155, training video update
+- [ ] await response from Maged on ZD-767, 10 month old advocate upload
+- [x] sort out and make Jira ticket for zendesk tix 1231 (lat/lon)
+  - [x] research best answers with recent (today's) data
+  - [x] responded to the ticket with answers for the two questions (as best as I could translate them):
+    - what data is sent to NB for a "petition signer" (Advocate)
+    - can you help confirm this feedback from nationbuilder? Does OCP returns a "Check" value in the "Override latitude and longitude" check box in nationbuilder as a default?
+- [ ] respond to reviews and merge, ON-1617 Omit all nil fields in person_data sent to NationBuilder #559 <- at end of day (4:45p), only Hager had reviewed, so I prompted folks.  Should be able to wrap this up tomorrow morning.
+- [ ] support ticket from Friday (ON-1620) to add Senate Dems/Repubs and House Dems/Repubs
+  - [x] implemented at the national level
+  - [ ] tests are in progress for national
+  - [ ] implement at the state level
+  - [ ] implement tests for state
+- [ ] BLOCKED (need response from Maged) ON-1636: Training video update (ZD-1155)
+- [ ] BLOCKED (need response from Maged) create Jira for ZD-767: Advocate upload
+- [x] finished second half of Hager's big UK PR; let me know when you are ready for re-review (which should be quick)
+
+### zendesk 1231
+Posted the following to https://oneclickpolitics.zendesk.com/agent/tickets/1231
+
+The OCP system uses the NationBuilder API to sync data for clients.  There is no field provided in the NB API for "Override latitude and longitude".  There is no checkbox as there is no UI.  See this document from NationBuilder for details on use of their API, https://nationbuilder.com/people_api.
+
+These are the fields that OCP sends to NationBuilder to sync petition signers (Advocates):
+
+email, phone, first_name, last_name, middle_name, address1, address2, city, state, zip, country_code, lat, lng
+
+NationBuilders geocoding/re-districting requires the country_code in the data sent to them.  The recent (Nov 2021) conversation with NB about re-districting implied that lat/lng would not alter data at their end, but was not directly stated nor is covered in their API docs.
+
+
+## Tue, Feb 1 2022
+### New priorities
+These new priorities just came in from Maged just after noon:
+1. ON-1636 training video zendesk 1155, https://oneclickpolitics.atlassian.net/browse/ON-1636  I have reviewed everything and have a list of implementation questions as well as observations about the video.
+2. Lat and long issue zendesk 1231
+3. advocate upload zendesk 767.  I notice that this ticket is 10 months old.  Is this something still desired to be uploaded?  Promotor ID 40237
+4. house/senate grouping jira 1620
+
+#### NationBuilder person_data for advocate:
+
+We use the NationBuilder API to sync data for clients.  There is no field provided in the NB API for "Override latitude and longitude".  There is no checkbox as there is no UI.  See this document from NationBuilder for details on use of their API, https://nationbuilder.com/people_api.
+
+These are the fields that OCP sends to NationBuilder to sync petition signers (Advocates):
+
+{ email, phone, first_name, last_name, middle_name, external_id, home_address {address1, address2, city, state, zip, country_code, lat, lng} }
+
+**Yesterday I**
+- ON-1634 ticketed, implemented, PR'ed the extended video size for CA Cancer Society
+- ON-1617 PR has just been put up for review.  This is to use .compact or equiquivalent on the person hash (for any field not required) sent for both Recipients and AdvocateProfiles sent to NB.
+
+**Today I plan to**
+- [x] ON-1634 merge and deployed the extended video size for CA Cancer Society
+- [ ] review the pile of PRs that have accumulate
+- [ ] 1 ticket update links for training materials, Maged will send ticket
+- [ ] support ticket from Friday (ON-1620) to add Senate Dems/Repubs and House Dems/Repubs
+
+- [ ] wrap up responses to [#529] ON-1580 Rake task to reset conversions for re-sync to NationBuilder
+
+
+## Mon, Jan 31 2022
+**Wednesday I**
+- [x] deploy then perform the Advocate Universe Uploads, ON-1605 <- 1st TOP PRIORITY
+- [x] ON-1616:  create a single ticket for:
+  - do not send opt in flag at all for recipients <- current sprint <- 2nd TOP PRIORITY
+  - do not send prefix at all <- current sprint <- 2nd TOP PRIORITY
+- [x] ON-1617:  create a ticket for:
+  - use .compact or equiquivalent on the entire hash for any field not required <- backlog
+- [x] implement ticket ON-1616:  <- 2nd TOP PRIORITY
+  - do not send opt in flag at all for recipients
+  - do not send prefix at all
+- [x] talk to Alex late this afternoon for info handoff for the eventual generification of the advocate import https://oneclickpolitics.atlassian.net/browse/ON-1306
+
+**Today I plan to**
+- [x] deploy master to pre-prod
+- [ ] 2 tickets on extending video size, Maged will send tickets
+- [ ] 1 ticket update links for training materials, Maged will send ticket
+- [ ] do ON-1617 to use .compact or equiquivalent on the entire hash for any field not required
+- [ ] review the pile of PRs that have accumulated
+- [ ] wrap up responses to [#529] ON-1580 Rake task to reset conversions for re-sync to NationBuilder
+- [ ] support ticket from Friday (ON-1620) to add Senate Dems/Repubs and House Dems/Repubs
+
+**Coming very soon**
+- [ ] today I hope to finish both house and senate <- 3RD TOP PRIORITY (ON-1527: ON-1530 & 1531)
+  - [ ] Priority order needs to be changed to this: cwc, email, web, fax
+  - [ ] list those who don't have cwc
+
+
+
+
+## Wed, Jan 26, 2022
+**Yesterday I**
+- finished the Cicero US import, ON-1608
+- checked for the missing VA, WA, and MD data; need more info to know what to check for FL
+- ON-1614: Jira ticket to improve importer to filter out rows with territories (PR, AS, 3 others)
+- ON-1613: also, I keep seeing one particular AU cicero imported recipient failing to NB sync.  I'm going to write up the bug so you can schedule it in sometime soon, Maged:
+{"message":"FAILURE for Promoter 20176 (Australian Christian Lobby): 2022-01-25 14:34:11 +0000 - Conversion 25328631 failed to sync Email because Recipient 121877 failed to sync.","@timestamp":"2022-01-25T14:34:11.132+00:00","@version":"1","severity":"ERROR","host":"ip-172-30-1-220","tags":["nation_builder","task","sync"],"environment":"production"}
+- did the prep work for the Advocate Universe Upload, ON-1605 <- 1st TOP PRIORITY
+  - figured out the instructions from the Dev Doc,
+  - added the promoter file specific method
+  - tested it locally
+
+Weirdly.  The Advocate import creates SenderProfiles not Advocates.  Should I be concerned?
+
+
+**Today I plan to**
+- [x] deploy then perform the Advocate Universe Uploads, ON-1605 <- 1st TOP PRIORITY
+- [x] ON-1616:  create a single ticket for:
+  - do not send opt in flag at all for recipients <- current sprint <- 2nd TOP PRIORITY
+  - do not send prefix at all <- current sprint <- 2nd TOP PRIORITY
+- [x] ON-1617:  create a ticket for:
+  - use .compact or equiquivalent on the entire hash for any field not required <- backlog
+- [x] implement ticket ON-1616:  <- 2nd TOP PRIORITY
+  - do not send opt in flag at all for recipients
+  - do not send prefix at all
+
+- [ ] today I hope to finish both house and senate <- 3RD TOP PRIORITY (ON-1527: ON-1530 & 1531)
+  - [ ] Priority order needs to be changed to this: cwc, email, web, fax
+  - [ ] list those who don't have cwc
+- [ ] wrap up responses to [#529] ON-1580 Rake task to reset conversions for re-sync to NationBuilder
+- [ ] talk to Alex late this afternoon for info handoff for the eventual generification of the advocate import https://oneclickpolitics.atlassian.net/browse/ON-1306
+
+
+## Tue, Jan 25 2022
+
+✅ Is present on 25 Jan - Washington State Senate District 27, Yasmin Trudeau - Entered office November 2, 2021
+
+✅ Is present on 25 Jan - Maryland House of Delegates District 15, Linda Foley - Entered office December 17, 2021
+
+✅ Is present on 25 Jan - Virginia House of Delegates District 89, Jackie Glass - Entered office January 12, 2022
+
+I have no info on the missing Florida representative, so I'd have to ballotpedia and walk through all recently elected representatives at every level.  More information would be much better.  I'm going to assume this is good until I hear more.
 
 **Yesterday I**
 - pulled examples of Recipient (person_data) that we are sending to NB and wrote up findings and sent to Maged, ON-1599, short version:
@@ -15,17 +199,17 @@ This doc will have unchecked tasks in the past.  These are either obsolete, or h
 - and am nearly done running the Cicero US import
 
 **Today I plan to**
-- [x] finish the Cicero US import
-- [ ] check for the missing FL, VA, WA, and MD data <- isn't there another state that was added yesterday, Monday?
+- [x] finish the Cicero US import, ON-1608
+- [x] check for the missing FL, VA, WA, and MD data
 - [ ] today I hope to finish both house and senate <- 2ND TOP PRIORITY (ON-1527: ON-1530 & 1531)
   - [ ] Priority order needs to be changed to this: cwc, email, web, fax
   - [ ] list those who don't have cwc
 - [ ] at some point I hope to get back to responding to the reviews on the rake task PR for ON-1580
 - [ ] do the Advocate Universe Uploads, ON-1605 <- 1st TOP PRIORITY
 - [ ] wrap up [#529] ON-1580 Rake task to reset conversions for re-sync to NationBuilder (sprestage)
-- [ ] also, I keep seeing one particular AU cicero imported recipient failing to NB sync.  I'm going to write up the bug so you can schedule it in sometime soon, Maged:
+- [x] ON-1613: also, I keep seeing one particular AU cicero imported recipient failing to NB sync.  I'm going to write up the bug so you can schedule it in sometime soon, Maged:
 {"message":"FAILURE for Promoter 20176 (Australian Christian Lobby): 2022-01-25 14:34:11 +0000 - Conversion 25328631 failed to sync Email because Recipient 121877 failed to sync.","@timestamp":"2022-01-25T14:34:11.132+00:00","@version":"1","severity":"ERROR","host":"ip-172-30-1-220","tags":["nation_builder","task","sync"],"environment":"production"}
-- [ ] Jira ticket to improve importer to filter out rows with territories (PR, AS, 3 others)
+- [x] ON-1614: Jira ticket to improve importer to filter out rows with territories (PR, AS, 3 others)
 ```
 the longer term fix will likely use the filter_rows method in cicero_us_recipient_importer.rb
 so it will add an extra condition that filters out rows that have a state matching the territories
@@ -128,7 +312,14 @@ promoter = PromoterUser.find 20176
 promoter.conversions.includes(advocate_profile: [:advocate_for_promoters, :state, :external_connections]).where('conversions.id >= ?', @epoch_id).where('conversions.id <= ?', @apocalypse_id).where('conversions.nation_builder_email_synced = ?', false).where('conversions.nation_builder_unsyncable = ?', false).where('conversions.reached_recipient_ids IS NOT NULL').where('advocate_for_promoters.opt_in_id IS NOT NULL').count
 ```
 
-## Mon, Jan 24 2021
+### NB sync current count
+```
+irb(main):022:0> promoters_conversion_count_hash
+=> {"12643"=>0, "36311"=>0, "38991"=>1, "39521"=>0, "23691"=>0, "39516"=>0, "39529"=>0, "39518"=>0, "39168"=>0, "39170"=>0, "39171"=>0, "39169"=>226119, "39082"=>0, "39282"=>0, "39288"=>0, "29631"=>0, "40468"=>0, "319"=>0, "7320"=>0, "25179"=>0, "12537"=>0, "12174"=>3, "40476"=>0, "24403"=>0, "39610"=>0, "39523"=>5, "39517"=>0, "39524"=>0, "39520"=>0, "39528"=>0, "39522"=>1, "39519"=>0, "40066"=>0, "40449"=>0, "40326"=>0, "40553"=>0, "40563"=>0, "40581"=>0, "36120"=>0, "40592"=>0, "40601"=>0, "40645"=>0, "40654"=>0, "36896"=>0, "37916"=>0, "37862"=>0, "38023"=>0, "10958"=>0, "35975"=>0, "37990"=>0, "39667"=>0, "39538"=>0, "39387"=>0, "39543"=>0, "39634"=>0, "20176"=>7610, "39674"=>0, "39549"=>0, "39653"=>0, "39556"=>0, "16660"=>0, "39754"=>0, "13607"=>0, "39686"=>249, "39811"=>0, "39557"=>0, "39846"=>0, "39850"=>0, "39703"=>0, "39911"=>0, "7225"=>0, "39967"=>0, "40015"=>0, "40021"=>0, "39960"=>0, "39896"=>0, "40196"=>0, "40190"=>0, "40218"=>0, "40796"=>0}
+```
+
+
+## Mon, Jan 24 2022
 
 ### NationBuilder parties, prefixes, and defaults
 These results are US specific as I believe I am seeing different behavior for parties and prefixes for Australia.
@@ -214,7 +405,7 @@ PRIORITIZE
 - [ ] arrange for local allergy meds
 
 
-## Fri, Jan 21 2021
+## Fri, Jan 21 2022
 ### learning - logger, logging, log
 Put this at the top of the file and use `logger.info("")` from here on out.  👍
 ```
@@ -265,7 +456,7 @@ module OneClickWidgetApiHelper
 - [x] review Nate's PR 495, ON-1487.  Wow.  Big.  21 files.  My eyes are crossing.
 
 
-## Thu, Jan 20 2021
+## Thu, Jan 20 2022
 ### learning
 work on learning associations and includes when making calls to the DB.  This is probably like, when you need a message's recipients' data, etc.  <- Shams recommended this in stand up and he is correct.
 
@@ -319,7 +510,7 @@ It is interesting to note that there are Many new delagates from Jan 12, 2022 in
 - FL state level committee or sub-committee
 
 
-## Wed, Jan 19 2021
+## Wed, Jan 19 2022
 **Yesterday I**
 - Made the ticket for the non-national Recipients, ON-1584
 - Merged and deployed Dave's PR for Cicero US import, ON-1581
@@ -339,7 +530,7 @@ Virginia State House is the problematic area for ON-1581
 - [ ] at some point I hope to get back to responding to the reviews on the rake task PR for ON-1580
 
 
-## Tue, Jan 18 2021
+## Tue, Jan 18 2022
 **Yesterday I**
 - create a ticket, checked in & PR'ed the rake task
 - finally got back to the recipient delivery address epic; starting with the house <- TOP PRIORITY (ON-1527 & ON-1530)
@@ -400,7 +591,7 @@ Maged, we should meet so I can bring you up to date on my findings on how opt_in
 
 ```
 desc "Reset NationBuilder campaigns so next sync will pick them up"
-task :reset_conversions_for_nb_resync do
+task :s_for_nb_resync do
   messages = PromotedMessage.where(creator_id: 40449)
   messages.each do |message|
     conversion_count = 0

@@ -43,6 +43,11 @@ Because I cannot keep such a huge daily list, it is becoming unmanageable.  Also
 - [ ] pay rent
 
 
+## Mon, 31 Jan 2022
+- [x] Kai, Susan, & business phones are all up to date on payment as of 31 Jan 2022
+- [x] house internet is up to date as of 31 Jan 2022
+
+
 ## Sat, 22 Jan 2022
 - [ ] have Jean work with Ana for resolution; forward him the email <- FORWARD THIS TO JEAN
 - [ ] fill out paper for Rodrigo for auto-transfer of monthly insurance payment <- check up on this with Sissy

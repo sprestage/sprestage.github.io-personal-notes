@@ -8,8 +8,7 @@ CwcAddress, , EmailAddress, FaxAddress, WebMailAddress
 
 "WebAddress", <- none in House
 
-"CapitolAddress",
-"DepartmentAddress", "CwcApiAddress", "DistrictAddress", "KeyStaffAddress"]
+["CapitolAddress", "DepartmentAddress", "CwcApiAddress", "DistrictAddress", "KeyStaffAddress"]
 
 index, id, last_name, first_name, state, method of delivery(priority), # of failures, method of delivery(priority), # of failures, method of delivery(priority), # of failures
 1, 182707, Mrvan, Frank, IN,	WebMailAddress(0), 33,	CwcAddress(0), 57,	FaxAddress(20), BAD,	DistrictAddress(100), 0
