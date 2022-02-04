@@ -7,10 +7,10 @@ Before using rake import_cicero_us_shapefiles, you'll need to import Cicero's la
 sudo shp2pgsql -s 4326 -g us_geom /Users/dt/Downloads/cicero_us_districts/district_statelower_us.shp public.new_districts > STATELOWER_US.sql
 sudo shp2pgsql -s 4326 -g us_geom /Users/dt/Downloads/cicero_us_districts/district_nationallower_us.shp public.new_districts > NATIONALLOWER_US.sql
 
-sudo shp2pgsql -t 2D -s 4326 -g us_geom cicero_us_state_and_federal_districts/district_stateupper.shp public.new_districts > STATEUPPER_US.sql
-sudo shp2pgsql -t 2D -s 4326 -g us_geom cicero_us_state_and_federal_districts/district_statelower.shp public.new_districts > STATELOWER_US.sql
-sudo shp2pgsql -t 2D -s 4326 -g us_geom cicero_us_state_and_federal_districts/district_nationalupper.shp public.new_districts > NATIONALUPPER_US.sql
-sudo shp2pgsql -t 2D -s 4326 -g us_geom cicero_us_state_and_federal_districts/district_nationallower.shp public.new_districts > NATIONALLOWER_US.sql
+sudo shp2pgsql -t 2D -s 4326 -g us_geom cicero_us_state_and_federal_districts/district_stateupper_us.shp public.new_districts > STATEUPPER_US.sql
+sudo shp2pgsql -t 2D -s 4326 -g us_geom cicero_us_state_and_federal_districts/district_statelower_us.shp public.new_districts > STATELOWER_US.sql
+sudo shp2pgsql -t 2D -s 4326 -g us_geom cicero_us_state_and_federal_districts/district_nationalupper_us.shp public.new_districts > NATIONALUPPER_US.sql
+sudo shp2pgsql -t 2D -s 4326 -g us_geom cicero_us_state_and_federal_districts/district_nationallower_us.shp public.new_districts > NATIONALLOWER_US.sql
 
 ```
 The national upper shapes are just the state/territory boundaries themselves, which we won't need to match against lats and lons.
