@@ -33,7 +33,7 @@ scp -i ~/.ssh/id_rsa ../../one-click-politics/docker/postgres/*UK.sql ubuntu@ec2
 
 Production
 ```
-psql -U ocp -d ocp_new -h new-production-2.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/united_kingdom/sep2021/DISTRICTS_UK.sql
+psql -U ocp -d ocp_new -h new-postgres12-72.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/united_kingdom/sep2021/DISTRICTS_UK.sql
 ```
 Staging
 ```

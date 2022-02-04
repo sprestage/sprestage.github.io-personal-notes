@@ -20,7 +20,7 @@ scp -i ~/.ssh/ ../CiceroImports/canada/*CA.sql ubuntu@ec2-54-235-144-131.compute
 ```
 prod - 938hg3kk
 ```
-scp -i ~/.ssh/id_rsa ../../one-click-politics/docker/postgres/*CA.sql ubuntu@ec2-184-72-246-33.compute-1.amazonaws.com:~/canada/oct2021
+scp -i ~/.ssh/id_rsa ../../one-click-politics/docker/postgres/*CA.sql ubuntu@prod.oneclickpolitics.com:~/canada/oct2021
 ```
 
    The preceding lines are used to set up our new_districts table, and we won't need them - we're going to do this with the NewDistrict.reset_table command.
@@ -34,8 +34,8 @@ NewDistrict.reset_table :ca_geom_srid => '4326', :columns => { :district_i => :s
 
 Production
 ```
- psql -U ocp -d ocp_new -h new-production-3.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/canada/oct2021/STATELOWER_CA.sql
- psql -U ocp -d ocp_new -h new-production-3.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/canada/oct2021/NATIONALLOWER_CA.sql
+ psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/canada/oct2021/STATELOWER_CA.sql
+ psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/canada/oct2021/NATIONALLOWER_CA.sql
 ```
 
 Staging

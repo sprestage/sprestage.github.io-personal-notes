@@ -19,6 +19,19 @@ foo = h.keep_if.each { |key, value| !value.nil? }
 logger.info("NationBuilder person_data for advocate: #{data.delete_if { |_, val| val.nil? }}")
 
 
+## Fri, Feb 4 2022
+- [x] ON-1641 - remote Kris Koenen's admin access to the OCP admin portal
+- [x] ON-1640 - create Jira and stop sync for NRA, promoter user 39169
+- [ ] ON-1639 - CA/AU/US cicero import <- I need to break this into 3 different tickets to track the work, but I used just the one in order to checkin the .csv files and get the onto production.  Canada import is complete.  Working on AU import.
+- [ ] With a brief re-review and approval from Shams, ON-1617 Omit all nil fields in person_data sent to NationBuilder is ready for merge and deployment.  https://github.com/one-click-politics/one-click-politics/pull/559
+- [ ] ON-1620 to add Senate Dems/Repubs and House Dems/Repubs is in progress
+  - [x] implemented at the national level
+  - [ ] tests are in progress for national
+- [ ] email to confirm with Darren and if so, create a second ticket
+  - [ ] implement at the state level
+  - [ ] implement tests for state
+
+
 ## Thu, Feb 3 2022
 **Question**
 - Do we create a Jira for every Zendesk ticket we research, even when there are no code modifications involved?  YES

@@ -22,7 +22,7 @@ scp -i ~/.ssh/ ../CiceroImports/australia/*AU.sql ubuntu@ec2-54-235-144-131.comp
 ```
 prod - 938hg3kk
 ```
-scp -i ~/.ssh/id_rsa ../../one-click-politics/docker/postgres/*AU.sql ubuntu@ec2-184-72-246-33.compute-1.amazonaws.com:~/australia/sep2021
+scp -i ~/.ssh/id_rsa ../../one-click-politics/docker/postgres/*AU.sql ubuntu@prod.oneclickpolitics.com:~/australia/sep2021
 ```
 
    The preceding lines are used to set up our new_districts table, and we won't need them - we're going to do this with the NewDistrict.reset_table command.
@@ -36,10 +36,10 @@ scp -i ~/.ssh/id_rsa ../../one-click-politics/docker/postgres/*AU.sql ubuntu@ec2
 
 Production
 ```
-psql -U ocp -d ocp_new -h new-production-2.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/sep2021/STATELOWER_AU.sql
-psql -U ocp -d ocp_new -h new-production-2.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/sep2021/STATEUPPER_AU.sql
-psql -U ocp -d ocp_new -h new-production-2.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/sep2021/NATIONALLOWER_AU.sql
-psql -U ocp -d ocp_new -h new-production-2.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/sep2021/NATIONALUPPER_AU.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/sep2021/STATELOWER_AU.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/sep2021/STATEUPPER_AU.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/sep2021/NATIONALLOWER_AU.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/sep2021/NATIONALUPPER_AU.sql
 ```
 Staging
 ```
