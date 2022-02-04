@@ -23,22 +23,27 @@ logger.info("NationBuilder person_data for advocate: #{data.delete_if { |_, val|
 **Friday I**
 - ON-1646 Created ticket and performed Cicero CA import with shape files
 - ON-1647 Created ticket and performed Cicero AU import with shape files
-- ON-1639 Cicero US import with shape files
+- ON-1639 Cicero US import with shape files plus data confirmation with special attention to districts/shapefiles
+- ON-1617 Finished the small refactors recommended by Dave and with his (and 3 other approvals), merged and deployed to the NB box (pre-prod)
 
 **Today I plan to**
-
-
-## Fri, Feb 4 2022
-- [x] ON-1641 - remote Kris Koenen's admin access to the OCP admin portal
-- [x] ON-1640 - create Jira and stop sync for NRA, promoter user 39169
-- [ ] ON-1639 - CA/AU/US cicero import <- I need to break this into 3 different tickets to track the work, but I used just the one in order to checkin the .csv files and get the onto production.  Canada import is complete.  Working on AU import.
-- [ ] With a brief re-review and approval from Shams, ON-1617 Omit all nil fields in person_data sent to NationBuilder is ready for merge and deployment.  https://github.com/one-click-politics/one-click-politics/pull/559
 - [ ] ON-1620 to add Senate Dems/Repubs and House Dems/Repubs is in progress
   - [x] implemented at the national level
   - [ ] tests are in progress for national
 - [ ] email to confirm with Darren and if so, create a second ticket
   - [ ] implement at the state level
   - [ ] implement tests for state
+
+
+## Fri, Feb 4 2022
+**Yesterday I**
+- [x] ON-1641 - remote Kris Koenen's admin access to the OCP admin portal
+- [x] ON-1640 - create Jira and stop sync for NRA, promoter user 39169
+- [ ] worked on ON-1639 - CA/AU/US cicero import
+
+**Today I plan to**
+- [x] ON-1639 - continue CA/AU/US cicero import <- I need to break this into 3 different tickets to track the work, but I used just the one in order to checkin the .csv files and get the onto production.  Canada import is complete.  Working on AU import.
+- [x] With a brief re-review and approval from Shams, ON-1617 Omit all nil fields in person_data sent to NationBuilder is ready for merge and deployment.  https://github.com/one-click-politics/one-click-politics/pull/559
 
 
 ## Thu, Feb 3 2022
