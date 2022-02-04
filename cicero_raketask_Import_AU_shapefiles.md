@@ -18,7 +18,7 @@ Susan added: Copy the sql files to staging/production
 # STOP!!!  DISCONNECT FROM YOUR VPN FIRST!!!
 staging - 938hg3kk
 ```
-scp -i ~/.ssh/ ../CiceroImports/australia/*AU.sql ubuntu@ec2-54-235-144-131.compute-1.amazonaws.com:~/australia/sep2021
+scp -i ~/.ssh/ ../CiceroImports/australia/*AU.sql ubuntu@ec2-54-235-144-131.compute-1.amazonaws.com:~/australia/jan2022
 ```
 prod - 938hg3kk
 ```
@@ -36,17 +36,17 @@ scp -i ~/.ssh/id_rsa *AU.sql ubuntu@prod.oneclickpolitics.com:~/australia/jan202
 
 Production
 ```
-psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/sep2021/STATELOWER_AU.sql
-psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/sep2021/STATEUPPER_AU.sql
-psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/sep2021/NATIONALLOWER_AU.sql
-psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/sep2021/NATIONALUPPER_AU.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/jan2022/STATELOWER_AU.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/jan2022/STATEUPPER_AU.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/jan2022/NATIONALLOWER_AU.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/jan2022/NATIONALUPPER_AU.sql
 ```
 Staging
 ```
-psql -U ocp -d ocp_new -h new-staging-127.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/sep2021/STATELOWER_AU.sql
-psql -U ocp -d ocp_new -h new-staging-127.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/sep2021/STATEUPPER_AU.sql
-psql -U ocp -d ocp_new -h new-staging-127.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/sep2021/NATIONALLOWER_AU.sql
-psql -U ocp -d ocp_new -h new-staging-127.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/sep2021/NATIONALUPPER_AU.sql
+psql -U ocp -d ocp_new -h new-staging-127.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/jan2022/STATELOWER_AU.sql
+psql -U ocp -d ocp_new -h new-staging-127.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/jan2022/STATEUPPER_AU.sql
+psql -U ocp -d ocp_new -h new-staging-127.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/jan2022/NATIONALLOWER_AU.sql
+psql -U ocp -d ocp_new -h new-staging-127.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/jan2022/NATIONALUPPER_AU.sql
 ```
 Locally with docker, put the sql files into your docker/postgres/ folder and run the following commands instead:
 ```

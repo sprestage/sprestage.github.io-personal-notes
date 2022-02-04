@@ -19,6 +19,15 @@ foo = h.keep_if.each { |key, value| !value.nil? }
 logger.info("NationBuilder person_data for advocate: #{data.delete_if { |_, val| val.nil? }}")
 
 
+## Mon, Feb 7 2022
+**Friday I**
+- ON-1646 Created ticket and performed Cicero CA import with shape files
+- ON-1647 Created ticket and performed Cicero AU import with shape files
+- ON-1639 Cicero US import with shape files
+
+**Today I plan to**
+
+
 ## Fri, Feb 4 2022
 - [x] ON-1641 - remote Kris Koenen's admin access to the OCP admin portal
 - [x] ON-1640 - create Jira and stop sync for NRA, promoter user 39169
