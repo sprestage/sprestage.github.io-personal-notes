@@ -6,6 +6,12 @@ Before using rake import_cicero_us_shapefiles, you'll need to import Cicero's la
 ```
 sudo shp2pgsql -s 4326 -g us_geom /Users/dt/Downloads/cicero_us_districts/district_statelower_us.shp public.new_districts > STATELOWER_US.sql
 sudo shp2pgsql -s 4326 -g us_geom /Users/dt/Downloads/cicero_us_districts/district_nationallower_us.shp public.new_districts > NATIONALLOWER_US.sql
+
+sudo shp2pgsql -t 2D -s 4326 -g us_geom cicero_us_state_and_federal_districts/district_stateupper.shp public.new_districts > STATEUPPER_US.sql
+sudo shp2pgsql -t 2D -s 4326 -g us_geom cicero_us_state_and_federal_districts/district_statelower.shp public.new_districts > STATELOWER_US.sql
+sudo shp2pgsql -t 2D -s 4326 -g us_geom cicero_us_state_and_federal_districts/district_nationalupper.shp public.new_districts > NATIONALUPPER_US.sql
+sudo shp2pgsql -t 2D -s 4326 -g us_geom cicero_us_state_and_federal_districts/district_nationallower.shp public.new_districts > NATIONALLOWER_US.sql
+
 ```
 The national upper shapes are just the state/territory boundaries themselves, which we won't need to match against lats and lons.
 
@@ -27,27 +33,33 @@ scp -i ~/.ssh/id_rsa ../../one-click-politics/docker/postgres/*US.sql ubuntu@pro
 
 **Step 3.**  Now use .reset_table to give us the precise new_districts table we need:
 ```
-NewDistrict.reset_table :us_geom_srid => '4326', :columns => { :district_i => :string, :city => :string, :state => :string, :district_t => :float, :subtype => :string, :valid_from => :string, :valid_to => :string, :ocd_id => :string }
+NewDistrict.reset_table :columns => { :district_i => :string, :city => :string, :state => :string, :district_t => :float, :subtype => :string, :valid_from => :string, :valid_to => :string, :ocd_id => :string }
 ```
 
 **Step 4.**  Now use psql to import these .sql shape records into the new_districts table.  Give the correct database endpoint after argument -h
 
 Production
 ```
- psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/jan2022/STATELOWER_US.sql
- psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/jan2022/NATIONALLOWER_US.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/jan2022/STATELOWER_US.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/jan2022/STATEUPPER_US.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/jan2022/NATIONALLOWER_US.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/jan2022/NATIONALUPPER_US.sql
 ```
 
 Staging
 ```
 psql -U ocp -d ocp_new -h new-staging-127.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/jan2022/STATELOWER_US.sql
+psql -U ocp -d ocp_new -h new-staging-127.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/jan2022/STATEUPPER_US.sql
 psql -U ocp -d ocp_new -h new-staging-127.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/jan2022/NATIONALLOWER_US.sql
+psql -U ocp -d ocp_new -h new-staging-127.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/jan2022/NATIONALUPPER_US.sql
 ```
 
 - If running this locally with docker, you may want to insert the sql files into your docker/postgres/ folder and run the following commands instead:
 ```
      docker-compose exec postgres psql -U ocp -d ocp -f /ocp/postgres/STATELOWER_US.sql
+     docker-compose exec postgres psql -U ocp -d ocp -f /ocp/postgres/STATEUPPER_US.sql
      docker-compose exec postgres psql -U ocp -d ocp -f /ocp/postgres/NATIONALLOWER_US.sql
+     docker-compose exec postgres psql -U ocp -d ocp -f /ocp/postgres/NATIONALUPPER_US.sql
 ```
 
 **Step 5.**  Now you should be able to run import_cicero_us_shapefiles.  Use the record flag to make changes to the database.
