@@ -22,7 +22,7 @@ scp -i ~/.ssh/ ../CiceroImports/australia/*AU.sql ubuntu@ec2-54-235-144-131.comp
 ```
 prod - 938hg3kk
 ```
-scp -i ~/.ssh/id_rsa ../../one-click-politics/docker/postgres/*AU.sql ubuntu@prod.oneclickpolitics.com:~/australia/sep2021
+scp -i ~/.ssh/id_rsa *AU.sql ubuntu@prod.oneclickpolitics.com:~/australia/jan2022
 ```
 
    The preceding lines are used to set up our new_districts table, and we won't need them - we're going to do this with the NewDistrict.reset_table command.
