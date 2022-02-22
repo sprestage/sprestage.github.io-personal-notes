@@ -7,10 +7,10 @@ Before using rake import_cicero_us_shapefiles, you'll need to import Cicero's la
 sudo shp2pgsql -s 4326 -g us_geom /Users/dt/Downloads/cicero_us_districts/district_statelower_us.shp public.new_districts > STATELOWER_US.sql
 sudo shp2pgsql -s 4326 -g us_geom /Users/dt/Downloads/cicero_us_districts/district_nationallower_us.shp public.new_districts > NATIONALLOWER_US.sql
 
-sudo shp2pgsql -t 2D -s 4326 -g us_geom cicero_us_state_and_federal_districts/district_stateupper_us.shp public.new_districts > STATEUPPER_US.sql
-sudo shp2pgsql -t 2D -s 4326 -g us_geom cicero_us_state_and_federal_districts/district_statelower_us.shp public.new_districts > STATELOWER_US.sql
-sudo shp2pgsql -t 2D -s 4326 -g us_geom cicero_us_state_and_federal_districts/district_nationalupper_us.shp public.new_districts > NATIONALUPPER_US.sql
-sudo shp2pgsql -t 2D -s 4326 -g us_geom cicero_us_state_and_federal_districts/district_nationallower_us.shp public.new_districts > NATIONALLOWER_US.sql
+shp2pgsql -t 2D -s 4326 -g us_geom cicero_us_state_and_federal_districts/district_stateupper_us.shp public.new_districts > STATEUPPER_US.sql
+shp2pgsql -t 2D -s 4326 -g us_geom cicero_us_state_and_federal_districts/district_statelower_us.shp public.new_districts > STATELOWER_US.sql
+shp2pgsql -t 2D -s 4326 -g us_geom cicero_us_state_and_federal_districts/district_nationalupper_us.shp public.new_districts > NATIONALUPPER_US.sql
+shp2pgsql -t 2D -s 4326 -g us_geom cicero_us_state_and_federal_districts/district_nationallower_us.shp public.new_districts > NATIONALLOWER_US.sql
 
 ```
 The national upper shapes are just the state/territory boundaries themselves, which we won't need to match against lats and lons.
@@ -19,14 +19,22 @@ The national upper shapes are just the state/territory boundaries themselves, wh
 
 Susan added: Copy the sql files to staging/production
 
+```
+cd ~/us/
+mkdir 7feb2022
+sudo chmod 775 7feb2022/
+sudo chown ubuntu 7feb2022/
+sudo chgrp ubuntu 7feb2022/
+```
+
 # STOP!!!  DISCONNECT FROM YOUR VPN FIRST!!!
 staging - 938hg3kk
 ```
-scp -i ~/.ssh/ ../CiceroImports/us/*US.sql ubuntu@ec2-54-235-144-131.compute-1.amazonaws.com:~/us/jan2022
+scp -i ~/.ssh/ ../CiceroImports/us/*US.sql ubuntu@ec2-54-235-144-131.compute-1.amazonaws.com:~/us/7feb2022
 ```
 prod - 938hg3kk
 ```
-scp -i ~/.ssh/id_rsa ../../one-click-politics/docker/postgres/*US.sql ubuntu@prod.oneclickpolitics.com:~/us/jan2022
+scp -i ~/.ssh/id_rsa *US.sql ubuntu@prod.oneclickpolitics.com:~/us/14feb2022
 ```
 
    The preceding lines are used to set up our new_districts table, and we won't need them - we're going to do this with the NewDistrict.reset_table command.
@@ -40,10 +48,10 @@ NewDistrict.reset_table :columns => { :district_i => :string, :city => :string, 
 
 Production
 ```
-psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/jan2022/STATELOWER_US.sql
-psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/jan2022/STATEUPPER_US.sql
-psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/jan2022/NATIONALLOWER_US.sql
-psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/jan2022/NATIONALUPPER_US.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/14feb2022/STATELOWER_US.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/14feb2022/STATEUPPER_US.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/14feb2022/NATIONALLOWER_US.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/14feb2022/NATIONALUPPER_US.sql
 ```
 
 Staging

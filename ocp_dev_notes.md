@@ -2,14 +2,69 @@
 This doc will have unchecked tasks in the past.  These are either obsolete, or have been moved to the current day.  This is a different style from my personal tracking journal which either checks them or moves them to the current day.  The goal in this doc is to preserve my status report for later reference, so that is where the unchecked are likely to be preserved.
 
 
+## Tue, Feb 22 2022
+**Yesterday I**
+ON-1703 EPIC - Implement US Governors
+ON-1680 research US Governors, Susan, complete
+ON-1704 US Governors import and backend support, Dave, assigned
+ON-1705 US Governors front end work, Susan, assigned
+
+
+
+**Today I plan to**
+- [ ] create epic and tickets for US Governors.  Dave is taking import and backend support.  Susan is taking the front end work.
+  - ON-1703 EPIC - Implement US Governors
+  - ON-1680 research US Governors, Susan, complete
+  - ON-1704 US Governors import and backend support, Dave, assigned
+  - ON-1705 US Governors front end work, Susan, assigned
+- [ ]
+
+#### 1pm Tue
+
+#### 10am Tue
 ```
+ {"36311"=>0, "38991"=>1, "39521"=>0, "23691"=>0, "39516"=>0, "39529"=>0, "39518"=>0, "39168"=>0, "39170"=>0, "39171"=>0, "39082"=>0, "39282"=>0, "39288"=>0, "29631"=>0, "40468"=>0, "319"=>0, "7320"=>0, "25179"=>1, "12537"=>0, "12174"=>3, "40476"=>0, "24403"=>0, "39610"=>0, "39523"=>5, "39517"=>0, "39524"=>0, "39520"=>0, "39528"=>0, "39522"=>0, "39519"=>1, "40066"=>0, "40449"=>122, "40326"=>0, "40553"=>0, "40563"=>0, "40581"=>0, "36120"=>0, "40592"=>0, "40601"=>0, "40645"=>0, "40654"=>0, "36896"=>0, "37916"=>0, "37862"=>0, "38023"=>0, "10958"=>0, "35975"=>0, "37990"=>0, "39667"=>0, "39538"=>0, "39387"=>0, "39543"=>0, "39634"=>0, "20176"=>2, "39674"=>0, "39549"=>0, "39653"=>0, "39556"=>0, "16660"=>0, "39754"=>0, "13607"=>1245, "39686"=>0, "39811"=>0, "39557"=>0, "39846"=>0, "39850"=>0, "39703"=>8, "39911"=>0, "7225"=>0, "39967"=>0, "40015"=>0, "40021"=>0, "39960"=>0, "39896"=>0, "40196"=>0, "40190"=>3, "40218"=>0, "40796"=>0}
+```
+
+
+#### 7pm, this evening
+```
+=> {"38991"=>1, "39282"=>1, "12174"=>4, "39519"=>191, "40581"=>1, "37916"=>1, "39387"=>9, "20176"=>23, "39549"=>255, "39754"=>4, "13607"=>429, "39686"=>313, "39703"=>31, "7225"=>2, "39896"=>1, "40190"=>47}
+
+~= 1313
+```
+
+
+#### 5pm, this afternoon
+```
+=> {"38991"=>1, "39282"=>1, "25179"=>1, "12174"=>4, "39522"=>1620, "39519"=>191, "40449"=>999, "40581"=>1, "37916"=>1, "39387"=>9, "20176"=>23, "39549"=>255, "39754"=>4, "13607"=>429, "39686"=>313, "39703"=>31, "7225"=>2, "39896"=>1, "40190"=>47}
+
+~= 3933
+```
+
+#### this morning
+```
+=> {"38991"=>1, "39518"=>2, "39282"=>1, "25179"=>44, "12174"=>4, "39523"=>272, "39517"=>130, "39524"=>1, "39520"=>1, "39528"=>405, "39522"=>1988, "39519"=>201, "40449"=>999, "40581"=>1, "37916"=>1, "39387"=>9, "20176"=>23, "39549"=>255, "39754"=>4, "13607"=>429, "39686"=>313, "39703"=>31, "7225"=>2, "39896"=>1, "40190"=>47}
+
+~= 5165
+```
+
+```
+foo.each
+irb(main):090:0> foo.values.inject { |a, b| a + b }
+
+```
+
+
+```
+h = promoters_conversion_count_hash
 irb(main):011:0> e = h.keep_if
 => #<Enumerator: {"12643"=>0, "36311"=>0, "38991"=>1, "39521"=>0, "23691"=>0, "39516"=>1, "39529"=>0, "39518"=>0, "39168"=>0, "39169"=>240237, "39171"=>0, "39170"=>0, "39082"=>0, "39282"=>0, "39288"=>7, "29631"=>0, "40468"=>0, "319"=>0, "7320"=>0, "25179"=>1200, "12537"=>0, "12174"=>4, "40476"=>0, "24403"=>0, "39610"=>0, "39523"=>5, "39517"=>18, "39524"=>3, "39520"=>2, "39528"=>60, "39522"=>29, "39519"=>10, "40066"=>1, "40449"=>0, "40326"=>4, "40553"=>0, "40563"=>0, "40581"=>9, "36120"=>0, "40592"=>0, "40601"=>0, "40645"=>0, "40654"=>0, "36896"=>0, "37916"=>0, "37862"=>0, "38023"=>0, "10958"=>0, "35975"=>0, "37990"=>0, "39667"=>0, "39538"=>0, "39387"=>1, "39543"=>0, "39634"=>0, "20176"=>14512, "39674"=>0, "39549"=>0, "39653"=>0, "39556"=>0, "16660"=>0, "39754"=>1, "13607"=>330, "39686"=>289, "39811"=>0, "39557"=>0, "39846"=>0, "39850"=>0, "39703"=>6, "39911"=>0, "7225"=>1, "39967"=>0, "40015"=>0, "40021"=>0, "39960"=>0, "39896"=>0, "40196"=>0, "40190"=>5, "40218"=>0, "40796"=>0}:keep_if>
 
 irb(main):012:0> e.each { |key, value| value != 0 }
 => {"38991"=>1, "39516"=>1, "39169"=>240237, "39288"=>7, "25179"=>1200, "12174"=>4, "39523"=>5, "39517"=>18, "39524"=>3, "39520"=>2, "39528"=>60, "39522"=>29, "39519"=>10, "40066"=>1, "40326"=>4, "40581"=>9, "39387"=>1, "20176"=>14512, "39754"=>1, "13607"=>330, "39686"=>289, "39703"=>6, "7225"=>1, "40190"=>5}
 
-data = {"12643"=>nil, "36311"=>nil, "38991"=>135, "39521"=>nil}
+data = {"12643"=>nil, "36311"=>nil, "38991"=>135, "39521"=>nil, "55555"=>"", "44444"=>" "}
 e = data.keep_if
 e.each { |key, value| !value.nil? }
 
@@ -19,14 +74,131 @@ foo = h.keep_if.each { |key, value| !value.nil? }
 logger.info("NationBuilder person_data for advocate: #{data.delete_if { |_, val| val.nil? }}")
 
 
+## Thu, Feb 17 2022
+FOLLOW UP ON NB syncs and send email to business at end of day with update; kicked off sync_all at 12:38.  Still gpoing strong at 1:11.  Failed out at 1:44.
+
+ON-1694 created ticket for San Francisco city council list is empty on prod; need to hide SF from this list
+ON-1680 research ticket for implementation of governors.  Tasks and estimates in ticket.  Should be reviewed by Maged, then subsequent tickets created for the tasks.  The big task will be importing the governors from the Cicero data.
+ON-1574 automatic phone toggle is almost done.  Code is complete.  By hand and rspec tests are complete.  Code needs some cleanup, check in, then PR to be created.  
+Today, I'd like to touch base with Maged, and will start by getting ON-1574 ready for PR and then moving on to ON-1694.
+
+## Wed, Feb 16 2022
+**Yesterday I**
+- finished reviewing Dave and Shams PRs
+- [ ] start on the toggle ticket, ON-1574
+
+**Today I plan to**
+- [ ] start on the toggle ticket, ON-1574
+- [ ] San Francisco city council list is empty on prod; need ticket to hide SF from this list
+- [ ] add to ON-1680 to investigate the current local data to see if we are receiving anything currently for governors
+
+### rspec tips, let vs let!
+Hager's rule of thumb after discussing this with Shams, is that I use let! whenever I don't need the variable but I need to create the record.
+
+
+## Tue, Feb 15 2022
+**Yesterday I**
+- did the Cicero US import
+- wrapped up the PR for ON-1620 and got it deployed (4 new groups, fed level)
+- worked on reviewing Dave's pending PRs
+- created a research ticket for list of governors; investigation ticket to assess howw long and implementation details; ON-1680 <- question on this ticket...where will we get the data for the governors; on prod, the governors omit NYC and are 11 years out of date
+
+**Today I plan to**
+- [x] finish reviewing Dave's pending PR #1, staffing
+- [x] review Shams' PR
+- [x] review Dave's PR #2, councils
+- [ ] start on the toggle ticket, ON-1574
+- [ ] San Francisco city council list is empty on prod; need ticket to hide SF from this list
+- [ ] add to ON-1680 to investigate the current local data to see if we are receiving anything currently for governors
+
+### governors data
+This search string is how to find the governor (and lieutenant governor) data, `Governor,EXEC`.
+
+### ruby tips
+```
+        needed_cols = ['level','chamber','name']
+
+        needed_cols = %w(level chamber name)  <- Better?  Shams & Dave seem to think so
+```
+
+
+## Mon, Feb 14 2022
+**Wednesday I**
+- [ ] worked responding to Hager's review on ON-1620.  this turned up issues on the backend that I am in the middle of diagnosing
+
+**Today I plan to**
+- [x] do the Cicero US import
+- [ ] create a research ticket for list of governors; investigation ticket to assess howw long and implementation details
+- [x] working on the back end of ON-1620.  this turned out to have no errors.  my mind must have already been going south with my illness on Wednesday, since testing with Hager today confirmed that all was working correctly.  after answering Dave and Hager's concerns, PR was approved, merged, then deployed.
+- [ ] start on the toggle ticket, ON-1574
+
+### Cicero
+NEW: AU, UK, & US
+no new CANADA !?!
+
+Also, I noticed something new in the districts portion of the new Cicero US data from today.  Not bad, but additional.
+```
+district_nationalexec_us.shp  <- NEW
+district_nationallower_us.shp
+district_nationalupper_us.shp
+district_stateexec_us.shp  <- NEW
+district_statelower_us.shp
+district_stateupper_us.shp
+```
+The National upper/lower and the State upper/lower are the shape files I’m familiar with and expect.  But the National and State Exec is new?  @dave.enos or @Hager Ali do you have any ideas what these might be?
+
+
+## Fri, Feb 11 2022
+**Sick Day**
+
+
+## Thu, Feb 10 2022
+**Sick Day**
+
+
+## Wed, Feb 9 2022
+**Yesterday I**
+- ON-1620 followed up on PR responses got this merged in; ready to go out in the next deployment
+- emailed Darren to confirm if we should also support the 4 new Recipient Groups at the state level; he responded with a yes, so I created Jira ticket; ON-1663
+- [x] create ticket for Support 4 new Recipient Groups at state level
+
+**Today I plan to**
+- [ ] respond to Hager's review on ON-1620.  try to get this done quickly so it can go out with Sham's PRs
+- [ ] review Shams' PR
+- [ ] start on the toggle ticket, ON-1574
+
+
+## Tue, Feb 8 2022
+**Yesterday I**
+- ON-1636 had a call with Maged to discuss the various questions and concerns I have on the training video update
+- I wrote all that up in a long email to Darren with pictures.  Definitely CC Chazz and Maged.
+- did some code reviews
+- ON-1657 performed Cicero US import, with shapefiles
+- ON-1620 PR was just created for adding Senate Dem/Rep and House Dem/Rep
+
+**Today I plan to**
+- [ ] Do the toggle ticket next
+- [ ] ON-1620 follow up on PR responses
+- [x] email to confirm with Darren if we should also support the 4 new Recipient Groups at the state level
+- [x] create ticket for Support 4 new Recipient Groups at state level
+- [ ] ON-1663 Support 4 new Recipient Groups at state level
+  - [ ] implement at the state level
+  - [ ] implement tests for state
+- [ ] BLOCKED: ON-1636 training video update when I get a response from Darren
+
+- [ ] list of governors; investigation ticket to assess howw long and implementation details
+
 ## Mon, Feb 7 2022
 **Friday I**
 - ON-1646 Created ticket and performed Cicero CA import with shape files
 - ON-1647 Created ticket and performed Cicero AU import with shape files
 - ON-1639 Cicero US import with shape files plus data confirmation with special attention to districts/shapefiles
-- ON-1617 Finished the small refactors recommended by Dave and with his (and 3 other approvals), merged and deployed to the NB box (pre-prod)
+- ON-1617 Finished the small refactors recommended by Dave and with his (and 3 other approvals), merged and deployed to the NB box (pre-prod) <- remove empty strings NEW
 
 **Today I plan to**
+- [x] write long email to Darren making polite observations and asking questions on the training video update.  include pictures.  Definitely CC Chazz and Maged.
+- [x] finish some code reviews
+- [x] ON-1657 perform Cicero US import, plus shapefiles
 - [ ] ON-1620 to add Senate Dems/Repubs and House Dems/Repubs is in progress
   - [x] implemented at the national level
   - [ ] tests are in progress for national
@@ -2220,7 +2392,6 @@ nationbuilder logged erros file in the log folder: nb syncs are on that other, p
   - SSl, https://certbot.eff.org/instructions?ws=nginx&os=ubuntu-20
   - logrotate, https://gorails.com/guides/rotating-rails-production-logs-with-logrotate
   - Keep your log files in check as time goes on and make sure they don't fill up your server's disk space
-3169
 
 
 ## Thu, Nov 18 2021
