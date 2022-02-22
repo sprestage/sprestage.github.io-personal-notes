@@ -21,21 +21,21 @@ Susan added: Copy the sql files to staging/production
 
 ```
 cd ~/us/
-mkdir 22feb2022
+mkdir 28feb2022
 
-sudo chmod 775 22feb2022/
-sudo chown ubuntu 22feb2022/
-sudo chgrp ubuntu 22feb2022/
+sudo chmod 775 28feb2022/
+sudo chown ubuntu 28feb2022/
+sudo chgrp ubuntu 28feb2022/
 ```
 
 # STOP!!!  DISCONNECT FROM YOUR VPN FIRST!!!
 staging - 938hg3kk
 ```
-scp -i ~/.ssh/ ../CiceroImports/us/*US.sql ubuntu@ec2-54-235-144-131.compute-1.amazonaws.com:~/us/7feb2022
+scp -i ~/.ssh/ ../CiceroImports/us/*US.sql ubuntu@ec2-54-235-144-131.compute-1.amazonaws.com:~/us/22feb2022
 ```
 prod - 938hg3kk
 ```
-scp -i ~/.ssh/id_rsa *US.sql ubuntu@prod.oneclickpolitics.com:~/us/14feb2022
+scp -i ~/.ssh/id_rsa *US.sql ubuntu@prod.oneclickpolitics.com:~/us/28feb2022
 ```
 
    The preceding lines are used to set up our new_districts table, and we won't need them - we're going to do this with the NewDistrict.reset_table command.
