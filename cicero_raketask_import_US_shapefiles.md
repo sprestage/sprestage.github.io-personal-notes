@@ -21,10 +21,11 @@ Susan added: Copy the sql files to staging/production
 
 ```
 cd ~/us/
-mkdir 7feb2022
-sudo chmod 775 7feb2022/
-sudo chown ubuntu 7feb2022/
-sudo chgrp ubuntu 7feb2022/
+mkdir 22feb2022
+
+sudo chmod 775 22feb2022/
+sudo chown ubuntu 22feb2022/
+sudo chgrp ubuntu 22feb2022/
 ```
 
 # STOP!!!  DISCONNECT FROM YOUR VPN FIRST!!!
