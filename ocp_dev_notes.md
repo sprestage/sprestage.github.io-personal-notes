@@ -1,6 +1,44 @@
 # OCP daily dev notes
 This doc will have unchecked tasks in the past.  These are either obsolete, or have been moved to the current day.  This is a different style from my personal tracking journal which either checks them or moves them to the current day.  The goal in this doc is to preserve my status report for later reference, so that is where the unchecked are likely to be preserved.
 
+```
+users = [12643, 36311, 38991, 39521, 23691, 39516, 39529, 39518, 39168, 39169, 39171, 39170, 39082, 39282, 39288, 29631, 40468, 319, 7320, 25179, 12537, 12174, 40476, 24403, 39610, 39523, 39517, 39524, 39520, 39528, 39522, 39519, 40066, 40449, 40326, 40553, 40563, 40581, 36120, 40592, 40601, 40645, 40654, 36896, 37916, 37862, 38023, 10958, 35975, 37990, 39667, 39538, 39387, 39543, 39634, 20176, 39674, 39549, 39653, 39556, 16660, 39754, 13607, 39686, 39811, 39557, 39846, 39850, 39703, 39911, 7225, 39967, 40015, 40021, 39960, 39896, 40196, 40190, 40218, 40796]
+users.each do |user|
+  auth = PromoterUser.find(user).master_account.authentications.first
+  puts("#{user} #{auth.inspect}")
+end
+
+user = 40592
+
+```
+
+
+## Wed, Feb 23 2022
+**Yesterday I**
+- created the epic and tasks for the US Governors work
+- got the NationBuilder syncs caught up and let the business know
+- spent way too long investigating promoter user 40592 who is whining about the lack of NationBuilder when they only have one promoted message, with only TWO conversions (one by a non-constituent!!!)  Not the first time we've received the blame from this client for what amounts to a lack of signatures with is Not Our Problem.  They call themselves Outreach Experts.  Yeah, right!
+- tried to do the Cicero US import, but discovered issues with the districts
+- reviewed Dave's initial work for the Governor backend and import work
+
+**Today I plan to**
+- [x] review several PRs
+- [ ] finish looking through Dave's fixes to see if we are ready for the Cicero US import to happen
+- [ ] ON-1706, (if ready) do the Cicero US import
+- [ ] deploy Dave's changes for the import
+- [ ] ON-1574, work through PR comments and get this merged today
+- [ ] give Hager any assistance she needs on the Advocacy issue
+
+**Pending**
+ON-1694 San Francisco city council list is empty on prod; need to hide SF from this list
+
+### how to include additional data in a db query
+```
+# old
+city_strings = CityCouncilDistrict.select("districts.city_names").where("city_names is not null").all.collect &:city_names
+# new
+city_strings = CityCouncilDistrict.includes(:state).select("districts.city_names").where("city_names is not null").all
+```
 
 ## Tue, Feb 22 2022
 **Yesterday I**
@@ -19,7 +57,15 @@ ON-1705 US Governors front end work, Susan, assigned
   - ON-1705 US Governors front end work, Susan, assigned
 - [ ]
 
+### cron
+A recommendation from Dave on how to eventually remove/replace cron from our production servers (including pre-prod):
+
+i think the way we’d want to do this in the long term would be to set up a scheduled process on kubernetes or ecs that just loaded the whole rails environment in a new container, ran the one rake task, and then deleted itself  -Dave
+
 #### 1pm Tue
+```
+{"36311"=>0, "38991"=>1, "39521"=>0, "23691"=>0, "39516"=>0, "39529"=>0, "39518"=>0, "39168"=>0,  "39170"=>0, "39171"=>0, "39082"=>0, "39282"=>0, "39288"=>0, "29631"=>0, "40468"=>0, "319"=>0, "7320"=>0, "25179"=>3, "12537"=>0, "12174"=>3, "40476"=>0, "24403"=>0, "39610"=>0, "39523"=>5, "39517"=>0, "39524"=>0, "39520"=>0, "39528"=>0, "39522"=>0, "39519"=>0, "40066"=>0, "40449"=>0, "40326"=>0, "40553"=>0, "40563"=>0, "40581"=>0, "36120"=>0, "40592"=>0, "40601"=>0, "40645"=>0, "40654"=>0, "36896"=>0, "37916"=>0, "37862"=>0, "38023"=>0, "10958"=>0, "35975"=>0, "37990"=>0, "39667"=>0, "39538"=>0, "39387"=>0, "39543"=>0, "39634"=>0, "20176"=>0, "39674"=>0, "39549"=>0, "39653"=>0, "39556"=>0, "16660"=>0, "39754"=>0, "13607"=>1, "39686"=>0, "39811"=>0, "39557"=>0, "39846"=>0, "39850"=>0, "39703"=>0, "39911"=>0, "7225"=>0, "39967"=>0, "40015"=>0, "40021"=>0, "39960"=>0, "39896"=>0, "40196"=>0, "40190"=>0, "40218"=>0, "40796"=>0}
+```
 
 #### 10am Tue
 ```
@@ -482,7 +528,7 @@ NationBuilderSync.syncable_promoters.each do |promoter|
   promoter_ids.append promoter.id
 end
 irb(main):029:0> promoter_ids
-=> [12643, 36311, 38991, 39521, 23691, 39516, 39529, 39518, 39168, 39169, 39171, 39170, 39082, 39282, 39288, 29631, 40468, 319, 7320, 25179, 12537, 12174, 40476, 24403, 39610, 39523, 39517, 39524, 39520, 39528, 39522, 39519, 40066, 40449, 40326, 40553, 40563, 40581, 36120, 40592, 40601, 40645, 40654, 36896, 37916, 37862, 38023, 10958, 35975, 37990, 39667, 39538, 39387, 39543, 39634, 20176, 39674, 39549, 39653, 39556, 16660, 39754, 13607, 39686, 39811, 39557, 39846, 39850, 39703, 39911, 7225, 39967, 40015, 40021, 39960, 39896, 40196, 40190, 40218, 40796]
+=> [12643, 36311, 38991, 39521, 23691, 39516, 39529, 39518, 39168, 39169, 39171, 39170, 39082, 39282, 39288, 29631, 40468, 319, 7320, 25179, 12537, 12174, 40476, 24403, 39610, 39523, 39517, 39524, 39520, 39528, 39522, 39519, 40066, 40449, 40326, 40553, 40563, 40581, 36120, 40592, 40601, 40645, 40654, 36896, 37916, 37862, 38023, 10958, 35975, 37990, 39667, 39538, 39387, 39543, 39634, 20176, 39674, 39549, 39653, 39556, 16660, 39754, 13607, 39686, 39811, 39557, 39846, 39850, 39703, 39911, 7225, 39967, 40015, 40021, 39960, 39896, 40196, 40190, 40218, 40796
 ```
 
 ##### how many conversions for all NB sync promoters

@@ -42,17 +42,17 @@ scp -i ~/.ssh/id_rsa *US.sql ubuntu@prod.oneclickpolitics.com:~/us/28feb2022
 
 **Step 3.**  Now use .reset_table to give us the precise new_districts table we need:
 ```
-NewDistrict.reset_table :columns => { :district_i => :string, :city => :string, :state => :string, :district_t => :float, :subtype => :string, :valid_from => :string, :valid_to => :string, :ocd_id => :string }
+NewDistrict.reset_table :columns => { :district_i => :string, :state => :string, :district_t => :float, :subtype => :string, :valid_from => :string, :valid_to => :string, :ocd_id => :string }
 ```
 
 **Step 4.**  Now use psql to import these .sql shape records into the new_districts table.  Give the correct database endpoint after argument -h
 
 Production
 ```
-psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/14feb2022/STATELOWER_US.sql
-psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/14feb2022/STATEUPPER_US.sql
-psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/14feb2022/NATIONALLOWER_US.sql
-psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/14feb2022/NATIONALUPPER_US.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/28feb2022/STATELOWER_US.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/28feb2022/STATEUPPER_US.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/28feb2022/NATIONALLOWER_US.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/28feb2022/NATIONALUPPER_US.sql
 ```
 
 Staging
