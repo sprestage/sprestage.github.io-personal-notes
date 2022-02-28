@@ -21,21 +21,21 @@ Susan added: Copy the sql files to staging/production
 
 ```
 cd ~/us/
-mkdir 28feb2022
+mkdir 2022_02_28
 
-sudo chmod 775 28feb2022/
-sudo chown ubuntu 28feb2022/
-sudo chgrp ubuntu 28feb2022/
+sudo chmod 775 2022_02_28/
+sudo chown ubuntu 2022_02_28/
+sudo chgrp ubuntu 2022_02_28/
 ```
 
 # STOP!!!  DISCONNECT FROM YOUR VPN FIRST!!!
 staging - 938hg3kk
 ```
-scp -i ~/.ssh/ ../CiceroImports/us/*US.sql ubuntu@ec2-54-235-144-131.compute-1.amazonaws.com:~/us/22feb2022
+scp -i ~/.ssh/ ../CiceroImports/us/*US.sql ubuntu@ec2-54-235-144-131.compute-1.amazonaws.com:~/us/2022_02_28
 ```
 prod - 938hg3kk
 ```
-scp -i ~/.ssh/id_rsa *US.sql ubuntu@prod.oneclickpolitics.com:~/us/28feb2022
+scp -i ~/.ssh/id_rsa *US.sql ubuntu@prod.oneclickpolitics.com:~/us/2022_02_28
 ```
 
    The preceding lines are used to set up our new_districts table, and we won't need them - we're going to do this with the NewDistrict.reset_table command.
@@ -49,10 +49,10 @@ NewDistrict.reset_table :columns => { :district_i => :string, :state => :string,
 
 Production
 ```
-psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/28feb2022/STATELOWER_US.sql
-psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/28feb2022/STATEUPPER_US.sql
-psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/28feb2022/NATIONALLOWER_US.sql
-psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/28feb2022/NATIONALUPPER_US.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/2022_02_28/STATELOWER_US.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/2022_02_28/STATEUPPER_US.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/2022_02_28/NATIONALLOWER_US.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/2022_02_28/NATIONALUPPER_US.sql
 ```
 
 Staging
