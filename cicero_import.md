@@ -71,21 +71,29 @@ Retrieve the latest shapefiles by downloading and extracting cicero_us_districts
 
 Pull the latest .CSVs by downloading and extracting cicero_us_officials.zip, cicero_us_officials_levels.zip, and cicero_us_officials_roles.zip:
 ```
-  aws --profile cicero_user s3 cp s3://cicero-global-data-us-east-1/OneClickPolitics/latest/cicero_us_state_and_federal_officials_identifiers.zip cicero_us_state_and_federal_officials_identifiers.zip
 
-  aws --profile cicero_user s3 cp s3://cicero-global-data-us-east-1/OneClickPolitics/latest/cicero_us_state_and_federal_officials.zip cicero_us_state_and_federal_officials.zip
+  aws --profile cicero_user s3 cp s3://cicero-global-data-us-east-1/OneClickPolitics/latest/cicero_us_state_and_federal_officials.zip cicero_us_officials.zip
 
-  aws --profile cicero_user s3 cp s3://cicero-global-data-us-east-1/OneClickPolitics/latest/cicero_us_state_and_federal_officials_committees.zip cicero_us_state_and_federal_officials_committees.zip
+  aws --profile cicero_user s3 cp s3://cicero-global-data-us-east-1/OneClickPolitics/latest/cicero_us_state_and_federal_officials_committees.zip cicero_us_officials_committees.zip
 
+  aws --profile cicero_user s3 cp s3://cicero-global-data-us-east-1/OneClickPolitics/latest/cicero_us_state_and_federal_officials_identifiers.zip cicero_us_officials_identifiers.zip
 ```
 
 
 #### US Step 2
 Unzip these, and rename the .csvs
 ```
-cicero_us_state_and_federal_officials_identifiers.csv -> cicero_us_officials_identifiers.csv
-cicero_us_state_and_federal_officials.csv -> cicero_us_officials.csv
-cicero_us_officials_committees.csv -> cicero_us_officials_committees.csv
+mv cicero_us_state_and_federal_officials_identifiers.csv cicero_us_officials_identifiers.csv
+mv cicero_us_state_and_federal_officials.csv cicero_us_officials.csv
+mv cicero_us_officials_committees.csv cicero_us_officials_committees.csv
+
+mv ../../one-click-politics/lib/import_data/us/cicero/cicero_us_officials.csv ../../one-click-politics/lib/import_data/us/backup
+mv ../../one-click-politics/lib/import_data/us/cicero/cicero_us_officials_committees.csv ../../one-click-politics/lib/import_data/us/backup
+mv ../../one-click-politics/lib/import_data/us/cicero/cicero_us_officials_identifiers.csv ../../one-click-politics/lib/import_data/us/backup
+
+cp cicero_us_officials.csv ../../one-click-politics/lib/import_data/us/cicero/
+cp cicero_us_officials_committees.csv ../../one-click-politics/lib/import_data/us/cicero/
+cp cicero_us_officials_identifiers.csv ../../one-click-politics/lib/import_data/us/cicero/
 ```
 
 Lastly, copy these .csv files into lib/import_data/us/cicero/

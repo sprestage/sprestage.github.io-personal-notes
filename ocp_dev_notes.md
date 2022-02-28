@@ -13,6 +13,72 @@ user = 40592
 ```
 
 
+## Fri, Feb 25 2022
+### Incorrect House representative
+I wanted to bring this to your attention. One Click Politics is back at it again, sending in mail on behalf of constituents. Additionally, the one below isn’t even one of our constituents, they are out of district.
+
+Constituent address is:
+5229 Parkwood School Road
+Waxhaw, NC  28173
+
+Our system is sent this Conversion (25895111) to Richard Hudson, NC-8.
+
+Using the govtrack.us site, https://www.govtrack.us/congress/members/NC#representatives, the sender comes up as in NC-9
+
+Cicero says:
+```
+I double-checked this address against our data and our system is returning the correct information for that address: NC-9, with Representative Dan Bishop. However, when new districts go into effect next year, this address will be in NC-8. I believe your exports include both current and future districts (when available). Can you check and make sure you're not matching against future districts? If that's not the issue, let me know.
+```
+
+And even more strange, the AdvocateProfile (8223325) was created Feb 15 and shows congressional_district_code: "NC08", the wrong District.
+
+However, when I sign a (different) widget with the same address, the Representative for NC-9, Dan Bishop, comes up.  It takes another day for the AdvocateProfile to be created or updated, so I cannot check that way.
+
+To be honest, I can’t figure out why our system set the recipient incorrectly.  Since this was reported by folks at .house.gov directly to Chazz, you can see why the diagnosis is important.
+
+### Governor work notes
+```
+  GOVERNOR = Office.find_by_name('Governor') || FactoryGirl.create(:office_governor)
+
+  office_id = Office.where(name: "Governor").first.id
+  Recipient.where(office_id: office_id).active.last
+```
+
+Post to Slack-engineering in the morning:
+
+Good morning @here.  I need a final review of https://github.com/one-click-politics/one-click-politics/pull/585  
+
+**Yesterday I**
+- ON-1694 should be marked DONE, San Francisco city council list is populated again on prod; I connected with Dave to see where we stood; the issue requiring this ticket has been resolved by Dave and are deployed to production; Dave has final tweaks to make then the latest city data will be imported
+- ON-1574, worked through PR comments and need a final review for merge
+
+**Today I plan to**
+- [ ] start on front end part of the Governor work since Dave has enough in place on the backend and import
+  - craft an email to Business with pictures asking where to put Each Governor by state and All Governors - Nate or Maged, do you have any ideas on this?  I have several ideas, but none seem like the right answer.
+  - while awaiting decisions on UI design, I'll start working on accessing this data from the targeting pages
+- [ ] what support tickets are pending that should be addressed first?
+- [ ] need to review this long one for Nate, https://github.com/one-click-politics/one-click-politics/pull/598
+
+**Pending**
+- [ ] respond to Darren and be understanding and sympathetic
+- [ ] wrap up that damn rake task PR that is pending forever
+- [ ] TRANSFER full PAYMENT FOR BOTH TUITION AND BOOKS TO AIB on 1 Mar
+- [ ] GO TO AIB ON WEDNESDAY, 2 Mar FOR MATERIALS
+
+
+## Thu, Feb 24 2022
+**Yesterday I**
+- reviewed several PRs
+- finished looking through Dave's fixes to see if we are ready for the Cicero US import to happen
+- ON-1706, deployed Dave's changes and completed the Cicero US import
+- worked some with Hager and Shams on the Advocacy issue, though they had the matter well in hand
+- ON-1574, started working through PR comments, making the appropriate changes
+
+**Today I plan to**
+- [x] ON-1694, San Francisco city council list is empty on prod; need to hide SF from this list; also connect with Dave to see if we are already importing; the issue requiring this ticket has been resolved by Dave and are deployed to production
+- [ ] ON-1574, work through PR comments and get this merged today
+
+
 ## Wed, Feb 23 2022
 **Yesterday I**
 - created the epic and tasks for the US Governors work
@@ -23,14 +89,22 @@ user = 40592
 
 **Today I plan to**
 - [x] review several PRs
-- [ ] finish looking through Dave's fixes to see if we are ready for the Cicero US import to happen
-- [ ] ON-1706, (if ready) do the Cicero US import
-- [ ] deploy Dave's changes for the import
+- [x] finish looking through Dave's fixes to see if we are ready for the Cicero US import to happen
+- [x] ON-1706, (if ready) do the Cicero US import
+- [x] deploy Dave's changes for the import; I checked for the changes and since at least one was missing on prod, I redeployed
 - [ ] ON-1574, work through PR comments and get this merged today
-- [ ] give Hager any assistance she needs on the Advocacy issue
+- [x] worked some with Hager and Shams on the Advocacy issue, though they had the matter well in hand
+
+- [ ] TRANSFER PARTIAL PAYMENT FOR BOTH TUITION AND BOOKS TO AIB TONIGHT!!!
+- [x] RESPOND TO AIB SO THEY KNOW WHAT IS UP, especially that he doesn't need shirts
+- [ ] GO TO AIB ON THURSDAY FOR MATERIALS
+
+- [ ] respond to Darren and be understanding and sympathetic
 
 **Pending**
+DO THIS TODAY, THURSDAY; also connect with Dave to see if we are already importing
 ON-1694 San Francisco city council list is empty on prod; need to hide SF from this list
+
 
 ### how to include additional data in a db query
 ```
