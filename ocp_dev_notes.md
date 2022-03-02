@@ -13,6 +13,73 @@ user = 40592
 ```
 
 
+## Wed, Mar 2 2022
+**Yesterday I**
+- finished reviewing Nate's PR
+- resolved the district issue I saw during Cicero import with Dave.  Looks to be a non-issue.  There is a lot of warning output that isn't important, so occasionally I worry when I see something new, but it turns out fine.  
+- Regarding valid_from/valid_to; I've confirmed this is only districts now, but Dave thinks that Cicero might have been asking about possible changelogs and putting expired and inactive reps in their recipient data, which Dave would be against, and which our current importers don't support.  It's definitely not a feature we want in the csvs.
+- Investigated and wrote up my findings for when the house representative changes over, 2023-01-03
+- writee up a ticket for the house rep changes issue from business.
+
+**Today I plan to**
+- [ ] deploy governors work onto staging for initial evaluation of UI look and feel
+- [ ] finish implementing final governors tests (selected_recipients)
+- [ ] Cicero governor import on staging
+- [ ] city council wording change from Chazz
+- [ ] change the slug name ticket; reach out to Darren
+- [ ] issue with patch calling has just come in; I think Maged will be forwarding shortly (ask Nate for any questions with patch calling)
+- [ ] reach out for an update on training videos
+
+**Pending**
+- [ ] respond to Darren and be understanding and sympathetic
+- [ ] wrap up that damn rake task PR that is pending forever
+- [ ] TRANSFER full PAYMENT FOR BOTH TUITION AND BOOKS TO AIB on 1 Mar
+- [ ] GO TO AIB ON WEDNESDAY, 2 Mar FOR MATERIALS
+- [ ] pay rent
+- [ ] pay insurance
+- [ ] pay 5 phones (AT&T, susan, business, Kai, internet)
+
+
+## Tue, Mar 1 2022
+**Yesterday I**
+- wrote email to business explaining all that happened with the Incorrect House representative issue; sent to Maged for review
+- did this week's Cicero US import except for the new shapefiles.  I ran into an error with districts, so held off.  Today I need to message Dave with the details
+- partially reviewed Nate's Step 2 backend PR, https://github.com/one-click-politics/one-click-politics/pull/598, 7/20 complete
+- Made final corrections, got final approvals for ON-1574 and got that deployed
+- finished the first iteration of the governors front end work; I'd like to deploy to staging and have at least one other person play with it for opinions on look and feel
+- I've implemented tests for various aspects of this work, but still need test to confirm that governors are added as selected_recipients on the message
+
+**Today I plan to**
+- [x] finish reviewing Nate's PR
+- [ ] take a look at Hager's interim PR
+- [x] further investigate district issue I saw during Cicero import; message sent to Dave with what I'm seeing.  
+- [ ] deploy governors work onto staging for initial evaluation of UI look and feel
+- [ ] implement final governors tests (selected_recipients)
+- [x] send answer to Maged: find when the house representative changes over, 2023-01-03
+- [x] valid to/from may apply to more than just districts...take a look at the data and also talk to Dave about; I checked throught the data files and I believe this only applies to Districts/shapefiles.  That said, I also sent a message to Dave to make sure he agrees
+
+
+## Mon, Feb 28 2022
+**Friday I**
+- got a good start on front end part of the Governor work
+- did a lot of chasing down the Incorrect House representative issue.  I should write up a ticket of what happened with a summary of the resolution
+
+### This is what caused the problem:
+from Dave: Cicero gives us both expired districts and districts that have not rotated into usage yet. I only very recently added a patch to filter out both types of bad district. I believe the issue with the incorrect geocoding traces back to that, and should be fixed now. This is in line with what Susan has found
+
+**Today I plan to**
+- [x] write email to business explaining all that happened with the Incorrect House representative issue
+- [x] do this week's Cicero US import
+- [ ] review Nate's Step 2 backend PR, https://github.com/one-click-politics/one-click-politics/pull/598, 7/20 complete
+- [x] get approvals for ON-1574 and get that deployed
+- [ ] continue on the governors front end work
+
+### Incorrect House representative writeup for business
+In the 14 Feb 2022 US data drop from Cicero, districts started being included that were for the future and not yet valid.  Not being warned this was the case, these districts were imported and were in use on production until an issue came up during the subsequent Cicero import on 22 Feb.  A fix was implemented to prevent the use of any district outside of the valid date range.
+
+Communication with Cicero has confirmed aspects of this analysis.  Additionally, this is why when the example constituent address is used in our system now, the correct representative comes up.  But during those 8 days, there is at least one conversion that went out to the adjacent district's representative in error.
+
+
 ## Fri, Feb 25 2022
 ### Incorrect House representative
 I wanted to bring this to your attention. One Click Politics is back at it again, sending in mail on behalf of constituents. Additionally, the one below isn’t even one of our constituents, they are out of district.

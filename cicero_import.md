@@ -115,7 +115,6 @@ When you reach step 5, skip the section labeled 5 (alt), which includes alternat
 ```
 require ('importer_modules/united_states/cicero/cicero_us_importers')
 Importer::CiceroUSDistrictMatcher.instance.setup
-Importer::CiceroUSPartyMatcher.instance.setup
 Importer::CiceroUSRowChecker.instance.setup
 Importer::CiceroUSRecipientImporter.instance.setup
 Importer::CiceroUSRecipientImporter.instance.match
