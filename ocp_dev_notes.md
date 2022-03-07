@@ -8,8 +8,75 @@ users.each do |user|
   puts("#{user} #{auth.inspect}")
 end
 
-user = 40592
+user = 39971
+PromoterUser.find(user).master_account.authentications
+PromoterUser.where(agency_id: user)
+NationBuilderSynchronizeCall.where(promoter_user_id: user).where("created_at > ?", 7.days.ago)
 
+```
+
+
+## Mon, Mar 7 2022
+- Despite all the NationBuilder box and sync warnings that came through this weekend, NB syncs are currently fully up to date.
+
+**Friday I**
+- [x] reach out for an update on training videos; Darren responded that the ball is still in his court
+- [x] ON-1730, make PR changes, merge, deploy to prod
+- [x] got the PR ready for the Governor work, 1705
+
+**Today I plan to**
+- [x] PR reviews (UK-Hager & Shams)
+- [x] ON-1733, do the cicero US import
+- [ ] ON-1705, respond to Governor PR reviews
+- [ ] wrap up (I hope!) Governor testing on staging.  I'm feeling pretty good about this, but want to finish checking some details
+
+- I'm thinking of creating a separate ticket for the Governor testing for better tracking of the different pieces of the work for this feature
+
+At the end of Friday, before my school meeting and prod going down, I think I was in the middle of doing the .sql shapefile imports on staging, then re-importing the Cicero data.  I think this is why everything just spun and wouldn't bring up step 2 of the widget with the governor of my state.
+
+## Fri, Mar 4 2022
+**Yesterday I**
+- [x] city council wording change from Chazz <- TOP, ON-1730, PR is under review
+- [x] change the slug name ticket; reach out to Darren <- TOP, ON-1731
+- Got the governor issues worked out on staging.  There was a bug in the import which has been resolved.
+
+**Today I**
+- [ ] finish implementing final governors tests (selected_recipients), ON-1705
+- [ ] issue with patch calling has just come in; I think Maged will be forwarding shortly (ask Nate for any questions with patch calling)
+- [x] reach out for an update on training videos; Darren responded that the ball is still in his court
+- [x] ON-1730, make PR changes, merge, deploy to prod
+
+
+## Thu, Mar 3 2022
+**Yesterday I**
+- Tried to get the governors imported on staging, but I'm still only seeing the old data and not the new data.  I'll be further investigating this today as there must be something I'm missing in performing the import.  I'll reach out to Dave as needed with my findings.   (Example, Inslee is current WA governor, but Gregoire is the one in the DB after the import.  Also the .csv data shows Inslee)
+
+**Today I**
+- [ ] PR reviews
+- [ ] finish implementing final governors tests (selected_recipients), ON-1705
+- [x] city council wording change from Chazz <- TOP, ON-1730, PR is under review
+- [x] change the slug name ticket; reach out to Darren <- TOP, ON-1731
+- [ ] issue with patch calling has just come in; I think Maged will be forwarding shortly (ask Nate for any questions with patch calling)
+- [ ] reach out for an update on training videos
+- [ ] ON-1730, make PR changes, merge, deploy to prod
+
+**Widget changes/tweaks**
+- Governors
+- City Councils -> Municipalities
+- All Senate/House Republicans/Democrats
+- phone always required at US federal level
+
+**Pending**
+- [ ] respond to Darren and be understanding and sympathetic
+- [ ] wrap up that damn rake task PR that is pending forever
+- [ ] pay 5 phones (AT&T, susan, business, Kai, internet)
+
+### slug name change
+```
+The slug for Britain First needs to be changed to britainfirstpayments . The field is locked and we are unable to do it ourselves. ​
+
+user = 39971
+PromoterUser.find(user).master_account.authentications
 ```
 
 
@@ -19,25 +86,16 @@ user = 40592
 - resolved the district issue I saw during Cicero import with Dave.  Looks to be a non-issue.  There is a lot of warning output that isn't important, so occasionally I worry when I see something new, but it turns out fine.  
 - Regarding valid_from/valid_to; I've confirmed this is only districts now, but Dave thinks that Cicero might have been asking about possible changelogs and putting expired and inactive reps in their recipient data, which Dave would be against, and which our current importers don't support.  It's definitely not a feature we want in the csvs.
 - Investigated and wrote up my findings for when the house representative changes over, 2023-01-03
-- writee up a ticket for the house rep changes issue from business.
+- write up a ticket for the house rep changes issue from business.
 
 **Today I plan to**
-- [ ] deploy governors work onto staging for initial evaluation of UI look and feel
+- [x] deploy governors work onto staging for initial evaluation of UI look and feel
 - [ ] finish implementing final governors tests (selected_recipients)
-- [ ] Cicero governor import on staging
+- [x] Cicero governor import on staging
 - [ ] city council wording change from Chazz
 - [ ] change the slug name ticket; reach out to Darren
 - [ ] issue with patch calling has just come in; I think Maged will be forwarding shortly (ask Nate for any questions with patch calling)
 - [ ] reach out for an update on training videos
-
-**Pending**
-- [ ] respond to Darren and be understanding and sympathetic
-- [ ] wrap up that damn rake task PR that is pending forever
-- [ ] TRANSFER full PAYMENT FOR BOTH TUITION AND BOOKS TO AIB on 1 Mar
-- [ ] GO TO AIB ON WEDNESDAY, 2 Mar FOR MATERIALS
-- [ ] pay rent
-- [ ] pay insurance
-- [ ] pay 5 phones (AT&T, susan, business, Kai, internet)
 
 
 ## Tue, Mar 1 2022

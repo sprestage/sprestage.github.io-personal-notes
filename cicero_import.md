@@ -85,7 +85,7 @@ Unzip these, and rename the .csvs
 ```
 mv cicero_us_state_and_federal_officials_identifiers.csv cicero_us_officials_identifiers.csv
 mv cicero_us_state_and_federal_officials.csv cicero_us_officials.csv
-mv cicero_us_officials_committees.csv cicero_us_officials_committees.csv
+mv cicero_us_state_and_federal_officials_committees.csv cicero_us_officials_committees.csv
 
 mv ../../one-click-politics/lib/import_data/us/cicero/cicero_us_officials.csv ../../one-click-politics/lib/import_data/us/backup
 mv ../../one-click-politics/lib/import_data/us/cicero/cicero_us_officials_committees.csv ../../one-click-politics/lib/import_data/us/backup

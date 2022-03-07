@@ -9,7 +9,6 @@ sudo shp2pgsql -s 4326 -g us_geom /Users/dt/Downloads/cicero_us_districts/distri
 
 shp2pgsql -t 2D -s 4326 -g us_geom cicero_us_state_and_federal_districts/district_stateupper_us.shp public.new_districts > STATEUPPER_US.sql
 shp2pgsql -t 2D -s 4326 -g us_geom cicero_us_state_and_federal_districts/district_statelower_us.shp public.new_districts > STATELOWER_US.sql
-shp2pgsql -t 2D -s 4326 -g us_geom cicero_us_state_and_federal_districts/district_nationalupper_us.shp public.new_districts > NATIONALUPPER_US.sql
 shp2pgsql -t 2D -s 4326 -g us_geom cicero_us_state_and_federal_districts/district_nationallower_us.shp public.new_districts > NATIONALLOWER_US.sql
 
 ```
@@ -52,7 +51,6 @@ Production
 psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/2022_02_28/STATELOWER_US.sql
 psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/2022_02_28/STATEUPPER_US.sql
 psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/2022_02_28/NATIONALLOWER_US.sql
-psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/2022_02_28/NATIONALUPPER_US.sql
 ```
 
 Staging
@@ -60,7 +58,6 @@ Staging
 psql -U ocp -d ocp_new -h new-staging-127.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/jan2022/STATELOWER_US.sql
 psql -U ocp -d ocp_new -h new-staging-127.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/jan2022/STATEUPPER_US.sql
 psql -U ocp -d ocp_new -h new-staging-127.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/jan2022/NATIONALLOWER_US.sql
-psql -U ocp -d ocp_new -h new-staging-127.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/jan2022/NATIONALUPPER_US.sql
 ```
 
 - If running this locally with docker, you may want to insert the sql files into your docker/postgres/ folder and run the following commands instead:
@@ -68,7 +65,6 @@ psql -U ocp -d ocp_new -h new-staging-127.c8rvchfbyjh2.us-east-1.rds.amazonaws.c
      docker-compose exec postgres psql -U ocp -d ocp -f /ocp/postgres/STATELOWER_US.sql
      docker-compose exec postgres psql -U ocp -d ocp -f /ocp/postgres/STATEUPPER_US.sql
      docker-compose exec postgres psql -U ocp -d ocp -f /ocp/postgres/NATIONALLOWER_US.sql
-     docker-compose exec postgres psql -U ocp -d ocp -f /ocp/postgres/NATIONALUPPER_US.sql
 ```
 
 **Step 5.**  Now you should be able to run import_cicero_us_shapefiles.  Use the record flag to make changes to the database.
