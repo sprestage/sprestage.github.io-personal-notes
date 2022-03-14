@@ -20,21 +20,21 @@ Susan added: Copy the sql files to staging/production
 
 ```
 cd ~/us/
-mkdir 2022_02_28
+mkdir 2022_03_14
 
-sudo chmod 775 2022_02_28/
-sudo chown ubuntu 2022_02_28/
-sudo chgrp ubuntu 2022_02_28/
+sudo chmod 775 2022_03_14/
+sudo chown ubuntu 2022_03_14/
+sudo chgrp ubuntu 2022_03_14/
 ```
 
 # STOP!!!  DISCONNECT FROM YOUR VPN FIRST!!!
 staging - 938hg3kk
 ```
-scp -i ~/.ssh/ ../CiceroImports/us/*US.sql ubuntu@ec2-54-235-144-131.compute-1.amazonaws.com:~/us/2022_02_28
+scp -i ~/.ssh/ ../CiceroImports/us/*US.sql ubuntu@ec2-54-235-144-131.compute-1.amazonaws.com:~/us/2022_03_14
 ```
 prod - 938hg3kk
 ```
-scp -i ~/.ssh/id_rsa *US.sql ubuntu@prod.oneclickpolitics.com:~/us/2022_02_28
+scp -i ~/.ssh/id_rsa *US.sql ubuntu@prod.oneclickpolitics.com:~/us/2022_03_14
 ```
 
    The preceding lines are used to set up our new_districts table, and we won't need them - we're going to do this with the NewDistrict.reset_table command.
@@ -48,9 +48,9 @@ NewDistrict.reset_table :columns => { :district_i => :string, :state => :string,
 
 Production
 ```
-psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/2022_02_28/STATELOWER_US.sql
-psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/2022_02_28/STATEUPPER_US.sql
-psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/2022_02_28/NATIONALLOWER_US.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/2022_03_14/STATELOWER_US.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/2022_03_14/STATEUPPER_US.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/2022_03_14/NATIONALLOWER_US.sql
 ```
 
 Staging
