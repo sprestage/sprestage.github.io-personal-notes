@@ -1,6 +1,25 @@
 # OCP daily dev notes
 This doc will have unchecked tasks in the past.  These are either obsolete, or have been moved to the current day.  This is a different style from my personal tracking journal which either checks them or moves them to the current day.  The goal in this doc is to preserve my status report for later reference, so that is where the unchecked are likely to be preserved.
 
+## Various useful howto docs I've written for my use at OCP
+- https://sprestage.github.io/sprestage.github.io-personal-notes/ocp_dev_notes.html
+- https://sprestage.github.io/sprestage.github.io-personal-notes/production.html
+- https://sprestage.github.io/sprestage.github.io-personal-notes/deploy.html
+- https://sprestage.github.io/sprestage.github.io-personal-notes/cicero_import.html
+- NEED TO EXTRACT AND CREATE A NATIONBUILDER DOC
+- https://sprestage.github.io/sprestage.github.io-personal-notes/cicero_import.html
+- https://sprestage.github.io/sprestage.github.io-personal-notes/cicero_raketask_import_US_shapefiles.html
+- https://sprestage.github.io/sprestage.github.io-personal-notes/cicero_raketask_Import_AU_shapefiles.html
+- https://sprestage.github.io/sprestage.github.io-personal-notes/cicero_raketask_Import_CA_shapefiles.html
+
+## current learning links (largely from Alex)
+- https://hotwired.dev/
+- https://stimulus.hotwired.dev/handbook/origin
+- https://semaphoreci.com/blog/2014/01/14/rails-testing-antipatterns-fixtures-and-factories.html
+- https://mixandgo.com/learn/ruby/oop-ruby?ck_subscriber_id=1449710520
+- https://mixandgo.com/learn/ruby/blocks
+-
+
 ```
 users = [12643, 36311, 38991, 39521, 23691, 39516, 39529, 39518, 39168, 39169, 39171, 39170, 39082, 39282, 39288, 29631, 40468, 319, 7320, 25179, 12537, 12174, 40476, 24403, 39610, 39523, 39517, 39524, 39520, 39528, 39522, 39519, 40066, 40449, 40326, 40553, 40563, 40581, 36120, 40592, 40601, 40645, 40654, 36896, 37916, 37862, 38023, 10958, 35975, 37990, 39667, 39538, 39387, 39543, 39634, 20176, 39674, 39549, 39653, 39556, 16660, 39754, 13607, 39686, 39811, 39557, 39846, 39850, 39703, 39911, 7225, 39967, 40015, 40021, 39960, 39896, 40196, 40190, 40218, 40796]
 users.each do |user|
@@ -12,8 +31,242 @@ user = 39971
 PromoterUser.find(user).master_account.authentications
 PromoterUser.where(agency_id: user)
 NationBuilderSynchronizeCall.where(promoter_user_id: user).where("created_at > ?", 7.days.ago)
+```
+
+
+## Mon, Mar 12 2022
+- 9:30-10 & 10:30-11:30, refactoring and responding to PR comments.  Almost done when interrupted by the below.
+- 11:30-3, ON-1768 More deliveries research, detailed below.  Email sent to Darren with summary.  Jira updated with all details and emails, etc.  Marked Done.  Here is hoping it stays that way.
+- 3-3:15, ON-1790 created ticket for Cicero FL and MD committees not up to date.  Email sent to Cicero.
+- 3:15-4:15, ON-1705 Governor wrap up.
+- 4:15-5:15, lunch
+- 5:15-5:45, meeting with Maged (on Quality and Test and initial ideas for what skills to hire for)
+
+- [ ] ON-1792, set token for NationBuilder promoter 40793; then run a sync to start catching up their 7134 pending conversions to sync
+- [x] email business that the Governors work is on staging for their review
+- [x] Need to finalize the ON-1705 Governor PR responses.  I think I'm done, just need to check in, then get re-reviewed and approved by Shams.  Maybe others too since I added the tests to confirm governors are successfully in the selected recipients on a promoted message.  https://github.com/one-click-politics/one-click-politics/pull/604/files
+
+Go back and wrap up this rake task PR, https://github.com/one-click-politics/one-click-politics/pull/529
+
+### elasticsearch devtools
+https://pre-prod.kb.us-east-1.aws.found.io:9243/app/dev_tools#/console
+```
+GET analytics_search
+{
+  "query": {
+    "match_all": {}
+  }
+}
+```
+
+### tmux
+- https://github.com/tmux/tmux/wiki
+- https://github.com/tmux/tmux/wiki/Installing
+- https://github.com/tmux/tmux/wiki/Getting-Started
+- https://iterm2.com/, or, try iTerm
+
+
+## Fri, Mar 9 2022
+
+### ON-1768, more delivery issue questions from Darren
+#### Not in our system.  
+Checked all SenderProfiles with email containing "meckley" and "targetedvictory" to be sure.
+
+- eva.meckley@gmail.com
+- mcrane@targetedvictory.com
+- Sdemaura@targetedvictory.com
+
+#### In our system with status:
+- eva.meckley@yahoo.com   `SenderProfile.find 19179321`  
+  1 conversion (26160891), not sendable (`OUT OF STATE`), 03-05
+  permitted: false, rubberstamped: false, disable_email_verifications: true
+
+- marycrane1215@gmail.com (WRONG) -> marycrane1215@gmail.comm   `SenderProfile.find 19182667`  
+  1 conversion (26164947), not sendable (`OUT OF STATE`), 03-06
+  permitted: false, rubberstamped: true, disable_email_verifications: true
+
+- sdemaura@gmail.com   `SenderProfile.find 19056726`  
+  3 conversions (26019845, 26105283, 26162562), 2nd is not sendable, 02-23/03-02/03-06
+  permitted: false/false/false, rubberstamped: true/false/true, disable_email_verifications: true/true/true
+
+- Amydemaura@gmail.com (WRONG)    -> amydemaura@gmail.com  `SenderProfile.find 19180596`  
+  1 conversion (26162496), not sendable (`OUT OF STATE`), 03-06
+  permitted: false, rubberstamped: false, disable_email_verifications: true
+
+#### Extra found in our system, but not mentioned above, but seems part of the groups
+- IGNORE, THIS IS FOR A DIFFERENT CONVERSION emeckley@targetedvictory.com  `SenderProfile.find 19060565`  1 conversion, not sendable, permitted: false, rubberstamped: false, disable_email_verifications: true
+
+
+## Wed, Mar 9 2022
+
+{"36311"=>0, "38991"=>1, "39521"=>2, "23691"=>0, "39516"=>2, "39529"=>0, "39518"=>8, "39168"=>0, "39170"=>0, "39171"=>0, "39169"=>4917, "39082"=>0, "39282"=>0, "39288"=>0, "29631"=>0, "40468"=>0, "319"=>0, "7320"=>0, "25179"=>61, "12537"=>0, "12174"=>3, "40476"=>0, "24403"=>0, "39610"=>0, "39523"=>0, "39517"=>0, "39524"=>0, "39520"=>0, "39528"=>1, "39522"=>59, "39519"=>0, "40066"=>0, "40449"=>5, "40326"=>0, "40553"=>0, "40563"=>0, "40581"=>0, "36120"=>0, "40592"=>0, "40601"=>0, "40645"=>0, "40654"=>0, "36896"=>0, "37916"=>0, "37862"=>0, "38023"=>0, "10958"=>0, "35975"=>0, "37990"=>0, "39667"=>0, "39538"=>0, "39387"=>0, "39543"=>0, "39634"=>0, "20176"=>16, "39674"=>0, "39549"=>0, "39653"=>0, "39556"=>0, "16660"=>0, "39754"=>0, "13607"=>20, "39686"=>0, "39811"=>0, "39557"=>0, "39846"=>0, "39850"=>0, "39703"=>0, "39911"=>0, "7225"=>0, "39967"=>0, "40015"=>0, "40021"=>0, "39960"=>0, "39896"=>0, "40196"=>0, "40190"=>0, "40218"=>0, "40796"=>0, "39971"=>6, "40886"=>0}
+
+### ON-1768
+summary:
+
+Resolved **39477, MPP (Marijuana Policy Project)**
+This was a case of a Group changing ID in a recent Cicero import, thus deleting and re-adding the group to the campaign, then re-delivering, corrected the problem.  
+  - 15946
+    - Total signatures: 354
+    - Total deliveries: 339
+    - Sendable: 339 (96%)
+    - Not sendable, Not submitted: 15 (4%)
+
+Resolved **40725, Gunster Strategies**
+The non-sendable conversions appear to all be non-constituents.  The targets are marked with the flag to deliver anyway, BUT, that is superceded by the campaign's Delivery Settings - Constituent Mail Only flag being set to true.
+  - 14907
+    - Total signatures: 396
+    - Total deliveries: 218
+    - Sendable: 131 (33%)
+    - Not sendable, Not submitted: 265 (67%)
+
+Mar 10 update
+  - 14907
+    - Total signatures: 426
+    - Total deliveries: 364
+    - Sendable: 190 (45%)
+    - Not sendable, Not submitted: 236 (55%)        
+
+Mar 10, 1:54pm update
+  - 14907
+    - Total signatures: 430
+    - Total deliveries: 834
+    - Sendable: 424 (99%)
+    - Not sendable, Not submitted: 6 (1%)        
+
+**40177, Tennesseans for Quality Early Education**
+- 15783 <- 9 conversions (24 deliveries),     NO, updated_at: "2022-03-02 15:08:44"
+  - Total signatures: 9
+  - Total deliveries: 24
+  - Sendable: 8 (89%)
+  - Not sendable, Not submitted: 1 (11%)
+- 15782 <- 0 conversions (0 deliveries),      NO, updated_at: "2022-02-25 21:20:45"
+  - 0
+- 15781 <- 79 conversions (237 deliveries),   NO, updated_at: "2022-02-25 21:21:06"
+  - Total signatures: 83
+  - Total deliveries: 249
+  - Sendable: 83 (100%)
+- 15755 <- 3 conversions (8 deliveries),      NO, updated_at: "2022-02-28 16:34:59"
+  - Total signatures: 10
+  - Total deliveries: 27
+  - Sendable: 9 (90%)
+  - Not sendable: 1 (10%), Not submitted: 1 (10%)
+- 15754 <- 5 conversions (14 deliveries),     NO, updated_at: "2022-02-25 21:21:48"
+  - Total signatures: 5
+  - Total deliveries: 15
+  - Sendable: 5 (100%)
+- 15750 <- 132 conversions (388 deliveries),  NO, updated_at: "2022-02-25 21:22:09"
+  - Total signatures: 133
+  - Total deliveries: 385
+  - Sendable: 129 (97%)
+  - Not sendable: 4 (3%), Not submitted: 4 (3%)
+- 15748 <- 114 conversions (329 deliveries),  NO, updated_at: "2022-03-03 20:52:24"
+  - Total signatures: 114
+  - Total deliveries: 75
+  - Sendable: 91 (80%)
+  - Not sendable: 23 (20%), Not submitted: 23 (20%)
+
+
+### ON-1768, delivery issues
+
+Have campaigns been edited (by Alex yesterday) to update recipients
+
+**39477**, PP  campaign 15946
+         339+15 = 354
+- 15946 <- 352 conversions (342 deliveries),   ?? updated_at: "2022-03-09 16:03:55"
+          243               236
+This is a campaign targeting the DE statehouse. It looks like 240 out of 241 registered signers did not send. I attached the csv of the exports. 
+
+I also attached a few images of the traffic for another MPP campaign vs the signatures to date. The deltas seem pretty large. 
+
+**40725**, Gunster Strat. Campaign ID 14907, Large numbers of non-submitted letters on a canvassing campaign
+- 14907 <- 396 conversions (290 deliveries, 243 undeliverable due to non-constituents), NO, updated_at: "2022-03-09 17:56:00" ?? today??
+
+**40177**, Tennesseans for Quality Early Education
+- 15783 <- 9 conversions (24 deliveries),     NO, updated_at: "2022-03-02 15:08:44"
+- 15782 <- 0 conversions (0 deliveries),      NO, updated_at: "2022-02-25 21:20:45"
+- 15781 <- 79 conversions (237 deliveries),   NO, updated_at: "2022-02-25 21:21:06"
+- 15755 <- 3 conversions (8 deliveries),      NO, updated_at: "2022-02-28 16:34:59"
+- 15754 <- 5 conversions (14 deliveries),     NO, updated_at: "2022-02-25 21:21:48"
+- 15750 <- 132 conversions (388 deliveries),  NO, updated_at: "2022-02-25 21:22:09"
+- 15748 <- 114 conversions (329 deliveries),  NO, updated_at: "2022-03-03 20:52:24"
+
+
+Loop business into testing this on staging
+
+**Yesterday I**
+- Fought the NationBuilder box going down nightly fire.
+- Fought the Deliveries aren't going through fire.
+
+**Today I plan to**
+- [x] ON-1768 Look up each of the 3-4 promoters provided from Darren and make sure the recipients have been deleted and re-added and re-delivery triggered.  Details in email and @firefighting.
+- [x] Jira update 1768 with last night's details; confirm delete and readd of recipients for the three promoters; then email Darren to confirm where we are on this
+- [x] ON-1774 Jira new: research if we need to remove and re-add recipients to campaigns because Cicero data changed the ids on the recipients; can't just delete and re-add same ids for that reason.  Might be able to delete and re-add based on Cicero ids?
+- [ ] respond to governor PR reviews
+- [ ] wrap up governor testing
+
+
+## Tue, Mar 8 2022
+- ON-1773, make a ticket for Friday's firefight, prod going down
+
+### NB issue improvement strategy, ON-1771
+Extended collaboration with Dave and Eric produced the following strategy for improvement.
+
+- 1st, lower the query limit, in order to prevent keeping the connections open so long; consider adding an environment variable for this.  Change it in config/application.yml.
+- 2nd, then increase the sync frequency
+- 3rd, log connection time outs then contact NB and ask if they've seen this, is the a new version of their API gem, and is the extended open connection causing trouble.  Is there a newer NB API gem?  Question for NB.
+
+#### Additional NB issue ideas
+The above collaboration with Dave and Eric also produced the following ideas for the future.
+
+- keep a master count on the connection, then close after xxx
+- is there a way to tweak the connection to shorten the timeout; also figure out what happens within our system when something times out.  
+
+
+### Jira - NB 500 error and the process wedging for over an hour, then picking back up and continuing, ON-1772
+Promoter 39528 (Georgia Gun Owners):  2022-03-08 05:13:13 +0000 - 500 Internal Server Error
+Promoter 39522 (Ohio Gun Owners):     2022-03-08 05:13:18 +0000 - 500 Internal Server Error
+Promoter 39528 (Georgia Gun Owners):  2022-03-08 18:02:26 +0000 - 500 Internal Server Error
+Promoter 39522 (Ohio Gun Owners):     2022-03-08 18:02:38 +0000 - 500 Internal
+Promoter 20176 (Australian Christian Lobby): 2022-03-08 18:03:44 +0000 - 500 Internal Server Error
+
+### ON-1768 - Tennesseans for Quality Early Education, 40177
+15783 <- 9 conversions (24 recipients)
+15782 <- 0 conversions (0 recipients)
+15781 <- 79 conversions (237 recipients)
+15755 <- 3 conversions (8 recipients)
+15754 <- 5 conversions (14 recipients)
+15750 <- 132 conversions (388 recipients)
+15748 <- 114 conversions (329 recipients), promoted_message created Feb 22
+not 15784, promoter id 39619
+not 15745, promoter id 36032
+
+- could the targets have changed since campaign was created: sounds like this is almost certainly a no since at least one of the promoters is meticulous in creating their campaigns
+
+#### Additional promoter user and campaign affected by issue
+- 39477 <- promoter
+- 15946 <- campaign
 
 ```
+pm_id = 15783
+Conversion.where(promoted_message_id: pm_id).count
+conversion = Conversion.where(promoted_message_id: pm_id).pluck(:recipients)
+
+result = []
+conversion.each do |c|
+  result.append(c.split(':'))
+end
+
+result.flatten.count
+```
+
+- need a ticket to update "2021 All Rights Reserved" to 2022
+
+## Tue
+
+- create NB ticket
+- create deliveries
+- create separate ticket for the Governor testing for better tracking of the different pieces of the work for this feature
 
 
 ## Mon, Mar 7 2022
@@ -75,7 +328,7 @@ At the end of Friday, before my school meeting and prod going down, I think I wa
 ```
 The slug for Britain First needs to be changed to britainfirstpayments . The field is locked and we are unable to do it ourselves. ​
 
-user = 39971
+user = 40793
 PromoterUser.find(user).master_account.authentications
 ```
 
@@ -309,8 +562,8 @@ irb(main):011:0> e = h.keep_if
 irb(main):012:0> e.each { |key, value| value != 0 }
 => {"38991"=>1, "39516"=>1, "39169"=>240237, "39288"=>7, "25179"=>1200, "12174"=>4, "39523"=>5, "39517"=>18, "39524"=>3, "39520"=>2, "39528"=>60, "39522"=>29, "39519"=>10, "40066"=>1, "40326"=>4, "40581"=>9, "39387"=>1, "20176"=>14512, "39754"=>1, "13607"=>330, "39686"=>289, "39703"=>6, "7225"=>1, "40190"=>5}
 
-data = {"12643"=>nil, "36311"=>nil, "38991"=>135, "39521"=>nil, "55555"=>"", "44444"=>" "}
-e = data.keep_if
+h = {"12643"=>nil, "36311"=>nil, "38991"=>135, "39521"=>nil, "55555"=>"", "44444"=>" "}
+e = h.keep_if
 e.each { |key, value| !value.nil? }
 
 foo = h.keep_if.each { |key, value| !value.nil? }

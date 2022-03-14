@@ -23,11 +23,147 @@ Because I cannot keep such a huge daily list, it is becoming unmanageable.  Also
   - [ ] my OCP dev notes: https://gist.github.com/sprestage/5d7fd086b6555b3268db408e56c04eba
   - [ ] my bullet journal and life notes (this gist): https://gist.github.com/sprestage/6f9bae4762be078c8c14aae7791a6883
   - [ ] financial, list of things needed that cost money to buy or implement or install or make: https://gist.github.com/sprestage/a68dd09f133250d97971de69065d0d62. Needs a little updating to convert it to my current needs, particularly that of creating the prioritized list of things needed to be done or bought
+  - [ ] current notes, various parts
+    - [ ] https://gist.github.com/sprestage/6f9bae4762be078c8c14aae7791a6883
+    - [ ] https://gist.github.com/sprestage/6f9bae4762be078c8c14aae7791a6883/533bd13d9a98ed2df189763ced93b5304bf63fe9
+    - [ ] https://gist.github.com/sprestage/6f9bae4762be078c8c14aae7791a6883/revisions?page=6
 - [ ] business sign with logo, name, hours, phone, and email....talked to Danny about this sign for the gate on 25 Oct
 
 ### Check in with Danny on these
 - [ ] Business cards.  Update: Danny has ordered, but needs an update, 25 Oct.  I'm hoping for these by Tues, 2 Nov.  Asked Danny on Saturday, Oct 2, to order two more boxes.  Check in with Danny on the progress and what I owe PSG Graphics.
 - [ ] 3 layer contracts.  Update: Danny has ordered, but needs an update, 25 Oct.  I'm hoping for these by Tues, 2 Nov.  Asked Danny on Saturday, Oct 2, to find someone to do this.  Check in with Danny on the progress.
+
+
+## MARCH 2022
+### US accounts
+- [x] pay Kai's phone, 66718724 (#1638746)  **paid $22.42** on 11 Mar 2022 <- confirmed in email!
+- [x] pay business phone, 63932521 (#1678356)  **paid $44.84** on 11 Mar 2022 <- confirmed in email?
+- [x] pay Susan's phone, 63305175 (#1678296)  **paid $44.84** on 11 Mar 2022 <- confirmed in email!
+- [ ] pay house internet, (#311019100000)  **paid $125.32** on xx Feb 2022 <- confirmed in email?
+- [ ] pay Susan's iphone 4259193122
+
+
+### Walker
+#### favorite Alan Walker videos:
+- https://www.youtube.com/watch?v=Hi-kQn3ze4o, Aviation Movie
+- https://www.youtube.com/watch?v=O3ElohqHEzQ, Different World
+- https://www.youtube.com/c/Alanwalkermusic/community, Alan Walker vlog
+- https://www.youtube.com/watch?v=TuclEMguHAo, 1 hour Alone, Pt. II
+- https://www.youtube.com/watch?v=AVVWVcIA1mw, to watch list
+
+#### new 2022 songs
+- https://www.youtube.com/watch?v=sqkdl53mpKg
+- https://www.youtube.com/watch?v=OGeUBXR4AIE, Lara
+
+#### games
+- https://play.runescape.com/
+
+#### saveourseas
+- https://www.youtube.com/watch?v=HByn_gCLTIQ
+
+
+### music
+#### music production
+- Sweet Dreams music video remix challenge, https://sweetdreams.alanwalker.com/
+- https://www.youtube.com/results?search_query=music+production+for+beginners+
+
+#### holiday music and light shows
+- https://www.youtube.com/watch?v=9I2PsgyKZPg
+- https://www.youtube.com/watch?v=cL9Dy0RlEEw
+- https://www.youtube.com/watch?v=6kbg7uXqAlc
+- https://www.asante.com/christmas-light-controller/how-to-make-your-christmas-lights-flash-and-synchronize-to-your-music/
+- https://www.wikihow.com/Make-Your-Christmas-Lights-Flash-to-Music
+- https://www.lifewire.com/sync-christmas-lights-to-music-4177142
+- https://learnchristmaslighting.com/how-do-i-get-started-with-cool-musical-christmas-lights-on-my-house/
+- https://www.instructables.com/Computer-Controlled-Musical-Christmas-Lights/
+
+
+### potential dosa mix mail order options
+- https://www.ishopindian.com/priya-dosa-mix/
+- https://www.ishopindian.com/Double-Horse-Dosa-Mix/
+- https://www.amazon.com/s?k=JALPUR+DHOSA+MIX&ref=nb_sb_noss_1
+- Gits Dosa(i) Mix, https://www.amazon.com/Gits-Dosa-Mix/dp/B004OLIK3A/ref=sr_1_8?keywords=dosa+batter+mix&qid=1638739656&sr=8-8
+
+
+### discord
+Kai, https://discord.com/channels/@me/917786923827855380
+Walker FAQ, https://discord.com/channels/827254215717814282/873280752459087912
+AFF (Affinity Alliance), https://discord.com/channels/795867790548533249/795867791009775628
+
+
+### physical therapy and stretches
+- https://www.healthline.com/health/tight-hips#3-Yoga-Poses-for-Tight-Hips
+- https://www.healthline.com/health/fitness-exercise/hip-flexor-exercises#bottom-line
+- https://www.self.com/gallery/hip-stretches-your-body-really-needs-slideshow
+- https://www.medicalnewstoday.com/articles/325377#other-home-remedies
+
+
+### places to learn Vue
+- CodeAcademy
+- https://vuejs.org/guide/introduction.html
+- https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/Vue_getting_started
+- https://www.tutorialspoint.com/vuejs/index.htm
+- https://medium.com/quick-code/top-tutorials-to-learn-vue-js-for-beginners-6c693e41091d
+
+
+### cooking
+#### Pillsbury crescent rolls
+- https://www.alyonascooking.com/crescent-rolls-pillsbury-copycat/
+- https://www.youtube.com/watch?v=ekRCTpwYIDQ
+- https://www.food.com/recipe/copycat-pillsbury-crescent-rolls-365725
+- https://www.tasteofhome.com/recipes/buttery-crescent-rolls/
+- https://bakingamoment.com/homemade-crescent-rolls/
+
+#### Thai crispy basil chicken
+- https://asianinspirations.com.au/recipes/crispy-chicken-with-thai-basil/
+
+
+### learning
+- https://www.ananunesdasilva.com/posts/multiple-joins-with-activerecord
+
+
+### stever robbins, indistractable
+Stever Robbins, https://www.youtube.com/watch?v=erdZe3CEpb0
+
+
+### various orquideas business docs online
+- https://docs.google.com/spreadsheets/d/1n-rOveNaiKhcuVYWqPfDNRNGrlNfMFproLaHyTftQfg/edit#gid=1531657778, Rates, coverages, and contract of payment docs
+- https://docs.google.com/spreadsheets/d/1JP5iz0iCMvefWF_mVbIt56DV0ERmyOjMrfz3Is1VtMc/edit#gid=774600909
+- car rental commission for Kevin, https://docs.google.com/spreadsheets/d/16OUKt1R44IBAU88U36kQqjuE1Z3qkaG9RsLPqx0iNYY/edit#gid=0
+
+
+### crunchyroll, demonslayer
+- https://www.crunchyroll.com/demon-slayer-kimetsu-no-yaiba/episode-4-tonight-821973
+
+
+### monkey bread
+- https://www.crazyforcrust.com/homemade-monkey-bread/
+- https://www.melskitchencafe.com/the-best-monkey-bread/
+
+
+### current learning projects
+#### ruby
+- https://exercism.org/tracks/ruby
+##### openstruct
+- https://medium.com/rubycademy/openstruct-in-ruby-ab6ba3aff9a4
+- https://github.com/ruby/ostruct
+- https://www.sandipmane.dev/openstruct-in-ruby
+- https://dev.to/burdettelamar/all-about-ruby-openstruct-4nof
+- https://www.dragonastronauts.com/2021/05/11/classes-hashes-structs-and-openstructs/
+- https://www.rubyguides.com/2017/06/ruby-struct-and-openstruct/
+- https://vnegrisolo.github.io/ruby/ruby-struct-and-open-struct
+- https://exercism.org/tracks/ruby/concepts/ostruct
+
+
+### google pages
+- google pages formatting, https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax
+- http://jekyllrb.com/docs/github-pages/
+- https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/testing-your-github-pages-site-locally-with-jekyll
+- https://kbroman.org/simple_site/pages/local_test.html
+- https://github.com/sprestage/sprestage.github.io-personal-notes/settings/pages
+- https://sprestage.github.io/sprestage.github.io-personal-notes/
+- https://www.aleksandrhovhannisyan.com/blog/getting-started-with-jekyll-and-github-pages/
+
 
 
 ## FEBRUARY 2022
@@ -52,7 +188,7 @@ Because I cannot keep such a huge daily list, it is becoming unmanageable.  Also
 - [ ] have Jean work with Ana for resolution; forward him the email <- FORWARD THIS TO JEAN
 - [ ] fill out paper for Rodrigo for auto-transfer of monthly insurance payment <- check up on this with Sissy
 - [ ] car insurance: get the paperwork for the car policies from Jean and make sure a copy is in all vehicles
-- [ ] hand off house receipts to Sissy for identification, catagorization, and tallying
+- [ ] hand off house receipts to Sissy for identification, categorization, and tallying
 
 
 ## Fri, 21 Jan 2022
@@ -60,19 +196,16 @@ Because I cannot keep such a huge daily list, it is becoming unmanageable.  Also
 - [x] pay $600 to Fanny for doing the business taxes  <- TODAY
 - [ ] alcumus for Kai
 
-- [ ] respond to and pay AIB
-- [ ] buy NorWesCon memberships
-- [ ] reserve hotel room
-- [ ] work on NorWesCon - flights
-- [ ] work on NorWesCon - contacting folks for plans, in priority order (Susan for Ayden and Kai, Stacy/Alma, Misha, Keith/Tahlia, Sylvan, Heather, Sean/Marci, also consider a mass email; time to start writing up what I want to say to intro the idea to everyone)
+- [x] respond to and pay AIB
+- [ ] work on next trip to US - contacting folks for plans, in priority order (Susan for Ayden and Kai, Stacy/Alma, Misha, Keith/Tahlia, Sylvan, Heather, Sean/Marci, also consider a mass email; time to start writing up what I want to say to intro the idea to everyone)
 
 - [ ] plan a visit from Al & Sela
-- [ ] make mental health appointment for Kai
+- [ ] make psych appointment for Kai
 - [ ] meticulously clean and oil the display hutch in the corner
 - [ ] measure space for waterbed in my room
 - [ ] pick 3 boxes with books and graphic novels to come upstairs for unpacking into the office
 - [ ] work on my Google Pages project itemized in the long list
-
+- [ ] why doesn't Google Pages work locally any more, http://localhost:4000/ocp_dev_notes.html
 - [ ] make snack order from Target
 
 
@@ -91,6 +224,10 @@ Because I cannot keep such a huge daily list, it is becoming unmanageable.  Also
 
 ## Tue, 18 Jan 2022
 Walker 88347
+https://w41k3r.com/
+Bester also
+- https://w41k3r.com/how-did-you-become-a-walker-2/
+- https://w41k3r.com/choose-your-path-in-the-walker-community/
 
 
 ## Sun, 2 Jan 2022
