@@ -138,6 +138,14 @@ Importer::CiceroUSRecipientImporter.instance.all_problems
 Importer::CiceroUSRecipientImporter.instance.import(:record => true)
 ```
 
+You can then update our list of active committees via:
+
+```
+Importer::CiceroUSCommitteeMatcher.instance.setup
+Importer::CiceroUSCommitteeMatcher.instance.import_and_update_committees(:record => true)
+Importer::CiceroUSCommitteeMatcher.instance.inactivate_old_committees(:record => true)
+```
+
 Then, if, and only if, Cicero subcommittee support has been added to the .CSV, you can update the committee relationships.  
 
 (If Cicero subcommittees aren’t in yet, skip these next two lines, and go straight to updating assignments via “Importer::CiceroUSAssignmentImporter.instance.setup.”  You’ll know subcommittees are in the .CSV if the cicero_us_officials_committees.csv file has the subcommittee_of column.)
@@ -149,14 +157,6 @@ Importer::CiceroUSCommitteeMatcher.instance.clean_committee_relationships(:recor
 ```
 
 (^ If subcommittee support isn't in Cicero's .CSVs yet, you can skip the previous two lines.)
-
-You can then update our list of active committees via:
-
-```
-Importer::CiceroUSCommitteeMatcher.instance.setup
-Importer::CiceroUSCommitteeMatcher.instance.import_and_update_committees(:record => true)
-Importer::CiceroUSCommitteeMatcher.instance.inactivate_old_committees(:record => true)
-```
 
 And update committee assignments via:
 
