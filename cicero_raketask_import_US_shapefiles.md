@@ -19,17 +19,17 @@ The national upper shapes are just the state/territory boundaries themselves, wh
 Susan added: Copy the sql files to staging/production
 
 ```
-mkdir ~/us/2022_03_14
+mkdir ~/us/2022_04_11
 ```
 
 # STOP!!!  DISCONNECT FROM YOUR VPN FIRST!!!
 staging - 938hg3kk
 ```
-scp -i ~/.ssh/ ../CiceroImports/us/*US.sql ubuntu@ec2-54-235-144-131.compute-1.amazonaws.com:~/us/2022_03_14
+scp -i ~/.ssh/ ../CiceroImports/us/*US.sql ubuntu@ec2-54-235-144-131.compute-1.amazonaws.com:~/us/2022_04_11
 ```
 prod - 938hg3kk
 ```
-scp -i ~/.ssh/id_rsa *US.sql ubuntu@prod.oneclickpolitics.com:~/us/2022_03_14
+scp -i ~/.ssh/id_rsa *US.sql ubuntu@prod.oneclickpolitics.com:~/us/2022_04_11
 ```
 
    The preceding lines are used to set up our new_districts table, and we won't need them - we're going to do this with the NewDistrict.reset_table command.
@@ -43,9 +43,9 @@ NewDistrict.reset_table :columns => { :district_i => :string, :state => :string,
 
 Production
 ```
-psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/2022_03_14/STATELOWER_US.sql
-psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/2022_03_14/STATEUPPER_US.sql
-psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/2022_03_14/NATIONALLOWER_US.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/2022_04_11/STATELOWER_US.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/2022_04_11/STATEUPPER_US.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/us/2022_04_11/NATIONALLOWER_US.sql
 ```
 
 Staging
