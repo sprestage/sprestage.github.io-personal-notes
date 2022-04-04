@@ -91,7 +91,10 @@ mv cicero_us_state_and_federal_officials.csv cicero_us_officials.csv
 mv cicero_us_state_and_federal_officials_committees.csv cicero_us_officials_committees.csv
 mv cicero_us_state_and_federal_officials_staff.csv cicero_us_officials_staff.csv
 
-mv ../../one-click-politics/lib/import_data/us/cicero/cicero_us_officials*.csv ../../one-click-politics/lib/import_data/us/backup
+mv ../../one-click-politics/lib/import_data/us/cicero/cicero_us_officials_identifiers.csv ../../one-click-politics/lib/import_data/us/backup
+mv ../../one-click-politics/lib/import_data/us/cicero/cicero_us_officials.csv ../../one-click-politics/lib/import_data/us/backup
+mv ../../one-click-politics/lib/import_data/us/cicero/cicero_us_officials_committees.csv ../../one-click-politics/lib/import_data/us/backup
+mv ../../one-click-politics/lib/import_data/us/cicero/cicero_us_officials_staff.csv ../../one-click-politics/lib/import_data/us/backup
 
 cp cicero_us_officials*.csv ../../one-click-politics/lib/import_data/us/cicero/
 
