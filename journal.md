@@ -35,11 +35,15 @@ Because I cannot keep such a huge daily list, it is becoming unmanageable.  Also
 
 
 ## MARCH 2022
+### Quincy's Tavern
+Hi folks,
+I'm Susan.  I'm from the Pacific Northwest, though I now live in the country of Panamá.  I program computers, run a business, play various video games both old and new, enjoy reading F & S/F, love roleplaying with a good group, don't play nearly enough table top games, and play many instruments mostly badly.  Quincy's Tavern videos make me smile like I've come home to good friends.  It makes me happy to encounter others who create welcoming, safe, quirky community.  Happy to make all of your acquaintences here and to toast the Lucky Gryphon.
+
 ### US accounts
 - [x] pay Kai's phone, 66718724 (#1638746)  **paid $22.42** on 11 Mar 2022 <- confirmed in email!
 - [x] pay business phone, 63932521 (#1678356)  **paid $44.84** on 11 Mar 2022 <- confirmed in email?
 - [x] pay Susan's phone, 63305175 (#1678296)  **paid $44.84** on 11 Mar 2022 <- confirmed in email!
-- [ ] pay house internet, (#311019100000)  **paid $125.32** on xx Feb 2022 <- confirmed in email?
+- [ ] pay house internet, (#311019100000)  **paid $125.32** on 1 Apr 2022 <- confirmed in email?
 - [ ] pay Susan's iphone 4259193122
 
 

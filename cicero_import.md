@@ -77,6 +77,9 @@ Pull the latest .CSVs by downloading and extracting cicero_us_officials.zip, cic
   aws --profile cicero_user s3 cp s3://cicero-global-data-us-east-1/OneClickPolitics/latest/cicero_us_state_and_federal_officials_committees.zip cicero_us_officials_committees.zip
 
   aws --profile cicero_user s3 cp s3://cicero-global-data-us-east-1/OneClickPolitics/latest/cicero_us_state_and_federal_officials_identifiers.zip cicero_us_officials_identifiers.zip
+
+  aws --profile cicero_user s3 cp s3://cicero-global-data-us-east-1/OneClickPolitics/latest/cicero_us_state_and_federal_officials_staff.zip cicero_us_officials_staff.zip
+
 ```
 
 
@@ -86,14 +89,16 @@ Unzip these, and rename the .csvs
 mv cicero_us_state_and_federal_officials_identifiers.csv cicero_us_officials_identifiers.csv
 mv cicero_us_state_and_federal_officials.csv cicero_us_officials.csv
 mv cicero_us_state_and_federal_officials_committees.csv cicero_us_officials_committees.csv
+mv cicero_us_state_and_federal_officials_staff.csv cicero_us_officials_staff.csv
 
-mv ../../one-click-politics/lib/import_data/us/cicero/cicero_us_officials.csv ../../one-click-politics/lib/import_data/us/backup
-mv ../../one-click-politics/lib/import_data/us/cicero/cicero_us_officials_committees.csv ../../one-click-politics/lib/import_data/us/backup
-mv ../../one-click-politics/lib/import_data/us/cicero/cicero_us_officials_identifiers.csv ../../one-click-politics/lib/import_data/us/backup
+mv ../../one-click-politics/lib/import_data/us/cicero/cicero_us_officials*.csv ../../one-click-politics/lib/import_data/us/backup
+
+cp cicero_us_officials*.csv ../../one-click-politics/lib/import_data/us/cicero/
 
 cp cicero_us_officials.csv ../../one-click-politics/lib/import_data/us/cicero/
 cp cicero_us_officials_committees.csv ../../one-click-politics/lib/import_data/us/cicero/
 cp cicero_us_officials_identifiers.csv ../../one-click-politics/lib/import_data/us/cicero/
+cp cicero_us_officials_staff.csv ../../one-click-politics/lib/import_data/us/cicero/
 ```
 
 Lastly, copy these .csv files into lib/import_data/us/cicero/
@@ -165,6 +170,29 @@ RAILS_ENV=production bundle exec rake populate_cwc_api_address
 
 These tasks shouldn't duplicate or override any existing address records.
 
+#### US RecipientBios and Staffers
+You can now update our staffer data by entering the Rails console and running:
+
+```
+require ('importer_modules/united_states/cicero/import_cicero_us_legislator_profiles)
+```
+
+First, you can clear existing legislator profiles and staffer data:
+
+```
+importer = ImportCiceroUSLegislatorProfiles.instance
+importer.clear_existing_profiles :clear_active => true
+```
+
+Second, import the new data via:    
+
+```
+importer.import
+importer.import({record: true})
+```
+
+These steps will clear and then replace the RecipientBio records that provide legislator profiles, as well as Staffer records, and the RecipientOffice records that designate where they work and join them to Recipients.
+
 
 ### To update Australia:
   [Step 1 - Download and extract the shapefiles and .CSVs from our Cicero S3 bucket](#au-step-1) <br>
@@ -210,9 +238,7 @@ Pull the latest .CSVs by downloading and extracting cicero_au_officials.zip, cic
 ```
   aws --profile cicero_user s3 cp s3://cicero-global-data-us-east-1/OneClickPolitics/latest/cicero_au_officials.zip cicero_au_officials.zip
 
-  aws --profile cicero_user s3 cp s3://cicero-global-data-us-east-1/OneClickPolitics/latest/cicero_au_officials_levels.zip cicero_au_officials_levels.zip
-
-  aws --profile cicero_user s3 cp s3://cicero-global-data-us-east-1/OneClickPolitics/latest/cicero_au_officials_roles.zip cicero_au_officials_roles.zip
+  aws --profile cicero_user s3 cp s3://cicero-global-data-us-east-1/OneClickPolitics/latest/cicero_au_officials_identifiers.zip cicero_au_officials_identifiers.zip
 ```
 
 #### AU Step 2

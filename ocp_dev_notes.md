@@ -5,8 +5,7 @@ This doc will have unchecked tasks in the past.  These are either obsolete, or h
 - https://sprestage.github.io/sprestage.github.io-personal-notes/ocp_dev_notes.html
 - https://sprestage.github.io/sprestage.github.io-personal-notes/production.html
 - https://sprestage.github.io/sprestage.github.io-personal-notes/deploy.html
-- https://sprestage.github.io/sprestage.github.io-personal-notes/cicero_import.html
-- NEED TO EXTRACT AND CREATE A NATIONBUILDER DOC
+- https://sprestage.github.io/sprestage.github.io-personal-notes/nationbuilder.html
 - https://sprestage.github.io/sprestage.github.io-personal-notes/cicero_import.html
 - https://sprestage.github.io/sprestage.github.io-personal-notes/cicero_raketask_import_US_shapefiles.html
 - https://sprestage.github.io/sprestage.github.io-personal-notes/cicero_raketask_Import_AU_shapefiles.html
@@ -18,23 +17,368 @@ This doc will have unchecked tasks in the past.  These are either obsolete, or h
 - https://semaphoreci.com/blog/2014/01/14/rails-testing-antipatterns-fixtures-and-factories.html
 - https://mixandgo.com/learn/ruby/oop-ruby?ck_subscriber_id=1449710520
 - https://mixandgo.com/learn/ruby/blocks
+
+---
+
+
+```
+end_date = DateTime.now
+start_date = (end_date - 5)
+range = (start_date..end_date)
+
+
+  queued_conversions = Conversion.where(queued_at: range)
+                                 .where("((disable_email_verifications is true)
+                                 AND (rubberstamped is false)
+                                 AND (bodycachd is not NULL)
+                                 AND (recipients = ''))")
+                                 .limit(query_limit)
+  log("...#{queued_conversions.count} conversions retrieved from"\
+       " #{start_date.strftime("%b %d %Y, %H:%M")} to"\
+       " #{end_date.strftime("%b %d %Y, %H:%M")}\n")
+
+  queued_conversions.each do |conversion|
+    log("Redeliver conversion ##{conversion.id} of promoted_message"\
+          " ##{conversion.promoted_message_id}...  ")
+    if record
+      conversion.redeliver
+      log("REDELIVERED!")
+    end
+  end
+```
+
+
+## Mon, Apr 4 2022
+**Friday I**
+- ON-1849, created PR for Delivery Data admin page improvements
+- ON-1863 (Deliveries), created an epic to track the different tasks for this effort to improve deliveries, delivery tracking, and delivery data with emphasis on deliveries that fail and/or don't get queued
+- ON-1864, created the Jira for and separated out the Conversion.comment work from the Data Delivery admin page work (ON-1849)
+- ON-1864, created the PR for the comment field use for why a conversion cannot be queued for delivery, https://github.com/one-click-politics/one-click-politics/pull/648  Ready for review if Maged approves the work.
+- ON-1865, created the Jira for and separated out the rake task to redeliver the conversions affected by the senate groups bug; runs in batches, by promoted message ID, omitting any promoted message that is retired
+- ON-1865, created the PR for the rake task, https://github.com/one-click-politics/one-click-politics/pull/649
+
+- [ ] find Invalid conversions from after the Senate groups fix.  So far, all the Invalid conversions I'm finding from examples/complaints from support are from before the fix.  
+- [ ] look at Doms emails to see if there is ANY other reason  
+
+Summary of what I'm seeing in Not Submitted:
+- Conversions of campaigns that used the new senate groups and thus erroneously have no recipients.  Redelivery is needed and will correct the issue.  (This is fixed with the rake task, however, the task should be renamed since it isn't actually redelivering truly invalid conversions, but only conversions that were incorrectly perceived as invalid due to the bug)
+- These Conversions are legitimately invalid and should NOT be redelivered.  The re-deliver script needs to be altered to check validity (duplicate, no recipients, is_banned? or is_not_staged)
+
+**Today I plan to**
+- [ ] meet with Maged to update him on the Not Submitted conversions findings
+- [ ] meet with Dave, plus review his PR, get it merged, and do the Cicero import with new staffer imports
+
+
+## Fri, Apr 1 2022
+### Dom's data (sucks!!!)
+```
+American Conservative Union (id: 40406)
+  E16282: 6 (2 Not Submitted that are not constituents and campaign's Contituent Mail Only is set to true)
+  E16251: 49 (campaign's Contituent Mail Only is set to true)
+    Submit button legitimately not clicked: 26400133, 26400189, 26400298, 26403186, 26404243
+    No identifiable issue, redelivery was successful: 26405506, 26405516, 26405522 <- WHY?!?  No idea, but re-delivery was successful.  These will fall into the category of To Be Identified since rubberstamped: false, disable_email_verifications: true, they are constituents, and recipients field is populated.
+  +16161: 8 (3 Not Submitted that are not constituents and campaign's Contituent Mail Only is set to true)
+  +16154: 0
+  16128: 344 (40 Not Submitted)
+    Submit button legitimately not clicked: 26301796, 26302541, 26305220, 26310027, 26324101, 26324189, 26324474, 26326565, 26328947, 26331056, 26331406, 26332502, 26332590, 26391248, 26424304, 26424703,
+
+    No identifiable issue, redelivery was successful: 26301911, 26321373, 26324167, 26324319, 26326614, 26327047, 26327206, 26328210, 26332002, 26335399, 26336369
+
+    No identifiable issue, not yet triggered redelivery for research purposes:
+      26340502 (duplicate!),
+      26390507 (duplicate of 26301615!),
+      26417984 total mystery (not duplicate, has recipients, staged is true, sender acct not banned) but happened at exactly the time that production was at 100 percent disk usage,
+      26424828 (duplicate of 26324129!)
+      26425919 (duplicate of 26324787)
+      26426601 (duplicate of 26325370)
+      26427603 (duplicate of 26302402)
+      26428774 (duplicate of 26328272)
+      26429243 (duplicate of 26324319)
+
+
+      <- WHY?!?  No idea, but re-delivery was successful.  These will fall into the category of To Be Identified since rubberstamped: false, disable_email_verifications: true, they are constituents, and recipients field is populated.  Um...it is looking possible that these are duplicates and that the resend doesn't look for that?!?  I have got to get that comment addition into master soon!!!  The Redeliver button on the admin page is definitely not checking for duplicates before redelivery based on testing!!!  
+  +15956: 15 (Submit button legitimately not clicked: 26197158)
+
+American Firearms Coalition (id: 39610)
+  15912:
+  15551:
+
+Maryland Catholic Conference (id: 40449)
+  1
+
+Premium Cigar Association (id: 38950) Retired 9497
+  1
+
+Virginia Citizen's Defense League (id: 39451)
+  1
+
+National Association for Gun Rights (id: 39578)
+  1
+
+
+```
+
+### status
+**Yesterday**
+I spent the day diagnosing Data Delivery issues, fixing issues on the DD admin page, working with Dave to start using the fully unused comment field on Conversions to store the reason why delivery is not possible.  
+
+**Today I plan to**
+- [x] ON-1865, finish the rake task to re-deliver all the Invalid conversions for a given campaign.  This is to clean up from the Senate Dem and Repub groups error from last Friday.  I thought all these were cleaned up but they definitely are not.  
+- [x] create PR for delivery diagnosis improvements, ON-1849
+- [x] ON-1865, create Jira for rake task to redeliver invalid conversions for a given promoted message
+- [x] ON-1865, create PR for the rake task, https://github.com/one-click-politics/one-click-politics/pull/649
+- [ ] find Invalid conversions from after the Senate groups fix.  So far, all the Invalid conversions I'm finding from examples/complaints from support are from before the fix.  
+- [ ] look at Doms emails to see if there is ANY other reason
+
+- [ ] get started on the duplicated campaign work, ON-1829; I was just about to start this and had moved it into the in progress column when I got thrown at something else
+- [ ] set up a client with a NB slug, ON-1853
+- [ ] look for turning off neon for a client.  look for ticket from Maged on this.  do the NB slug set up ticket at the same time when this comes through in email.  ping Maged if I haven't seen anything by noon today.
+- [ ] there is a NB promoter who is not syncing.  Looks like an oauth error.  It is the CAT error we're seeing every sync.  But their slug/token credentials successfully interact directly with the NB API website.  However, the token has a dash, `-`
+
+
+## Thu, Mar 31 2022
+**Yesterday**
+- got the work done and the PR created for the Data Delivery admin page, ON-1849; there are many conversions that aren't getting their various recipients fields populated, however when re-delivery is triggered with re-processing of those fields, the delivery succeeds.  This should be another ticket for the work itself.  I don't have the answer of why yet.
+
+**Today I plan to**
+- [ ] respond to PR comments on the Delivery admin page, ON-1849: CHANGED TO: this branch is very useful, but should NOT go into master.  Perfect for merging into staging for deployment to continue diagnosis of the empty recipients fields <- THIS IS TOP PRIORITY OVER ALL
+- [x] get some PRs reviewed that I'm behind on
+- [ ] get started on the duplicated campaign work, ON-1829; I was just about to start this and had moved it into the in progress column when I got thrown at something else
+- [ ] set up a client with a NB slug, ON-1853
+- [ ] look for turning off neon for a client.  look for ticket from Maged on this.  do the NB slug set up ticket at the same time when this comes through in email.  ping Maged if I haven't seen anything by noon today.
+- [ ] there is a NB promoter who is not syncing.  Looks like an oauth error.  It is the CAT error we're seeing every sync.  But their slug/token credentials successfully interact directly with the NB API website.  However, the token has a dash, `-`
+
+## Wed, Mar 30 2022
+**Monday I**
+- ON-1849, Spent the day working on understanding the Not Submitted Conversions.  I've identified what an actual not submitted conversion looks like (for email deliveries), but am still reading through the code for understanding what is failing to happen with the majority.  The key lies in the `rubberstamped` field and I'm trying to identify why these particular conversions aren't `rubberstamped` and thus never sent for delivery.
+- did the Cicero import
+
+**Today I plan to**
+- [ ] continue working on ON-1849; try to make progress on this because ON-1829, duplicated campaign is urgent too.
+- [ ] set up a client with a NB slug, ON-1853
+- [ ] look for turning off neon for a client.  look for ticket from Maged on this.  do the NB slug set up ticket at the same time when this comes through in email.  ping Maged if I haven't seen anything by noon today.
+- [x] resolve my slack issues
+
+
+## Tue, Mar 29 2022
+sick day, intestinal distress
+
+## Mon, Mar 28 2022
+### Data Delivery admin page
+
+#### generates the unsubmitted deliveries(conversions) for a given campaign (PromotedMessage)
+```
+pm = PromotedMessage.find 15816
+c = pm.conversions.order("id ASC")
+c.where("((disable_email_verifications is true) AND (rubberstamped is false))").count
+
+figures[:did_not_submit] =
+c.where("((disable_email_verifications is true) AND (rubberstamped is false) AND (bodycachd is NULL))").count
+figures[:to_be_identified] =
+c.where("((disable_email_verifications is true) AND (rubberstamped is false) AND (bodycachd is not NULL))").count
+
+```
+
+*Targets* = all the potential recipients listed
+*Local* = recipients for which the sender is a constituent
+
+**Previously**
+- *Not Submitted* =
+Conversion.where("((disable_email_verifications is true) AND (rubberstamped is false))").count
+- *Widget Step 2, Submit button not clicked* =
+Conversion.where("((disable_email_verifications is true) AND (rubberstamped is false))").count
+
+
+https://oneclickpolitics.com/promoter/39161/messages/15816/edit#display-options
+Targets: all senate democrats  vs  all senate republicans
+WebMailAddress.priority = 0
+PhoneAddress.priority = 1
+CwcApiAddress.priority = 1
+successful_attempts_cnt: 10, failed_attempts_cnt: 8490,
+
+## Fri, Mar 25 2022
+**Yesterday I**
+- [x] ON-1831, export issues
+- 5 hour call; standup + environment variables + export issues (turned into system-wide diagnosis in general tracking why things weren't arriving in the queues)
+- [x] ON-1771, implement strategy for improving NB issues; PR created for ENV variable for QUERY_LIMIT
+- [ ] ON-1806, fixing broken tests
+- [ ] create epic for delivery and sync enhancements, connect ON-1799 with that epic
+
+**Today I plan to**
+- [ ] announce need for review of PR, https://github.com/one-click-politics/one-click-politics/pull/633  This sets up the NATION_BUILDER_QUERY_LIMIT as an environment variable.  One of the steps towards improving NB sync reliability, https://oneclickpolitics.atlassian.net/browse/ON-1771.
+- [ ] start on the duplicated campaign US federal targets ticket, ON-1829
+- [x] ON-1837,
+
+
+## Thu, Mar 24 2022
+### useful commands from Dave
+hi guys, it looks like the agents are in a corrupted state again where too many of them stuck around after the last stop_daemons.  just a reminder to check production for any agents still lingering around after you call stop_daemons by calling
+`ps aux | grep agent`
+and turning them off by passing their $process_id numbers to
+`sudo kill -9 $process_id`
+to quickly get a list of agent process_id numbers to feed to `kill -9`, you can run
+`ps -u agent | grep [0-9] | awk '{print $1}'`
+
+
+**Yesterday I**
+- Fought a support fire, ON-1827
+- Got the Governors work wrapped up and deployed to production, finally closed the epic ON-1703!
+
+
+**Today I plan to**
+- [x] ON-1831, investigate the export issue
+  - https://oneclickpolitics.zendesk.com/agent/tickets/1312
+  - https://oneclickpolitics.zendesk.com/agent/tickets/1314
+  - https://oneclickpolitics.zendesk.com/agent/tickets/1317
+I got this from Darren
+Exports- multiple clients have stated that they are unable to export signers and the advocate universe. I have confirmed this for a couple of clients. 1317 1314 1312
+^ possible hung transaction when an agent went down; should be a limitation to expire after a few days; logs for api agents to see why they came down;
+- [x] update Darren on export issue resolution; create Jira ticket under Support epic; explain details of what happened
+
+- [ ] Get this PR wrapped up, https://github.com/one-click-politics/one-click-politics/pull/529
+- [ ] ON-1806, wrap up text fixes and create PR
+- [ ] printenv or also, put at the top; it will be part of the env hash (ruby's env constant)
+
+
+## Wed, Mar 23 2022
+**Yesterday I**
 -
 
+**Today I plan to**
+- wrap up Governors work and get it deployed to production
+-
+
+
+## Tue, Mar 22 2022
+**Yesterday I**
+- did the Cicero US import
+- added logging to the stale redeliveries task for how many stale conversions before the automated rake task and after as well; ON-1823
+- emailed the business once US import was complete saying that MD and FL committee data should be updated last Monday and today and to touch base with the client to confirm what they were expecting is now in place.  If there is still anything out of date, please provide at least one example per state for me to investigate.
+
+**Today I plan to**
+- [x] ON-1820, wrapped up the redelivery for the last 90 days.  Put the numbers I was seeing into the ticket.  Cronjob runs daily, checks for up to 2000 stale conversions from the last 7 days and redelivers.  Logging tracks these numbers for easy retrieval.  It should come as no surprise that these numbers have been climbing significantly as each month passes.  It will be handy to have a daily report to track this and see any correlation with queue issues or other.
+- [x] ON-1798, get governors UI retooling up onto staging; I tried this yesterday by merging in latest master and the new governors branch, but the old governors branch is still in there, so I need to address that
+- [x] ON-1798, email business that governors UI is up on staging and ready for review
+- [x] ON-1798, ready the PR for the governors UI retooling, https://github.com/one-click-politics/one-click-politics/pull/628
+
+
+## Mon, Mar 21 2022
+**Friday I**
+- ON-1810, continue running the re-deliver stale conversions rake task in batches
+- ON-1798, finished the governors UI retooling, need to PR and get it up on staging with another anouncement to the business
+- ON-1796, did the Cicero AU import
+- ON-1811, Cicero AU import turned up a new party needing to be added.  Tiny PR created and currently under review
+
+**Today I plan to**
+- [x] do the Cicero US import
+- [x] add a logging for the automatic stale redeliveries for how many stale conversions before the automated rake task and after as well; ON-1823
+- [x] email business once US import is complete saying that MD and FL committee data should be updated last Monday and today and to touch base with the client to confirm what they were expecting is now in place.  If there is still anything out of date, please provide at least one example per state for me to investigate.
+- [ ] ready the PR for the governors UI retooling
+- [ ] get governors UI retooling up onto staging
+- [ ] email business that governors UI is up on staging and ready for review
+
+
+## Fri, Mar 18 2022
+**Yesterday I**
+- wrapped up the re-deliver stale conversions rake task, got it deployed, and am progressing through the last 90 days of stale conversions.  I am still observing how many I’m seeing per day so I can tune the cron job
+- set up a cron job for the above rake task to run daily
+- started prepping for the Cicero AU import
+
+**Today I plan to**
+- [ ] ON-1810, continue running the re-deliver stale conversions rake task in batches
+- [ ] ON-1798, get back to the governors UI retooling
+- [x] ON-1796, finish the Cicero AU import
+- [x] ON-1811, Cicero AU import turned up a new party needing to be added.  Tiny PR created and currently under review
+handle any fires that come up that supersede the above
+
+
+## Thu, Mar 17 2022
+### count stale conversions
 ```
-users = [12643, 36311, 38991, 39521, 23691, 39516, 39529, 39518, 39168, 39169, 39171, 39170, 39082, 39282, 39288, 29631, 40468, 319, 7320, 25179, 12537, 12174, 40476, 24403, 39610, 39523, 39517, 39524, 39520, 39528, 39522, 39519, 40066, 40449, 40326, 40553, 40563, 40581, 36120, 40592, 40601, 40645, 40654, 36896, 37916, 37862, 38023, 10958, 35975, 37990, 39667, 39538, 39387, 39543, 39634, 20176, 39674, 39549, 39653, 39556, 16660, 39754, 13607, 39686, 39811, 39557, 39846, 39850, 39703, 39911, 7225, 39967, 40015, 40021, 39960, 39896, 40196, 40190, 40218, 40796]
-users.each do |user|
-  auth = PromoterUser.find(user).master_account.authentications.first
-  puts("#{user} #{auth.inspect}")
+duration_in_days = 4.to_i
+
+end_date = (DateTime.now - 2.days)
+start_date = (end_date - duration_in_days)
+range = (start_date..end_date)
+
+queued_conversions = Conversion.where(queued_at: range).where("finished_and_archived_to IS NULL").count
+```
+
+- created the rake task to redeliver stale conversions; PR is up and small; I set up commandline options so we can vary how far back we want to redeliver; I also set up a batch size limit option.  So, how far back do we want to redeliver stale conversions?  
+
+- I'm in the middle of the Governors UI retooling.  
+
+
+### broken tests
+#### tests broken by opt_in in these files
+spec/services/oneclick_widget_handler_spec.rb
+spec/services/video_handler_spec.rb
+#### tests broken by phone required change for US national targets
+spec/features/widget_setup/selection_tree_spec.rb
+
+
+## Wed, Mar 16 2022
+Progressing on the governor UI rework.  Need to exclude lieutenant governors.  Then rework tests.  And clean up code (remove original governor implementation)
+
+rake populate_cwc_api_address <- add deactivation to this rake task
+- [x] deactivate Senator Cornwn with cwc
+
+- [ ] create a rake task to find and re-deliver stale deliveries, ON-1802
+
+```
+      when :stale
+        q = q.where("finished_and_archived_to IS NULL").where("(queued_at IS NOT NULL) AND (queued_at < ?)", STALENESS_CUTOFF_IN_DAYS.days.ago)
+```
+require ('importer_modules/australia/australia_importers')
+
+range = (DateTime.now - 10.days)..(DateTime.now)
+queued_conversions = Conversion.where(queued_at: range).where("finished_and_archived_to IS NULL")
+
+queued_conversions.each do |conversion|
+  puts "Redeliver conversion ##{conversion.id} of promoted_message ##{conversion.promoted_message_id}."
+  # conversion.redeliver
 end
 
-user = 39971
-PromoterUser.find(user).master_account.authentications
-PromoterUser.where(agency_id: user)
-NationBuilderSynchronizeCall.where(promoter_user_id: user).where("created_at > ?", 7.days.ago)
+
+```
+#about 17,000 in the last 48 hours, Mar 16  
+# could use deliveries_sent_at appear to be the same as finished_and_archived_to, in that both when NULL returned the same 17867 conversions.
+
+# when deliveries_sent_at is nil or more probably finished_and_archived_to is nil, trigger redelivery for that conversion
+
+  def query
+    @promoted_message.conversions.order("id ASC")
+  end
+  STALENESS_CUTOFF_IN_DAYS = 2
+      sendable_agg = Conversion.select("(CASE WHEN queued_at < '#{STALENESS_CUTOFF_IN_DAYS.days.ago}' THEN 1 END) AS stale, (CASE WHEN queued_at > '#{STALENESS_CUTOFF_IN_DAYS.days.ago}' THEN 1 END) AS ongoing")
+
+      sendable_agg = sendable_agg.where(:promoted_message_id => @promoted_message.id).where("queued_at is not null").where("deliveries_sent_at is null").to_sql
+
+      sendable_query = Conversion.select("COUNT(*) AS unfinished, COUNT(agg.ongoing) AS unfinished_ongoing, COUNT(agg.stale) AS unfinished_stale").from("(#{sendable_agg}) agg").first
+
+
+      figures[:unfinished_stale] = sendable_query.unfinished_stale.to_i
+
+      figures[:did_not_submit] = query.where("((disable_email_verifications is true) AND (rubberstamped is false))").count
 ```
 
 
-## Mon, Mar 12 2022
+## Tue, Mar 15 2022
+**yesterday I**
+- [x] ON-1792, set token for NationBuilder promoter 40793; then run a sync to start catching up their 7134 pending conversions to sync; only 275 left when last checked
+- [x] email business that the Governors work is on staging for their review
+- [x] Need to finalize the ON-1705 Governor PR responses.  I think I'm done, just need to check in, then get re-reviewed and approved by Shams.  Maybe others too since I added the tests to confirm governors are successfully in the selected recipients on a promoted message.  https://github.com/one-click-politics/one-click-politics/pull/604/files
+- [x] Cicero import of US data
+- [x] ON-1790 recieved Cicero's response re: FL and MD committees and replied to Darren's email.
+- [ ] ON-1798 started on Governors UI changes
+
+**today I plan to**
+- [ ] ON-1798 continue working on Governors UI changes
+  - services/promoter/recipient_list.rb should be the missing piece to this puzzle 🤞
+
+- What do you think of having a Cicero import Jira epic.
+
+## Mon, Mar 14 2022
 - 9:30-10 & 10:30-11:30, refactoring and responding to PR comments.  Almost done when interrupted by the below.
 - 11:30-3, ON-1768 More deliveries research, detailed below.  Email sent to Darren with summary.  Jira updated with all details and emails, etc.  Marked Done.  Here is hoping it stays that way.
 - 3-3:15, ON-1790 created ticket for Cicero FL and MD committees not up to date.  Email sent to Cicero.
@@ -42,9 +386,11 @@ NationBuilderSynchronizeCall.where(promoter_user_id: user).where("created_at > ?
 - 4:15-5:15, lunch
 - 5:15-5:45, meeting with Maged (on Quality and Test and initial ideas for what skills to hire for)
 
-- [ ] ON-1792, set token for NationBuilder promoter 40793; then run a sync to start catching up their 7134 pending conversions to sync
+- [x] ON-1792, set token for NationBuilder promoter 40793; then run a sync to start catching up their 7134 pending conversions to sync; only 275 left when last checked
 - [x] email business that the Governors work is on staging for their review
 - [x] Need to finalize the ON-1705 Governor PR responses.  I think I'm done, just need to check in, then get re-reviewed and approved by Shams.  Maybe others too since I added the tests to confirm governors are successfully in the selected recipients on a promoted message.  https://github.com/one-click-politics/one-click-politics/pull/604/files
+- [x] Cicero import of US data
+- [ ] ON-1705 working on Governors UI changes
 
 Go back and wrap up this rake task PR, https://github.com/one-click-politics/one-click-politics/pull/529
 
@@ -848,7 +1194,7 @@ These are the fields that OCP sends to NationBuilder to sync petition signers (A
 - checked for the missing VA, WA, and MD data; need more info to know what to check for FL
 - ON-1614: Jira ticket to improve importer to filter out rows with territories (PR, AS, 3 others)
 - ON-1613: also, I keep seeing one particular AU cicero imported recipient failing to NB sync.  I'm going to write up the bug so you can schedule it in sometime soon, Maged:
-{"message":"FAILURE for Promoter 20176 (Australian Christian Lobby): 2022-01-25 14:34:11 +0000 - Conversion 25328631 failed to sync Email because Recipient 121877 failed to sync.","@timestamp":"2022-01-25T14:34:11.132+00:00","@version":"1","severity":"ERROR","host":"ip-172-30-1-220","tags":["nation_builder","task","sync"],"environment":"production"}
+FAILURE for Promoter 20176 (Australian Christian Lobby): 2022-01-25 14:34:11 +0000 - Conversion 25328631 failed to sync Email because Recipient 121877 failed to sync.","  2022-01-25T14:34:11.132+00:00","@version":"1","severity":"ERROR","host":"ip-172-30-1-220","tags":["nation_builder","task","sync"],"environment":"production"}
 - did the prep work for the Advocate Universe Upload, ON-1605 <- 1st TOP PRIORITY
   - figured out the instructions from the Dev Doc,
   - added the promoter file specific method
@@ -905,7 +1251,7 @@ I have no info on the missing Florida representative, so I'd have to ballotpedia
 - [ ] do the Advocate Universe Uploads, ON-1605 <- 1st TOP PRIORITY
 - [ ] wrap up [#529] ON-1580 Rake task to reset conversions for re-sync to NationBuilder (sprestage)
 - [x] ON-1613: also, I keep seeing one particular AU cicero imported recipient failing to NB sync.  I'm going to write up the bug so you can schedule it in sometime soon, Maged:
-{"message":"FAILURE for Promoter 20176 (Australian Christian Lobby): 2022-01-25 14:34:11 +0000 - Conversion 25328631 failed to sync Email because Recipient 121877 failed to sync.","@timestamp":"2022-01-25T14:34:11.132+00:00","@version":"1","severity":"ERROR","host":"ip-172-30-1-220","tags":["nation_builder","task","sync"],"environment":"production"}
+FAILURE for Promoter 20176 (Australian Christian Lobby): 2022-01-25 14:34:11 +0000 - Conversion 25328631 failed to sync Email because Recipient 121877 failed to sync.","  2022-01-25T14:34:11.132+00:00","@version":"1","severity":"ERROR","host":"ip-172-30-1-220","tags":["nation_builder","task","sync"],"environment":"production"}
 - [x] ON-1614: Jira ticket to improve importer to filter out rows with territories (PR, AS, 3 others)
 ```
 the longer term fix will likely use the filter_rows method in cicero_us_recipient_importer.rb
@@ -1041,7 +1387,7 @@ Using the NB API explorer webpage, which is a way to access their API through a 
 ### NationBuilder recipient examples
 Data sent for a Republican US Recipient in a sync today:
 ```
-{"message":"NationBuilder person_data for recipient: {:prefix=>nil, :first_name=>\"James\", :last_name=>\"Lankford\", :middle_name=>nil, :phone=>\"(405) 231-4941\", :party=>\"R\", :work_address=>{:address1=>\"1015 N. Broadway Avenue\", :address2=>nil, :city=>\"Oklahoma City\", :state=>\"OK\", :zip=>\"73102\"}, :email_opt_in=>true}","@timestamp":"2022-01-24T17:03:07.692+00:00","@version":"1","severity":"INFO","host":"ip-172-30-1-220","tags":["nation_builder","task","sync"],"environment":"production"}
+NationBuilder person_data for recipient: {:prefix=>nil, :first_name=>\"James\", :last_name=>\"Lankford\", :middle_name=>nil, :phone=>\"(405) 231-4941\", :party=>\"R\", :work_address=>{:address1=>\"1015 N. Broadway Avenue\", :address2=>nil, :city=>\"Oklahoma City\", :state=>\"OK\", :zip=>\"73102\"}, :email_opt_in=>true}","  2022-01-24T17:03:07.692+00:00","@version":"1","severity":"INFO","host":"ip-172-30-1-220","tags":["nation_builder","task","sync"],"environment":"production"}
 
 => #<Senator id: 20816, name: "Lankford, James", model_type: "Senator", description: nil, lock_version: 11, created_at: "2013-05-31 01:03:31", updated_at: "2022-01-17 19:24:28", grouping_name: nil, can_receive_flg: true, first_name: "James", last_name: "Lankford", middle_name: nil, prefix: nil, suffix: nil, gender: nil, party_id: 2, state: "OK", constituency: "L", active_flg: true, external_id: nil, site_url: nil, order_num: 0, account_id: nil, office_id: 466, votesmart_id: 124938, title: "US Senator", district_id: nil, parent_votesmart_id: 0, display_rules: nil, country: nil, custom_salutation: "Senator", custom_position: nil, bioguide_id: "L000575", knowwho_code: "22259_284972", photo_path: "Images\\Photos\\FL\\SLankford_James_284972.jpg", inactive_at: nil, knowwho_comid: nil, fec_id: nil, use_web_form_api: false, cicero_code: "81952", full_photo_url: "https://lankford.senate.gov/imo/media/image/Senator...", scwc_office_code: nil, cicero_official_id: "355970", cicero_committee_id: nil>
 
@@ -1049,7 +1395,7 @@ Data sent for a Republican US Recipient in a sync today:
 
 Data sent for a Democrat US Recipient in a sync today:
 ```
-{"message":"NationBuilder person_data for recipient: {:prefix=>nil, :first_name=>\"Priscilla\", :last_name=>\"Dunn\", :middle_name=>nil, :email=>\"priscilla.dunn@alsenate.gov\", :email1=>\"priscilla.dunn@alsenate.gov\", :phone=>\"(205) 426-3795\", :party=>\"D\", :work_address=>{:address1=>\"460 Carriage Hills Drive\", :address2=>nil, :city=>\"Bessemer\", :state=>\"AL\", :zip=>\"35022\"}, :email_opt_in=>true}","@timestamp":"2022-01-24T17:03:11.146+00:00","@version":"1","severity":"INFO","host":"ip-172-30-1-220","tags":["nation_builder","task","sync"],"environment":"production"}
+NationBuilder person_data for recipient: {:prefix=>nil, :first_name=>\"Priscilla\", :last_name=>\"Dunn\", :middle_name=>nil, :email=>\"priscilla.dunn@alsenate.gov\", :email1=>\"priscilla.dunn@alsenate.gov\", :phone=>\"(205) 426-3795\", :party=>\"D\", :work_address=>{:address1=>\"460 Carriage Hills Drive\", :address2=>nil, :city=>\"Bessemer\", :state=>\"AL\", :zip=>\"35022\"}, :email_opt_in=>true}","  2022-01-24T17:03:11.146+00:00","@version":"1","severity":"INFO","host":"ip-172-30-1-220","tags":["nation_builder","task","sync"],"environment":"production"}
 
 => #<Recipient id: 61137, name: "Dunn, Priscilla", model_type: nil, description: nil, lock_version: 5, created_at: "2015-03-12 05:42:55", updated_at: "2021-12-20 19:09:45", grouping_name: nil, can_receive_flg: true, first_name: "Priscilla", last_name: "Dunn", middle_name: nil, prefix: nil, suffix: nil, gender: nil, party_id: 1, state: "AL", constituency: "L", active_flg: true, external_id: nil, site_url: nil, order_num: 0, account_id: nil, office_id: 173, votesmart_id: nil, title: "Alabama Senator", district_id: 2131, parent_votesmart_id: 0, display_rules: nil, country: nil, custom_salutation: "Senator", custom_position: nil, bioguide_id: "ALL000011", knowwho_code: "26785_192681", photo_path: "Images\\Photos\\SL\\AL\\SDunn_Priscilla_192681.jpg", inactive_at: nil, knowwho_comid: nil, fec_id: nil, use_web_form_api: false, cicero_code: "6476", full_photo_url: "http://www.legislature.state.al.us/ALISWWW/Senate/S...", scwc_office_code: nil, cicero_official_id: "326540", cicero_committee_id: nil>
 
@@ -1057,7 +1403,7 @@ Data sent for a Democrat US Recipient in a sync today:
 
 Data sent for an AU Recipient in a sync today:
 ```
-{"message":"NationBuilder person_data for recipient: {:prefix=>\"\", :first_name=>\"Slade\", :last_name=>\"Brockman\", :middle_name=>\"\", :email=>\"senator.brockman@aph.gov.au\", :email1=>\"senator.brockman@aph.gov.au\", :phone=>\"(02) 6277 3764\", :party=>nil, :work_address=>{:address1=>\"Unit 4, 1 Harper Terrace\", :address2=>\"817 Beeliar Drive\", :city=>\"South Perth\", :state=>\"WA\", :zip=>\"6151\"}, :email_opt_in=>true}","@timestamp":"2022-01-24T17:17:23.233+00:00","@version":"1","severity":"INFO","host":"ip-172-30-1-220","tags":["nation_builder","task","sync"],"environment":"production"}
+NationBuilder person_data for recipient: {:prefix=>\"\", :first_name=>\"Slade\", :last_name=>\"Brockman\", :middle_name=>\"\", :email=>\"senator.brockman@aph.gov.au\", :email1=>\"senator.brockman@aph.gov.au\", :phone=>\"(02) 6277 3764\", :party=>nil, :work_address=>{:address1=>\"Unit 4, 1 Harper Terrace\", :address2=>\"817 Beeliar Drive\", :city=>\"South Perth\", :state=>\"WA\", :zip=>\"6151\"}, :email_opt_in=>true}","  2022-01-24T17:17:23.233+00:00","@version":"1","severity":"INFO","host":"ip-172-30-1-220","tags":["nation_builder","task","sync"],"environment":"production"}
 
 => #<Recipient id: 22282, name: "Brockman, Slade", model_type: nil, description: "", lock_version: 7, created_at: "2014-05-15 01:25:57", updated_at: "2020-03-02 17:34:17", grouping_name: "", can_receive_flg: true, first_name: "Slade", last_name: "Brockman", middle_name: "", prefix: "", suffix: "", gender: "", party_id: 112, state: "AU-WA", constituency: "L", active_flg: true, external_id: nil, site_url: "", order_num: 0, account_id: nil, office_id: 492, votesmart_id: nil, title: nil, district_id: nil, parent_votesmart_id: 0, display_rules: nil, country: "Australia", custom_salutation: "Senator", custom_position: nil, bioguide_id: nil, knowwho_code: nil, photo_path: nil, inactive_at: nil, knowwho_comid: nil, fec_id: nil, use_web_form_api: false, cicero_code: "184064", full_photo_url: "https://www.aph.gov.au/api/parliamentarian/30484/im...", scwc_office_code: nil, cicero_official_id: nil, cicero_committee_id: nil>
 ```
@@ -1343,11 +1689,11 @@ slug: oneclickpolitics, token: 1467df86991cc7567d23d6555880b1afedccacdd7bb2fe9f3
 
 ## Thu, Jan 13 2022
 ```
-message":"NationBuilder person_data for advocate: {:email=>\"dantella@zoominternet.net\", :phone=>nil, :prefix=>nil, :first_name=>\"ROBERT\", :last_name=>\"P DANTELLA\", :middle_name=>nil, :external_id=>3826749, :home_address=>{:address1=>\"138 WOODBINE DR\", :address2=>nil, :city=>\"CRANBERRY TWP\", :state=>\"PA\", :zip=>\"16066\", :country_code=>\"US\", :lat=>40.716663, :lng=>-80.148722}}","@timestamp":"2022-01-13T21:33:45.025+00:00","@version":"1","severity":"INFO","host":"ip-172-30-1-201","tags":["nation_builder","task","sync"],"environment":"production"}
+message":"NationBuilder person_data for advocate: {:email=>\"dantella@zoominternet.net\", :phone=>nil, :prefix=>nil, :first_name=>\"ROBERT\", :last_name=>\"P DANTELLA\", :middle_name=>nil, :external_id=>3826749, :home_address=>{:address1=>\"138 WOODBINE DR\", :address2=>nil, :city=>\"CRANBERRY TWP\", :state=>\"PA\", :zip=>\"16066\", :country_code=>\"US\", :lat=>40.716663, :lng=>-80.148722}}","  2022-01-13T21:33:45.025+00:00","@version":"1","severity":"INFO","host":"ip-172-30-1-201","tags":["nation_builder","task","sync"],"environment":"production"}
 ```
 
 ```
-message":"NationBuilder person_data for advocate: {:email=>\"sprigg98@gmail.com\", :phone=>\"2172640103\", :prefix=>nil, :first_name=>\"Caleb\", :last_name=>\"Sprigg\", :middle_name=>nil, :external_id=>8000451, :home_address=>{:address1=>\"18715 Cc Hwy\", :address2=>nil, :city=>\"Blackwater\", :state=>\"MO\", :zip=>\"65323\", :country_code=>\"US\", :lat=>38.454863, :lng=>-93.608588}}","@timestamp":"2022-01-13T20:42:24.814+00:00","@version":"1","severity":"INFO","host":"ip-172-30-1-201","tags":["nation_builder","task","sync"],"environment":"production"}
+message":"NationBuilder person_data for advocate: {:email=>\"sprigg98@gmail.com\", :phone=>\"2172640103\", :prefix=>nil, :first_name=>\"Caleb\", :last_name=>\"Sprigg\", :middle_name=>nil, :external_id=>8000451, :home_address=>{:address1=>\"18715 Cc Hwy\", :address2=>nil, :city=>\"Blackwater\", :state=>\"MO\", :zip=>\"65323\", :country_code=>\"US\", :lat=>38.454863, :lng=>-93.608588}}","  2022-01-13T20:42:24.814+00:00","@version":"1","severity":"INFO","host":"ip-172-30-1-201","tags":["nation_builder","task","sync"],"environment":"production"}
 {"
 ```
 
@@ -1373,11 +1719,11 @@ ubuntu   15723   711  0 20:20 pts/3    00:00:00 grep --color=auto sync
 
 Here is an AdvocateProfile we send to NB, with the exact person_data hash being sent:
 ```
-{"message":"NationBuilder person_data for advocate:
+NationBuilder person_data for advocate:
 
 {:email=>"modrell211@charter.net", :phone=>"6032064331", :prefix=>nil, :first_name=>"Carol", :last_name=>"Modrell", :middle_name=>nil, :external_id=>6806789, :home_address=>{:address1=>"211 Kearsarge Dr,", :address2=>nil, :city=>"Woodsville", :state=>"NH", :zip=>"03785", :country_code=>"US", :lat=>44.116254, :lng=>-71.958218}}
 
-","@timestamp":"2022-01-13T19:31:38.322+00:00","@version":"1","severity":"INFO","host":"ip-172-30-1-201","tags":["nation_builder","task","sync"],"environment":"production"}
+","  2022-01-13T19:31:38.322+00:00","@version":"1","severity":"INFO","host":"ip-172-30-1-201","tags":["nation_builder","task","sync"],"environment":"production"}
 
  #<SenderProfile id: 18166514, account_id: nil, email: "modrell211@charter.net", first_name: "Carol", last_name: "Modrell", middle_name: nil, line1: "211 Kearsarge Dr,", line2: nil, city: "Woodsville", state_id: 30, phone: nil, zip4: nil, prefix: nil, latitude: 44.116254, longitude: -71.958218, zip: "03785", country: nil, custom_field_ids: nil, custom_values_json: nil, facebook_handle: nil, facebook_token: nil, twitter_handle: nil, twitter_token: nil, confirmed_facebook: nil, confirmed_twitter: nil, confirmed_phone: nil, created_at: "2021-10-28 21:33:37", updated_at: "2021-10-28 21:33:37", twitter_nickname: nil, facebook_nickname: nil, advocate_profile_id: 6806789, imported: false, image: nil, import_uid: nil, external_id: "">
 

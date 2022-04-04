@@ -19,12 +19,7 @@ The national upper shapes are just the state/territory boundaries themselves, wh
 Susan added: Copy the sql files to staging/production
 
 ```
-cd ~/us/
-mkdir 2022_03_14
-
-sudo chmod 775 2022_03_14/
-sudo chown ubuntu 2022_03_14/
-sudo chgrp ubuntu 2022_03_14/
+mkdir ~/us/2022_03_14
 ```
 
 # STOP!!!  DISCONNECT FROM YOUR VPN FIRST!!!

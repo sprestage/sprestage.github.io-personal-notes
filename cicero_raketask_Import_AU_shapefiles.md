@@ -4,10 +4,10 @@ Before using rake import_cicero_austrlia_shapefiles, you'll need to import Cicer
 
 **Step 1.**  Start with shp2pgsql calls to convert the two relevant .shp files into usable .sql:
 ```
-     sudo shp2pgsql -t 2D -s 4326 -g au_geom /Users/dt/Downloads/cicero_au_districts/district_statelower_au.shp public.new_districts > STATELOWER_AU.sql
-     sudo shp2pgsql -t 2D -s 4326 -g au_geom /Users/dt/Downloads/cicero_au_districts/district_stateupper_au.shp public.new_districts > STATEUPPER_AU.sql
-     sudo shp2pgsql -t 2D -s 4326 -g au_geom /Users/dt/Downloads/cicero_au_districts/district_nationallower_au.shp public.new_districts > NATIONALLOWER_AU.sql
-     sudo shp2pgsql -t 2D -s 4326 -g au_geom /Users/dt/Downloads/cicero_au_districts/district_nationalupper_au.shp public.new_districts > NATIONALUPPER_AU.sql
+shp2pgsql -t 2D -s 4326 -g au_geom cicero_au_districts/district_statelower_au.shp public.new_districts > STATELOWER_AU.sql
+shp2pgsql -t 2D -s 4326 -g au_geom cicero_au_districts/district_stateupper_au.shp public.new_districts > STATEUPPER_AU.sql
+shp2pgsql -t 2D -s 4326 -g au_geom cicero_au_districts/district_nationallower_au.shp public.new_districts > NATIONALLOWER_AU.sql
+shp2pgsql -t 2D -s 4326 -g au_geom cicero_au_districts/district_nationalupper_au.shp public.new_districts > NATIONALUPPER_AU.sql
 ```
    The national upper shapes are just the state/territory boundaries themselves, which we won't need to match against lats and lons.
 
@@ -22,7 +22,7 @@ scp -i ~/.ssh/ ../CiceroImports/australia/*AU.sql ubuntu@ec2-54-235-144-131.comp
 ```
 prod - 938hg3kk
 ```
-scp -i ~/.ssh/id_rsa *AU.sql ubuntu@prod.oneclickpolitics.com:~/australia/jan2022
+scp -i ~/.ssh/id_rsa *AU.sql ubuntu@prod.oneclickpolitics.com:~/australia/2022_03_14
 ```
 
    The preceding lines are used to set up our new_districts table, and we won't need them - we're going to do this with the NewDistrict.reset_table command.
@@ -36,10 +36,10 @@ scp -i ~/.ssh/id_rsa *AU.sql ubuntu@prod.oneclickpolitics.com:~/australia/jan202
 
 Production
 ```
-psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/jan2022/STATELOWER_AU.sql
-psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/jan2022/STATEUPPER_AU.sql
-psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/jan2022/NATIONALLOWER_AU.sql
-psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/jan2022/NATIONALUPPER_AU.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/2022_03_14/STATELOWER_AU.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/2022_03_14/STATEUPPER_AU.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/2022_03_14/NATIONALLOWER_AU.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/2022_03_14/NATIONALUPPER_AU.sql
 ```
 Staging
 ```
