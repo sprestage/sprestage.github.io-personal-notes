@@ -21,40 +21,1576 @@ This doc will have unchecked tasks in the past.  These are either obsolete, or h
 ---
 
 
+## Fri, May 6 2022
+**Yesterday I**
+- Reviewed several of Shams' PRs.
+- While trying to collect the data Maged asked for (on the campaigns targeting the NC official that caused us to discover that older, active campaigns with US fed targets needed require_phone set to true by rake task), I discovered that the abbreviations for the different US fed groups had not been updated in the promoted_message.rb file.  Added this to ON-1959, checked in the change, asked for review.
+
+The steps for the advocate upload for Turo are in progress, ON-1961.
+
+**Today I plan to**
+- Wrap up the advocate upload.
+- Add sonarQ.
+- Get the data logging for the rake task PR reviewed and deployed so I can get that rake task run on production.  This is the rake task correcting the older, active campaigns with US fed targets to `require_phone: true`.  Collecting the data Maged asked for when this task is run took more effort and implementation than realized.  Should be able to complete all aspects today.  🤞  ON-1959
+- Work on the research for recipients with an eye towards ElasticSearch and the recipients API.  ON-1960
+
+- [ ] adding sonarQ
+- [ ] do the Advocate upload, ON-1961
+  - [ ] create Jira for Advocate upload (info in email)
+  - [ ] figure out the instructions from the Dev Doc,
+  - [ ] added the promoter file specific method (Tue, Jan 25 2022, ON-1605)
+  - [ ] prep file for Advocate upload
+  - [ ] test it locally
+  - [ ] check in and merge file for Advocate upload
+  - [ ] perform Advocate upload
+- [ ] ON-1960, continue on the research for recipients with an eye towards ElasticSearch and the recipients API
+
+
+
+Unfortunately, Maged inadvertantly taught me to stop monitoring the Zendesk tickets and definitely not bring them up or they'll automatically get assigned to me without the words actually being said.  It is too bad that I stepped on this.  I saw an urgent Zendesk ticket yesterday and brought it up to him to make sure it was on his radar.  He said it was on his radar, so I promptly forgot about it and filed the zendesk ticket email.  This morning in standup he asks if it is done!?!  I explained I had no idea he was assigning it to me and that I'd get right on it, though I've only done a single advocate import previously.  I'm rather disappointed that bringing up a work item to him got dumped on me automatically and without actually saying the words.  So, for the future, I simply won't bring it up since there is certainly no reward for doing so and more of a punishment, really, since when I brought it up, I didn't want to do the work item.  Feh!  Disappointing.  So, when the cat vomits on the floor, walk around it and don't tell anyone.  I am adding to the Zendesk filter to auto-archive from now on.   :(    😥😥😥    :.(    Weirdly, I must be overworked, overwhelmed, or something because this whole thing makes me cry.  I think I need to take a short break.  
+
+
+## Thu, May 5 2022
+**Yesterday I**
+- [ ] wrote up ticket for and collected most of the data on the campaigns affected by the phone required to true corrective rake task; ON-1959
+- [ ] ran the rake task; ON-1949
+- [ ] wrote up ticket for Recipients research; ON-1960
+- [ ] ON-1960, started in on the research for recipients with an eye towards ElasticSearch and the recipients API
+
+**Today I plan to**
+- [x] review several PRs for Shams
+- [ ] do the Advocate upload
+  - [ ] create Jira for Advocate upload (info in email)
+  - [ ] figure out the instructions from the Dev Doc,
+  - [ ] added the promoter file specific method (Tue, Jan 25 2022, ON-1605)
+  - [ ] prep file for Advocate upload
+  - [ ] test it locally
+  - [ ] check in and merge file for Advocate upload
+  - [ ] perform Advocate upload
+- [ ] ON-1960, continue on the research for recipients with an eye towards ElasticSearch and the recipients API
+
+### Update US national groups <- new ticket
+When the 4 new US federal groups were added, the list of groups in the promoted_message.rb file was not updated.  Fortunately, no bug has come in from support on this, but a new rake task turned up this issue when attempting to run on production.
+
+old:
+  US_NATIONAL_GROUPS = ["AA", "AD", "AR", "HA", "HD", "HR", "SA", "SD", "SR"]
+
+new:
+  US_NATIONAL_GROUPS = ["AA", "AD", "AR", "HA", "AHD", "AHR", "SA", "ASD", "ASR"]
+
+ "SD", "SR" were both confirmed to be obsolete in a national context when the 4 new groups were added.
+
+
+## Wed, May 4 2022
+**Yesterday I**
+- [ ] attend the support meeting
+- [ ] met with Maged on recipient research
+- [ ] collected data for NB syncs for afa and sub agencies and sent that to the business; I need to create a ticket for this due to the time this took
+- [ ] collected most of the data requested by Maged for the phone required to true corrective rake task on all the older campaigns; just starting on ID'ing how many had the ¿NC? targets that turned up this legacy issue; should I add this to ticket 1949 or create a new one for the data since it has been it's own piece of work
+
+**Today I plan to**
+- [ ] ON-1959, finish collecting that data on affected campaigns (set phone required to true)
+  - [ ] how many active PromotedMessages on production at this moment
+  - [ ] how many of those have US federal targets
+  - [ ] how many and which have Richard Hudson or one of the 4 groups with Hudson
+    All Congress
+    All House
+    All Republicans
+    House Republicans
+    Richard Hudson
+- [ ] ON-1949, run the rake task
+- [ ] create ticket for same priorities on state level recipients; see writeup below when I have power and internet back
+- [ ] start in on the research for recipients with an eye towards ElasticSearch and the recipients API
+- [ ] create ticket for the recipient research to hold both my understanding coming out of the meeting with Maged yesterday and to track everything I find
+
+### phone required to true rake task, ON-1949 data
+There are a total of 8779 active PromotedMessages on production at this moment.
+1426 active PromotedMessages with US federal targets
+1426 = 136 true/1271 false/19 nil
+
+20788, name: "Hudson, Richard", House of Reps, HNC08
+All Congress, PromotedMessage.where(id: 16519).first.selected_recipient.selected_recipient_groups.first.group_code == "AA"
+All House, 'HA'
+All Republicans, 'AR'
+House Republicans, 'AHR'
+
+I believe the revised task is ready to run on production.  Remember to:
+- [ ] change richard_hudson_id to the one in the prod db
+- [ ] uncomment `message.update_attribute(:require_phone, true)`
+- [ ] sudo vi lib/tasks/one_off/set_phone_required_to_true_for_us_fed_campaigns.rake
+- [ ] bundle exec rake set_phone_required_to_true_for_us_fed_campaigns[false] RAILS_ENV=production
+- [ ] after all the data is added to ON-1959, run the above with `record: true`
+
+### ticket for same priorities on state level recipients
+Identify and fix why there are state level recipients with EmailAddress and WebMailAddress priorities set to `0`
+
+Over time, I've noticed state level recipients with both EmailAddress and WebMailAddress priorities set to `0`.   These recipients are from cicero data.  Two things need to happen.
+1. Determine where these address priorities are being set.  Is it during the Cicero data import?  Or?
+2. Find the best way to correct these priorities, since no priority should ever be identical to another.  How this should be implemented will be determined by the answers to step 1.
+
+### Recipient research ticket, ON-1960
+How (and where) do we query recipients.  Query by district?  Query by zip code?  
+
+How we use the recipient data (during the lookup phase during delivery)
+map to district, then get recipient?
+Namely, the adding of recipients to a campaign
+What information are we looking up for campaign to display recipients
+Recipients from the perspective of the Promoter
+Recipients from the perspective of the Signer
+Recipients from the perspective of Delivery
+
+How do we look up these recipients, in each different kind of case.
+District is a very important aspect of this, how is it mapped in, and where.  How do we look up districts, by name?, by ID?, or?  And what pieces of that info do we use, ID, number, etc.
+
+And how does geomapping fit...less priority for now.
+
+Recipients will eventually be its own API.
+
+
+## Tue, May 3 2022
+**Yesterday I**
+- [x] respond to review of ON-1949 and hopefully get it merged and deployed right after standup
+- [ ] run the rake task from ON-1949 to change old campaigns phone req'd to true when US fed targets
+- [x] (hopefully!) merge in ON-1829 with Nate's approval; deployed with Cicero data
+- [x] Cicero US import
+- [x] solve support's latest worry (Chazz and Darren); there were queues without agents.  when I deployed and restarted the agents, this resolved.  Darren was worried because there was more data in the download than on the page so I explained that the page data is generated only once per day, but the download is fully generated upon request.
+- [ ] ON-1663, started on the work for the state level additional groups, House Dems, House Repubs, Senate Dems, Senate Repubs, fed level ticket for reference was ON-1620
+
+**Today I plan to**
+- [ ] attend the support meeting
+- [ ] create ticket for same priorities on state level recipients
+
+run the rake;  record promoter user and campaign id
+how many NC were affected by this rake task <- I'VE GOT ALL THE REST OF THE DATA.  HERE IS THE BIG ONE I'M STILL FIGURING OUT.  Which of the following groups were recipients on the affected campaigns
+
+There are a total of 8779 active PromotedMessages on production at this moment.
+1426 active PromotedMessages with US federal targets
+1426 = 136 true/1271 false/19 nil
+
+### NationBuilder
+20788, name: "Hudson, Richard", House of Reps, HNC08
+All Congress, PromotedMessage.where(id: 16519).first.selected_recipient.selected_recipient_groups.first.group_code == "AA"
+All House, 'HA'
+All Republicans, 'AR'
+House Republicans, 'AHR'
+
+  ["Send to the House", 'HA'],
+  ["Send to House Republicans", 'AHR'],
+  ["Send to all Republicans", 'AR']]
+
 ```
-end_date = DateTime.now
-start_date = (end_date - 5)
+IGO 2,015 new names, PromoterUser 39517
+	7658 AdvocateProfiles, 1 Recipients, 2 Emails, 72317 Tags
+
+WYGO 665 new names, PromoterUser 39518
+	3097 AdvocateProfiles, 2 Recipients, 2 Emails, 25699 Tags
+
+MOFC 1,860 new names, PromoterUser 39516
+	7767 AdvocateProfiles, 81 Recipients, 229 Emails, 52211 Tags
+
+ISAA 1,414 new names, PromoterUser 39521
+	5773 AdvocateProfiles, 3 Recipients, 8 Emails, 47744 Tags
+
+GGO 1,632 new names, PromoterUser 39528
+	4863 AdvocateProfiles, 2 Recipients, 8 Emails, 66696 Tags
+
+NYSFA 2,180 new names, PromoterUser 39519
+	13256 AdvocateProfiles, 0 Recipients, 0 Emails, 67602 Tags
+
+OGO 5,071 new names, PromoterUser 39522
+	6053 AdvocateProfiles, 0 Recipients, 2 Emails, 48075 Tags
+
+PFA 3,936 new names, PromoterUser 39523
+	6499 AdvocateProfiles, 0 Recipients, 0 Emails, 44264 Tags
+
+NCFC 588 new names, PromoterUser 39529
+	4385 AdvocateProfiles, 0 Recipients, 2 Emails, 9776 Tags
+
+AFA 4,841 new names, PromoterUser 39610
+	12363 AdvocateProfiles, 0 Recipients, 4 Emails, 61602 Tags
+
+WIFC 675 new names, PromoterUser 39520
+	2931 AdvocateProfiles, 0 Recipients, 0 Emails, 21173 Tags
+
+MGR 2,195 new names, PromoterUser 39524
+	10515 AdvocateProfiles, 0 Recipients, 2 Emails, 68815 Tags
+
+end_date = DateTime.new(2022, 4, 26)
+start_date = DateTime.new(2022, 4, 20)
 range = (start_date..end_date)
 
 
-  queued_conversions = Conversion.where(queued_at: range)
-                                 .where("((disable_email_verifications is true)
-                                 AND (rubberstamped is false)
-                                 AND (bodycachd is not NULL)
-                                 AND (recipients = ''))")
-                                 .limit(query_limit)
-  log("...#{queued_conversions.count} conversions retrieved from"\
-       " #{start_date.strftime("%b %d %Y, %H:%M")} to"\
-       " #{end_date.strftime("%b %d %Y, %H:%M")}\n")
+IGO 2,015 new names
+Authentication.where(uid: 'igo')
+Agency.where(account_id: 7032058)
+PromoterUser.find 39517
+SynchronizeCall.where(model_type: "NationBuilderSynchronizeCall", promoter_user_id: 39517, created_at: range).pluck(:action)
 
-  queued_conversions.each do |conversion|
-    log("Redeliver conversion ##{conversion.id} of promoted_message"\
-          " ##{conversion.promoted_message_id}...  ")
-    if record
-      conversion.redeliver
-      log("REDELIVERED!")
-    end
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"900, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 5906, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 9, Tags",
+"145, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1474, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 4, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"1, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 3, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 3, Tags",
+"1076, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 16970, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"10, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 69, Tags",
+"9, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 73, Tags",
+"4, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 21, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 3, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 6, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 2, Tags",
+"5463, AdvocateProfiles -, 1, Recipients -, 2, Emails -, 0, ServiceDeliveries -, 47447, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 2, Tags",
+"16, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 73, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 6, Tags",
+"7, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 35, Tags",
+"27, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 206, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 2, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags"
+
+WYGO 665 new names
+Authentication.where(uid: 'wygo')
+Agency.where(account_id: 7032169)
+PromoterUser.find 39518
+SynchronizeCall.where(model_type: "NationBuilderSynchronizeCall", promoter_user_id: 39518, created_at: range).pluck(:action)
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"47, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 104, Tags",
+"290, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1587, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 4, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 8, Tags",
+"17, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 107, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 2, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 4, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"5, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 51, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"10, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 77, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"2710, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 23613, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"2, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 4, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"1, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 7, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 4, Tags",
+"15, AdvocateProfiles -, 2, Recipients -, 2, Emails -, 0, ServiceDeliveries -, 122, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 2, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags"
+
+MOFC 1,860 new names
+Authentication.where(uid: 'mofc')
+Agency.where(account_id: 7032094)
+PromoterUser.find 39516
+SynchronizeCall.where(model_type: "NationBuilderSynchronizeCall", promoter_user_id: 39516, created_at: range).pluck(:action)
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"542, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 3225, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 3, Tags",
+"2, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 13, Tags",
+"5, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 24, Tags",
+"52, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 344, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 6, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"270, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 2334, Tags",
+"184, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 2024, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"14, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 99, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 9, Recipients -, 11, Emails -, 0, ServiceDeliveries -, 18, Tags",
+"0, AdvocateProfiles -, 1, Recipients -, 2, Emails -, 0, ServiceDeliveries -, 7, Tags",
+"0, AdvocateProfiles -, 4, Recipients -, 5, Emails -, 0, ServiceDeliveries -, 13, Tags",
+"0, AdvocateProfiles -, 2, Recipients -, 2, Emails -, 0, ServiceDeliveries -, 3, Tags",
+"0, AdvocateProfiles -, 2, Recipients -, 4, Emails -, 0, ServiceDeliveries -, 8, Tags",
+"22, AdvocateProfiles -, 33, Recipients -, 49, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 2, Tags",
+"6656, AdvocateProfiles -, 28, Recipients -, 132, Emails -, 0, ServiceDeliveries -, 47224, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 1, Emails -, 0, ServiceDeliveries -, 3, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 1, Emails -, 0, ServiceDeliveries -, 3, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 1, Emails -, 0, ServiceDeliveries -, 2, Tags",
+"16, AdvocateProfiles -, 2, Recipients -, 17, Emails -, 0, ServiceDeliveries -, 54, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 1, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"4, AdvocateProfiles -, 0, Recipients -, 3, Emails -, 0, ServiceDeliveries -, 21, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags"
+
+ISAA 1,414 new names
+Authentication.where(uid: 'isaa')
+Agency.where(account_id: 7032063)
+PromoterUser.find 39521
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"369, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1324, Tags",
+"132, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 800, Tags",
+"2, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 2, Tags",
+"1, AdvocateProfiles -, 0, Recipients -, 5, Emails -, 0, ServiceDeliveries -, 8, Tags",
+"4, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 29, Tags",
+"88, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 338, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"1, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"4118, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 27779, Tags",
+"331, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 6826, Tags",
+"2, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 3, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"67, AdvocateProfiles -, 3, Recipients -, 3, Emails -, 0, ServiceDeliveries -, 359, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 2, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 2, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 2, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"38, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 970, Tags",
+"618, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 11406, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"1, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"1, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 11, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 5, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags"
+
+GGO 1,632 new names
+Authentication.where(uid: 'ggo')
+Agency.where(account_id: 7032051)
+PromoterUser.find 39528
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"362, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 2184, Tags",
+"1, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 12, Tags",
+"1, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 29, Tags",
+"140, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 742, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 3, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 7, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 4, Tags",
+"1849, AdvocateProfiles -, 0, Recipients -, 2, Emails -, 0, ServiceDeliveries -, 21478, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"32, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 179, Tags",
+"23, AdvocateProfiles -, 1, Recipients -, 2, Emails -, 0, ServiceDeliveries -, 163, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 35, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 4, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 10, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 20, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 12, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 9, Tags",
+"2366, AdvocateProfiles -, 1, Recipients -, 4, Emails -, 0, ServiceDeliveries -, 41193, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 19, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 2, Tags",
+"16, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 106, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 2, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"42, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 308, Tags",
+"31, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 157, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 8, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 3, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 2, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 2, Tags"
+
+NYSFA 2,180 new names
+Authentication.where(uid: 'nysfa')
+Agency.where(account_id: 7032128)
+PromoterUser.find 39519
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"103, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 112, Tags",
+"56, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 72, Tags",
+"1013, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1437, Tags",
+"3032, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 8566, Tags",
+"1, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 3, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"2094, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 17713, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"12, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 66, Tags",
+"9, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 28, Tags",
+"1, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 19, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 16, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 10, Tags",
+"1, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 9, Tags",
+"1026, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 7885, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 9, Tags",
+"5647, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 30901, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"53, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 162, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"29, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 69, Tags",
+"179, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 514, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 5, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 4, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 2, Tags"
+
+OGO 5,071 new names
+Authentication.where(uid: 'ogo')
+Agency.where(account_id: 7032138)
+PromoterUser.find 39522
+SynchronizeCall.where(model_type: "NationBuilderSynchronizeCall", promoter_user_id: 39522, created_at: range).pluck(:action)
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 4, Tags",
+"1, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 5, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"532, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 2396, Tags",
+"48, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 197, Tags",
+"51, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 265, Tags",
+"362, AdvocateProfiles -, 0, Recipients -, 2, Emails -, 0, ServiceDeliveries -, 2149, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"4570, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 36663, Tags",
+"1, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 6, Tags",
+"3, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 12, Tags",
+"1, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 46, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 20, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 9, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 10, Tags",
+"294, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 3108, Tags",
+"102, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 2362, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"73, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 708, Tags",
+"12, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 82, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"3, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 29, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags"
+
+PFA 3,936 new names
+Authentication.where(uid: 'pfa')
+Agency.where(account_id: 7032145)
+PromoterUser.find 39523
+SynchronizeCall.where(model_type: "NationBuilderSynchronizeCall", promoter_user_id: 39523, created_at: range).pluck(:action)
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"455, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1371, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 6, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"35, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 102, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"3, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 8, Tags",
+"837, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 5709, Tags",
+"1826, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 16852, Tags",
+"3, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 4, Tags",
+"56, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 227, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"2563, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 15809, Tags",
+"162, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 884, Tags",
+"551, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 3234, Tags",
+"8, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 51, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 4, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags"
+
+NCFC 588 new names
+Authentication.where(uid: 'ncfc')
+Agency.where(account_id: 7032105)
+PromoterUser.find 39529
+SynchronizeCall.where(model_type: "NationBuilderSynchronizeCall", promoter_user_id: 39529, created_at: range).pluck(:action)
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"88, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 229, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"9, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 16, Tags",
+"19, AdvocateProfiles -, 0, Recipients -, 2, Emails -, 0, ServiceDeliveries -, 48, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"33, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 81, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"9, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 20, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"4227, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 9375, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 2, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 2, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags"
+
+AFA 4,841 new names
+Authentication.where(uid: 'afa')
+Agency.where(account_id: 7032038)
+PromoterUser.find 39610
+SynchronizeCall.where(model_type: "NationBuilderSynchronizeCall", promoter_user_id: 39610, created_at: range).pluck(:action)
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 2, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"981, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 4048, Tags",
+"2, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 2, Tags",
+"1, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 3, Tags",
+"1748, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 8346, Tags",
+"162, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 364, Tags",
+"1, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 5, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"4, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 5, Tags",
+"8, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 44, Tags",
+"8450, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 26250, Tags",
+"8, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 36, Tags",
+"457, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1849, Tags",
+"2, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 7, Tags",
+"1, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 2, Tags",
+"2, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 5, Tags",
+"2, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 4, Tags",
+"528, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1048, Tags",
+"1, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 4, Tags",
+"5, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 23, Tags"
+
+WIFC 675 new names
+Authentication.where(uid: 'wifc')
+Agency.where(account_id: 7032164)
+PromoterUser.find 39520
+SynchronizeCall.where(model_type: "NationBuilderSynchronizeCall", promoter_user_id: 39520, created_at: range).pluck(:action)
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"171, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 391, Tags",
+"236, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1017, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"108, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 511, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 8, Tags",
+"562, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 5241, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 3, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 3, Tags",
+"28, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 123, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"344, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 3212, Tags",
+"511, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 2889, Tags",
+"968, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 7759, Tags",
+"2, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 8, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"1, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 4, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags"
+
+MGR 2,195 new names
+Authentication.where(uid: 'mgr')
+Agency.where(account_id: 7032071)
+PromoterUser.find 39524
+SynchronizeCall.where(model_type: "NationBuilderSynchronizeCall", promoter_user_id: 39524, created_at: range).pluck(:action)
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"773, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 2405, Tags",
+"1634, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 3751, Tags",
+"5, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 30, Tags",
+"281, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1701, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 2, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"1962, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 15831, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"14, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 55, Tags",
+"10, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 61, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"4281, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 32617, Tags",
+"1548, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 12334, Tags",
+"6, AdvocateProfiles -, 0, Recipients -, 2, Emails -, 0, ServiceDeliveries -, 19, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"1, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 2, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 1, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags",
+"0, AdvocateProfiles -, 0, Recipients -, 0, Emails -, 0, ServiceDeliveries -, 0, Tags"
+```
+
+IGO 2,015 new names
+WYGO 665 new names
+MOFC 1,860 new names
+ISAA 1,414 new names
+GGO 1,632 new names
+NYSFA 2,180 new names
+OGO 5,071 new names
+PFA 3,936 new names
+NCFC 588 new names
+AFA 4,841 new names
+WIFC 675 new names
+MGR 2,195 new names
+
+Finally, Chazz/Darren, we spent $3,000 on a three day email acquires campaign for the American Firearms Association from April 20-25. The campaign was seen by hundreds of thousands of people and we had massive link clicks...but only 214 emails came into OCP’s system.
+
+But somewhere we should have tens of thousands of fresh emails, and they are not popping up.
+
+Please let me know how our team can help address any of these issues. And if the NB team, in particular, can restore email sending abilities to our Ohio and PA nations right away, I would appreciate it.
+
+
+
+## Mon, May 2 2022
+**Friday I**
+- Mostly wrapped up PR for ON-1829, got that PR merged, but missed a suggestion.  Implemented, created new Itiny) PR for Nate to review, then this is done.  (Set phone_required to true upon campaign duplication when US fed)
+- finished rake task to set phone required to true on existing (active!) campaigns with US fed targets, ON-1949.  PR ready and comments requested at OED Friday.
+- [x] PR review of Sham's email body work on transmitter
+
+**Today I plan to**
+- [ ] respond to review of ON-1949 and hopefully get it merged and deployed right after standup
+- [ ] run the rake task from ON-1949 to change old campaigns phone req'd to true when US fed targets
+- [x] (hopefully!) merge in ON-1829 with Nate's approval; deployed with Cicero data
+- [x] Cicero US import
+- [x] solve support's latest worry (Chazz and Darren); there were queues without agents.  when I deployed and restarted the agents, this resolved.  Darren was worried because there was more data in the download than on the page so I explained that the page data is generated only once per day, but the download is fully generated upon request.
+
+
+## Fri, Apr 29 2022
+**Yesterday I**
+- [x] PR reviews
+- [x] write ticket on yesterday's research, see big writeup below yesterday's plan, ON-1948
+- [x] write ticket to implement the solution from yesterday's research in a rake task, ON-1949
+- [x] continue work on duplicating campaigns, ON-1829
+- [x] started and made good progress on the rake task to set phone required to true on existing (active!) campaigns with US fed targets, ON-1949
+
+**Today I plan to**
+- [x] Respond to a PR review suggestion in ON-1829, then get that merged into master and deployed this morning.
+- [x] wrap up rake task to set phone required to true on existing (active!) campaigns with US fed targets, ON-1949
+- [x] PR review of Sham's email body work on transmitter
+- [ ] Maged, what's next?  Also, when is sprint planning?
+
+
+## Thu, Apr 28 2022
+**Yesterday I**
+- [x] deploy fresh master with ON-1849 & ON-1897 merged in
+- [x] start on ON-1829, duplicate campaign
+- [x] wrap up changes in old rake task PR that is lingering, ON-1580
+- [x] merge in ON-1580 once Shams re-reviews
+- [x] meet with Maged on something he's got cooking
+- [x] continue on ON-1829, duplicate campaign
+
+**Today I plan to**
+- [x] PR reviews
+- [x] write ticket on yesterday's research, see big writeup below yesterday's plan, ON-1948
+- [x] write ticket to implement the solution from yesterday's research in a rake task, ON-1949
+- [x] continue work on duplicating campaigns, ON-1829
+- [ ] rake task to set phone required to true on existing (active!) campaigns with US fed targets, ON-1949
+
+
+## Wed, Apr 27 2022
+**Yesterday I**
+- ON-1941, look at petitions email about NB sync problems; address the most recent issue, also confirming that petition syncs are being seen; then update the email thread and make sure Maged is included.  All looks great.  Details below and in email.
+- ON-1937, Cicero US import
+- Updates to ON-1849 are complete.  Re-review requested from Nate.  Should be able to deploy shortly after standup.  Merged as of this morning!
+- Finished updates to ON-1897.  Re-review requested from Shams.  Hope to also deploy this shortly after standup.
+
+**Today I plan to**
+- [x] deploy fresh master with ON-1849 & ON-1897 merged in
+- [x] start on ON-1829, duplicate campaign
+- [x] wrap up changes in old rake task PR that is lingering, ON-1580
+- [x] merge in ON-1580 once Shams re-reviews
+- [x] meet with Maged on something he's got cooking
+- [x] continue on ON-1829, duplicate campaign
+
+### most conversions for this message are going to CWC, but a small amount are going to email.  why?
+I see what is going on.  These are signatures on older campaigns that have US national level targets.  These older campaigns do not enforce the phone number requirement.  When the phone number is nil for the signer, we send to the next priority addresses and skip cwc.  Each delivery I see going to the offending email address, IGWebformsNC08RH@mail.house.gov, is from a signer with phone: nil.
+
+Summary: This is not a failure of CWC.  This is an artifact of older conversions targeting US fed level recipients being signed without a phone number.
+
+So far, 7 out of 7 affected SenderProfiles identified in the spreadsheet sent have no phone.  This makes my confidence level pretty high for this diagnosis.
+
+The system problem I’m seeing here is that while we automatically toggle the phone required when US fed recipients are added, we have many older campaigns that are unchanged and thus already have US fed recipients but do not require phone.
+
+I only see one possible solution so far and that is to search our DB and change the phone required to true on all campaigns that are:
+- active
+- created before the date that the phone required auto-toggle was implemented
+- contain US fed recipients/groups/committees
+
+From Maged: I would say let’s confirm more than 7 that’s these guys belong to old campaign
+
+From Maged: but I agree if this is the case we should close that gap in phone number
+
+Unhappy official, IGWebformsNC08RH@mail.house.gov
+Jan 12 Flash error when US fed target added, ON-1539
+Jan 12 Change 'Make Phone Field Required' to 'ON' when US Congress level targets are added to a campaign, ON-1540
+Feb 28 Disable 'Make Phone Field Required' setting when US federal targets are present, ON-1574
+
+```
+SenderProfile.where(email: "leeammons187@gmail.com").where("(created_at > ?)", 60.days.ago).pluck(:phone)
+=> [nil]
+SenderProfile.where(email: "leeammons187@gmail.com").where("(created_at > ?)", 60.days.ago).pluck(:id)
+=> [19448882]
+Conversion.where(sender_id: [19448882]).where("(created_at > ?)", 60.days.ago).pluck(:promoted_message_id)
+=> [7296]
+PromotedMessage.where(id: [7296]).pluck(:created_at)
+=> [Wed, 20 Nov 2019 15:32:30 UTC +00:00]
+
+SenderProfile.where(email: "chriszell@yahoo.com").where("(created_at > ?)", 60.days.ago).pluck(:phone)
+=> [nil]
+SenderProfile.where(email: "chriszell@yahoo.com").where("(created_at > ?)", 60.days.ago).pluck(:id)
+=> [19494008]
+Conversion.where(sender_id: [19494008]).where("(created_at > ?)", 60.days.ago).pluck(:promoted_message_id)
+=> [14577]
+PromotedMessage.where(id: [7296]).pluck(:created_at)
+=> [Wed, 20 Nov 2019 15:32:30 UTC +00:00]
+
+SenderProfile.where(email: "jessica.ermis1990@icloud.com").where("(created_at > ?)", 60.days.ago).pluck(:phone)
+=> [nil]
+SenderProfile.where(email: "jessica.ermis1990@icloud.com").where("(created_at > ?)", 60.days.ago).pluck(:id)
+=> [19512846]
+Conversion.where(sender_id: [19512846]).where("(created_at > ?)", 60.days.ago).pluck(:promoted_message_id)
+=> [7296]
+PromotedMessage.where(id: [[7296]]).pluck(:created_at)
+=> [Wed, 20 Nov 2019 15:32:30 UTC +00:00]
+
+SenderProfile.where(email: "mooreralan@gmail.com").where("(created_at > ?)", 60.days.ago).pluck(:phone)
+=> [nil]
+SenderProfile.where(email: "mooreralan@gmail.com").where("(created_at > ?)", 60.days.ago).pluck(:id)
+=> [19421095]
+Conversion.where(sender_id: [19421095]).where("(created_at > ?)", 60.days.ago).pluck(:promoted_message_id)
+=> [7296]
+PromotedMessage.where(id: [7296]).pluck(:created_at)
+=> [Wed, 20 Nov 2019 15:32:30 UTC +00:00]
+
+SenderProfile.where(email: "mangeyone74@gmail.com").where("(created_at > ?)", 60.days.ago).pluck(:phone)
+=> [nil]
+SenderProfile.where(email: "mangeyone74@gmail.com").where("(created_at > ?)", 60.days.ago).pluck(:id)
+=> [19421018]
+Conversion.where(sender_id: [19421018]).where("(created_at > ?)", 60.days.ago).pluck(:promoted_message_id)
+=> [7296]
+PromotedMessage.where(id: [7296]).pluck(:created_at)
+=> [Wed, 20 Nov 2019 15:32:30 UTC +00:00]
+
+SenderProfile.where(email: "bclittle0107@gmail.com").where("(created_at > ?)", 60.days.ago).pluck(:phone)
+=> [nil]
+SenderProfile.where(email: "bclittle0107@gmail.com").where("(created_at > ?)", 60.days.ago).pluck(:id)
+=> [19420823]
+Conversion.where(sender_id: [19420823]).where("(created_at > ?)", 60.days.ago).pluck(:promoted_message_id)
+=> [7296]
+PromotedMessage.where(id: [7296]).pluck(:created_at)
+=> [Wed, 20 Nov 2019 15:32:30 UTC +00:00]
+
+SenderProfile.where(email: "kentmcgill@yahoo.com").where("(created_at > ?)", 60.days.ago).pluck(:phone)
+=> [nil]
+SenderProfile.where(email: "kentmcgill@yahoo.com").where("(created_at > ?)", 60.days.ago).pluck(:id)
+=> [19420124]
+Conversion.where(sender_id: [19420124]).where("(created_at > ?)", 60.days.ago).pluck(:promoted_message_id)
+=> [7296]
+PromotedMessage.where(id: [7296]).pluck(:created_at)
+=> [Wed, 20 Nov 2019 15:32:30 UTC +00:00]
+
+SenderProfile.where(email: "davevielbaum@yahoo.com").where("(created_at > ?)", 60.days.ago).pluck(:phone)
+=> ["", nil]
+SenderProfile.where(email: "davevielbaum@yahoo.com").where("(created_at > ?)", 60.days.ago).pluck(:id)
+=> [19419052]
+Conversion.where(sender_id: [19419052]).where("(created_at > ?)", 60.days.ago).pluck(:promoted_message_id)
+=> [7296]
+PromotedMessage.where(id: [4920, 7296]).pluck(:created_at)
+=> [Wed, 20 Nov 2019 15:32:30 UTC +00:00]
+
+SenderProfile.where(email: "jdtalbot35@gmail.com").where("(created_at > ?)", 60.days.ago).pluck(:phone)
+=> [nil, "9097444719", nil, "9097444719", nil, nil]
+SenderProfile.where(email: "jdtalbot35@gmail.com").where("(created_at > ?)", 60.days.ago).pluck(:id)
+=> [19317323]
+Conversion.where(sender_id: [19317323]).where("(created_at > ?)", 60.days.ago).pluck(:promoted_message_id)
+=> [13525, 13322, 12661, 13776, 12257, 14276, 14714, 13725]
+PromotedMessage.where(id: [13525, 13322, 12661, 13776, 12257, 14276, 14714, 13725]).pluck(:created_at)
+=> [Thu, 01 Apr 2021 21:47:44 UTC +00:00, Wed, 21 Apr 2021 19:35:09 UTC +00:00, Mon, 14 Jun 2021 14:52:46 UTC +00:00, Fri, 09 Jul 2021 13:44:04 UTC +00:00, Mon, 02 Aug 2021 19:34:44 UTC +00:00, Mon, 09 Aug 2021 18:45:16 UTC +00:00, Fri, 08 Oct 2021 20:34:29 UTC +00:00, Tue, 30 Nov 2021 15:44:02 UTC +00:00]
+
+SenderProfile.where(email: "meimeitrish1212@aol.com").where("(created_at > ?)", 60.days.ago).pluck(:phone)
+=> [nil]
+SenderProfile.where(email: "meimeitrish1212@aol.com").where("(created_at > ?)", 60.days.ago).pluck(:id)
+=> [19174977]
+Conversion.where(sender_id: [19174977]).where("(created_at > ?)", 60.days.ago).pluck(:promoted_message_id)
+=> [13354]
+PromotedMessage.where(id: [13354]).pluck(:created_at)
+=> [Wed, 16 Jun 2021 19:43:21 UTC +00:00]
+
+SenderProfile.where(email: "thorcolberg@hotmail.com").where("(created_at > ?)", 60.days.ago).pluck(:phone)
+=> [nil]
+SenderProfile.where(email: "thorcolberg@hotmail.com").where("(created_at > ?)", 60.days.ago).pluck(:id)
+=> [19251810]
+Conversion.where(sender_id: [19251810]).where("(created_at > ?)", 60.days.ago).pluck(:promoted_message_id)
+=> [14650]
+PromotedMessage.where(id: [14650]).pluck(:created_at)
+=> [Wed, 17 Nov 2021 19:31:28 UTC +00:00]
+
+SenderProfile.where(email: "taralcrowder@gmail.com").where("(created_at > ?)", 60.days.ago).pluck(:phone)
+=> [nil]
+SenderProfile.where(email: "taralcrowder@gmail.com").where("(created_at > ?)", 60.days.ago).pluck(:id)
+=> [19253906]
+Conversion.where(sender_id: [19253906]).where("(created_at > ?)", 60.days.ago).pluck(:promoted_message_id)
+=> [12622]
+PromotedMessage.where(id: [12622]).pluck(:created_at)
+=> [Tue, 20 Apr 2021 15:06:41 UTC +00:00]
+
+```
+
+
+## Tue, Apr 26 2022
+**Friday I**
+- ON-1872, finished investigation on the AZ senate bug.  I'm ready to call this done as a one time thing that has already been corrected by Cicero.  Big writeup below (below Thurs entry) of all the evidence leading me to the decision.  Shortish version written up and added to ticket.
+- ON-1897, revise code and respond to Dave's reviews on app/services/admin/delivery_data_service.rb
+- ON-1921 code reviews are complete, merged, and I'll be deploying right after standup.
+- ON-1849 review are in and look small enough that I'll get them taken care of and approved by lunch.
+
+**Today I plan to**
+- [x] ON-1941, look at petitions email about NB sync problems; address the most recent issue, also confirming that petition syncs are being seen; then update the email thread and make sure Maged is included.  All looks great.  Details below.  We can move this to Done, I think?  Maged
+- [x] Deploy right after stand up for ON-1921, petitions then kick off NB sync.
+- [ ] Respond to final reviews on ON-1849, get re-review from Nate then hope to deploy around noon.
+- [x] Cicero US import
+
+### NB tag syncs for afa and company
+Numbers look great, both in the logs and on the Synchronize Calls admin page.  Folks are worried, but everything I'm seeing on our end says that everything is looking great.  Took and sent screen shots that includes the 44k tag sync for 39528 that happened on 24 Apr.  Clearly, something in how we display the data on the admin page is much different from how I'm generating the data at the command line.  
+
+39610, 39516, 39519, 39520, 39521, 39522, 39524, 39528
+```
+Cumulative numbers for syncs on the tag "UN Small Arms Treaty -- Federal -- Petition" = 53140
+
+Number of syncs according to various ids under the afa umbrella, by id:
+
+slug 'ggo', id: 39610
+  2061
+
+slug 'mofc', id: 39516
+  5179
+
+slug 'nysfa', id: 39519
+  5266
+
+slug 'wifc', id: 39520
+  2881
+
+slug 'isaa', id: 39521
+  5091
+
+slug 'ogo', id: 39522
+  9612
+
+slug 'mgr', id: 39524
+  4447
+
+name: "Georgia Gun Owners", slug 'ggo', id: 39528
+  10128
+
+```
+
+
+## Mon, Apr 25 2022
+Day off to spend with Kai.  Reported to Maged, 26 Apr.  
+
+
+## Fri, Apr 22 2022
+**Yesterday I**
+I removed the existing subject tests, ON-1921.
+Reviewed several PRs.
+Started on the AZ senate bug, ON-1872.
+
+**Today I plan to**
+- [x] ON-1872, continue work on the AZ senate bug.  Update: I'm ready to call this done as a one time thing that has already been corrected by Cicero.  Big writeup below of all the evidence leading me to the decision.  Shortish version written up and added to ticket
+- [ ] ON-1897, revise code and respond to Dave's reviews on app/services/admin/delivery_data_service.rb
+
+### 39528, NB sync
+I'm seeing a lot of successful syncing activity for this promoter.  Here is a sync from the last 24 hours:
+
+NationBuilderSynchronizeCall
+(Promoter 39528)
+success
+At: 2022-04-22 04:01:07 UTC
+1849 AdvocateProfiles - 0 Recipients - 2 Emails - 0 ServiceDeliveries - 21478 Tags
+
+When I run a query on this promoter, I see 12665 tags still to be synced.  
+
+
+## Thu, Apr 21 2022
+**Yesterday I**
+- [x] ON-1897, check in PR recommended refactoring and ask for re-review; should be good
+- [x] ON-1849, DD admin pages; This ticket moved back to In Progress due to changes needed in the service on behalf of the rake task ticket.  I need to merge in the service additions from ON-1897 and then change the tests in the service spec to reflect changes in the service, spec/services/admin/delivery_data_service_spec.rb.  Then I should be ready to get the PR reviewed this afternoon.
+- [x] meet with Eric on NB rspec testing in context of testing the change in subject field requirement for a NB tag sync
+- [x] meet with Maged and Eric on the tests for ON-1904
+- [x] contact Cicero on the AU data weirdness
+
+**Today I plan to**
+- [x] ON-1921, remove the existing subject tests from ON-1904
+- [x] do some PR review and hoping for the same (reviewed 4!)
+- [ ] start on the AZ senate bug; ON-1872
+- [ ] ON-1897, revise code and respond to Dave's reviews on app/services/admin/delivery_data_service.rb
+
+### AZ bug, Quinonez, ON-1872
+There are two Recipients in our system for this official.  Both have cicero_code's, only the more recently created is active.  The conversions that failed to deliver to Quinonez were all to the older record.  The newer record was created 23 Feb.  The failed conversions all have created_at dates before 23 Feb.  I have a suspicion that these conversions where only Quinonez failed (1 of the 50 targets) were due to some failure on Quinonez's end.  Like his email box was full that day.  Because I am not seeing failures generally for this target.
+
+Searching the created_at's now for the Conversions targeting the first recipient_id, With a couple exceptions from last year, these all appear to be from beginning Jan through Fri, 18 Feb 2022.  
+
+count for first recipient = 4827
+cs1 = Conversion.where("recipient_ids_expanded like ?", "%194137%")
+
+count for second recipient = 5621
+cs2 = Conversion.where("recipient_ids_expanded like ?", "%198765%")
+
+Next question, how many of either conversion failed to deliver.  Looking at recipient_count and reached_recipient_count next.  I'm seeing many of the c's with r1 with all_reached, none_reached, & some_reached.  /sigh
+
+omit c's with `reached_recipient_ids: nil`
+omit c's where reached_recipient_ids contains Quinonez
+
+That should leave us with only the c's that have failed (hopefully only failed) Quinonez.  🤞🤞🤞 Lunch first, then design the query with the above two requirements.
+
+affected_cs = cs1.where("(reached_recipient_ids is not NULL)").where("reached_recipient_ids like ?", "%194137%")
+
+
+cs1 = Conversion.where("recipients like ?", "%194137%")
+affected_cs = cs1.where("reached_recipient_ids not like ?", "%194137%")
+affected_cs.count
+=> 186
+affected_cs.uniq.pluck(:promoted_message_id)
+=> [15322]
+
+cs1 = Conversion.where("recipients like ?", "%194137%")
+unaffected_cs = cs1.where("reached_recipient_ids like ?", "%194137%")
+unaffected_cs.count
+=> 10
+unaffected_cs.uniq.pluck(:promoted_message_id)
+=> [13692, 15156, 15322, 15528, 15584]
+
+
+cs2 = Conversion.where("recipients like ?", "%198765%")
+affected_cs2 = cs2.where("reached_recipient_ids not like ?", "%198765%")
+affected_cs2.count
+=> 4
+affected_cs2.uniq.pluck(:promoted_message_id)
+=> [15322]
+
+By end of day, I had determined without doubt that only one campaign was affected by the problems sending to Quinonez.  There are 5 other campaigns (only 10 signatures) displaying zero issues.  Additionally, it appears that only the old version of this recipient, 194137, failed.  The new version of this recipient, 198765, has never failed.  So, we can continue spending time on this, or let it go as a one time glitch with a recipient's receiving.  This seems like the wiser course especially as the older record has a 90% failure rate, but is still marked as a good address `successful_attempts_cnt: 10, failed_attempts_cnt: 109, bad_address_flg: false`.  Worth noting that the new recipient record has no failed attempts on any address yet.
+
+The question, of course remains, why did these fail?  
+
+
+## Wed, Apr 20 2022
+**Yesterday I**
+- Fixed the problem in the Cicero AU data.  Updated the ticket with the syntax problem, ON-1910.  Confirm NSW details.
+- Got ON-1904 changes merged in, subject field for NationBuilder tag sync.
+- Resolved testing questions for ON-1904 with Dave.  Short story, existing tests are correct and no new tests needed for this tiny change
+- ON-1806, fix tests governor's work broke.  Dave's recent ON-1870 fixed the States tab issue this branch and ticket were to fix.  Double check that the current master branch runs spec/features/widget_setup/selection_tree_spec.rb with no errors.  I stand in awe of Dave's ability to lightly touch several specs that seem totally unrelated that then fixes my spec problems.  This was the only spec affected by the governors work.
+- Implemented recommended changes on the ON-1897 PR, rake task Delivery Data
+
+**Today I plan to**
+- [x] ON-1897, check in PR recommended refactoring and ask for re-review; should be good
+- [x] ON-1849, DD admin pages; This ticket moved back to In Progress due to changes needed in the service on behalf of the rake task ticket.  I need to merge in the service additions from ON-1897 and then change the tests in the service spec to reflect changes in the service, spec/services/admin/delivery_data_service_spec.rb.  Then I should be ready to get the PR reviewed this afternoon.
+- [x] meet with Eric on NB rspec testing in context of testing the change in subject field requirement for a NB tag sync
+- [x] meet with Maged and Eric on the tests for ON-1904
+- [ [ contact Cicero on the AU data weirdness
+- [ ] try to start on the AZ senate bug; ON-1872
+
+### AU data issue email to Cicero
+Good morning,
+
+Thank you for the replacement Australia officials csv.  
+
+We were able to make changes so the import succeeded, but wanted to let you know that five strings were found that contained substrings that opened and closed with '", instead of ''.  See below for an example that contains two substrings with this issue.  If this is a syntax style change that will be seen going forward, please let us know so we can alter our import parsing to accommodate.  This more likely seems a one time artifact introduced due to this data drop being a sudden and one time occurrance.
+
+Best regards,
+
+Susan Prestage
+OneClickPolitics
+
+```
+'"1971 State General Election'"
+
+363505,4177,Liberal,1999-03-27 05:00:00+00,D,1999-03-27 00:00:00+00,D,2022-03-22 00:00:00+00,D,Donald,Thomas,Harwin,BEc,Don,Parliament House,Macquarie Street,"",Sydney,NSW,2000,(02) 8574 7200,"",(02) 9230 2083,"",GPO Box 5341,"","",Sydney,NSW,2001,(02) 8574 7200,"","","","","",https://www.parliament.nsw.gov.au/member/files/13/Print.jpg,https://www.parliament.nsw.gov.au/members/Pages/Member-details.aspx?pk=13,"",The Hon.,https://www.nsw.gov.au/nsw-government/ministers/special-minister-of-state-minister-for-public-service-and-employee,MLC,"Bachelor of Economics (Hons) Sydney University 1985. Tutor (p/time) St Pauls College, University of Sydney 1987. Electorate Assistant to the Member for Miranda 1987 - 1988. Ministerial Advisor, various Ministers, State Government of NSW 1988 - 1990, 1991 - 1995. Assistant Campaign Director Liberal Party of Australia (NSW Division) 1990 - 1991. Public Affairs Consultant 1995 - 1999.\n\nMr Harwin contributed two chapters to the book Social Justice: Fraud or Fair Go? edited by Dr Marlene Goldsmith. He also contributed '"1971 State General Election'" to The People''s Choice (Volume III), edited by Hogan and Clune, '"Sir Joseph Carruthers'" to The Premiers of NSW (Volume II), edited by Clune and Turner, and '"Women in the NSW Coalition Parties'" (with Jenny Gardiner MLC) to No Fit Place for Women, edited by Brennan and Chappel.",,2022-04-14 14:57:30.059506+00,The Legislative Council of New South Wales,UPPER,At Large,"",NSW,AU,STATE_UPPER,2493,ocd-division/country:au/state:nsw
+```
+
+### ON-1904
+Long pairing with Eric and going through the details of how tag sync works, what is sent, the tests that are present on the two, sync_tag and sync_tags, methods.  There are no tests on the find_conversions_for_tag_sync method where the subject field checks are being removed.  More pairing with Maged where at the end, he conceded that we did not need tests for this removal.  Yeay!  He does say to remove the existing subject tests on sync_tag, since they aren't doing anything.
+
+
+### check NB sync status
+for these slugs:
+- 'mofc', 39516, name: "Missouri Firearms Coalition"    4465 conversions awaiting tag sync
+- 'isaa', 39521, name: "Idaho Second Amendment Alliance"    2439 conversions awaiting tag sync
+- 'wifc', 39520, name: "Wisconsin Firearms Coalition"   1432 conversions awaiting tag sync
+
+- 'mofc', 'isaa', 'wifc', 39520, name: "Wisconsin Firearms Coalition"   1432 conversions awaiting tag sync
+
+ they are all part of AFA
+
+### Eric's WoW guild name
+Robot Kitten Happy Train
+
+
+## Tue, Apr 19 2022
+**Yesterday I**
+- [x] wrap up work into PRs (ON-1849 & ON-1871); DD Admin page
+- [x] deploy DD Admin page work to staging; config to test against prod db data; test to confirm page looks great
+- [x] return staging to NOT prod db
+- [x] import the Cicero US data, ON-1909
+- [x] wrap up and merge PR for ON-1771, change NB query limit to env environment var
+- [x] set the env var on production for ON-1771
+- [x] encourage review of https://github.com/one-click-politics/one-click-politics/pull/660, ON-1897 rake task for Delivery Data replacement
+
+**Today I plan to**
+- [x] ON-1904 PR follow up (remove check for subject field; review requested 3pm 4/18, https://github.com/one-click-politics/one-click-politics/pull/661.
+- [x] ON-1904, remove non-useful subject NB sync tests; add useful subject NB sync tests targeting just the find_conversions_for_tag_sync method - UPDATE: after pairing with Dave, we determined that the existing tests are valid, but not checking what I thought.  The removal of the requirement for the subject field to be populated is a safe one, Dave says.  This was put in place as a failsafe in case there was no internal_campaign_name on the campaign, but these days the campaign name is a firm requirement, removing the need for this fail safe.  It is also a very small change and thus needs no testing.  YEAY!
+- [x] follow up on ON-1897 PR, rake task Delivery Data; review requested 3pm 4/18, https://github.com/one-click-politics/one-click-politics/pull/660; much talking with Dave on this one following on pairing from other works
+- [ ] update ON-1849 PR and ask in engineering for review (DD admin page)
+- [ ] fix broken tests for ON-1849, only in one file because the others still work
+  - [ ] spec/services/admin/delivery_data_service_spec.rb
+- [x] import the Cicero AU data, ON-1910 & confirm NSW details, https://oneclickpolitics.atlassian.net/browse/ON-1910
+  - tried to do the import, but the special .csv they sent us in email causes the import to break here
+- meet with Eric on NB rspec testing
+- try to start on the AZ senate bug; ON-1872
+- make ticket for broken state level targeting tests that the new governors tab broke
+- [x] ON-1806, fix tests governor's work broke.  It is looking like Dave's recent ON-1870 fixed the States tab issue this branch and ticket were to fix.  Double checking, but then deleting branch and updating ticket with details and moving ticket to done...yep, I'm on the current master branch and just ran spec/features/widget_setup/selection_tree_spec.rb which is the only file touched in this branch so far and was more of a work around.  I stand in awe of Dave's ability to lightly touch several specs that seem totally unrelated that then fixes my spec problems
+
+### Delivery Data rake task using a service, ON-1897
+look in the deliver data controller for how to .call the service.  Also, look at the changes below for notes on setting force to true so that the data is not cached for 30 minutes.  The key to using the service data is that I'm accessing the service's figures data structures in the rake task.  Also, the params are the initialized values, not all are required, use things like promoted message id.
+```
+  params = {
+    promoted_message_id: promoted_message_id,
+    promoter_id: promoted_message.creator_id,
+    start_date: start_date,
+    end_date: end_date
+  }
+
+  @delivery_data_service = Admin::DeliveryDataService.new(params).call
+  oldest_signature = @delivery_data_service.figures[:oldest_signature]
+
+
+--- a/app/services/admin/delivery_data_service.rb
++++ b/app/services/admin/delivery_data_service.rb
+@@ -47,9 +47,9 @@ class Admin::DeliveryDataService
+     @promoted_message.conversions.order("id ASC")
+   end
+
+-  def gather_figures(force = false)
++  def gather_figures(force = false) # set this to true when running the rake task
+     [Conversion] if Rails.env.development?
+-    @figures = Rails.cache.fetch(["gather_figures", "v1", @promoted_message.id], :expires_in => 30.minutes, :force => @refresh_figures) do
++    @figures = Rails.cache.fetch(["gather_figures", "v1", @promoted_message.id], :expires_in => 30.minutes, :force => @refresh_figures || force) do
+       figures = {}
+```
+
+
+
+## Mon, Apr 18 2022
+**Friday I**
+- spent much of the day chasing why petitions weren't syncing
+- and some of the day wrapping up various work that you'll see coming out today in PRs (and DM to Dave to check in on the subject field requirement for NB tag syncs) (ON-1904, ON-1897)
+
+**Today I plan to**
+- [x] wrap up work into PRs (ON-1849 & ON-1871); DD Admin page
+- [x] deploy DD Admin page work to staging; config to test against prod db data; test to confirm page looks great
+- [x] return staging to NOT prod db
+- [ ] update ON-1849 PR and ask in engineering for review
+- [ ] fix broken tests for ON-1849, only in one file because the others still work
+  - [ ] spec/services/admin/delivery_data_service_spec.rb
+- [ ] import the Cicero AU data, ON-1910 & confirm NSW details, https://oneclickpolitics.atlassian.net/browse/ON-1910
+  - tried to do the import, but the special .csv they sent us in email causes the import to break here:
+- [x] import the Cicero US data, ON-1909
+- [x] wrap up and merge PR for ON-1771, change NB query limit to env environment var
+- [x] set the env var on production for ON-1771
+- [x] encourage review of https://github.com/one-click-politics/one-click-politics/pull/660, ON-1897 rake task for Delivery Data replacement
+
+- remove non-useful subject NB sync tests, ON-1904
+- add useful subject NB sync tests targeting just the find_conversions_for_tag_sync method , ON-1904
+- meet with Eric on NB rspec testing
+- try to start on the AZ senate bug; ON-1872
+- make ticket for broken state level targeting tests that the new governors tab broke
+
+- [ ] follow up on ON-1897 PR, rake task Delivery Data; review requested 3pm 4/18, https://github.com/one-click-politics/one-click-politics/pull/660
+- [ ] follow up on ON-1904 PR, remove check for subject field; review requested 3pm 4/18, https://github.com/one-click-politics/one-click-politics/pull/661.
+
+```
+INCOMING
+Recipient.where(name: "Barrett, Scott").first.active_flg
+sb = Recipient.where(name: "Barrett, Scott").first
+sb.active_flg
+Recipient.where(name: "Rath, Christopher").first.active_flg
+cr = Recipient.where(name: "Rath, Christopher").first
+cr.active_flg
+
+OUTGOING
+Recipient.where(name: "Khan, Trevor").first.active_flg
+tk = Recipient.where(name: "Khan, Trevor").first
+tk.active_flg = true
+tk.active_flg = false
+tk.save
+Recipient.where(name: "Shoebridge, David").first.active_flg
+ds = Recipient.where(name: "Shoebridge, David").first
+ds.active_flg = true
+ds.active_flg = false
+ds.save
+
+No matter if the outgoings are active or no, this error is received at this point:
+
+irb(main):016:0> recipient_importer.import
+NoMethodError: undefined method `each' for nil:NilClass
+	from /home/deploy/apps/ocp/releases/20220418153330/lib/importer_modules/importer_modules.rb:1121:in `deactivate_old_targets'
+	from /home/deploy/apps/ocp/releases/20220418153330/lib/importer_modules/importer_modules.rb:1112:in `import'
+	from (irb):16
+	from /home/deploy/apps/ocp/shared/bundle/ruby/2.2.0/gems/railties-3.2.22.5/lib/rails/commands/console.rb:47:in `start'
+	from /home/deploy/apps/ocp/shared/bundle/ruby/2.2.0/gems/railties-3.2.22.5/lib/rails/commands/console.rb:8:in `start'
+	from /home/deploy/apps/ocp/shared/bundle/ruby/2.2.0/gems/railties-3.2.22.5/lib/rails/commands.rb:41:in `<top (required)>'
+	from script/rails:39:in `require'
+	from script/rails:39:in `<main>'
+
+```
+
+
+## Fri, Apr 15 2022
+**Yesterday I**
+Worked on wrapping up the Data Delivery admin page changes, ON-1849.  Not yet complete because of how closely tied this is with the rake task work, ON-1897.  I'm putting each on staging this morning to confirm all still looks good with a better data set.  Add created_at to rake output near the top.   
+
+Do AFA (39610) as well if this fix is confirmed with the monkey test on NB box.  Create PR with questions and give Dave a heads up on this.
+
+**Today I plan to**
+- create a ticket for the AU Cicero import with the AU changes in NSW
+- import the Cicero AU data if/when available
+- meet frequently with Eric to teach rspec testing and what to look for; ON-1896
+- Get ON-1849 PR ready for review after testing on staging.
+- Get ON-1897 PR ready for review after testing on staging.
+- try to start on the AZ senate bug; ON-1872
+- make ticket for broken state level targeting tests that the new governors tab broke
+
+
+## Thu, Apr 14 2022
+**Yesterday I**
+- spent the day diagnosing two issues, ON-1895 and ON-1893
+- PRIORITY 1: ON-1893, change AU recipient data by hand with Nate
+- PRIORITY 2: ON-1895, diagnose failing emailed reports issue and finally pulled in Nate, then Dave, then Eric
+- redelivered everything missed from the last two days
+**Today I plan to**
+- meet frequently with Eric to teach rspec testing and what to look for; ON-1896
+- get the latest DD page changes into a PR for code review; ON-1849
+- continue on the rake task to give a full report on conversions and subsequent deliveries (make ticket for the same); ON-1897
+- try to start on the AZ senate bug; ON-1872
+- create a ticket for tomorrow's AU Cicero import with the AU changes in NSW
+- make ticket for broken state level targeting tests that the new governors tab broke
+
+### nodb nightly sync
+that rake populate_nodb_nightly task is still running.  it looks like the ones that run at night were hanging, which might explain why there were still so many conversions from the past couple days with signature_in_nodb=nil
+7:19
+Dave ran kill -9 on those, made sure there were no in progress NoDBSignatureSynchronizeCalls and started a new rake populate_nodb_nightly which is slowly churning through them
+
+Any NoDBSignatureTransaction that had gotten stuck in the In Progress state during the queue issues was blocking any subsequent NoDBSignatureTransactions which is what is generated on the backend when a request for a csv download to be emailed is made on the front end.
+
+### 39610
+functioning well except for Georgia, 39610, afa
+```
+{"message":"Create NationBuilder tag for Promoter: 39528 Conversion: 20271648 SenderProfile: 12839238 PromotedMessage: 11531 PersonId: 67999 Tag: 2021 -- H.R. 8/S.529 UBC's -- EMAIL . ","@timestamp":"2022-04-14T05:40:36.293+00:00","@version":"1","severity":"INFO","host":"ip-172-30-1-220","tags":["nation_builder","task","sync"],"environment":"production"}
+3:13
+=> [#<Authentication id: 36685, account_id: 7032051, provider: "nation_builder", uid: "ggo", created_at: "2021-05-18 21:57:02", updated_at: "2021-07-06 20:43:53", active: nil, token: "9dfce705bc577f97ba617a733842ade9ac3d2ff5fe9b36835a6...", expires_at: nil, refresh_token: nil, write_access: true, instance_url: nil, extra: nil>]
+
+
+irb(main):052:0> Agency.where(account_id: 7032051)
+  Agency Load (1.4ms)  SELECT "promoter_users".* FROM "promoter_users" WHERE "promoter_users"."account_id" = 7032051
+=> [#<Agency id: 39528, name: "Georgia Gun Owners", created_at: "2019-10-19 17:51:29", updated_at: "2021-12-01 19:52:09"
+```
+
+
+## Wed, Apr 13 2022
+**Yesterday I**
+- start on the rake task to give a full report on conversions and subsequent deliveries (make ticket for the same)
+- attended the support meeting
+- emailed Cicero about AU change in NSW; ON-1893
+- generated the Delivery Data admin page screen shot, emailed business with that, and spent way too much time deploying to staging to switch back and forth from the production database.  Wish there were a faster way to do that switch as deployment to
+
+**Today I plan to**
+- CSV analytics emails are not being received; ON-1895
+- meet frequently with Eric to teach rspec testing and what to look for; ON-1896
+- get the latest DD page changes into a PR for code review; ON-1849
+- continue on the rake task to give a full report on conversions and subsequent deliveries (make ticket for the same); ON-1897
+- try to start on the AZ senate bug; ON-1872
+- when they respond, follow up with Cicero about AU change in NSW; ON-1893
+- PRIORITY 1: change AU recipient data by hand with Nate
+- PRIORITY 2: diagnose failing emailed reports issue
+
+### steps to come back up when config or rabbit changes
+1. shutdown the agents
+2. reboot rabbit box
+3. run the ownership commands (sets ownership and passwords)
+4. restart nginX on the webserver
+5. start the agents back up
+
+
+end_date = (DateTime.now - 2.hours)
+start_date = (DateTime.now - 3.days)
+range = (start_date..end_date)
+
+```
+NoDBTransaction.where(created_at: range, status: "in_progress").order("id ASC").pluck(:promoter_user_id)
+
+[36014, 28, 40834, 40644, 40644, 40644, 40644, 40834, 40644, 36014, 36014, 36014, 40644, 36014, 36014, 40706, 36014, 36014, 29010, 28, 36014]
+
+[36014, 36014, 36014, 36014, 40706, 36014, 29010, 28, 36014, 40024, 28, 28, 28, 36014, 28]
+[36014, 36014, 36014, 36014, 40706, 36014, 29010, 28, 36014, 40024, 28, 28, 28, 36014, 28]
+
+```
+
+
+### holidays 2022
+- Sat, Jan 1,  New Year's Day (NOT observed Mon, Jan 03, we worked this day)
+- Mon, Jan 17,  MLK Jr Day  (NOT observed Mon, Jan 17, we worked this day)
+1. Mon, Feb 21,  President's Day  (I think we observed this; not sure since this was the Monday after Alanna's accident on Thursday 17 Feb, then missed work Friday 18 Feb)
+2. Mon, May 30,  Memorial Day
+3. Sun, Jun 19,  Juneteenth (Mon Jun 20 observed)
+4. Mon, Jul 4,  Independance Day
+5. Mon, Sep 5,  Labor Day
+6. Mon, Oct 10,  Formerly Columbus Day, now Indigenous People's Day
+7. Fri, Nov 11,  Veterans Day
+8. Thu, Nov 24,  Thanksgiving
+9. Fri, Nov 25,  Day after Thanksgiving
+10. Sun, Dec 25,  Christmas Day (Mon Dec 26 observed?)
+If we don't get Columbus/Indigenous Peoples Day as holiday, do we get Christmas Eve so we get our full 10 holidays?
+
+
+## Tue, Apr 12 2022
+**Yesterday I**
+- Worked the hopefully final round of changes on the Delivery Data Admin page, ON-1871.
+- Got the same up onto staging to share with support in today's meeting
+- Learned how to switch staging over to using the prod DB (and back as quickly as testing is done.
+- Met with Shams to learn the above.
+- Met with Maged to finalize what we want to show support on the DD admin page vs what we want as output in a rake task.
+
+**Today I plan to**
+- get the latest DD page changes into a PR for code review; ON-1849
+- start on the rake task to give a full report on conversions and subsequent deliveries (make ticket for the same)
+- attend the support meeting
+- email Cicero about AU change in NSW; ON-1893
+
+Failing tests: ON-1870
+
+
+## Mon, Apr 11 2022
+**Friday I**
+- Worked on the second round of changes on the Delivery Data Admin page, ON-1871.
+
+**Today I plan to**
+- [ ] ON-1871, finish the Delivery Data admin page improvements, Some Failed field
+- [ ] ON-1872, track down why AZ senate recipient, Marcelino Quinonez, who is failing 80% of the time; try checking the logs; WebMailAddress should be bumped to `priority: 1` so that EmailAddress is the only one with `priority: 0`, then redeliver as a first step in this solution
+- [ ] get started on the duplicated campaign work, ON-1829
+- [ ] try to wrap up ON-1806 (just a few broken tests I've fixed)
+- [ ] ON-1771 is in code review status, check the PR and try to get this put to bed
+- [ ] Cicero US import including shape files; then confirmation of a redistricting issue a client is seeing, ON-1888
+
+### Delivery Data admin page
+What to keep, what to remove, what to add
+```
+Signature stats for this campaign (Refresh):
+
+Total signatures: 19003
+- Oldest signature: 02/25/22
+- Newest signature: 04/11/22
+
+Potential deliveries: 35959
+Viable deliveries: 35949
+Successful deliveries: 35292 (98%)
+
+- Sendable: 18585 (98%)
+
+-    Unfinished: 524 (3%)
+-        Ongoing: 148 (1%)
+-        Stale: 376 (2%)
+-    Finished conversions: 18061 (95%)
+-        Reached no recipients: 0 (0%)
+-        Reached some recipients: 667 (4%)
+-        Reached all recipients: 17394 (92%)
+-    Finished deliveries: 35697 (99%)
+-        Recipient reached: 35292 (98%)
+-        Recipient not reached: 405 (1%)---
+
+- Not sendable: 418 (2%)
+
+- Not sendable (conversions): 418 (2%)
+
+- Not sendable (deliveries): 10 (0%)
+
+    No valid targets: 0 (0%)
+    Not verified: 0 (0%)
+    Not submitted: 408 (2%)
+    Duplicate: 5 (0%)
+    Not staged: 0 (0%)
+    No recipients: 5 (0%)
+```
+
+
+## Fri, Apr 8 2022
+**Yesterday I**
+- [x] finished up the first round of Delivery Data Admin page changes, ON-1849
+- [x] met with Maged to talk about the DD admin page
+
+**Today I plan to**
+- [ ] ON-1871, finish the Delivery Data admin page improvements, Some Failed field
+- [ ] ON-1872, track down why AZ senate recipient, Marcelino Quinonez, who is failing 80% of the time; try checking the logs; WebMailAddress should be bumped to `priority: 1` so that EmailAddress is the only one with `priority: 0`, then redeliver as a first step in this solution
+- [ ] get started on the duplicated campaign work, ON-1829
+- [ ] try to wrap up ON-1806 (just a few broken tests I've fixed)
+- [ ] ON-1771 is in code review status, check the PR and try to get this put to bed
+
+### additions to the Delivery Data admin page from Maged
+- [x] move No Targets down to Not Sendable
+- [x] Change All/Some/None Failed from conversion numbers to delivery numbers (reached_recipient_count aggregate)
+- [x] Viable will be the new total signatures (sendable - non-sendable)
+- [x] potential deliveries = signatures * targets
+- [x] successful deliveries
+
+
+## Thu, Apr 7 2022
+- The first of the two campaigns Dom sent over is a case where a campaign is going out to all AZ house and all AZ senate members.  There is one recipient that is consistently failing, Marcelino Quinonez.  The rest of the 49/50 are succeeding.  That 1 recipient failure is reflected as a signature that had “Some failed”.  Since this single recipient is failing 80% of the time, this shows as the signatures as having “Some failed” 80% of the time.  This generated 2 tickets:
+  - ON-1871, More Delivery Data admin page improvements, this time on the "Some failed" field; it is worth nothing though that a search on the Delivery Data page for “Some failed” brings up excellent information showing that 49 of 50 did, in fact, succeed.  So it may be that the better solution is for Support to use that feature.  If so, close or mark this ticket as Done.
+  - ON-1872, A bug to fix the AZ senate recipient, Marcelino Quinonez, who is failing 80% of the time and I don't see why since the `failed_attempts_cnt` and `bad_address` fields show nothing indicating failures. Also, EmailAddress and WebMailAddress shouldn't both have 0 priority.  This is probably a wider issue at the state level, but hasn't been causing issues.
+- The second of the two campaigns Dom sent over is a similar case, where only one of multiple recipients fails, but most of the campaigns show on the Delivery page as "Some failed".  In this case, the recipient no being delivered to is a CustomRecipient.  One point of confusion is that all the address types have `priority: 0` EXCEPT the email address!?!  => ["DistrictAddress", "PhoneAddress", "TwitterAddress", "FacebookAddress", "EmailAddress"], => [0, 0, 0, 0, 1].  But this is probably due to the bigger detail of email: "cbridgman@rmhcsco.ca" bad_address_flg: true, bad_address_type: "Permanent (General)".  Is this normal and something to just bounce back to support to handle since it is a CustomRecipient failure.
+- ON-1869, wrapped up the search for and re-delivery for any remaining conversions.  None further were found.  Documented my steps in the ticket, but I feel confident that all was caught.  I suspect only this one campaign was too big for successful clean up that Friday night that Nate and I worked late.  
+- ON-1853, wrapped up the nationbuilder slug ticket and emailed to inform Dom.
+
+**Today I plan to**
+- [x] zendesk 1311, neon sync, ON-1875 -> handed off to Nate, who created the ticket.  Yeay Nate!
+- [ ] try to wrap up the Delivery Data Admin page, ON-1849
+- [ ] ON-1871, more Delivery Data admin page improvements, Some Failed field
+- [ ] ON-1872, track down why AZ senate recipient, Marcelino Quinonez, who is failing 80% of the time; try checking the logs; also ask Maged if WebMailAddress should be bumped to `priority: 1` so that EmailAddress is the only one with `priority: 0`?
+- [ ] get started on the duplicated campaign work, ON-1829
+- [ ] try to wrap up ON-1806 (just a few broken tests I've fixed)
+- [ ] ON-1771 is in code review status, check the PR and try to get this put to bed
+
+### email validation
+```
+curl --location --request GET 'https://bpi.briteverify.com/emails.json?address=cbridgman@rmhcsco.ca&apikey=dd535ea9-6ceb-4e07-9c80-a81cfdbbf99e'
+
+{
+    "address": "cbridgman@rmhcsco.ca",
+    "account": "cbridgman",
+    "domain": "rmhcsco.ca",
+    "status": "accept_all",
+    "connected": null,
+    "disposable": false,
+    "role_address": false,
+    "duration": 0.122707099
+}
+```
+Looks like that domain accepts all regardless of what account you send
+
+use that curl with that token to validate email addresses
+
+
+## Wed, Apr 6 2022
+**Yesterday I**
+- got ON-1864 & 1865 PRs merged and deployed
+- running the rake task to get about 12,000 deliveries out
+- attended the support meeting, answering questions, and also made the announcement of subcommittees and staffers
+
+**Today I plan to**
+- [x] ON-1869, need to write a ticket for the hunting down of the affected campaigns and running the rake task against them
+- [x] continue running the rake task other couple of promoted messages in this state.  there aren't many, just need to craft the query correctly, then run the rake <- ALSO, look at the campaigns Dom sent over
+- [x] look for the campaigns from Dom to check as I'm running the redelivery script; these are failing to go out but aren't under the Not Submitted category.  This should be interesting, I think.
+- [x] try to get to the NB stuff for Dom
+- [ ] zendesk 1311, neon sync
+- [x] other nationbuilder slug ticket; ON-1853
+- [ ] try to wrap up the Delivery Data Admin page
+
+### the search for any other conversions affected by the senate groups bug
+Below are the queries I used in the rails console to collect and confirm all possible not-retired campaigns affected by the senate groups bug.  The below captures only the single campaign that I left with 4 un-redelivered conversions for test purposes.  I had a couple issues, so I take all the output from the final block and toss it into my IDE to search for the affected group_code, 'SD' and 'SR'.  Fortunately, both old and new group_code contain the same root string, so I still capture the campaigns who correctly deleted and re-added the two affected groups.
+
+With that, I can with great confidence call the re-delivery of campaigns affected by this issue completed.
+
+Feb 9 is the earliest that the new senate groups could have been deployed.
+The fix for the bug in the new senate groups was deployed on Mar 25
+```
+start_date = Date.new(2022,2,8)
+end_date = Date.new(2022,3,26)
+range = (start_date..end_date)
+
+conversions = Conversion.where(created_at: range).where("((disable_email_verifications is true) AND (rubberstamped is false) AND (bodycachd is not NULL) AND (recipients = '') AND (recipient_ids_expanded != ''))")
+
+promoted_message_ids = Conversion.where(created_at: range).where("((disable_email_verifications is true) AND (rubberstamped is false) AND (bodycachd is not NULL) AND (recipients = ''))").uniq.pluck(:promoted_message_id)  
+
+pms = PromotedMessage.where(id: promoted_message_ids, promoted_by: nil)
+pms_with_groups = []
+pms.each do |pm|
+  puts "ITERATION IS #{pm.id}"
+  if pm.selected_recipient.selected_recipient_groups == []
+    puts "PROMOTED MESSAGE #{pm.id} HAS NO GROUPS"
+  else
+    pms_with_groups.append pm.id
+    puts "PROMOTED MESSAGE #{pm.id} groups: #{pm.selected_recipient.selected_recipient_groups.inspect}"
   end
+end
+pms_with_groups
+
+pms = PromotedMessage.where(id: pms_with_groups, promoted_by: nil)
+pms.each do |pm|
+  puts "PROMOTED MESSAGE #{pm.id} groups: #{pm.selected_recipient.selected_recipient_groups.inspect}"
+end
+```
+
+
+## Tue, Apr 5 2022
+**Yesterday I**
+- Got the first official run of subcommittees and then also staffers done on production.  This included various testing and looking at how the data was presented as we confirmed that all was behaving how we expected.  It looks great!  That took a lot of my day.
+- reviewed a couple PRs
+- put the comment field PR out for review, ON-1864
+- responded to Dave and need more review for the redelivery rake task, ON-1865
+
+**Today I**
+- [x] get ON-1864 & 1865 PRs merged and deployed
+- [ ] run the rake task to get a client's deliveries out; then looking for the other couple of promoted messages in this state.  there aren't many, just need to craft the query correctly, then run the rake <- ALSO, look at the campaigns Dom sent over
+- [ ] look for the campaigns from Dom to check as I'm running the redelivery script; these are failing to go out but aren't under the Not Submitted category.  This should be interesting, I think.
+- [x] have a dental appointment at 10:45
+- [ ] try to get to the NB stuff for Dom
+- [x] made announcement of subcommittees and staffers
+- [ ] zendesk 1311, neon sync
+- [ ] other nationbuilder slug ticket
+
+### redelivery for senate groups bug
+This is a particularly good campaign for assessment: https://oneclickpolitics.com/promoter/39161/messages/15816/edit#display-options
+
+```
+bundle exec rake redeliver_invalid_conversions[15816,7,false,500] RAILS_ENV=production
+
+initial_delivery_failures_comment = comment[/[^;]+/]
+no_recipients, duplicates, banned, not_staged = initial_delivery_failures_comment.scan(/\d+/).map(&:to_i)
+
+not submitted
+1 - not submitted
+2 - duplicate (of a third)
+3 - no recipients
+4 - duplicate (of a third)
+5 - not staged
+
 ```
 
 
 ## Mon, Apr 4 2022
 **Friday I**
-- ON-1849, created PR for Delivery Data admin page improvements
+- ON-1849 (admin page), created PR for Delivery Data admin page improvements
 - ON-1863 (Deliveries), created an epic to track the different tasks for this effort to improve deliveries, delivery tracking, and delivery data with emphasis on deliveries that fail and/or don't get queued
-- ON-1864, created the Jira for and separated out the Conversion.comment work from the Data Delivery admin page work (ON-1849)
+- ON-1864 (comment), created the Jira for and separated out the Conversion.comment work from the Data Delivery admin page work (ON-1849)
 - ON-1864, created the PR for the comment field use for why a conversion cannot be queued for delivery, https://github.com/one-click-politics/one-click-politics/pull/648  Ready for review if Maged approves the work.
-- ON-1865, created the Jira for and separated out the rake task to redeliver the conversions affected by the senate groups bug; runs in batches, by promoted message ID, omitting any promoted message that is retired
+- ON-1865 (rake), created the Jira for and separated out the rake task to redeliver the conversions affected by the senate groups bug; runs in batches, by promoted message ID, omitting any promoted message that is retired
 - ON-1865, created the PR for the rake task, https://github.com/one-click-politics/one-click-politics/pull/649
 
 - [ ] find Invalid conversions from after the Senate groups fix.  So far, all the Invalid conversions I'm finding from examples/complaints from support are from before the fix.  
@@ -67,6 +1603,36 @@ Summary of what I'm seeing in Not Submitted:
 **Today I plan to**
 - [ ] meet with Maged to update him on the Not Submitted conversions findings
 - [ ] meet with Dave, plus review his PR, get it merged, and do the Cicero import with new staffer imports
+
+
+### subcommittee import for Cicero
+```
+
+def find_subcommittee_members_for(committee_name, state = "NA")
+subcommittee_hash = {}
+parent_id = Committee.active.where(:name => committee_name).where(:state => state).first.try(:id)
+if parent_id
+first_level_children_ids = RecipientRelation.where(:parent_recipient_id => parent_id).pluck(:child_recipient_id)
+first_level_children = Recipient.active.where(:id => first_level_children_ids).pluck(:name).sort
+first_level_children_ids.each do |id|
+first_level_child_name = Recipient.active.where(:id => id).first.name
+second_level_children_ids = RecipientRelation.where(:parent_recipient_id => id).pluck(:child_recipient_id)
+second_level_children = Recipient.active.where(:id => second_level_children_ids).pluck(:name).sort
+subcommittee_hash[first_level_child_name] = second_level_children
+end
+end
+puts "First-level members of #{committee_name}:\n"
+first_level_children.each do |member|
+puts "#{member}\n"
+end
+puts "Subcommittee structures of #{committee_name}:\n"
+subcommittee_hash.each do |subcommittee,members|
+puts "\n#{subcommittee}: #{members}\n" if members.present?
+end
+else
+puts "\nCommittee #{committee_name} not found.\n"
+end
+```
 
 
 ## Fri, Apr 1 2022
@@ -1018,7 +2584,7 @@ The National upper/lower and the State upper/lower are the shape files I’m fam
 - I wrote all that up in a long email to Darren with pictures.  Definitely CC Chazz and Maged.
 - did some code reviews
 - ON-1657 performed Cicero US import, with shapefiles
-- ON-1620 PR was just created for adding Senate Dem/Rep and House Dem/Rep
+- ON-1620 PR was just created for adding Senate Dem/Rep and House Dem/Rep (senate groups and house groups)
 
 **Today I plan to**
 - [ ] Do the toggle ticket next
@@ -2611,6 +4177,8 @@ Dayum!! Spent from 11 to 1:30 on Dave's big PR review.  Made over 40 comments.  
 
 
 ## Thu, Dec 9 2021
+
+
 
 ### handy commands, aws
 #### how to scp aws

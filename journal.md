@@ -1,6 +1,16 @@
 # Daily notes
 ## This journal tracks task lists, ideas, and projects
 
+### shopping treats to buy from Target
+- poptarts
+- cupcake goldfish
+- white cheddar puffs
+- pudding
+- red vines
+- sour patch kids
+- allergy meds
+- best miso ever, Marukome, Miso Original, 13.8 ounce.  Red bottle, Amazon, Miso & Easy.  Miso broth concentrate.
+
 ### November task list
 - [ ] 4 chairs, $500, this work has not yet been begun by Saul.  Probably will be delayed until November, so I'm moving it to that list for now.
 - [ ] buy and install water filter for kitchen
@@ -9,6 +19,19 @@
 - [ ] business water/trash
 - [ ] business permit at municipio
 - [ ] purchase a fan for the front room, from Todo a Dollar, like the one in my room which can be disassembled for cleaning
+
+
+### scribe then translate Spanish piece of Alan Walker's On My Way - in progress
+Lo siento mucho
+ven o me hoy
+porque que lado me le encuenta que nada soy
+y me con ser a luchar a di guerre a le mano
+y tal y fuer u da me pelo mano
+acepto me error tambien soy humano
+tu no ve que lago porque te amo
+pero ya no tengo mana casa  
+      patel
+   propia caminos    lajos de te
 
 
 ### Coming soon tasks
@@ -34,10 +57,103 @@ Because I cannot keep such a huge daily list, it is becoming unmanageable.  Also
 - [ ] 3 layer contracts.  Update: Danny has ordered, but needs an update, 25 Oct.  I'm hoping for these by Tues, 2 Nov.  Asked Danny on Saturday, Oct 2, to find someone to do this.  Check in with Danny on the progress.
 
 
+## Tue, May 3 2022
+### Danny
+Hi Danny,  Just checking in on how things are progressing with AmilKar.  I remember that the money was supposed to free up in March.  You and I had some messages a month ago that he was coming.  Nothing more has happened.  Do you know what is the plan?  ✅ sent 7pm Mon, May 2 2022.  She's trying weekly.  She sees him online now and will try.  I'm wondering if I should bring this up with Fanny.  After March this year, he is delaying and that is not responsible.
+
+Hi Danny,  I agree about having a big truck take away the garbage.  Is this something you can arrange?  How many loads do you think it will be and what is the price per load? ✅ sent 7pm Mon, May 2 2022.  She responded that she'll find out tomorrow.
+
+### Jean
+Need to do an email search for message from Ana on the resolution for the accident with the van.  BLOCKED BY LACK OF INTERNET
+
+Hi Jean, I wanted to check with you to make sure we have the current auto insurance paperwork available in every rental vehicle.  Can you confirm this?
+
+Please let me know when the Naturgy bill is paid?
+
+### Sissy
+Hi Sissy,  Do you remember the paperwork I gave to you to figure out so we could set up an auto-transfer of the monthly auto insurance payment for Rodrigo?  Now that the amount is consistent every month, I'd like to get this done.  We are paid for this month, so we have a few weeks to get this ready for June.
+
+- [ ] hand off house receipts to Sissy for identification, categorization, and tallying
+
+### Susan
+beginning of every month.  
+- [ ] check in with Danny at end of day Tue, May 3 if I haven't heard from her on the trash truck data
+- [ ] work on next trip to US - contacting folks for plans, in priority order (Susan for Ayden and Kai, Stacy/Alma, Misha, Keith/Tahlia, Sylvan, Heather, Sean/Marci, also consider a mass email; time to start writing up what I want to say to intro the idea to everyone)
+- [ ] make psych appointment for Kai required by the school
+- [ ] Kai and Susan dental appointment this week
+- [ ] make Las Lajas reservation; sent initial message, continue tomorrow
+- [ ] order allergy meds from Target
+- [ ] order more lotion
+- [ ] order more butt balm
+- [ ] research how to make passport renewal appointment for a minor, expedited for immediate travel
+- [ ] start list of restaurants and estimated budget each
+- [ ] find the invoice of the repair of the van to present the claim to the other insurance company; I worry that we only have the estimate and that Danny will need to get the actual receipt for the work because I did not receive it.  Also, I might have this information in a bank account.  Maybe check, maybe transfer.  Messages with Danny Feb 18 2021, $1985.40 Luis Caballero, cuenta de ahorros, banco general, 04-30-01-469003-3.  I checked carefully and no receipt was ever sent in WhatsApp by Danny.  The need to do this was probably forgotten with the sudden need to move out of the Jaramillo house.
+
+### travel cost planning, $3000 for travel to/from Panama
+- [x] research flights to US ($1500 for 2 for 1 way, this includes the hotel in PTY)
+- [x] research flights to PA, same price, same trick for overnighting at the Riande
+
+Summary:
+About $3000 for the trips there and back for both Kai and myself, includes overnighting in PTY for both trips
+
+## MAY 2022
+### US accounts
+- [x] pay Kai's phone, 66718724 (#1638746)  up to date, May 2 2022
+- [x] pay business phone, 63932521 (#1678356)  up to date, May 2 2022
+- [x] pay Susan's phone, 63305175 (#1678296)  up to date, May 2 2022
+- [x] pay house internet, (#311019100000)  up to date, May 2 2022
+- [ ] pay Susan's iphone 4259193122
+### PA accounts
+- [ ] pay Naturgy; this last weekend Jean mentioned this and an amount in the $70s, so while this month is due, generally this bill is being kept up.
+- [x] pay fleet insurance, 2 May: this was paid by the business along with the two most recent of Jean's weekly paychecks.  I'm pretty pleased by this news.  The plan is that as long as the business has in excess of $1000 in the account (after deposits are subtracted), the business will pay bills (Jean and insurance) whenevery doing so will not take the account below $1000.  
+- [x] pay rent, 2 May
+
+### grocery list
+eggs
+butter
+
+### US tasks
+- [ ] make Dr appointment for Kai to catch up on vaccinations
+
+
+## Mon, May 2 2022
+- [x] pay Kai's school
+      Queremos confirmar si ha realizado el pago de la mensualidad de marzo y abril, también esta pendiente el pago de uniformes.
+    195.00 marzo
+    195.00 abril
+     25.00 recargo abril
+     47.80 uniformes
+    462.80 total a pagar
+    195.00 mayo
+    657.80
+- [x] Check to see if anything is due on the phones or internet.  The plan is to start paying this at the
+
+
+## APRIL 2022
+### US accounts
+- [x] pay Kai's phone, 66718724 (#1638746)  **paid $44.84** on 24 Apr 2022 <- confirmed in email
+- [x] pay business phone, 63932521 (#1678356)  **paid $22.42** on 24 Apr 2022 <- confirmed in email
+- [x] pay Susan's phone, 63305175 (#1678296)  **paid $22.42** on 24 Apr 2022 <- confirmed in email
+- [x] pay house internet, (#311019100000)  **paid $62.66** on 24 Apr 2022 <- confirmed in email
+- [ ] pay Susan's iphone 4259193122
+
+### PA accounts
+- [ ] pay Naturgy
+- [x] pay fleet insurance
+- [x] pay rent
+
+
 ## MARCH 2022
 ### Quincy's Tavern
 Hi folks,
 I'm Susan.  I'm from the Pacific Northwest, though I now live in the country of Panamá.  I program computers, run a business, play various video games both old and new, enjoy reading F & S/F, love roleplaying with a good group, don't play nearly enough table top games, and play many instruments mostly badly.  Quincy's Tavern videos make me smile like I've come home to good friends.  It makes me happy to encounter others who create welcoming, safe, quirky community.  Happy to make all of your acquaintences here and to toast the Lucky Gryphon.
+
+### US accounts
+- [ ] pay Kai's phone, 66718724 (#1638746)  **paid $44.84** on 24 Apr 2022 <- confirmed in email
+- [ ] pay business phone, 63932521 (#1678356)  **paid $22.42** on 24 Apr 2022 <- confirmed in email
+- [ ] pay Susan's phone, 63305175 (#1678296)  **paid $22.42** on 24 Apr 2022 <- confirmed in email
+- [ ] pay house internet, (#311019100000)  **paid $62.66** on 24 Apr 2022 <- confirmed in email
+- [ ] pay Susan's iphone 4259193122
 
 ### US accounts
 - [x] pay Kai's phone, 66718724 (#1638746)  **paid $22.42** on 11 Mar 2022 <- confirmed in email!
