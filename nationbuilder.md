@@ -28,7 +28,7 @@ promoter_user_name = agency.name
 
 ### checking for NB slug and token authentication credentials in our system
 ```
-user = 39519
+user = 39902
 PromoterUser.find(user).master_account.authentications
 
 PromoterUser.where(agency_id: user)

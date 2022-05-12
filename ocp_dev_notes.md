@@ -21,6 +21,34 @@ This doc will have unchecked tasks in the past.  These are either obsolete, or h
 ---
 
 
+## Thu, May 12 2022
+**Friday I**
+- Did all the prep work for the advocate upload and got it checked in, PR'ed, merged, and deployed...but not performed on prod
+- Get the data logging for the rake task PR reviewed and deployed so I can get that rake task run on production.  This is the rake task correcting the older, active campaigns with US fed targets to `require_phone: true`.  Collecting the data Maged asked for when this task is run took more effort and implementation than realized.  Should be able to complete all aspects today.  🤞  ON-1959
+
+**Today I plan to**
+- [x] prove afa and subsidiary data for signatures and deliveries.  Again.  Sigh.  They are seeing inflated numbers by FB and Google Analytics and thus dis-believe our numbers.  Prove this a final time, with Very digestable (for Darren) data (for client)., data is down under last Friday under the header "afa NB sync data", where I left off on Friday, then updated today almost a week later.  Summary written up and sent to Darren and Maged.
+- [ ] Cicero import
+- [ ] install and run SonarQube
+- [ ] Maged has 2 new tickets
+- [ ] ON-1960, continue on the research for recipients with an eye towards ElasticSearch and the recipients API
+
+- [ ] create ticket for US fed require_phone: true fix for multicontent and for committees
+
+
+## Wed, May 11 2022
+**Sick Day**
+This was a bad cold.  Kai had it over the weekend and I started coming down with it early Monday morning.  I found myself falling over to nap all weekend, so clearly I'd been fighting it hard, but not enough.  By Thursday, my symptoms were down to stuffed ears, fuzzy and slower thinking, a very slight but unproductive cough, body aches, and incredibly low energy.  No fever at all though I checked a lot.
+
+
+## Tue, May 10 2022
+**Sick Day**
+
+
+## Mon, May 9 2022
+**Sick Day**
+
+
 ## Fri, May 6 2022
 **Yesterday I**
 - Reviewed several of Shams' PRs.
@@ -29,23 +57,138 @@ This doc will have unchecked tasks in the past.  These are either obsolete, or h
 The steps for the advocate upload for Turo are in progress, ON-1961.
 
 **Today I plan to**
-- Wrap up the advocate upload.
-- Add sonarQ.
+- Did all the prep work for the advocate upload and got it checked in, PR'ed, merged, and deployed...but not performed on prod
 - Get the data logging for the rake task PR reviewed and deployed so I can get that rake task run on production.  This is the rake task correcting the older, active campaigns with US fed targets to `require_phone: true`.  Collecting the data Maged asked for when this task is run took more effort and implementation than realized.  Should be able to complete all aspects today.  🤞  ON-1959
 - Work on the research for recipients with an eye towards ElasticSearch and the recipients API.  ON-1960
 
 - [ ] adding sonarQ
 - [ ] do the Advocate upload, ON-1961
-  - [ ] create Jira for Advocate upload (info in email)
-  - [ ] figure out the instructions from the Dev Doc,
-  - [ ] added the promoter file specific method (Tue, Jan 25 2022, ON-1605)
-  - [ ] prep file for Advocate upload
+  - [x] create Jira for Advocate upload (info in email)
+  - [x] figure out the instructions from the Dev Doc,
+  - [x] added the promoter file specific method (Tue, Jan 25 2022, ON-1605)
+  - [x] prep file for Advocate upload
   - [ ] test it locally
   - [ ] check in and merge file for Advocate upload
   - [ ] perform Advocate upload
 - [ ] ON-1960, continue on the research for recipients with an eye towards ElasticSearch and the recipients API
 
+- [ ] create ticket for US fed require_phone: true fix for multicontent and for committees
 
+### As reported on Tuesday
+```
+irb(main):007:0> DateTime.new(2012, 12, 17)
+=> Mon, 17 Dec 2012 00:00:00 +0000
+irb(main):008:0> end_date = DateTime.new(2022, 4, 25)
+=> Mon, 25 Apr 2022 00:00:00 +0000
+irb(main):009:0> start_date = DateTime.new(2022, 4, 20)
+=> Wed, 20 Apr 2022 00:00:00 +0000
+irb(main):010:0>
+irb(main):011:0* range = (start_date..end_date)
+=> Wed, 20 Apr 2022 00:00:00 +0000..Mon, 25 Apr 2022 00:00:00 +0000
+irb(main):012:0> SynchronizeCall.where(model_type: "NationBuilderSynchronizeCall", promoter_user_id: 39517, created_at: range).last
+  SynchronizeCall Load (5.1ms)  SELECT "synchronize_calls".* FROM "synchronize_calls" WHERE "synchronize_calls"."model_type" = 'NationBuilderSynchronizeCall' AND "synchronize_calls"."promoter_user_id" = 39517 AND ("synchronize_calls"."created_at" BETWEEN '2022-04-20 00:00:00' AND '2022-04-25 00:00:00') ORDER BY "synchronize_calls"."id" DESC LIMIT 1
+=> #<NationBuilderSynchronizeCall id: 515672, promoter_user_id: 39517, status: "success", action: "0 AdvocateProfiles - 0 Recipients - 0 Emails - 0 Se...", model_type: "NationBuilderSynchronizeCall", service_type: nil, created_at: "2022-04-24 23:01:47", updated_at: "2022-04-24 23:01:55", extra_data: "\n2022-04-24 23:01:47 +0000 - Begin sync_all\n2022-04...", log: nil, start_id: nil, end_id: nil, table_name: nil>
+irb(main):013:0> SynchronizeCall.where(model_type: "NationBuilderSynchronizeCall", promoter_user_id: 39517, created_at: range).count
+   (2.8ms)  SELECT COUNT(*) FROM "synchronize_calls" WHERE "synchronize_calls"."model_type" = 'NationBuilderSynchronizeCall' AND "synchronize_calls"."promoter_user_id" = 39517 AND ("synchronize_calls"."created_at" BETWEEN '2022-04-20 00:00:00' AND '2022-04-25 00:00:00')
+=> 29
+irb(main):014:0> end_date = DateTime.new(2022, 4, 26)
+=> Tue, 26 Apr 2022 00:00:00 +0000
+irb(main):015:0> start_date = DateTime.new(2022, 4, 20)
+=> Wed, 20 Apr 2022 00:00:00 +0000
+irb(main):016:0>
+irb(main):017:0* range = (start_date..end_date)
+=> Wed, 20 Apr 2022 00:00:00 +0000..Tue, 26 Apr 2022 00:00:00 +0000
+SynchronizeCall.where(model_type: "NationBuilderSynchronizeCall", promoter_user_id: 39517, created_at: range).count
+=> 36
+SynchronizeCall.where(model_type: "NationBuilderSynchronizeCall", promoter_user_id: 39517, created_at: range).pluck(:action)
+SynchronizeCall.where(model_type: "NationBuilderSynchronizeCall", promoter_user_id: 39518, created_at: range).pluck(:action)
+```
+
+### afa NB sync data, ON-1962
+AFA, PromoterUser 39610 numbers for NB syncs by campaign:
+  PromotedMessage 16581, "2022 - Steve Dettelbach ATF – Petition - Emily Only - dett09"
+    25 tags synced with NB
+  PromotedMessage 16580, "2022 - Steve Dettelbach ATF – Petition - Emily Only - dett08"
+    6 tags synced with NB
+  PromotedMessage 16579, "2022 - Steve Dettelbach ATF – Petition - Emily Only - dett07"
+    33 tags synced with NB
+  PromotedMessage 16578, "2022 - Steve Dettelbach ATF – Petition - Emily Only - dett06"
+    33 tags synced with NB
+  PromotedMessage 16577, "2022 - Steve Dettelbach ATF – Petition - Emily Only - dett05"
+    49 tags synced with NB
+  PromotedMessage 16576, "2022 - Steve Dettelbach ATF – Petition - Emily Only - dett04"
+    114 tags synced with NB
+  PromotedMessage 16575, "2022 - Steve Dettelbach ATF – Petition - Emily Only - dett03"
+    8 tags synced with NB
+  PromotedMessage 16573, "2022 - Steve Dettelbach ATF – Petition - Emily Only - dett02"
+    15 tags synced with NB
+  PromotedMessage 16572, "2022 - Steve Dettelbach ATF – Petition - Emily Only - dett01"
+    159 tags synced with NB
+```
+cat log/nation_builder_sync.log | grep "Promoter: 39610" | grep "PromotedMessage: 16581"
+cat log/nation_builder_sync.log | grep "Promoter: 39610" | grep "PromotedMessage: 16580"
+cat log/nation_builder_sync.log | grep "Promoter: 39610" | grep "PromotedMessage: 16579"
+cat log/nation_builder_sync.log | grep "Promoter: 39610" | grep "PromotedMessage: 16578"
+cat log/nation_builder_sync.log | grep "Promoter: 39610" | grep "PromotedMessage: 16577"
+cat log/nation_builder_sync.log | grep "Promoter: 39610" | grep "PromotedMessage: 16576"
+cat log/nation_builder_sync.log | grep "Promoter: 39610" | grep "PromotedMessage: 16575"
+cat log/nation_builder_sync.log | grep "Promoter: 39610" | grep "PromotedMessage: 16573"
+cat log/nation_builder_sync.log | grep "Promoter: 39610" | grep "PromotedMessage: 16572"
+
+cat log/nation_builder_sync.log.1 | grep "Promoter: 39610" | grep "PromotedMessage: 16581" | grep -c "2022-04-2"
+25 tags
+cat log/nation_builder_sync.log.1 | grep "Promoter: 39610" | grep "PromotedMessage: 16580" | grep -c "2022-04-2"
+6 tags
+cat log/nation_builder_sync.log.1 | grep "Promoter: 39610" | grep "PromotedMessage: 16579" | grep -c "2022-04-2"
+33 tags
+cat log/nation_builder_sync.log.1 | grep "Promoter: 39610" | grep "PromotedMessage: 16578" | grep -c "2022-04-2"
+33 tags
+cat log/nation_builder_sync.log.1 | grep "Promoter: 39610" | grep "PromotedMessage: 16577" | grep -c "2022-04-2"
+49 tags
+cat log/nation_builder_sync.log.1 | grep "Promoter: 39610" | grep "PromotedMessage: 16576" | grep -c "2022-04-2"
+114 tags
+cat log/nation_builder_sync.log.1 | grep "Promoter: 39610" | grep "PromotedMessage: 16575" | grep -c "2022-04-2"
+8 tags
+cat log/nation_builder_sync.log.1 | grep "Promoter: 39610" | grep "PromotedMessage: 16573" | grep -c "2022-04-2"
+15 tags
+cat log/nation_builder_sync.log.1 | grep "Promoter: 39610" | grep "PromotedMessage: 16572" | grep -c "2022-04-2"
+159 tags
+```
+
+NYSFA, PromoterUser 39519 numbers for NB syncs by campaign:
+  PromotedMessage 16643, "2022 - S-8415/A-9563 (Ammo Tax) - Petition - Emily Only - ammotx1 "
+    3726 tags synced with NB
+  PromotedMessage 16426, "2022 - S-8415/A-9563 (Ammo Tax) - Petition - Emily Only"
+    2376 tags synced with NB
+```
+cat log/nation_builder_sync.log | grep "Promoter: 39519" | grep -c "PromotedMessage: 16643"
+3726 tags
+cat log/nation_builder_sync.log | grep "Promoter: 39519" | grep -c "PromotedMessage: 16426"
+2 tags
+
+cat log/nation_builder_sync.log.1 | grep "Promoter: 39519" | grep "PromotedMessage: 16643" | grep -c "2022-04-2"
+0 tags
+cat log/nation_builder_sync.log.1 | grep "Promoter: 39519" | grep "PromotedMessage: 16426" | grep -c "2022-04-2"
+2374 tags
+```
+
+MNRTL, PromoterUser 39902 numbers for NB syncs by campaign:
+Numbers by campaign:
+  PromotedMessage 16713, "2022 - Overturn Roe V Wade - Supreme Court - Petition"
+```
+cat log/nation_builder_sync.log | grep "Promoter: 39902" | grep -c "PromotedMessage: 16713"
+xx tags
+```
+
+```
+{"message":"Create NationBuilder tag for Promoter: 13607  Conversion: 26738460  SenderProfile: 18841033  PromotedMessage: 16704  PersonId: 20193  Tag: Venezuela Letter LATAM.  ","@timestamp":"2022-05-03T20:01:31.510+00:00","@version":"1","severity":"INFO","host":"ip-172-30-1-220","tags":["nation_builder","task","sync"],"environment":"production"}
+```
+
+NationBuilderSynchronizeCall data from May 3 for AFA and the gang.
+/Users/susanprestage/code/data_nation_builder_syncs.txt
+
+
+### disappointed, sad, and distracted
 
 Unfortunately, Maged inadvertantly taught me to stop monitoring the Zendesk tickets and definitely not bring them up or they'll automatically get assigned to me without the words actually being said.  It is too bad that I stepped on this.  I saw an urgent Zendesk ticket yesterday and brought it up to him to make sure it was on his radar.  He said it was on his radar, so I promptly forgot about it and filed the zendesk ticket email.  This morning in standup he asks if it is done!?!  I explained I had no idea he was assigning it to me and that I'd get right on it, though I've only done a single advocate import previously.  I'm rather disappointed that bringing up a work item to him got dumped on me automatically and without actually saying the words.  So, for the future, I simply won't bring it up since there is certainly no reward for doing so and more of a punishment, really, since when I brought it up, I didn't want to do the work item.  Feh!  Disappointing.  So, when the cat vomits on the floor, walk around it and don't tell anyone.  I am adding to the Zendesk filter to auto-archive from now on.   :(    😥😥😥    :.(    Weirdly, I must be overworked, overwhelmed, or something because this whole thing makes me cry.  I think I need to take a short break.  
 
@@ -1727,7 +1870,8 @@ I spent the day diagnosing Data Delivery issues, fixing issues on the DD admin p
 
 
 ## Tue, Mar 29 2022
-sick day, intestinal distress
+**Sick Day**
+intestinal distress
 
 ## Mon, Mar 28 2022
 ### Data Delivery admin page

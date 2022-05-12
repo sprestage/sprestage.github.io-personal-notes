@@ -189,7 +189,7 @@ These tasks shouldn't duplicate or override any existing address records.
 You can now update our staffer data by entering the Rails console and running:
 
 ```
-require ('importer_modules/united_states/cicero/import_cicero_us_legislator_profiles)
+require ('importer_modules/united_states/cicero/import_cicero_us_legislator_profiles')
 ```
 
 First, you can clear existing legislator profiles and staffer data:
