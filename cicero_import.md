@@ -62,6 +62,7 @@ and should include a user with access to our Cicero S3 bucket:
 To access the latest Cicero data using these credentials, call:
 ```
   aws --profile cicero_user s3 ls --recursive s3://cicero-global-data-us-east-1/OneClickPolitics/
+  aws --profile cicero_user s3 ls --recursive s3://cicero-global-data-us-east-1/OneClickPolitics/ | grep latest | grep '2022-05'
 ```
 
 Retrieve the latest shapefiles by downloading and extracting cicero_us_districts.zip:

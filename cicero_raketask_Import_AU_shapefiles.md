@@ -29,7 +29,7 @@ scp -i ~/.ssh/id_rsa *AU.sql ubuntu@prod.oneclickpolitics.com:~/australia/2022_0
 
 **Step 3.**  Now use .reset_table to give us the precise new_districts table we need:
 ```
- NewDistrict.reset_table :au_geom_srid => '4326', :columns => { :district_i => :string, :city => :string, :state => :string, :district_t => :float, :subtype => :string, :valid_from => :string, :valid_to => :string, :ocd_id => :string }
+ NewDistrict.reset_table :au_geom_srid => '4326', :columns => { :district_i => :string, :state => :string, :district_t => :float, :subtype => :string, :valid_from => :string, :valid_to => :string, :ocd_id => :string }
 ```
 
 **Step 4.**  Now use psql to import these .sql shape records into the new_districts table.  Give the correct database endpoint after argument -h

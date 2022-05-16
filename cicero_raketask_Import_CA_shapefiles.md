@@ -4,8 +4,8 @@ Before using rake import_cicero_canada_shapefiles, you'll need to import Cicero'
 
 **Step 1.**  Start with shp2pgsql calls to convert the two relevant .shp files into usable .sql:
 ```
-sudo shp2pgsql -s 4326 -g ca_geom /Users/dt/Downloads/cicero_ca_districts/district_statelower_ca.shp public.new_districts > STATELOWER_CA.sql
-sudo shp2pgsql -s 4326 -g ca_geom /Users/dt/Downloads/cicero_ca_districts/district_nationallower_ca.shp public.new_districts > NATIONALLOWER_CA.sql
+shp2pgsql -s 4326 -g ca_geom cicero_ca_districts/district_statelower_ca.shp public.new_districts > STATELOWER_CA.sql
+shp2pgsql -s 4326 -g ca_geom cicero_ca_districts/district_nationallower_ca.shp public.new_districts > NATIONALLOWER_CA.sql
 ```
 The national upper shapes are just the state/territory boundaries themselves, which we won't need to match against lats and lons.
 
@@ -21,13 +21,14 @@ scp -i ~/.ssh/ ../CiceroImports/canada/*CA.sql ubuntu@ec2-54-235-144-131.compute
 prod - 938hg3kk
 ```
 scp -i ~/.ssh/id_rsa ../../one-click-politics/docker/postgres/*CA.sql ubuntu@prod.oneclickpolitics.com:~/canada/oct2021
+scp -i ~/.ssh/id_rsa *CA.sql ubuntu@prod.oneclickpolitics.com:~/canada/2022_05
 ```
 
    The preceding lines are used to set up our new_districts table, and we won't need them - we're going to do this with the NewDistrict.reset_table command.
 
 **Step 3.**  Now use .reset_table to give us the precise new_districts table we need:
 ```
-NewDistrict.reset_table :ca_geom_srid => '4326', :columns => { :district_i => :string, :city => :string, :state => :string, :district_t => :float, :subtype => :string, :valid_from => :string, :valid_to => :string, :ocd_id => :string }
+NewDistrict.reset_table :ca_geom_srid => '4326', :columns => { :district_i => :string, :state => :string, :district_t => :float, :subtype => :string, :valid_from => :string, :valid_to => :string, :ocd_id => :string }
 ```
 
 **Step 4.**  Now use psql to import these .sql shape records into the new_districts table.  Give the correct database endpoint after argument -h

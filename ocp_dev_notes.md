@@ -1,4 +1,4 @@
-# OCP daily dev notes
+  # OCP daily dev notes
 This doc will have unchecked tasks in the past.  These are either obsolete, or have been moved to the current day.  This is a different style from my personal tracking journal which either checks them or moves them to the current day.  The goal in this doc is to preserve my status report for later reference, so that is where the unchecked are likely to be preserved.
 
 ## Various useful howto docs I've written for my use at OCP
@@ -21,13 +21,111 @@ This doc will have unchecked tasks in the past.  These are either obsolete, or h
 ---
 
 
+## Mon, May 16 2022
+**Friday I**
+- ON-1959, with some hiccups that Maged noticed, I was able to completely run through the rake task changing `require_phone: true`.  The hiccups were 3 or 4 old campaigns with inactive recipients without an office.  The `is_national?` method in promoted_message.rb does not handle that use case.  I manually changed `require_phone: true` in those 3-4 cases and re-ran the script until successful completion.  All data is logged in the ticket, with specifics included for how many and which campaigns were affected by targeting
+    All Congress
+    All House
+    All Republicans
+    House Republicans
+    Richard Hudson <- the target that turned up this issue in the first place
+- Successfully ran the SonarQube analysis on the one-click-politics repo.  And am wondering if this should be run against the deliveries-api repo as well?
+- Paired with Shams to plan for how to go about adding in petitions and advocate uploads (bulk petitions) to what we send to ElasticSearch.  Since they aren't "delivered", they got skipped in the initial implementation.
+- Met with Maged and made a plan to address the above in 3 steps:
+  - immediate: Coordinated with Shams to run the rake task on the Tuvo client to get the advocate upload data into Advocate Universe as an immediate solution/workaround.
+  - immediate+1: I then confirmed on Advocate Universe pages on prod that the new data is present for Tuvo
+  - created ticket for a new endpoint in the deliveries API to accommodate petitions and advocate uploads (bulk petitions), ON-1973
+- ON-1973, started work on the new advocate_for_promoters endpoint being added to the deliveries api so that petitions and bulk petitions (aka advacate upload) are also sent to ElasticSearch.  Otherwise petition advocates aren't included in the Advocate Universe analytics pages.  NOTE:
+
+**Today I plan to**
+- [ ] ON-1973, pair with Shams to get my environment to successfully run the exising delivery_api specs
+- [ ] ON-1973, continue working on the create and update methods in the advocate_for_promoters_controller
+- [ ] add NB token for support; see email
+- [ ] House,  for any campaigns that are cwc related, wif it fails we need to add the second cwc endpoint.
+we should nevergo email even if the other endpoints fail.
+- [ ] create tickets for the 4 imports since the quarterly data has arrived
+  - cicero us import, ON-1974
+  - cicero uk import, ON-1975
+  - cicero au import, ON-1976
+  - cicero ca import, ON-1977, districts only
+- [ ] perform cicero us import, ON-1974
+- [ ] perform cicero au import, ON-1976
+- [ ] perform cicero ca import, ON-1977
+- [x] ON-1978, why are deliveries failing to reach Recipient John Carney, Governor DE.  Short story: WebMailAddress fails (always for Governors it appears), EmailAddress missing in most cases, when FaxAddress missing, delivery fails.
+- [x] email sent to Cicero asking for Governor emails that are missing in most Governor data.  (silly though, since an online search shows most Govs using WebMailAddress)
+
+- DON'T START THIS WITHOUT CHECKING IN WITH MAGED AS HE HAS SOMETHING ELSE BIG WAITING FOR ME: ON-1960, continue on the research for recipients with an eye towards ElasticSearch and the recipients API
+- [ ] create ticket for US fed require_phone: true fix for multicontent and for committees
+
+### Awesome new git commands
+https://bootcamp.uxdesign.cc/git-commands-nobody-has-told-you-cd7025bea8db
+
+
+## Fri, May 13 2022
+**Yesterday I**
+- ON-1962, Analyzed AFA and subsidiary data for signatures, deliveries, and syncs.  Sent report to Maged and Darren and put all my notes in the ticket.  Ticket in Blocked state awaiting thumbs up or further work.  The campaigns inquired about are all petitions.
+- ON-1972, Cicero US import is complete.
+- I installed and got the SonarQube server running locally.  Today I will attempt to run the analysis and see how that goes.
+
+**Today I plan to**
+- [x] Run the SonarQube analysis
+- [x] ON-1959, Run rake task correcting the older, active campaigns with US fed targets to `require_phone: true`.  Summary of changed campaigns added to Jira as well as the full rake task output attached to Jira ticket.  Running this triggered an interesting issue where old (but still active, though without recent signatures) campaigns would have inactive recipients with no office.  This would crash the rake task in the PromotedMessage.is_national? method.  To work around this issue, I manually changed require_phone to true on these campaigns.  Only 3 or 4 needed this by-hand treatment.  
+- [x] Contact Shams to pair how to go about adding in petitions and advocate uploads (bulk petitions) to what we send to ElasticSearch.  Since they aren't "delivered", they got skipped in the initial implementation.
+- [x] Coordinate with Shams to run the rake task on the Tuvo client to get the advocate upload data into Advocate Universe as an immediate solution/workaround.
+- [x] Confirm that Advocate Universe is now populated with the uploaded advocates.  
+- [x] Start adding the new endpoint to the delivery API.  
+```
+Create a new controller, AdvocateForPromoterController
+
+create methods create and update
+
+addition in routes.rb
+    resources :advocate_for_promoters, only: %i[create update] (edited)
+```
+- DON'T START THIS WITHOUT CHECKING IN WITH MAGED AS HE HAS SOMETHING ELSE BIG WAITING FOR ME: ON-1960, continue on the research for recipients with an eye towards ElasticSearch and the recipients API
+- [ ] create ticket for US fed require_phone: true fix for multicontent and for committees
+
+Turo, ask nate to forward me the email.  Run the rake task.  Confirm the data is on the Advocate universe page.  Then proceeed to learn enough from Shams to implemenent new endpoint.
+
+### SonarQube, how to use
+#### install and setup
+https://docs.sonarqube.org/latest/setup/get-started-2-minutes/
+```
+  brew install sonar
+  brew install sonar-scanner
+  ls -l /usr/local/Cellar/sonar-scanner/4.7.0.2747/
+  vi  ~/.profile
+  vi sonar-project.properties
+```
+
+#### run SonarQube server
+```
+  brew services start sonarqube
+```
+
+#### SonarQube analysis (initial run)
+https://docs.sonarqube.org/latest/analysis/scan/sonarscanner/
+
+In the project folder, run this at the commandline:
+```
+  sonar-scanner \
+  -Dsonar.projectKey=one-click-politics \
+  -Dsonar.sources=. \
+  -Dsonar.host.url=http://localhost:9000 \
+  -Dsonar.login=71bd9b39e3a0277901eaade635cef11f86ecade5
+```
+
+#### SonarQube dashboard
+http://localhost:9000/dashboard?id=one-click-politics
+
+
 ## Thu, May 12 2022
 **Friday I**
-- Did all the prep work for the advocate upload and got it checked in, PR'ed, merged, and deployed...but not performed on prod
+- ON-1961, Did all the prep work for the advocate upload and got it checked in, PR'ed, merged, and deployed...but not performed on prod
 - Get the data logging for the rake task PR reviewed and deployed so I can get that rake task run on production.  This is the rake task correcting the older, active campaigns with US fed targets to `require_phone: true`.  Collecting the data Maged asked for when this task is run took more effort and implementation than realized.  Should be able to complete all aspects today.  🤞  ON-1959
 
 **Today I plan to**
-- [x] prove afa and subsidiary data for signatures and deliveries.  Again.  Sigh.  They are seeing inflated numbers by FB and Google Analytics and thus dis-believe our numbers.  Prove this a final time, with Very digestable (for Darren) data (for client)., data is down under last Friday under the header "afa NB sync data", where I left off on Friday, then updated today almost a week later.  Summary written up and sent to Darren and Maged.
+- [x] ON-1962, prove afa and subsidiary data for signatures and deliveries.  Again.  Sigh.  They are seeing inflated numbers by FB and Google Analytics and thus dis-believe our numbers.  Prove this a final time, with Very digestable (for Darren) data (for client)., data is down under last Friday under the header "afa NB sync data", where I left off on Friday, then updated today almost a week later.  Summary written up and sent to Darren and Maged.
 - [ ] Cicero import
 - [ ] install and run SonarQube
 - [ ] Maged has 2 new tickets
@@ -297,7 +395,7 @@ Recipients will eventually be its own API.
 - [x] (hopefully!) merge in ON-1829 with Nate's approval; deployed with Cicero data
 - [x] Cicero US import
 - [x] solve support's latest worry (Chazz and Darren); there were queues without agents.  when I deployed and restarted the agents, this resolved.  Darren was worried because there was more data in the download than on the page so I explained that the page data is generated only once per day, but the download is fully generated upon request.
-- [ ] ON-1663, started on the work for the state level additional groups, House Dems, House Repubs, Senate Dems, Senate Repubs, fed level ticket for reference was ON-1620
+- [ ] ON-1663, started on the work for the state level additional groups, House Dems, House Repubs, Senate Dems, Senate Repubs, fed level ticket for reference was ON-1620 (https://github.com/one-click-politics/one-click-politics/pull/576/files)
 
 **Today I plan to**
 - [ ] attend the support meeting
