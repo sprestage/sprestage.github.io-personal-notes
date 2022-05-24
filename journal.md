@@ -107,6 +107,7 @@ About $3000 for the trips there and back for both Kai and myself, includes overn
 - [ ] pay Naturgy; this last weekend Jean mentioned this and an amount in the $70s, so while this month is due, generally this bill is being kept up.
 - [x] pay fleet insurance, 2 May: this was paid by the business along with the two most recent of Jean's weekly paychecks.  I'm pretty pleased by this news.  The plan is that as long as the business has in excess of $1000 in the account (after deposits are subtracted), the business will pay bills (Jean and insurance) whenevery doing so will not take the account below $1000.  
 - [x] pay rent, 2 May
+- [x] AIB 195.00 Mayo
 
 ### grocery list
 eggs
@@ -162,6 +163,19 @@ I'm Susan.  I'm from the Pacific Northwest, though I now live in the country of 
 - [ ] pay house internet, (#311019100000)  **paid $125.32** on 1 Apr 2022 <- confirmed in email?
 - [ ] pay Susan's iphone 4259193122
 
+
+### Anime to watch
+- Silent Voice (2017)
+- Your Name (2017)
+- Wolf Children (2013)
+- Colorful (2011)
+- The Girl Who Leapt Through Time (2007)
+- Paprika (2007)
+- In This Corner Of the World (2017)
+- The Tale of Princess Kaguya (2014)
+- Tokyo Godfathers (2004)
+- Millenium Actress (2003)
+-
 
 ### Walker
 #### favorite Alan Walker videos:

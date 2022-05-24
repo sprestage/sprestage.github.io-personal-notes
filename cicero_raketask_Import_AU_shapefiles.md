@@ -36,10 +36,10 @@ scp -i ~/.ssh/id_rsa *AU.sql ubuntu@prod.oneclickpolitics.com:~/australia/2022_0
 
 Production
 ```
-psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/2022_03_14/STATELOWER_AU.sql
-psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/2022_03_14/STATEUPPER_AU.sql
-psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/2022_03_14/NATIONALLOWER_AU.sql
-psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/2022_03_14/NATIONALUPPER_AU.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/2022_05/STATELOWER_AU.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/2022_05/STATEUPPER_AU.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/2022_05/NATIONALLOWER_AU.sql
+psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/australia/2022_05/NATIONALUPPER_AU.sql
 ```
 Staging
 ```

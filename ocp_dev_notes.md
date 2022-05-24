@@ -21,6 +21,382 @@ This doc will have unchecked tasks in the past.  These are either obsolete, or h
 ---
 
 
+### missing delivery type to be added to the campaign_delivery_data.rake task (and fixed on DD admin page)
+Below is a twitter campaign, queued_at: nil
+
+The below shows as Status Not Submitted, rubberstamped: false
+
+```
+<Conversion id: 26679092, archive_message_id: nil, sender_id: 19631997, created_at: "2022-04-24 01:42:00", updated_at: "2022-04-24 01:42:30", promoted_message_id: 16543, perishable_token: nil, permitted: false, subject: "", bodycachd: nil, topic: nil, recipients: "199367", external_message_id: nil, recipient_count: 1, finished_and_archived_to: nil, reached_recipient_count: nil, staged: true, oppose_flag: nil, allow_responses: true, comment: nil, widget_send: true, rubberstamped: false, quorum_gated: nil, preselected_recipients_at_creation: nil, deliveries_sent_at: nil, recipients_calculated_at: "2022-04-24 01:42:00", recipient_ids_always_send_and_local: "199367", reached_recipient_names: nil, recipient_ids_local: "199367", recipient_ids_always_send: "", recipient_ids_expanded: "199367", disable_email_verifications: true, sender_address_for_recipients: "60 COURT D", sender_city_for_recipients: "BRIDGEPORT", sender_zip_for_recipients: "06610", sender_state_id_for_recipients: 7, sender_latitude_for_recipients: 41.198684, sender_longitude_for_recipients: -73.157184, queued_at: nil, reached_recipient_ids: nil, redelivered: false, nation_builder_email_synced: false, nation_builder_tag_synced: false, nation_builder_unsyncable: false, multi_content: false, recipient_ids_expanded_content_one: nil, recipient_ids_expanded_content_two: nil, bodycachd_two: nil, subject_two: nil, reached_recipient_count_content_one: nil, reached_recipient_count_content_two: nil, reached_recipient_names_content_one: nil, reached_recipient_names_content_two: nil, reached_recipient_ids_content_one: nil, reached_recipient_ids_content_two: nil, signature_in_nodb_at: "2022-04-24 01:42:30", signature_in_nodb: true, backup_in_nodb_at: nil, backup_in_nodb: nil, opt_in: true>
+```
+
+
+This is a video campaign, which is email, but doesn't have a bodycachd, but does have a subject  This is one that didn't deliver successfully.  Look for a successfully delivered example as well.
+```
+#<Conversion id: 26673349, archive_message_id: nil, sender_id: 19627072, created_at: "2022-04-22 19:47:32", updated_at: "2022-04-22 19:51:30", promoted_message_id: 16544, perishable_token: nil, permitted: false, subject: " copy copy", bodycachd: nil, topic: nil, recipients: "199367", external_message_id: nil, recipient_count: 1, finished_and_archived_to: nil, reached_recipient_count: nil, staged: true, oppose_flag: nil, allow_responses: true, comment: nil, widget_send: true, rubberstamped: true, quorum_gated: nil, preselected_recipients_at_creation: nil, deliveries_sent_at: nil, recipients_calculated_at: "2022-04-22 19:47:32", recipient_ids_always_send_and_local: "199367", reached_recipient_names: nil, recipient_ids_local: "199367", recipient_ids_always_send: "", recipient_ids_expanded: "199367", disable_email_verifications: true, sender_address_for_recipients: "160 Pulaski St", sender_city_for_recipients: "Bridgeport", sender_zip_for_recipients: "06608", sender_state_id_for_recipients: 7, sender_latitude_for_recipients: 41.183912, sender_longitude_for_recipients: -73.184244, queued_at: nil, reached_recipient_ids: nil, redelivered: false, nation_builder_email_synced: false, nation_builder_tag_synced: false, nation_builder_unsyncable: false, multi_content: false, recipient_ids_expanded_content_one: nil, recipient_ids_expanded_content_two: nil, bodycachd_two: nil, subject_two: nil, reached_recipient_count_content_one: nil, reached_recipient_count_content_two: nil, reached_recipient_names_content_one: nil, reached_recipient_names_content_two: nil, reached_recipient_ids_content_one: nil, reached_recipient_ids_content_two: nil, signature_in_nodb_at: "2022-04-22 19:47:35", signature_in_nodb: true, backup_in_nodb_at: nil, backup_in_nodb: nil, opt_in: true>
+irb(main):002:0>
+```
+
+The above shows on the Delivery Data page as Status <blank>.  (on the left side)  , rubberstamped: true
+
+queued_at: nil for both
+
+The below shows as Status Not Submitted, rubberstamped: false
+```
+#<Conversion id: 26668889, archive_message_id: nil, sender_id: 19623077, created_at: "2022-04-22 12:02:22", updated_at: "2022-04-22 12:02:26", promoted_message_id: 16544, perishable_token: nil, permitted: false, subject: " copy copy", bodycachd: nil, topic: nil, recipients: "199367", external_message_id: nil, recipient_count: 1, finished_and_archived_to: nil, reached_recipient_count: nil, staged: true, oppose_flag: nil, allow_responses: true, comment: nil, widget_send: true, rubberstamped: false, quorum_gated: nil, preselected_recipients_at_creation: nil, deliveries_sent_at: nil, recipients_calculated_at: "2022-04-22 12:02:23", recipient_ids_always_send_and_local: "199367", reached_recipient_names: nil, recipient_ids_local: "199367", recipient_ids_always_send: "", recipient_ids_expanded: "199367", disable_email_verifications: true, sender_address_for_recipients: "45 Hackley Street, Unit B", sender_city_for_recipients: "Bridgeport", sender_zip_for_recipients: "06605", sender_state_id_for_recipients: 7, sender_latitude_for_recipients: 41.156419, sender_longitude_for_recipients: -73.220678, queued_at: nil, reached_recipient_ids: nil, redelivered: false, nation_builder_email_synced: false, nation_builder_tag_synced: false, nation_builder_unsyncable: false, multi_content: false, recipient_ids_expanded_content_one: nil, recipient_ids_expanded_content_two: nil, bodycachd_two: nil, subject_two: nil, reached_recipient_count_content_one: nil, reached_recipient_count_content_two: nil, reached_recipient_names_content_one: nil, reached_recipient_names_content_two: nil, reached_recipient_ids_content_one: nil, reached_recipient_ids_content_two: nil, signature_in_nodb_at: "2022-04-22 12:02:26", signature_in_nodb: true, backup_in_nodb_at: nil, backup_in_nodb: nil, opt_in: true>
+irb(main):004:0>
+```
+
+### delivery questions
+Do phone conversions count as "completed deliveries" or are they also omitted from ElasticSearch?
+
+
+## Tue
+**Yesterday I**
+- got the final conversions affected by the failing governors redelivered by the end of the day
+- in the process of the above, I did notice a number of state level representatives with only WebAddress, so our need to support web forms with captchas continues to grow
+
+**Today I plan to**
+- write up a report for the business letting them know about the above
+- a new advocate upload for Turo, use the Delivery API for the upload then delivery for Turo (Michigan) request in email
+- some PR review
+- do Cicero US update with Nour
+
+- [ ] create ticket for the research on what it would take in time and resources to implement adding a sync for Social Capital, against NationBuilder's https://nationbuilder.com/political_capital_api endpoint
+
+
+## Mon,
+**Friday I**
+resending the failed deliveries for all campaigns targeting the affected (remaining) 15 governors
+
+**Today I plan to**
+- [x] ON-2005, add NB token for support; see email
+- Cicero US import with Nour
+- [ ] finish resending the failed deliveries for all campaigns targeting the affected (remaining) 15 governors, 6 campaigns remain
+- [ ] report to business on rest of governors
+- delivery api endpoints; meet with Shams on the rspecs
+- [ ] create ticket for the research on what it would take in time and resources to implement adding a sync for Social Capital, against NationBuilder's https://nationbuilder.com/political_capital_api endpoint
+
+
+## Fri, May 20 2022
+**Yesterday I**
+- ON-1998, report to business on Gov Carney
+- worked on reviewing PRs
+- ON-1999, identified the best available fax and email and added those to the 16 governors with only webform.  8 had no email on any of the 3 sites.  The other 8 have both email and fax.
+- identified the failed deliveries for all campaigns targeting the affected (remaining) 15 governors
+
+**Today I plan to**
+- [ ] started yesterday and continue resending the failed deliveries for all campaigns targeting the affected (remaining) 15 governors
+- [ ] report to business on rest of governors
+- [ ] create ticket for the research on what it would take in time and resources to implement adding a sync for Social Capital, against NationBuilder's https://nationbuilder.com/political_capital_api endpoint
+- [ ] more PR review
+
+
+## Thu, May 19 2022
+**Yesterday I**
+- Created the Fax and EmailAddresses for Gov Carney, DE then redelivered the 3 campaigns for promoter 39477.  There are 2 other campaigns for 2 other promoters, but they have targeted all of the governors (I think, looked like it but I didn't count all 50).  
+- Started correcting the other 15 governors.  Once all have Email/Fax added, I'll resend the del
+
+**Today I plan to**
+- [x] report to business on Gov Carney
+- [x] work on my PR review queue
+- [ ] finish reviewing PRs
+- [x] finish fixing the 16 governors
+- [x] identify failed deliveries for all campaigns targeting the affected (remaining) 15 governors
+- [ ] resend failed deliveries for all campaigns targeting the affected (remaining) 15 governors
+- [ ] report to business on rest of governors
+- [ ] create ticket for the research on what it would take in time and resources to implement adding a sync for Social Capital, against NationBuilder's https://nationbuilder.com/political_capital_api endpoint
+
+### Campaigns with governors with hand found and entered fax (and email only for 8 of the 16)
+=> [16292, 16309, 16314, 16330, 16407, 16437, 16476, 16543, 16544, 16673, 16788, 16793, 16816, 16817, 16849, 16853].count = 16
+
+[16816, 16817, 16849], Gov Carney only
+[16788, 16853], All/Many governors
+
+[16292, 16309, 16314, 16330, 16407, 16437, 16476, 16543, 16544, 16673, 16788, 16793, 16853]
+
+- redelivered email https://oneclickpolitics.com/promoter/25179/messages/16292/select_recipients <- Gov Hogan only
+- redelivered email https://oneclickpolitics.com/promoter/39319/messages/16309/select_recipients <- Gov Hogan only
+<!-- phone campaign https://oneclickpolitics.com/promoter/39477/messages/16330/select_recipients <- Gov Hogan only -->
+- redelivered email https://oneclickpolitics.com/promoter/40250/messages/16407/select_recipients <- Gov Hochul plus 2 groups and 5 other targets
+- redelivered email https://oneclickpolitics.com/promoter/40717/messages/16437/select_recipients <- Gov Hogan plus 2 groups and no other targets
+- redelivered email https://oneclickpolitics.com/promoter/40152/messages/16476/select_recipients <- Gov Lamont plus a couple dozen other non-governor targets
+<!-- - twitter, none were "submitted" so none to deliver https://oneclickpolitics.com/promoter/40152/messages/16543/select_recipients <- Gov Lamont only, no resend needed -->
+<!-- - video, no failures in delivery to Gov Lamont, see DD page to confirm in Details https://oneclickpolitics.com/promoter/40152/messages/16544/select_recipients <- Gov Lamont only -->
+- redelivered email https://oneclickpolitics.com/promoter/40264/messages/16314/select_recipients <- Gov Lamont only
+- redelivered email https://oneclickpolitics.com/promoter/39588/messages/16673/select_recipients <- Gov Hochul plus 4 groups
+- redelivered email/phone/video https://oneclickpolitics.com/promoter/39591/messages/16788/select_recipients <- all Governors
+- redelivered email https://oneclickpolitics.com/promoter/36234/messages/16793/select_recipients <- Gov Abbott plus 2 groups
+- redelivered email https://oneclickpolitics.com/promoter/40014/messages/16853/select_recipients <- all Governors
+
+
+### Governors with no email and no fax
+Governors with no email and no fax [199363, 199367, 199368, 199372, 199376, 199378, 199380, 199391, 199394, 199395, 199396, 199401, 199402, 199404, 199407, 199412]
+
+199368, "Carney, John", DE,     changed, redelivered campaigns with only this target (omitted campaigns with all/many governors until all have the new Fax/Email Addresses added)
+
+199363, "Hutchinson, Asa", AR,  changed & (23) ready for redelivery
+199367, "Lamont, Ned", CT,      changed & (86) ready for redelivery
+199372, "Reynolds, Kim", IA,    changed & (46) ready for redelivery, no email anywhere
+199376, "Kelly, Laura", KS,     changed & (48) ready for redelivery
+199378, "Edwards, John", LA,    changed & (31) ready for redelivery
+199380, "Hogan, Larry", MD,     changed & (468) ready for redelivery, no email anywhere
+199391, "Murphy, Phil", NJ,     changed & (73) ready for redelivery, no email anywhere
+199394, "DeWine, Mike", OH,     changed & (91) ready for redelivery, no email anywhere
+199395, "Stitt, Kevin", OK,     changed & (4497) ready for redelivery, no email anywhere
+199396, "Brown, Kat", OR,       changed & (42) ready for redelivery, no email anywhere
+199401, "Lee, Bill", TN,        changed & (89) ready for redelivery
+199402, "Abbott, Greg", TX,     changed & (1431) ready for redelivery
+199404, "Youngkin, Glenn", VA,  changed & (93) ready for redelivery, no email anywhere
+199407, "Evers, Tony", WI,      changed & (76) ready for redelivery
+199412, "Hochul, Kathy", NY,    changed & (343) ready for redelivery, no email anywhere
+201226, "Edmonds, Tae", FL,
+199392, "Lujan Grisham, Michelle", MI,
+
+```
+affected_governors = [199363, 199367, 199368, 199372, 199376, 199378, 199380, 199391, 199394, 199395, 199396, 199401, 199402, 199404, 199407, 199412]
+affected_governors = ["199363", "199367", "199368", "199372", "199376", "199378", "199380", "199391", "199394", "199395", "199396", "199401", "199402", "199404", "199407", "199412", "199392", "201226"]
+
+promoted_message_id = 16788
+conversions_to_resend = []
+conversions = Conversion.where(promoted_message_id: promoted_message_id)
+conversions.each do |conversion|
+  print("#{conversion.id} ")
+  comment = conversion.comment
+  unless conversion.reached_recipient_ids.nil?
+    if comment.nil? || !comment.include?("Duplicate")
+      recipient_ids_local = conversion.recipient_ids_local.split(":")
+      reached_recipient_ids = conversion.reached_recipient_ids.split(":")
+      failed_recipient_ids = recipient_ids_local - reached_recipient_ids
+      conversions_to_resend.append conversion.id if (affected_governors & failed_recipient_ids).present?
+    end
+  end
+end
+
+
+conversions_to_resend.each do |conversion_id|
+  conversion = Conversion.find conversion_id
+    conversion.redeliver
+  end
+end
+```
+
+### email business to update on Gov Carney
+Gov Carney of DE status
+The issue with Gov John Carney, DE, not receiving deliveries has been resolved.  There were 3 campaigns affected for this promoter.  All affected conversions for promoter 39477 have been re-delivered successfully.  
+
+What happened
+Governor Carney is 1 of 16 governors for whom Cicero provides only a webform address.  No fax and no email are provided.  The state website and the governor website, where applicable, also show no fax and no email, all links for email lead to their site's webform page.  These webform pages are very modern in that they use Captchas and JavaScript.  Either of these break our system and we are unable to deliver.  It will be a large piece of work to develop the system that can handle this technology.
+
+Solution implemented and redeliveries successful to Gov Carney
+After some serious digging, Maged and I have found 3 good sites that have all governors listed with contact information that often has the missing Fax and/or Email addresses that are needed.  This was used to correct the issue with Gov Carney, though only for fax.  8 emails were successful after which the address failed.  The subsequent faxes were successful.
+
+Solution in progress for remaining 15 governors
+Work is ongoing for hunting down and adding fax and/or email for the remaining 15 governors with only webform addresses.  Once complete, all failed deliveries for campaigns affected by this issue will be redelivered.  There are timeconsuming aspects of this process, so I ask for you patience.  I will send another update once the remaining 15 governors and all campaigns targeting them have been redelivered.
+
+
+## Wed, May 18 2022
+- [ ] create ticket for creating an EmailAddress for Gov John Carney, DE.  (and yesterday's creating of a FaxAddress) and then to redeliver the conversions for promoter 39477 targeting Gov Carney.  ON-1998
+- [ ] ON-1998, redeliver the failed Gov Carnery webform conversions to email
+  - after 8 successes, this email address was marked BadAddress
+  - the faxes are succeeding
+- [ ] look for all other campaigns targeting Gov Carney and redeliver the failed webform conversions
+- [ ] create ticket for researching, then creating EmailAddress and/or FaxAddress for all 16 governors with only WebMailAddress.
+- [ ] create ticket for the above search & redeliver of all existing failed webform conversions for all 16 affected governors after they have a fax/email address added
+
+- [ ] create ticket for the research on what it would take in time and resources to implement adding a sync for Social Capital, against NationBuilder's https://nationbuilder.com/political_capital_api endpoint
+
+
+## Tue, May 17 2022
+Governor's that have had Addresses added: 199367 ("Lamont, Ned") and 199368 ("Carney, John")
+
+https://oneclickpolitics.com/admin/recipients/199367/addresses
+https://oneclickpolitics.com/admin/recipients/199368/addresses
+
+### Redeliver the conversions for Gov Carney DE, recipient 199368
+```
+recipients_with_no_fax_and_no_email = [199363, 199367, 199368, 199372, 199376, 199378, 199380, 199391, 199394, 199395, 199396, 199401, 199402, 199404, 199407, 199412]
+
+end_date = DateTime.now
+start_date = DateTime.new(2022, 3, 6)
+range = (start_date..end_date)
+
+messages_with_governor = []
+
+messages = PromotedMessage.where(created_at: range).active.order(:id)
+messages.each do |message|
+  unless message.selected_recipient.blank?
+    recipients_code = message.selected_recipient.recipients_code
+    unless recipients_code.blank?
+      recipients_with_no_fax_and_no_email.each do |recipient_id|
+        if recipients_code.include?(recipient_id.to_s)
+          messages_with_governor.append message.id
+        end
+      end
+    end
+  end
+end
+
+messages_with_governor.uniq
+=> [16292, 16309, 16314, 16330, 16407, 16437, 16476, 16543, 16544, 16673, 16788, 16793, 16816, 16817, 16849, 16853].count = 16
+
+
+promoter 39477
+[16816, 16817, 16849] <- promoted messages with Gov Carney only
+
+https://oneclickpolitics.com/promoter/39591/messages/16788/select_recipients <- all Governors
+https://oneclickpolitics.com/promoter/40014/messages/16853/select_recipients <- all Governors
+```
+
+
+### Finding Governors needing fixing
+```
+recipients_with_email = []
+recipients_with_no_email = []
+governors = Recipient.where(title: "Governor").active.order(:id)
+governors.each do |governor|
+  addresses = governor.recipient_addresses
+  has_email = false
+  addresses.each do |address|
+    if address.model_type == "EmailAddress"
+      has_email = true
+      puts("#{governor.name} has email")
+    end
+  end
+
+  if has_email == false
+    puts("#{governor.name} DOESN'T HAVE EMAIL")
+    recipients_with_no_email.append governor.id
+  else
+    recipients_with_email.append governor.id
+  end
+end
+
+
+recipients_with_no_fax_and_no_email = []
+recipients_with_fax_and_no_email = []
+recipients_with_no_email.each do |id|
+  governor = Recipient.find id
+  addresses = governor.recipient_addresses
+  has_fax = false
+  addresses.each do |address|
+    if address.model_type == "FaxAddress"
+      has_fax = true
+      puts("#{governor.name} has fax")
+    end
+  end
+
+  if has_fax == false
+    puts("#{governor.name} DOESN'T HAVE FAX")
+    recipients_with_no_fax_and_no_email.append id
+  else
+    recipients_with_fax_and_no_email.append id
+  end  
+end
+
+
+irb(main):050:0> email_count
+=> 18
+irb(main):051:0> no_email_count
+=> 32
+
+irb(main):143:0> recipients_with_no_fax_and_no_email.count
+=> 16
+irb(main):144:0> recipients_with_fax_and_no_email.count
+=> 16
+
+irb(main):159:0> recipients_with_no_fax_and_no_email
+=> [199392, 199367, 199372, 199376, 199378, 199380, 199394, 199363, 199391, 199412, 199402, 199401, 199404, 199407, 199396, 199395]
+
+[199392, 199367, 199372, 199376, 199378, 199380, 199394, 199363, 199391,
+199412, 199402, 199401, 199404, 199407, 199396, 199395]
+
+latest [199363, 199372, 199376, 199378, 199380, 199391, 199394, 199395, 199396, 199401, 199402, 199404, 199407, 199412]  & 199367
+```
+
+### Fixing the addresses for the Governors
+```
+id = 201226
+recipient = Recipient.where(id: id).active.first
+recipient.recipient_addresses.where(model_type: "PhoneAddress")
+recipient.recipient_addresses.where(model_type: "EmailAddress")
+recipient.name
+
+address = RecipientAddress.new
+address.recipient_id = recipient.id
+address.priority = 0
+address.model_type = "EmailAddress"
+address.email = "info@jervonteedmonds.com"
+address
+address.save
+
+address = RecipientAddress.new
+address.recipient_id = recipient.id
+address.priority = 1
+address.model_type = "FaxAddress"
+address.fax = "(518) 474-3767"
+address
+address.save
+
+web_address = recipient.recipient_addresses.where(model_type: "WebMailAddress").first
+web_address.priority = 110
+web_address.bad_address_flg = true
+web_address.ignore_imports_flg = true
+web_address.save
+
+recipient.recipient_addresses.where(model_type: "FaxAddress")
+```
+https://www.nga.org/governors/
+https://www.flemingmethod.com/copy-of-petition-of-the-president-c
+https://wisconsin.statelawyers.com/Governors/Governor_Detail.cfm?StateID=16
+
+
+**Yesterday I**
+- ON-1978, diagnosed why deliveries are failing to reach Recipient John Carney, Governor DE.  Short story: WebMailAddress fails (always for Governors it appears), EmailAddress missing in most cases, when FaxAddress missing, delivery fails.
+- sent an email to Cicero asking about Governor emails that are missing in most Governor data.  They responded stating what I'd already seen in my online search which is that most Governors use WebMailAddress.  Dave recommends against it, but I think that with the new Governors feature, we need to go through and learn how to set up the web steps.  The problem is that there is a time critical campaign to Gov Carney and we cannot deliver to him (no email, no fax), at all.
+- created tickets for the 4 imports since the quarterly data has arrived
+  - cicero us import, ON-1974
+  - cicero uk import, ON-1975 <- passed to Hager
+  - cicero au import, ON-1976
+  - cicero ca import, ON-1977, districts only
+- the cicero imports are in progress (us, au, & ca), ON-1974, ON-1976, ON-1977
+  - districts are done for US & AU
+  - national districts are done for CA, but are blocked for CA due to an issue in the shapefiles for STATELOWER_CA
+
+**Today I plan to**
+- [x] ON-1974, continue the import for US
+- [x] ON-1976, perform import for AU
+- [x] ON-1977, try to resolve the issue in the shapefile and/or contact Cicero on the issue for CA
+  - This was a scp error.  A new upload of the shapefile to production corrected the issue
+
+- [ ] ON-1973, pair with Shams to get my environment to successfully run the exising delivery_api specs
+- [ ] ON-1973, try to get back to working on the create and update methods in the advocate_for_promoters_controller
+
+- [ ] write up ticket for yesterday's standup mention from Maged:  House, for any campaigns that are cwc related, if it fails we need to add the second cwc endpoint.  we should never go to email even if the other endpoints fail.
+- [ ] do whatever Maged suggests for Governors.  
+- [ ] touch base with Mai on Admin Deliveries page
+- [ ] a couple of PRs for review
+- [ ] Dave's salesforce WIP PR, this exists, yes?  since it is big
+- [ ] add NB token for support; see email
+
+- [ ] perform cicero us import, ON-1974
+  - [x] districts
+  - [ ] officials, checked in, merged, ready for deployment
+- [ ] perform cicero au import, ON-1976
+  - [x] districts
+  - [ ] officials, checked in, merged, ready for deployment
+- [ ] BLOCKED- perform cicero ca import, ON-1977, districts only
+  - [x] NATIONALUPPER_CA.sql succeeded.  
+  - [ ] Found 'unterminated quoted string' error when running STATELOWER_CA.sql:209:
+  ```
+    INSERT 0 1
+    INSERT 0 1
+    psql:/home/ubuntu/canada/2022_05/STATELOWER_CA.sql:209: ERROR:  unterminated quoted string at or near "'0106000020E6100000F909000001030000000100000011000000D8E557D008DE50C0C8229E37EA2E4D40FCEEE0A611DE50C0F0A9C411E32E4D409829CB7A23DE50C008DE
+  ```
+
+- [x] ON-1978, why are deliveries failing to reach Recipient John Carney, Governor DE.  Short story: WebMailAddress fails (always for Governors it appears), EmailAddress missing in most cases, when FaxAddress missing, delivery fails.
+- [x] email sent to Cicero asking for Governor emails that are missing in most Governor data.  (silly though, since an online search shows most Govs using WebMailAddress)
+
 ## Mon, May 16 2022
 **Friday I**
 - ON-1959, with some hiccups that Maged noticed, I was able to completely run through the rake task changing `require_phone: true`.  The hiccups were 3 or 4 old campaigns with inactive recipients without an office.  The `is_national?` method in promoted_message.rb does not handle that use case.  I manually changed `require_phone: true` in those 3-4 cases and re-ran the script until successful completion.  All data is logged in the ticket, with specifics included for how many and which campaigns were affected by targeting
@@ -43,14 +419,26 @@ This doc will have unchecked tasks in the past.  These are either obsolete, or h
 - [ ] add NB token for support; see email
 - [ ] House,  for any campaigns that are cwc related, wif it fails we need to add the second cwc endpoint.
 we should nevergo email even if the other endpoints fail.
-- [ ] create tickets for the 4 imports since the quarterly data has arrived
+- [x] create tickets for the 4 imports since the quarterly data has arrived
   - cicero us import, ON-1974
   - cicero uk import, ON-1975
   - cicero au import, ON-1976
   - cicero ca import, ON-1977, districts only
 - [ ] perform cicero us import, ON-1974
+  - [x] districts
+  - [ ] officials, checked in, merged, ready for deployment
 - [ ] perform cicero au import, ON-1976
-- [ ] perform cicero ca import, ON-1977
+  - [x] districts
+  - [ ] officials, checked in, merged, ready for deployment
+- [ ] BLOCKED- perform cicero ca import, ON-1977, districts only
+  - [x] NATIONALUPPER_CA.sql succeeded.  
+  - [ ] Found 'unterminated quoted string' error when running STATELOWER_CA.sql:209:
+  ```
+    INSERT 0 1
+    INSERT 0 1
+    psql:/home/ubuntu/canada/2022_05/STATELOWER_CA.sql:209: ERROR:  unterminated quoted string at or near "'0106000020E6100000F909000001030000000100000011000000D8E557D008DE50C0C8229E37EA2E4D40FCEEE0A611DE50C0F0A9C411E32E4D409829CB7A23DE50C008DE
+  ```
+
 - [x] ON-1978, why are deliveries failing to reach Recipient John Carney, Governor DE.  Short story: WebMailAddress fails (always for Governors it appears), EmailAddress missing in most cases, when FaxAddress missing, delivery fails.
 - [x] email sent to Cicero asking for Governor emails that are missing in most Governor data.  (silly though, since an online search shows most Govs using WebMailAddress)
 

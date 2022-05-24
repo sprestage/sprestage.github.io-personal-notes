@@ -20,7 +20,6 @@ scp -i ~/.ssh/ ../CiceroImports/canada/*CA.sql ubuntu@ec2-54-235-144-131.compute
 ```
 prod - 938hg3kk
 ```
-scp -i ~/.ssh/id_rsa ../../one-click-politics/docker/postgres/*CA.sql ubuntu@prod.oneclickpolitics.com:~/canada/oct2021
 scp -i ~/.ssh/id_rsa *CA.sql ubuntu@prod.oneclickpolitics.com:~/canada/2022_05
 ```
 
