@@ -10,13 +10,13 @@
 - sour patch kids
 - allergy meds
 - best miso ever, Marukome, Miso Original, 13.8 ounce.  Red bottle, Amazon, Miso & Easy.  Miso broth concentrate.
+- deoderant, Toms of Main
 
 ### November task list
 - [ ] 4 chairs, $500, this work has not yet been begun by Saul.  Probably will be delayed until November, so I'm moving it to that list for now.
 - [ ] buy and install water filter for kitchen
 - [ ] buy and install bidets for both other bathrooms
 - [ ] lighting in kitchen to Susan's room hallway
-- [ ] business water/trash
 - [ ] business permit at municipio
 - [ ] purchase a fan for the front room, from Todo a Dollar, like the one in my room which can be disassembled for cleaning
 

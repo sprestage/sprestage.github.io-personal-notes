@@ -210,6 +210,17 @@ importer.import({record: true})
 These steps will clear and then replace the RecipientBio records that provide legislator profiles, as well as Staffer records, and the RecipientOffice records that designate where they work and join them to Recipients.
 
 
+
+##### If we need to import any of the parties defined in Importer::CiceroUs.parties
+double check this syntax as it was copied from Canada import
+```
+party_importer = Importer::CiceroUsPartyImporter.instance
+party_importer.import
+party_importer.import :record => true
+```
+
+
+
 ### To update Australia:
   [Step 1 - Download and extract the shapefiles and .CSVs from our Cicero S3 bucket](#au-step-1) <br>
   [Step 2 - Update Australian Districts and Shapefiles](#au-step-2) <br>

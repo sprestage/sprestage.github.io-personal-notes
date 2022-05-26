@@ -51,27 +51,108 @@ irb(main):004:0>
 Do phone conversions count as "completed deliveries" or are they also omitted from ElasticSearch?
 
 
-## Tue
+### only run slow tests
+```
+rspec spec --tag slow_tests
+```
+
+### don't run slow tests
+```
+rspec spec --tag ~slow_tests
+```
+
+## Wed, May 25 2022
+**Yesterday I**
+- created the ticket for Social Capital NB endpoint research for implementation estimate, ON-2012
+- attended the support meeting
+- met with Nour for much of the day, knowledge sharing in general in addition to walking through the Cicero US import.  I also helped discover that she was working with an empty database and our system doesn't work well that way, so she's looking for the best DB dump to use.
+- met with Eric trying to work through the issues he was having in running the tests locally.  I saw something that made me think he was havng the same issue as Nour with the empty DB, but now realize that the clue I was seeing led me astray.  I know that I run the tests from within the docker and he runs them from outside...could this be a cause
+of his issues?
+
+**Today I plan to**
+- [ ] meet with Dave/Nour/Eric to discuss empty DB vs schema needs for running rspec locally vs running locally in order to use the UI
+- [ ] I'm behind on my PR review, so I'll be giving that a lot of focus today
+- [x] write up ticket from a recent standup mention from Maged:  House, for any campaigns that are cwc related, if it fails we need to add the second cwc endpoint.  we should never go to email even if the other endpoints fail.
+- [x] create ticket for US fed require_phone: true fix for multicontent and for committees
+
+- DON'T START THIS WITHOUT CHECKING IN WITH MAGED AS HE HAS SOMETHING ELSE BIG WAITING FOR ME: ON-1960, continue on the research for recipients with an eye towards ElasticSearch and the recipients API
+
+rake db test setup
+rake db:migrate
+
+### docker-compose.yml
+This file shows all the services we are running (locally).  These are the multiple items you see come up when you start the service.  The volumes section of each service shows the mapping for the directory paths which explains the docker magic I'd been wondering about.
+
+### start over from nothing for your DB (in Docker instructions)
+```
+docker volume rm postgres_data
+docker volume create postgres_data
+docker-compose exec postgres ba
+
+ls -l ~/code/first_day_onboarding/ocp*
+/Users/susanprestage/code/first_day_onboarding/ocp.sql
+/Users/susanprestage/code/first_day_onboarding/ocp_setup_db_no_data.sql
+/Users/susanprestage/code/first_day_onboarding/ocp_setup_db_with_data.sql
+
+Take a look at the Dev Doc for the exact syntax for the command below
+
+docker-compose exec postgres ....  ocp_setup_db_with_data.sql
+```
+
+#### set up test DB to be like development DB
+```
+docker-compose exec ocp bundle exec rake db:migrate
+docker-compose exec ocp bundle exec rake db:test:prepare
+  these two are roughly equivalent
+docker-compose exec ocp bundle exec rake db:migrate RAILS_ENV=development
+docker-compose exec ocp bundle exec rake db:migrate RAILS_ENV=test
+```
+
+### docker compose commands (in Docker instructions)
+```
+docker-compose exec ocp  #runs the subsequent command in the ocp environment
+docker-compose exec test  #runs the subsequent command in the test environment
+
+docker-compose exec ocp bundle exec rspec ./spec/features/check_spec.rb
+docker-compose exec ocp bash
+
+```
+
+### db dump, example pg_dump for specific tables
+Search for this in the Docker Instructions (or Dev Doc, not sure)
+```
+pg_dump -U ocp -h production...database....rds.amazonaws.com --data-only --file=npas_and_states --format=c -t npa_nxx_codes -t us_states ocp_new
+```
+
+The schema_migrations table should only have 1 line that says which migration we are on..  dumping just this would be useful to have around.  An empty table with just one line that is the schema migrations.
+
+
+## Tue, May 24 2022
 **Yesterday I**
 - got the final conversions affected by the failing governors redelivered by the end of the day
 - in the process of the above, I did notice a number of state level representatives with only WebAddress, so our need to support web forms with captchas continues to grow
 
 **Today I plan to**
-- write up a report for the business letting them know about the above
-- a new advocate upload for Turo, use the Delivery API for the upload then delivery for Turo (Michigan) request in email
-- some PR review
-- do Cicero US update with Nour
+- [x] create ticket for the research on what it would take in time and resources to implement adding a sync for Social Capital, against NationBuilder's https://nationbuilder.com/political_capital_api endpoint, ON-2012
+- [x] updated the business (in the support meeting) that all conversions for the affected 16 governors have been re-delivered
+- [ ] a new advocate upload for Turo, use the Delivery API for the upload then delivery for Turo (Michigan) request in email
+- [ ] some PR review
+- [x] Cicero US update with Nour, ON-2003
+- [ ] write up ticket for yesterday's standup mention from Maged:  House, for any campaigns that are cwc related, if it fails we need to add the second cwc endpoint.  we should never go to email even if the other endpoints fail.
 
-- [ ] create ticket for the research on what it would take in time and resources to implement adding a sync for Social Capital, against NationBuilder's https://nationbuilder.com/political_capital_api endpoint
+- DON'T START THIS WITHOUT CHECKING IN WITH MAGED AS HE HAS SOMETHING ELSE BIG WAITING FOR ME: ON-1960, continue on the research for recipients with an eye towards ElasticSearch and the recipients API
+- [ ] create ticket for US fed require_phone: true fix for multicontent and for committees
+- [ ] House,  for any campaigns that are cwc related, if it fails we need to add the second cwc endpoint.
+we should nevergo email even if the other endpoints fail.
 
 
-## Mon,
+## Mon, May 23 2022
 **Friday I**
 resending the failed deliveries for all campaigns targeting the affected (remaining) 15 governors
 
 **Today I plan to**
 - [x] ON-2005, add NB token for support; see email
-- Cicero US import with Nour
+- Cicero US import with Nour, ON-2003
 - [ ] finish resending the failed deliveries for all campaigns targeting the affected (remaining) 15 governors, 6 campaigns remain
 - [ ] report to business on rest of governors
 - delivery api endpoints; meet with Shams on the rspecs
@@ -417,7 +498,7 @@ https://wisconsin.statelawyers.com/Governors/Governor_Detail.cfm?StateID=16
 - [ ] ON-1973, pair with Shams to get my environment to successfully run the exising delivery_api specs
 - [ ] ON-1973, continue working on the create and update methods in the advocate_for_promoters_controller
 - [ ] add NB token for support; see email
-- [ ] House,  for any campaigns that are cwc related, wif it fails we need to add the second cwc endpoint.
+- [ ] House,  for any campaigns that are cwc related, if it fails we need to add the second cwc endpoint.
 we should nevergo email even if the other endpoints fail.
 - [x] create tickets for the 4 imports since the quarterly data has arrived
   - cicero us import, ON-1974
@@ -444,6 +525,8 @@ we should nevergo email even if the other endpoints fail.
 
 - DON'T START THIS WITHOUT CHECKING IN WITH MAGED AS HE HAS SOMETHING ELSE BIG WAITING FOR ME: ON-1960, continue on the research for recipients with an eye towards ElasticSearch and the recipients API
 - [ ] create ticket for US fed require_phone: true fix for multicontent and for committees
+- [ ] House,  for any campaigns that are cwc related, if it fails we need to add the second cwc endpoint.
+we should nevergo email even if the other endpoints fail.
 
 ### Awesome new git commands
 https://bootcamp.uxdesign.cc/git-commands-nobody-has-told-you-cd7025bea8db
