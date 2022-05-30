@@ -21,6 +21,22 @@ This doc will have unchecked tasks in the past.  These are either obsolete, or h
 ---
 
 
+## Fri, May 27 2022
+**Wednesday I**
+- epic meeting with Dave/Nour/Eric resolving all the docker and testing environment issues
+- PR reviews, mostly the big Kafka PR
+- [x] write up ticket from a recent standup mention from Maged:  House, for any campaigns that are cwc related, if it fails we need to add the second cwc endpoint.  we should never go to email even if the other endpoints fail.
+- [x] create ticket for US fed require_phone: true fix for multicontent and for committees
+
+**Yesterday I**
+- was entirely focused on the cwc issue.  implemented backend support for prefix in both the main repository and the one-click-api.  fixed tests by adding prefix to fixtures.
+
+**Today I plan to**
+- [ ] fix that test
+- [ ] I need to know how to deploy the one-click-api to staging (and eventually to prod)
+- [ ] Michigan (Turo) delivery, look at how our API works, then look at their document, then I'll need to write a rake task, need to use the httparty gem to submit (get/post) to the api to construct an api request
+- [ ] meet with Nour and Eric to teach about binding.pry (also check their rails console knowledge first)
+
 ### missing delivery type to be added to the campaign_delivery_data.rake task (and fixed on DD admin page)
 Below is a twitter campaign, queued_at: nil
 
