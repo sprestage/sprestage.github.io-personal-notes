@@ -20,6 +20,97 @@ This doc will have unchecked tasks in the past.  These are either obsolete, or h
 
 ---
 
+## Wed, Jun 1 2022
+- [ ] check our API to make sure they handle prefix, present and not-present; coordinate with Nate for getting this done
+- [ ] ready staging for CWC demo
+
+### testing status, rspec
+- [ ] spec/features is passing, except for known issues being worked on by Eric/Nour
+- [ ] spec/services is passing, except for known issues being worked on by Eric/Nour
+
+## Tue, May 31 2022
+
+### change WebMail, Email, and FaxAddresses to bad_address_flg: true
+We want all "emails" to only go to CWC (or SCWC)
+```
+recipients = Recipient.office_all_us_congress.active
+recipients.each do |recipient|
+  addresses = recipient.recipient_addresses
+  puts("\n\nRecipient #{recipient.name}: current addresses #{addresses}\n\n\n\n")
+  if recipient.recipient_addresses.pluck(:model_type).include?("CwcApiAddress") || recipient.recipient_addresses.pluck(:model_type).include?("CwcAddress")
+    if recipient.recipient_addresses.pluck(:model_type).include?("EmailAddress")
+      change_email = recipient.recipient_addresses.where(model_type: "EmailAddress").first
+      change_email.bad_address_flg = true
+      change_email.save
+    end
+    if recipient.recipient_addresses.pluck(:model_type).include?("WebMailAddress")
+      change_web_mail = recipient.recipient_addresses.where(model_type: "WebMailAddress").first
+      change_web_mail.bad_address_flg = true
+      change_web_mail.save
+    end
+    if recipient.recipient_addresses.pluck(:model_type).include?("FaxAddress")
+      change_fax = recipient.recipient_addresses.where(model_type: "FaxAddress").first
+      change_fax.bad_address_flg = true
+      change_fax.save
+    end
+  else
+    puts("\n\n\nHERE'S ONE!!!\n\n\n")
+  end
+end
+```
+
+The above was supposed to only be for the house.  Must fix the (maximum) 100 senators I changed.
+
+```
+recipients = Recipient.office_us_senate.active
+affected_recipients = []
+recipients.each do |recipient|
+  addresses = recipient.recipient_addresses
+  if recipient.recipient_addresses.pluck(:model_type).include?("CwcApiAddress") || recipient.recipient_addresses.pluck(:model_type).include?("CwcAddress")
+    affected_recipients.append(recipient.id)
+  end
+end
+```
+
+```
+affected_recipients
+recipient = Recipient.find affected_recipients[42]
+      change_email = recipient.recipient_addresses.where(model_type: "EmailAddress").first
+      change_email.bad_address_flg = false
+      change_email.save
+
+      change_web_mail = recipient.recipient_addresses.where(model_type: "WebMailAddress").first
+      change_web_mail.bad_address_flg = false
+      change_web_mail.save
+
+      change_fax = recipient.recipient_addresses.where(model_type: "FaxAddress").first
+      change_fax.bad_address_flg = false
+      change_fax.save
+
+```
+
+
+## Mon, May 30 2022
+
+### tests to run on staging before every plan to deploy to production
+
+dave.enos  4:20 PM
+yeah, the two things that i wish the team would always do after a deploy to master would be to sign
+https://oneclickpolitics.global.ssl.fastly.net/widget/oneclick/2901
+and make sure patch calling works, and go to the analytics pages, go to the advocate export csvs, and make sure you can export and download one
+
+
+### before the CWC change
+```
+{"message":"Publishing to 'cwc', priority: 'A', message: #<OCP::CwcAgentMessage:0x00560678ba6178 @queue_name=:cwc, @created_on=\"2022-05-30T20:06:40.247+00:00\", @protocol_version=\"0.1\", @message_type=\"OCP::CwcAgentMessage\", @conversion_id=26696132, @parent_uuid=\"01a7bcb9-8209-47a6-b67f-1aa4e31a8624\", @recipient_name=\"DelBene, Suzan\", @priority=\"0\", @constituent=true, @allow_responses=true, @verified_send=nil, @recipient_salutation=\"Dear Representative DelBene,\", @message_country=nil, @multi_content=nil, @content_one=nil, @content_two=nil, @from_prefix=\"Mrs.\", @from_name=\"Susan Prestage\", @from_city=\"North Bend\", @from_state=\"WA\", @from_zip=\"98045 \", @topic=nil, @skip_disclaimer=nil, @body=\"Susan's CWC test\", @subject=\"Susan's CWC test\", @recipient_id=20913, @promoted_message_id=16658, @uuid=\"320486c9-8742-4317-8802-83116df5d842\", @from_email=\"susan.prestage@gmail.com\", @from_address_line1=\"11612 428th Ave SE\", @from_address_line2=nil, @sender={\"id\"=>19646736, \"account_id\"=>7523744, \"email\"=>\"susan.prestage@gmail.com\", \"first_name\"=>\"Susan\", \"last_name\"=>\"Prestage\", \"middle_name\"=>nil, \"line1\"=>\"11612 428th Ave SE\", \"line2\"=>nil, \"city\"=>\"North Bend\", \"state_id\"=>49, \"phone\"=>\"4258317507\", \"zip4\"=>nil, \"prefix\"=>\"Mrs.\", \"latitude\"=>47.495413, \"longitude\"=>-121.767825, \"zip\"=>\"98045\", \"country\"=>nil, \"custom_field_ids\"=>nil, \"custom_values_json\"=>nil, \"facebook_handle\"=>nil, \"facebook_token\"=>nil, \"twitter_handle\"=>nil, \"twitter_token\"=>nil, \"confirmed_facebook\"=>nil, \"confirmed_twitter\"=>nil, \"confirmed_phone\"=>nil, \"created_at\"=>Fri, 27 May 2022 20:00:20 UTC +00:00, \"updated_at\"=>Mon, 30 May 2022 20:06:39 UTC +00:00, \"twitter_nickname\"=>nil, \"facebook_nickname\"=>nil, \"advocate_profile_id\"=>nil, \"imported\"=>false, \"image\"=>nil, \"import_uid\"=>nil, \"external_id\"=>\"\"}, @from_phone=\"4258317507\", @recipient_cwc=\"HWA01\">","@timestamp":"2022-05-30T20:06:40.251+00:00","@version":"1","severity":"INFO","host":"ip-172-30-1-231","tags":["agent","agent"],"environment":"staging"}
+ubuntu@ip-172-30-1-231:/home/deploy/apps/ocp/current$ cat log/agent.log | grep CWC
+```
+
+### after the CWC change
+```
+
+```
+
 
 ## Fri, May 27 2022
 **Wednesday I**
@@ -29,11 +120,11 @@ This doc will have unchecked tasks in the past.  These are either obsolete, or h
 - [x] create ticket for US fed require_phone: true fix for multicontent and for committees
 
 **Yesterday I**
-- was entirely focused on the cwc issue.  implemented backend support for prefix in both the main repository and the one-click-api.  fixed tests by adding prefix to fixtures.
+- was entirely focused on the cwc issue.  implemented backend support for prefix in both the main repository and the one-click-cwc.  fixed tests by adding prefix to fixtures.
 
 **Today I plan to**
 - [ ] fix that test
-- [ ] I need to know how to deploy the one-click-api to staging (and eventually to prod)
+- [ ] I need to know how to deploy the one-click-cwc to staging (and eventually to prod)
 - [ ] Michigan (Turo) delivery, look at how our API works, then look at their document, then I'll need to write a rake task, need to use the httparty gem to submit (get/post) to the api to construct an api request
 - [ ] meet with Nour and Eric to teach about binding.pry (also check their rails console knowledge first)
 
@@ -2560,7 +2651,7 @@ Exports- multiple clients have stated that they are unable to export signers and
 ## Mon, Mar 21 2022
 **Friday I**
 - ON-1810, continue running the re-deliver stale conversions rake task in batches
-- ON-1798, finished the governors UI retooling, need to PR and get it up on staging with another anouncement to the business
+- ON-1798, finished the governors UI retooling, need to PR and get it up on staging with another announcement to the business
 - ON-1796, did the Cicero AU import
 - ON-1811, Cicero AU import turned up a new party needing to be added.  Tiny PR created and currently under review
 

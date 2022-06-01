@@ -27,10 +27,30 @@ ps aux | grep agent  <-- RUN THIS ON STAGING, not this deployment server
 DEPLOY=stage cap start_daemons
 ```
 
-24
-Host elastic-staging
-    HostName ec2-35-153-183-73.compute-1.amazonaws.com
-    user ubuntu
-    IdentityFile ~/.ssh/ocpreboot.pem
+## Deploy one-click-cwc to production
+### ssh into the microservice ec2 instance
+```
+ssh -i ~/.ssh/ocpreboot.pem ubuntu@ec2-35-175-214-35.compute-1.amazonaws.com
+```
 
-ssh_stage: aliased to ssh -i ~/.ssh/ocpreboot.pem ubuntu@ec2-54-235-144-131.compute-1.amazonaws.com
+### Change directory into the project directory
+```
+cd /home/ubuntu/apps/one-click-cwc
+```
+
+### Then there is a shell script run it for deploy
+```
+./cwc_api_prod_deploy.sh
+```
+
+
+## Deploy one-click-cwc to staging
+```
+ssh -i ~/.ssh/ocpreboot.pem ubuntu@ec2-35-153-183-73.compute-1.amazonaws.com
+cd /home/ubuntu/apps/one-click-cwc
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/susan/id_rsa
+git pull origin main
+sudo docker-compose -f docker-compose-stage.yml stop
+sudo docker-compose -f docker-compose-stage.yml up -d
+```
