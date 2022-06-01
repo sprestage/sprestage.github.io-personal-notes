@@ -6,11 +6,11 @@ ssh -i ~/.ssh/id_rsa ubuntu@ec2-107-21-34-110.compute-1.amazonaws.com
 cd /home/deploy/apps/ocp/current
 eval `ssh-agent -s` ssh-add
 ssh-add ~/.ssh/susan_keys/id_rsa
-DEPLOY=chara branch=master bundle exec cap deploy &
+DEPLOY=chara branch=master cap deploy &
 DEPLOY=pre_prod branch=master cap deploy &
-DEPLOY=chara bundle exec cap stop_daemons
+DEPLOY=chara cap stop_daemons
 ps aux | grep agent  <-- RUN THIS ON PRODUCTION, not this deployment server
-DEPLOY=chara bundle exec cap start_daemons
+DEPLOY=chara cap start_daemons
 
 might need to remove the bundle execs above, or maybe just for staging but something to keep in mind
 ```
