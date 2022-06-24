@@ -20,9 +20,657 @@ This doc will have unchecked tasks in the past.  These are either obsolete, or h
 
 ---
 
+May:
+  0 days off
+  Memorial Day holiday deferred for grandma visit in June
+
+June:
+  1 day off (sick, Jun 16()
+  Memorial Day holiday redeemed, Thu Jun 23
+  Juneteenth holiday deferred for grandma visit
+
+Plans for next week:
+I plan to take 3 days off next week.  Wed/Thu/Fri.  
+  Juneteenth holiday to be redeemed
+  2 vacation days  
+
+
+Mon, May 30, worked Memorial Day holiday in order to take it when grandma is in town
+
+Thu, Jun 16, worked 3 hours (9-12), then sick  -> moving these 3 worked hours to Tuesday, Jun 21 to account for the hours spent traveling.
+
+Mon, Jun 20, worked Juneteenth holiday in order to take it when grandma is in town
+
+Tue, Jun 21, travelled in the morning, then worked the afternoon 5 hours (12-5:30)
+
+Thu, Jun 23, day off (travelled, then fell over with fatigue)
+
+
+
+## Fri, Jun 24 2022
+**Yesterday**
+was a travel day in the morning (which started just before 4am to catch the shuttle for our 7am flight).  Once home around noon, I laid down for just a moment to rest....and woke up after dark.
+
+**Wednesday I**
+- ON-2109, PR is reviewed and approved.  I'd like to make a couple recommended refactors, but could merge anytime.
+- ON-2131, BLOCKED - How now to answer the question "Did this delivery succeed?"
+
+This ticket came out of Friday's conversation with Darren on delayed delivery challenge being solved by ON-2109.  This one is for the 25 signatures for the "PH Summit 2022" campaign.  
+
+History, if needed:
+Speaking with Darren, this is one of the campaigns that Turo wanted to schedule delivery on.  Since we couldn’t have that ready quickly and there were only 25 planned signers who gave their permission for a delayed signing and for OCP to create duplicate campaigns in the account in order to diagnose and get these out.  Friday, Jun 17
+
+Support was using incognito windows to sign with each unique signature, but only 1 or 2 conversions were being generated.  Much testing ensued with no understanding.  Tuesday, Jun 21.  
+
+Current,
+Bringing this to the team brought the answer of Kiosk Mode being the tool needed.  This proved correct and the conversions were generated.  But by end of day, they still showed as ongoing.  Wed, Jun 22.
+
+I still cannot confirm successful (or failed) delivery as too much has changed and I believe all the tools I use for assessing successful delivery are not answering the question *Did the deliveries on this conversion succeed?*  I'd like to pair with Shams to try to bridge that gap.  I also believe that now is the time to re-tool the Delivery Data page for both me and support as well as the campaign_delivery_data_report rake task that I depend heavily on for diagnosis of support issues.
+
+This `reached_recipient_count: nil` tells me that no deliveries succeeded, but this `deliveries_sent_at: "2022-06-23 01:25:26"` suggests to me that the delivery succeeded.  I need to be able to identify just what a successful delivery now looks like.  Especially for conversions with many (50!) recipients.  This is going out to the PA state house.  For reference, the original campaign is: 16982.  The copy of the campaign that I sent with is: https://oneclickpolitics.com/promoter/40916/messages/17335/ <- this is the one whose deliveries we are investigating now.
+
+**Today I**
+- [x] https://oneclickpolitics.com/promoter/40947/messages/16841 <- new delivery issue to research.  Make ticket.  Prepare what I can since this is probably also blocked by needing to pair with Shams/Maged to answer the question *"Did the deliveries on this conversion succeed?"*
+
+Paired with Maged to learn how to identify successful (and failed!) deliveries in ES.  Also, added Chris T to the call to demonstrate the only 17 of 439 were failing.  Half of those were because House CWC is still blocked by CWC.  The other half are Rep David Trone who only has CWC or a non-working WebMail.  Chris provided me with a fax number.  I added that to our system and Chris is going to re-deliver.
+
+- [x] ON-2103, for the 14 irregularly failing recipients, change any that have both EmailAddress and WebAddress to have different priorities, 0 and 1 respectively, then resend.  This is the original campaign failures seen.  Sending by hand with a copy of this campaign is covered in ticket ON-2131.
+
+Friday I talked to Darren about PA state house delivery problem and where to go from here, promoter_user 17169 (not Turo, 40916 which also targets PA state house which is confusing).  I need to go through the 14 irregularly failing recipients and change any that have both EmailAddress and WebAddress to have different priorities, 0 and 1 respectively, then resend.
+
+- [ ] ON-2109, PR is reviewed and approved.  I'd like to make a couple recommended refactors, but could merge anytime.
+- [ ] ON-2131, now that I know how to confirm delivery, check the numbers on this and write up a summary for Darren.
+- [ ] contact Cicero about the fact that only the districts were present in this quarter’s Canada data
+
+### Running the ON_2109 rake task
+When scheduling the running of the send_campaign_signers_to_api rake task, instead of using crontab, use `at`.  Here is a link for how to set this:
+
+```
+It looks like we have at installed on our production server, and we might be able to use that instead of cron:
+
+https://stackoverflow.com/questions/5473780/how-do-i-set-up-cron-to-run-a-file-just-once-at-a-specific-time
+
+You really want to use at. It is exactly made for this purpose.
+echo /usr/bin/the_command options | at now + 1 day
+```
+
+
+## Tue, Jun 21 2022
+**Friday I**
+- ON-2109, had a call with Darren about Turo's Michigan scheduled delivery plan (for the 25 recipients)
+- ON-2109, tested changes I made in rake file locally, ready for commit and PR
+- ON-2103, talked to Darren about PA state house delivery problem and where to go from here, promoter_user 17169 (not Turo, 40916 which also targets PA state house which is confusing)
+
+**Yesterday I**
+- did the Cicero US and AU imports, including districts
+- did the Cicero CA district import, officials are missing
+
+**Today I plan to**
+- wrap up ON-2109 & ON-2103
+- contact Cicero about the fact that only the districts were present in this quarter’s Canada data
+
+### posted status in Engineering
+Susan Prestage
+  8:41 AM
+
+I am traveling this morning and will be boarding the plan during standup.  Here is my status for yesterday and today.
+
+I will be working the rest of today once I land in Panama City and check into the hotel.
+Tomorrow morning is when Grandma arrives at the Panama City airport, during standup, of course.  I hope to know more about my week’s plans by noon tomorrow.  I will plan to be away for the first half of the day tomorrow.  I will update my timing plans for the rest of the week tomorrow by lunchtime once I sync up with family.  I will be traveling back to Boquete during the first half of Thursday as well.  More details soon.
+
+### Proof of work for Tue, Jun 21
+Full status report written up and posted by 8:41
+9:30 - 1:00 ongoing messages while working with Nate
+11:45/12:30 conversions created trying to sign multiple conversions for 17298 (the 25 sigs)
+12:10 PM Review approved by sprestage on HagerAli's pull request
+final work on rake task in the afternoon (commits made first thing next morning)
+
+### Proof of work for Wed, Jun 22
+8:30 & 1:30 commits on the rake task
+9:53 AM Pull request opened by sprestage
+10:30-11:45 activity in slack helping with CWC
+12-12:30 call with Shams
+  12:45-1:45 lunch
+2:00 - 4:00 ongoing messages while working with Nate
+3:15 message in engineering
+3:30 - 4:30 (25!) new conversions created on prod
+
+## Mon, Jun 20 2022
+**Friday I**
+- [ ] ON-2109, schedule a call with Darren about Turo's Michigan scheduled delivery plan to see if they went with a different plan or not
+- [ ] ON-2109, test changes I made in rake file locally, then commit, and create PR
+- [ ] ON-2103, talk to Darren about PA state house delivery problem and where to go from here, 17169
+
+
+
+### ON-2109, Turo's Michigan scheduled delivery (rake task)
+16806 <- shell campaign, 6217
+40916 <- promoter
+16612 <- campaign *NEED TO CHANGE SUBJECT/BODY* `My name is [@advFirst] [@advLast] an`, 6218
+
+
+**Today I plan to**
+- [x] do the Cicero US import; districts are done; PR reviewed and merged; awaiting AU for deployment
+- [x] do the Cicero AU import; districts are done; awaiting PR review
+- [ ] BLOCKED, do the Cicero CA import, ON-2120 (no CA officials updates since Feb 2022); districts are updated, 20 Jun.
+- [ ] do the 25 conversions by hand that failed for support...only 1 incognito window, checking Conversion.last and SenderProfile.last as I do each.  Start with new campaign.
+  - [ ] new PA state house campaign, 17298 <- ready for signing
+
+
+
+Hi Darren,
+
+I ran into many similar problems trying to sign the widget successively with different advocates.  The solution is under Campaign Settings.  Set Kiosk Mode to ON (and save settings).  This clear the form when it is loaded, so that many people can sign a form on the same device.  No incognito needed at all.  
+
+Once Kiosk Mode was enabled, I was able to send to all 25 recipients with only a refresh to bring up the first step of the widget each time.
+
+I have archived/retired the extra "PH Summit 2022 V# Sending" campaigns, leaving my final working campaign in place here, https://oneclickpolitics.com/promoter/40916/messages/17335/.  Happily, the Dashboard shows all 25 signatures and the Delivery Data page
+
+
+cs1 = Conversion.where("recipient_ids_expanded like ?", "%194137%")
+
+
+## Fri, Jun 17, 2022
+**Yesterday I**
+not much
+some work on wrapping up the rake task
+
+**Today I**
+- [ ] ON-2109, schedule a call with Darren about Turo's Michigan scheduled delivery plan to see if they went with a different plan or not
+- [ ] ON-2109, test changes I made in rake file locally, then commit, and create PR
+- [ ] ON-2103, talk to Darren about PA state house delivery problem and where to go from here, 17169
+
+new PA state house campaign, 17298 <- ready for signing
+
+
+### ON-2109, Turo's Michigan scheduled delivery (rake task)
+16806 <- shell campaign, 6217
+40916 <- promoter
+16612 <- campaign *NEED TO CHANGE SUBJECT/BODY* `My name is [@advFirst] [@advLast] an`, 6218
+
+
+## Thu, Jun 16, 2022
+**Yesterday I**
+- investigated the 10k import and triggered what was needed to get all the info into ES (mostly this was resolved by the nightly job that creates/updates advocate profiles)
+- helped Nour with Models vs instance of models and various other Ruby/Rails concepts
+- the morning was spent writing up Jira tickets with everything I've been doing plus getting updates and summaries of the different Turo tasks and issues for Darren
+- mostly wrapped up the rake task for sending signer data to the campaign API endpoint
+
+**Today I**
+- what is left for running the rake task for the delivery of the 10k
+- [ ] test changes I made in rake file locally, then commit, and create PR
+- ON-2103, talk to Darren about state house delivery problem and where to go from here
+
+### how to create a PromoterUser
+From Nate
+
+In case anybody's curious, here are the basics for creating a new Promoter User to do any sort of testing with:
+- Create the promoter
+- Create a new Subscription and assign it to the promoter
+- Create a new Product, add tier "enterprise" and price (any integer), and assign it to the subscription
+- Create a Check when editing the promoter as an Admin, make it valid for a long time.
+
+Doing all the steps here will ensure you don't have any weird alerts/messages or redirects. You can model most of the data after our Sample promoter account (id: 28)
+
+The first and last steps can be done in the interface, but I did the middle 2 steps in a console.
+
+### new steps for deployment to production
+Shams Baig
+
+New deployments steps
+deploy.txt
+```
+ssh -i ~/.ssh/id_rsa ubuntu@ec2-107-21-34-110.compute-1.amazonaws.com
+cd /home/deploy/apps/ocp/current
+eval `ssh-agent -s` ssh-add
+ssh-add ~/.ssh/shams_keys/id_rsa
+DEPLOY=chara branch=master cap deploy
+
+DEPLOY=chara cap stop_consumers
+DEPLOY=chara cap start_consumers
+DEPLOY=stage branch=staging cap deploy
+DEPLOY=stage branch=staging cap stop_consumers
+DEPLOY=stage branch=staging cap start_consumers
+```
+
+
+## Wed, Jun 15, 2022
+- look in advocate universe to confirm 10k new are present, ON-2100, Turo master list import
+- [ ] send darren status on both (Turo's 10k import and PA state house campaign)
+- [ ] then connect with darren on if they want to other campaign sent because we heard Darren mention something in our meeting that suggested they were working on a different solution for this; also wrap up rake task.  
+
+
+## Tue, Jun 14, 2022
+
+
+### ON-2103, PA state house campaign 17169 for Turo
+My test only failed to *Martell Covington*, who has no email and whose 3 attempts to WebMailAddress have failed.  (new recipient, 5/12/22)
+
+Why won't https://oneclickpolitics.com/promoter/40916/messages/17169/select_recipients deliver?
+
+The same 14 failed both times.  The third time got stuck and is stale.
+
+36/50 reached, signature 3
+  Failed to reach:
+          - Kyle Mullins: email & web both PRI 0;
+              - email: 498 succeeded, 1 failed
+              - webmail: 902 succeeded, 462 failed
+          - Joe Ciresi: email & web both PRI 0;
+              - email: 1037 succeeded, 1 failed
+              - webmail: 0 succeeded, 830 failed
+          - Bob Brooks: email & web both PRI 0; <- investigate this one further
+              - email: 17 succeeded, 0 failed
+              - webmail: 2 succeeded, 728 failed
+
+    - Joshua Kail: email & web both PRI 0; <- investigate this one further since it looks like success
+        - email: 3455 succeeded, 2 failed
+        - webmail: 0 succeeded, 0 failed
+    - Aerion Abney: only web!!; <- investigate this one further
+        - webmail: 1 succeeded, 1 failed
+    - Martell Covington: only web!!; <- investigate this one further
+        - webmail: 0 succeeded, 1 failed
+    - Robert Merski: email & web both PRI 0; <- investigate this one further since it looks like success
+        - email: 1449 succeeded, 0 failed
+        - webmail: 0 succeeded, 7 failed
+    - Bud Cook: email & web both PRI 0; <- investigate this one further since it looks like success
+        - email: 13 succeeded, 0 failed
+        - webmail: 0 succeeded, 0 failed
+    - Darisha Parker: email & web both PRI 0; <- investigate this one further since it looks like success
+        - email: 217 succeeded, 0 failed
+        - webmail: 0 succeeded, 0 failed
+    - Austin Davis: email & web both PRI 0; <- investigate this one further since it looks like success
+        - email: 639 succeeded, 1 failed
+        - webmail: 0 succeeded, 0 failed
+    - Summer Lee: email & web both PRI 0; <- investigate this one further since it looks like success
+        - email: 2972 succeeded, 1 failed
+        - webmail: 0 succeeded, 7 failed
+    - Sara Innamorato: email & web both PRI 0; <- investigate this one further since it looks like success
+        - email: 498 succeeded, 0 failed
+        - webmail: 0 succeeded, 5 failed
+    - Brandon Markosek: email & web both PRI 0; <- investigate this one further since it looks like success
+        - email: 542 succeeded, 0 failed
+        - webmail: 2 succeeded, 30 failed
+    - Natalie Mihalek: email & web both PRI 0; <- investigate this one further since it looks like success
+        - email: 2962 succeeded, 0 failed
+        - webmail: 0 succeeded, 0 failed
+
+36/50 reached, signature 2
+0/50 reached, signature 1 ... stale
+
+ALL priorities for recipient addresses are being set on Cicero import as follows:
+
+email: EmailAddress.priority = `0`,
+       FaxAddress.priority = `20`,
+       WebMailAddress.priority = `0`
+
+other: DistrictAddress.priority = `100`,
+       PhoneAddress.priority = `1`,
+       FacebookAddress.priority = `10`,
+       TwitterAddress.priority = `10`
+
+```
+      addresses[:district].model_type = 'DistrictAddress'
+      addresses[:district].priority = 100
+
+      addresses[:email].model_type = 'EmailAddress'
+      addresses[:email].priority = 0 if recipient.try(:new_record?)
+
+      addresses[:fax].model_type = 'FaxAddress'
+      addresses[:fax].priority = 20
+
+      addresses[:phone].model_type = 'PhoneAddress'
+      addresses[:phone].priority = 1
+
+      addresses[:facebook].model_type = 'FacebookAddress'
+      addresses[:facebook].priority = 10
+
+      addresses[:twitter].model_type = 'TwitterAddress'
+      addresses[:twitter].priority = 10
+
+      addresses[:webform].model_type = 'WebMailAddress'
+      addresses[:webform].priority = 0 if recipient.try(:new_record?)
+```
+
+Trying a conversion with an existing (email) campaign here, https://oneclickpolitics.com/promoter/28/messages/14664/edit# ... currently ONGOING
+
+Trying a conversion with a brand new (email) campaign here, https://oneclickpolitics.com/promoter/28/messages/17249/edit# ... currently ONGOING
+
+The Campaign shell was created when we first did the import in beginning May.  This Campaign shell was also used to today's advocate import.  *PromotedMessage.id = 16806*
+
+I collect the SenderProfile.ids from all the conversions for that Campaign shell.  This count is *13750*.
+
+I do a unique on that collection of *13750* sender ids and there are only *344* unique ids.
+
+```
+sender_ids = Conversion.where(promoted_message_id: 16806, created_at: range).pluck(:sender_id)
+
+irb(main):041:0> SenderProfile.where(id: sender_ids).pluck(:advocate_profile_id).count
+=> 13750
+
+irb(main):041:0> SenderProfile.where(id: sender_ids).pluck(:advocate_profile_id).uniq.count
+=> 344
+```
+
+zendesk 1379,
+`bundle exec rake import_advocates['turo_master_file.csv','turo_master_file'] RAILS_ENV=production`
+
+
+## Mon, Jun 13, 2022
+- [ ] need to tidy the output in the rake task, but otherwise this is complete.  
+  - [ ] create Jira
+  - [ ] create branch, check in code, create PR
+- [ ] customizing the email body is not currently possible.  The API does not have that functionality.  Potential workarounds:
+  - add this functionality to the API...but do we want to do that?!?
+  - change the `campaign.subject` and `campaign.bodycachd` on the campaign between each POST to the API, when there is a custom, then change it back after the POST.  Not sure it this is the best idea, but it is the only path I see that is at all reasonable.
+
+I'll also need to write something to parse the second file (Turo provided) for the unique messages from each signer for each of the targets.
+
+
+## Fri, Jun 10 2022
+- [x] connect with Dave to confirm my observations about what advocate upload does and does not do and if there is a reason why this was implemented this way, mentioning my planned implementation for Turo.
+- [ ] connect with Darren to ask when the client is hoping to schedule the "signing"
+- [ ] add batching to the Turo task
+- [ ] try to finish the Turo task
+- [ ] pull a fresh master to run /lib specs
+
+### steps for Turo
+- [ ] create SenderProfiles <- this was done in May
+- [ ] search for each SenderProfile...how?
+
+### Darren
+Hi Darren.  I hope you had a good week.
+
+I am working on the Turo/Michigan (40916) request of using the .csv of advocates to create signatures on a campaign (16612) and then deliver those conversions on a scheduled date/time.
+
+The work is not complete, but I can confirm that we can do this, and am working through the logic to accomplish the task.  That said, what day and time are we wanting to aim at for delivery?
+
+### Dave
+Hi Dave.  I hope your week is going well.  
+
+I'm looking at import_advocates which is something we do every few months for various clients.  Looking at the code and what is created in the database, I'm seeing that a new PromotedMessage is created, with the subject set to "Initial Import" and no targets.  Also created are Conversions (and SenderProfiles) for each of the signers (rows in the csv imported).  These conversions also do not have targets since the promoted message does not.
+
+I'm working to understand what is intended with the import_advocates and the mostly empty shell of a promoted message and non-deliverable conversions in the DB.
+
+The task I'm working on is to create advocates (already done with the import_advocates back in May in this instance), then create and queue for delivery the corresponding (new) Conversions on an existing PromotedMessage.  Maged directed me to our API as being the best solution for this.  Testing against the API confirms that one by one, I am able to send in data for a signer against an existing campaign, which then creates a valid conversion that is queued and subsequently delivered.  Perfect!
+
+Maged recommended checking in with you to see if there was something you know that might affect the implementation I am pursuing and also to ask and see what you might know about the intent behind how the import_advocates was implemented.
+
+
+## Thu, Jun 9 2022
+**Yesterday I**
+- fixed the failing specs by adding the prefix to the advocate profile data; PR created and ready for review
+- confirmed with the NB API test site that prefix is permitted for advocate profile data and custom prefix works as well.  See bottom of nationbuilder.md file for PUT request and NB response.  Also, this is an example synced to NB:
+```{"message":"NationBuilder person_data for advocate: {:email=>\"nutrioso77@yahoo.com\", :prefix=>\"Miss\", :first_name=>\"Vickie\", :last_name=>\"James\", :external_id=>5370744, :home_address=>{:address1=>\"PO Box 185\", :address2=>nil, :city=>\"Nutrioso\", :state=>\"AZ\", :zip=>\"85932\", :country_code=>\"US\", :lat=>33.95311, :lng=>-109.20925}}","@timestamp":"2022-06-08T17:07:48.270+00:00","@version":"1","severity":"INFO","host":"ip-172-30-1-220","tags":["nation_builder","task","sync"],"environment":"production"}
+```
+- started working with our API in the context of Turo.  Successfully posted and got a response with a created
+- update my Jira tickets to reflect what I'm working on, both Turo and the CWC stuff though that last is probably blocked at this point
+
+## Wed, Jun 8 2022
+**Yesterday I**
+- caught up on PR reviews.  those 40 plus file PRs are brutal and for quick turn around, please give a heads up several days in advance wherever possible with a PR WIP to give us a chance to become familiar with the area being worked on.  Dave did much of this, which helped, and the salesforce review was still huge.
+- updated staging with current master then made sure things were working end to end for cwc.  saw the first successful send to the Test House CWC API.  still seeing 401 unauthorized on prod though, as of this morning
+- in the background, I was running all of the tests as a suite.  it took: between 1.5 and 2 hours, but was Killed somehow both times in the middle of the final output with each stacktrace.
+
+**Today I**
+- [x] this morning I saw errors in the NationBuilder tests due to the prefix.  I will fix those and then check the health of NationBuilder especially in the context of prefix.
+- [ ] continue to support Nour through her first cicero import; I didn't get back to her yesterday
+- [ ] PRIORITY -> Turo, I hope.  I still need to write the ticket for this, so I'll get that written up and the files attached from the email
+  - [ ] DO THE IMPORT, nope!: the import was done in early May for Turo is for the same campaign, but with ~300 instead of ~350.  Basically the exact same advocates as before, but some missing.  Same campaign!  
+  - [ ] DETERMINE HOW TO DELIVER...NEED TO CREATE THE CONVERSIONS.  There seems to be code in the import that should do this, but no conversions were created when the advocate import happened in May.  I see lines in import_advocates.rb:L679 that look like it should create Conversions, yet running the spec against it doesn't hit that code.  Continue investigating this path.  
+  - use our API HTTParty, go to any promoter, make sure API is turned on for promoter, Api Access. <- use this for Turo
+
+```
+    email = 'sprestage13@oneclickpolitics.com'
+    first_name = 'Susan'
+    last_name = 'Prestage'
+    address = '1413 Murre Ln'
+    city = 'Cupertino'
+    zip = '95060'
+    phone = '4082349813'
+
+    headers = {
+      'Content-Type' => 'application/json',
+      'Accept' => '*/*',
+      'Accept-Encoding' => 'gzip, deflate, br',
+      'Connection' => 'keep-alive',
+      'Authorization' => 'Token token="c3ac0a8eb4e9035f082de4d19eff4132"'
+    }
+
+    body = {
+      'email'=> email,
+      'first_name' => first_name,
+      'last_name' => last_name,
+      'address' => address,
+      'city' => city,
+      'zip' => zip,
+      'phone'=> phone
+    }
+
+    ocp_api_base_url = "https://oneclickpolitics.com"
+    promoted_message_id = 15992
+    url = "#{ocp_api_base_url}/v1/message/create/#{promoted_message_id}.json"
+
+    response = HTTParty.post(url,
+      headers: headers,
+      body: body.to_json
+    )
+```
+
+
+#### This curl works, edit it for better data
+```
+curl --location --request POST 'https://oneclickpolitics.com/api/v1/message/create/15992.json' \
+--header 'Authorization: Token token="c3ac0a8eb4e9035f082de4d19eff4132"' \
+--form 'name="Susan Prestage"' \
+--form 'email="sprestage22@oneclickpolitics.com"' \
+--form 'address="1222 Murre Ln"' \
+--form 'zip="95060"' \
+--form 'city="CA"' \
+--form 'phone="4082341222"'
+
+require "httparty"
+options =
+{
+    :headers => {"Content-Type" => "application/json", "Authorization" => ""Token token=\"c3ac0a8eb4e9035f082de4d19eff4132\""},
+    :verify => false,
+    :body => {"name":"Susan Prestage", "email":"sprestage22@oneclickpolitics.com", "address":"1222 Murre Ln", "zip":"95060", "city":"CA", "phone":"4082341222"}.to_json
+}
+response = HTTParty.post('https://oneclickpolitics.com/api/v1/message/create/15992.json', options)
+
+puts response.body
+```
+
+
+convert curl to httparty:
+
+curl --noproxy localhost -k -d '{"username":"admin", "password":"adminpass"}' -H "Content-Type: application/json" https://localhost:8443/api/authentication
+
+require "httparty"
+
+options =
+{
+    :http_proxyaddr => nil,
+    :headers => {"Content-Type" => "application/json"},
+    :verify => false,
+    :body => {"username":"admin", "password":"adminpass"}.to_json
+}
+response = HTTParty.post('https://localhost:8443/api/authentication', options)
+
+puts response.body
+
+#### This curl isn't quite correct
+```
+curl --request POST \
+  --header 'Content-Type: application/json' \
+  --header 'Accept-Encoding: gzip, deflate, br' \
+  --header 'Authorization: c3ac0a8eb4e9035f082de4d19eff4132' \
+  --header 'Accept: */*' \
+  --data '{"email" => "sprestage18@oneclickpolitics.com", "first_name" => "Susan", "last_name" => "Prestage", "address" => "1418 Murre Ln", "city" => "Cupertino", "zip" => "95060", "phone" => "4082349818"}' \
+  'https://oneclickpolitics.com/v1/message/create/15992.json'
+```
+
+```
+puts("SET headers")
+    headers = {
+      "Content-Type" => "application/json",
+      "Accept" => "*/*",
+      "Accept-Encoding" => "gzip, deflate, br",
+      "Connection" => "keep-alive",
+      "Authorization" => "Token token='c3ac0a8eb4e9035f082de4d19eff4132'"
+    }
+puts("HEADERS = #{headers}")
+puts
+puts("SET body")
+    body = {
+      "email" => "sprestage16@oneclickpolitics.com",
+      "first_name" => "Susan",
+      "last_name" => "Prestage",
+      "address" => "1416 Murre Ln",
+      "city" => "Cupertino",
+      "zip" => "95060",
+      "phone" => "4082349816"
+    }
+
+```
+
+  ```
+  https://oneclickpolitics.com/api/v1/message/create/15992.json
+
+    url = promoter_user.text_message_base_url + "/contacts?&format=json"
+    body = {
+      "Password" => password,
+      "User" => username,
+      'Groups[]'=> format_groups(groups),
+      "FirstName" => first_name,
+      "LastName" => last_name,
+      'Email'=> email,
+      'PhoneNumber'=> format_phone_number(phone_number)
+    }
+    @text_logger.info("URL: #{url}")
+    @text_logger.info("Body: #{body}")
+    response = HTTParty.post( url, body: body )["Response"]
+
+      def api_request(parameters)
+        HTTParty.post("#{ENV['WEB_FORM_API_BASE_URL']}/v1/deliveries",
+          headers: { 'Content-Type' => 'application/json' },
+          body: parameters.to_json
+        )
+      end
+
+  ```
+
+- [ ] seems like I should create a ticket for the bit of work daily keeping things test ready for CWC
+
+### OCP API
+c3ac0a8eb4e9035f082de4d19eff4132 our token?  (from prod user 28)
+
+**existing postman**
+https://oneclickpolitics.com/api/v1/message/create/13750.json
+Token token="c027f1ebcd2bcee2d860d25e1e326d32"
+
+### NB prefix bug?
+This is the same issue for this promoter that has been happening for at least the last 2 months (much longer, I think)
+```
+NationBuilderSync has experienced a CATASTROPHIC error for Promoter: 40793 (Citizens for Free Speech)
+
+Error: NationBuilderClient::PersonError
+
+Message: Unknown Error: {"code"=>"bad_request", "message"=>"Bad Request."}
+
+["/home/deploy/apps/ocp/releases/20220606210259/lib/nation_builder_client/nation_builder_client.rb:42:in `raise!'", "/home/deploy/apps/ocp/releases/20220606210259/lib/nation_builder_client/lib/people.rb:68:in `rescue in make_person_request'", "/home/deploy/apps/ocp/releases/20220606210259/lib/nation_builder_client/lib/people.rb:65:in `make_person_request'", "/home/deploy/apps/ocp/releases/20220606210259/lib/nation_builder_client/lib/people.rb:25:in `push_person'", "/home/deploy/apps/ocp/releases/20220606210259/lib/jobs/nation_builder_sync/nation_builder_sync.rb:256:in `nation_builder_api_call'", "/home/deploy/apps/ocp/releases/20220606210259/lib/jobs/nation_builder_sync/lib/people.rb:148:in `push_person_on_nation_builder'", "/home/deploy/apps/ocp/releases/20220606210259/lib/jobs/nation_builder_sync/lib/people.rb:96:in `create_person'", "/home/deploy/apps/ocp/releases/20220606210259/lib/jobs/nation_builder_sync/lib/people.rb:67:in `sync_person'", "/home/deploy/apps/ocp/releases/20220606210259/lib/jobs/nation_builder_sync/lib/people.rb:13:in `sync_advocate_profile'", "/home/deploy/apps/ocp/releases/20220606210259/lib/jobs/nation_builder_sync/lib/emails.rb:15:in `sync_email_conversion'", "/home/deploy/apps/ocp/releases/20220606210259/lib/jobs/nation_builder_sync/lib/emails.rb:7:in `block in sync_email_conversions'", "/home/deploy/apps/ocp/releases/20220606210259/lib/jobs/nation_builder_sync/lib/emails.rb:116:in `block in get_conversions_for_email_sync'", "/home/deploy/apps/ocp/shared/bundle/ruby/2.2.0/gems/activerecord-3.2.22.5/lib/active_record/relation/delegation.rb:6:in `each'", "/home/deploy/apps/ocp/shared/bundle/ruby/2.2.0/gems/activerecord-3.2.22.5/lib/active_record/relation/delegation.rb:6:in `each'", "/home/deploy/apps/ocp/releases/20220606210259/lib/jobs/nation_builder_sync/lib/emails.rb:115:in `get_conversions_for_email_sync'", "/home/deploy/apps/ocp/releases/20220606210259/lib/jobs/nation_builder_sync/lib/emails.rb:6:in `sync_email_conversions'", "/home/deploy/apps/ocp/releases/20220606210259/lib/jobs/nation_builder_sync/nation_builder_sync.rb:52:in `sync_all'", "/home/deploy/apps/ocp/releases/20220606210259/lib/jobs/nation_builder_sync/nation_builder_sync.rb:38:in `block in sync_all'", "/home/deploy/apps/ocp/releases/20220606210259/lib/jobs/nation_builder_sync/nation_builder_sync.rb:291:in `block (2 levels) in syncable_promoters'", "/home/deploy/apps/ocp/shared/bundle/ruby/2.2.0/gems/activerecord-3.2.22.5/lib/active_record/associations/collection_proxy.rb:91:in `each'", "/home/deploy/apps/ocp/shared/bundle/ruby/2.2.0/gems/activerecord-3.2.22.5/lib/active_record/associations/collection_proxy.rb:91:in `method_missing'", "/home/deploy/apps/ocp/releases/20220606210259/lib/jobs/nation_builder_sync/nation_builder_sync.rb:291:in `block in syncable_promoters'", "/home/deploy/apps/ocp/shared/bundle/ruby/2.2.0/gems/activerecord-3.2.22.5/lib/active_record/relation/delegation.rb:6:in `map'", "/home/deploy/apps/ocp/shared/bundle/ruby/2.2.0/gems/activerecord-3.2.22.5/lib/active_record/relation/delegation.rb:6:in `map'", "/home/deploy/apps/ocp/releases/20220606210259/lib/jobs/nation_builder_sync/nation_builder_sync.rb:291:in `syncable_promoters'", "/home/deploy/apps/ocp/releases/20220606210259/lib/jobs/nation_builder_sync/nation_builder_sync.rb:23:in `each'", "/home/deploy/apps/ocp/releases/20220606210259/lib/jobs/nation_builder_sync/nation_builder_sync.rb:23:in `sync_all'", "/home/deploy/apps/ocp/releases/20220606210259/lib/tasks/nation_builder_sync.rake:12:in `block (2 levels) in <top (required)>'", "/home/deploy/apps/ocp/shared/bundle/ruby/2.2.0/gems/rake-13.0.6/lib/rake/task.rb:279:in `call'", "/home/deploy/apps/ocp/shared/bundle/ruby/2.2.0/gems/rake-13.0.6/lib/rake/task.rb:279:in `block in execute'", "/home/deploy/apps/ocp/shared/bundle/ruby/2.2.0/gems/rake-13.0.6/lib/rake/task.rb:279:in `each'", "/home/deploy/apps/ocp/shared/bundle/ruby/2.2.0/gems/rake-13.0.6/lib/rake/task.rb:279:in `execute'", "/home/deploy/apps/ocp/shared/bundle/ruby/2.2.0/gems/bugsnag-6.22.1/lib/bugsnag/integrations/rake.rb:20:in `execute'", "/home/deploy/apps/ocp/shared/bundle/ruby/2.2.0/gems/rake-13.0.6/lib/rake/task.rb:219:in `block in invoke_with_call_chain'", "/home/rubyists/.rbenv/versions/2.2.10/lib/ruby/2.2.0/monitor.rb:211:in `mon_synchronize'", "/home/deploy/apps/ocp/shared/bundle/ruby/2.2.0/gems/rake-13.0.6/lib/rake/task.rb:199:in `invoke_with_call_chain'", "/home/deploy/apps/ocp/shared/bundle/ruby/2.2.0/gems/rake-13.0.6/lib/rake/task.rb:188:in `invoke'", "/home/deploy/apps/ocp/shared/bundle/ruby/2.2.0/gems/newrelic_rpm-7.2.0/lib/new_relic/agent/instrumentation/rake/prepend.rb:10:in `block in invoke'", "/home/deploy/apps/ocp/shared/bundle/ruby/2.2.0/gems/newrelic_rpm-7.2.0/lib/new_relic/agent/instrumentation/rake/instrumentation.rb:28:in `block in invoke_with_newrelic_tracing'", "/home/deploy/apps/ocp/shared/bundle/ruby/2.2.0/gems/newrelic_rpm-7.2.0/lib/new_relic/agent/tracer.rb:104:in `in_transaction'", "/home/deploy/apps/ocp/shared/bundle/ruby/2.2.0/gems/newrelic_rpm-7.2.0/lib/new_relic/agent/instrumentation/rake/instrumentation.rb:26:in `invoke_with_newrelic_tracing'", "/home/deploy/apps/ocp/shared/bundle/ruby/2.2.0/gems/newrelic_rpm-7.2.0/lib/new_relic/agent/instrumentation/rake/prepend.rb:10:in `invoke'", "/home/deploy/apps/ocp/shared/bundle/ruby/2.2.0/gems/rake-13.0.6/lib/rake/application.rb:160:in `invoke_task'", "/home/deploy/apps/ocp/shared/bundle/ruby/2.2.0/gems/rake-13.0.6/lib/rake/application.rb:116:in `block (2 levels) in top_level'", "/home/deploy/apps/ocp/shared/bundle/ruby/2.2.0/gems/rake-13.0.6/lib/rake/application.rb:116:in `each'", "/home/deploy/apps/ocp/shared/bundle/ruby/2.2.0/gems/rake-13.0.6/lib/rake/application.rb:116:in `block in top_level'", "/home/deploy/apps/ocp/shared/bundle/ruby/2.2.0/gems/rake-13.0.6/lib/rake/application.rb:125:in `run_with_threads'", "/home/deploy/apps/ocp/shared/bundle/ruby/2.2.0/gems/rake-13.0.6/lib/rake/application.rb:110:in `top_level'", "/home/deploy/apps/ocp/shared/bundle/ruby/2.2.0/gems/rake-13.0.6/lib/rake/application.rb:83:in `block in run'", "/home/deploy/apps/ocp/shared/bundle/ruby/2.2.0/gems/rake-13.0.6/lib/rake/application.rb:186:in `standard_exception_handling'", "/home/deploy/apps/ocp/shared/bundle/ruby/2.2.0/gems/rake-13.0.6/lib/rake/application.rb:80:in `run'", "/home/deploy/apps/ocp/shared/bundle/ruby/2.2.0/gems/rake-13.0.6/exe/rake:27:in `<top (required)>'", "/home/deploy/apps/ocp/shared/bundle/ruby/2.2.0/bin/rake:23:in `load'", "/home/deploy/apps/ocp/shared/bundle/ruby/2.2.0/bin/rake:23:in `<top (required)>'", "/home/rubyists/.rbenv/versions/2.2.10/lib/ruby/gems/2.2.0/gems/bundler-1.16.1/lib/bundler/cli/exec.rb:75:in `load'", "/home/rubyists/.rbenv/versions/2.2.10/lib/ruby/gems/2.2.0/gems/bundler-1.16.1/lib/bundler/cli/exec.rb:75:in `kernel_load'", "/home/rubyists/.rbenv/versions/2.2.10/lib/ruby/gems/2.2.0/gems/bundler-1.16.1/lib/bundler/cli/exec.rb:28:in `run'", "/home/rubyists/.rbenv/versions/2.2.10/lib/ruby/gems/2.2.0/gems/bundler-1.16.1/lib/bundler/cli.rb:424:in `exec'", "/home/rubyists/.rbenv/versions/2.2.10/lib/ruby/gems/2.2.0/gems/bundler-1.16.1/lib/bundler/vendor/thor/lib/thor/command.rb:27:in `run'", "/home/rubyists/.rbenv/versions/2.2.10/lib/ruby/gems/2.2.0/gems/bundler-1.16.1/lib/bundler/vendor/thor/lib/thor/invocation.rb:126:in `invoke_command'", "/home/rubyists/.rbenv/versions/2.2.10/lib/ruby/gems/2.2.0/gems/bundler-1.16.1/lib/bundler/vendor/thor/lib/thor.rb:387:in `dispatch'", "/home/rubyists/.rbenv/versions/2.2.10/lib/ruby/gems/2.2.0/gems/bundler-1.16.1/lib/bundler/cli.rb:27:in `dispatch'", "/home/rubyists/.rbenv/versions/2.2.10/lib/ruby/gems/2.2.0/gems/bundler-1.16.1/lib/bundler/vendor/thor/lib/thor/base.rb:466:in `start'", "/home/rubyists/.rbenv/versions/2.2.10/lib/ruby/gems/2.2.0/gems/bundler-1.16.1/lib/bundler/cli.rb:18:in `start'", "/home/rubyists/.rbenv/versions/2.2.10/lib/ruby/gems/2.2.0/gems/bundler-1.16.1/exe/bundle:30:in `block in <top (required)>'", "/home/rubyists/.rbenv/versions/2.2.10/lib/ruby/gems/2.2.0/gems/bundler-1.16.1/lib/bundler/friendly_errors.rb:122:in `with_friendly_errors'", "/home/rubyists/.rbenv/versions/2.2.10/lib/ruby/gems/2.2.0/gems/bundler-1.16.1/exe/bundle:22:in `<top (required)>'", "/home/rubyists/.rbenv/versions/2.2.10/bin/bundle:23:in `load'", "/home/rubyists/.rbenv/versions/2.2.10/bin/bundle:23:in `<main>'"]
+```
+
+
+## Tue, Jun 7 2022
+**Yesterday I**
+- supporting the prefix update work, reviewing, testing, deploying
+- almost finished the SalesForce review
+- go some other PR reviews done; I've others for today
+- I did the latest cicero import myself on production
+
+**Today I**
+- [x] almost finished the SalesForce review
+- [x] caught up on my PR reviews; I haven't started on the Kafka review, and from the looks of it (126 files and counting), this one with take 3 days or more.  Please let us know when is ok to start in order to be part way done and familiar with the code once the timing becomes tight at the end.
+- [x] update staging by resetting staging branch to master?  Or merge in current master?
+- [x] then make sure end to end is functioning for CWC
+- [x] ran all of the tests as a suite.  it took: xx hours and yy minutes.  I did some running of tests in much smaller blocks and it looks like we have about 180 tests that are broken when run individually.  I'm happy to provide the list.
+- [ ] continue to support Nour through her first cicero import; I didn't get back to her yesterday
+- [ ] PRIORITY -> Turo, I hope.  I don't see a ticket for this, so I'll get that written up and the files attached from the email
+  - [ ] DO THE IMPORT, nope!: the import done in early May for Turo is for the same campaign, but with ~300 instead of ~350.  Basically the exact same advocates as before, but some missing.  Same campaign!  
+  - [ ] DETERMINE HOW TO DELIVER: I assess the above to mean the no import is needed.  Just delivery, automated for the day they desire.  Looking into how to accomplish that next...  import_advocates.rb:L679 looks like it is supposed to create Conversions, yet I don't see any created from the last import.  Continue investigating this path.  Maybe check the spec, but I think I already did, but check again.
+- [ ] seems like I should create a ticket for the bit of work daily keeping things test ready for CWC
+
+### advocate upload steps
+aka Manual Advocates Import in the dev doc.  The file to be added to is lib/import_advocates/import_advocates.rb.  This is where we set up the mapping for the client's advocate csv file.
+
+https://oneclickpolitics.com/promoter/40916/messages/16612/edit
+
+23 = 6pm
+0 = 7
+1, 8
+2, 9
+3, 10pm
+4, 11
+5, 12
+6, 1am
+7, 2
+8, 3
+9, 4am
+10, 5am
+
+- how to do the Turo/Michigan Advocate upload
+  - [ ] create Jira for Advocate upload (info in email)
+  - [ ] figure out the instructions from the Dev Doc,
+  - [ ] added the promoter file specific method (Tue, Jan 25 2022, ON-1605)
+  - [ ] prep file for Advocate upload
+  - [ ] test it locally
+  - [ ] check in and merge file for Advocate upload
+  - [ ] perform Advocate upload
+
+- the file to map the columns, lib/import_advocates/import_advocates.rb
+- the file with the rows that have error and cannot be imported and explanations of errors, named like:  lib/import_data/advocates/failed_imports/failed_turo_michigan_import.csv
+- the customer's csv of advocates to import, named like: lib/import_data/advocates/turo_michigan_import.csv
+
+### db reset for tests if there is weird gem problems
+`docker-compose exec ocp bundle exec rake db:test:prepare`
+it’s what i run after `rake db:migrate`
+
+
+## Mon, Jun 6 2022
+Friday I
+- met with Nour on cicero import, which covered getting aws cli installed and working on getting her keys in order
+- met with Eric and Nour on binding.pry
+- worked on the epic SalesForce review, still have more
+- provided CWC test data for CWC
+- kept staging working for CWC
+
+Today I
+- got staging working again end to end so CWC can test end to end from their end
+- continued on the SalesForce review
+- other PR reviews
+- Turo, I hope
+- I think I'm going to do the latest cicero import myself on production, then
+- continue to support Nour through her first cicero import
+
+## Fri, Jun 3 2022
+- continue salesforce review
+- binding.pry instruction, Eric, would you like to join us?
+- Turo/Michigan
+
+IntelliJ, CDE, get (or RubyMine)
+
+Talk about Cicero Import at retro.
+
+
+## Thu, Jun 2 2022
+- keeping staging ready for CWC demo
+- a lot of PR review; still reviewing the salesforce work...about 50% complete
+
+
 ## Wed, Jun 1 2022
-- [ ] check our API to make sure they handle prefix, present and not-present; coordinate with Nate for getting this done
+- [ ] check our delivery API to make sure they handle prefix, present and not-present; coordinate with Nate for getting this done
 - [ ] ready staging for CWC demo
+- [ ] grab the Turo, Michigan ticket until I can meet with Maged later today on the delivery API handling prefix
 
 ### testing status, rspec
 - [ ] spec/features is passing, except for known issues being worked on by Eric/Nour
@@ -4107,7 +4755,7 @@ Here is an AdvocateProfile we send to NB, with the exact person_data hash being 
 ```
 NationBuilder person_data for advocate:
 
-{:email=>"modrell211@charter.net", :phone=>"6032064331", :prefix=>nil, :first_name=>"Carol", :last_name=>"Modrell", :middle_name=>nil, :external_id=>6806789, :home_address=>{:address1=>"211 Kearsarge Dr,", :address2=>nil, :city=>"Woodsville", :state=>"NH", :zip=>"03785", :country_code=>"US", :lat=>44.116254, :lng=>-71.958218}}
+{:email=>"modrell211@charter.net", :phone=>"6032064331", :prefix=>"Ms.", :first_name=>"Carol", :last_name=>"Modrell", :middle_name=>nil, :external_id=>6806789, :home_address=>{:address1=>"211 Kearsarge Dr,", :address2=>nil, :city=>"Woodsville", :state=>"NH", :zip=>"03785", :country_code=>"US", :lat=>44.116254, :lng=>-71.958218}}
 
 ","  2022-01-13T19:31:38.322+00:00","@version":"1","severity":"INFO","host":"ip-172-30-1-201","tags":["nation_builder","task","sync"],"environment":"production"}
 

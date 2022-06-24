@@ -12,25 +12,37 @@ DEPLOY=chara cap stop_daemons
 ps aux | grep agent  <-- RUN THIS ON PRODUCTION, not this deployment server
 DEPLOY=chara cap start_daemons
 
-might need to remove the bundle execs above, or maybe just for staging but something to keep in mind
+
+ssh -i ~/.ssh/id_rsa ubuntu@ec2-107-21-34-110.compute-1.amazonaws.com
+cd /home/deploy/apps/ocp/current
+eval `ssh-agent -s` ssh-add
+ssh-add ~/.ssh/susan_keys/id_rsa
+
+DEPLOY=chara branch=master cap deploy &
+
+DEPLOY=chara cap stop_consumers
+DEPLOY=chara cap start_consumers
 ```
 
-## Deploy ON-1297 to staging:
+
+## Deploy master to staging:
 ```
 ssh -i ~/.ssh/id_rsa ubuntu@ec2-107-21-34-110.compute-1.amazonaws.com
 cd /home/deploy/apps/ocp/current
 eval `ssh-agent -s` ssh-add
 ssh-add ~/.ssh/susan_keys/id_rsa
+
 DEPLOY=stage branch=staging cap deploy &
-DEPLOY=stage cap stop_daemons
-ps aux | grep agent  <-- RUN THIS ON STAGING, not this deployment server
-DEPLOY=stage cap start_daemons
+
+DEPLOY=stage branch=staging cap stop_consumers
+DEPLOY=stage branch=staging cap start_consumers
 ```
+
 
 ## Deploy one-click-cwc to production
 ### ssh into the microservice ec2 instance
 ```
-ssh -i ~/.ssh/ocpreboot.pem ubuntu@ec2-35-175-214-35.compute-1.amazonaws.com
+ssh -i ~/.ssh/ocpreboot.pem ubuntu@ec2-34-225-246-219.compute-1.amazonaws.com
 ```
 
 ### Change directory into the project directory

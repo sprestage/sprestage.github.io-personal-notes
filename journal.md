@@ -10,7 +10,9 @@
 - sour patch kids
 - allergy meds
 - best miso ever, Marukome, Miso Original, 13.8 ounce.  Red bottle, Amazon, Miso & Easy.  Miso broth concentrate.
-- deoderant, Toms of Main
+- deoderant, Toms of Maine
+- cinnamon graham crackers
+
 
 ### November task list
 - [ ] 4 chairs, $500, this work has not yet been begun by Saul.  Probably will be delayed until November, so I'm moving it to that list for now.
@@ -21,6 +23,10 @@
 - [ ] purchase a fan for the front room, from Todo a Dollar, like the one in my room which can be disassembled for cleaning
 
 
+### really nice blog/personal website
+http://www.adamheine.com/2015/08/wells-lair-on-flash-is-braille.html
+
+
 ### scribe then translate Spanish piece of Alan Walker's On My Way - in progress
 Lo siento mucho
 ven o me hoy
@@ -29,7 +35,7 @@ y me con ser a luchar a di guerre a le mano
 y tal y fuer u da me pelo mano
 acepto me error tambien soy humano
 tu no ve que lago porque te amo
-pero ya no tengo mana casa  
+pero ya no tengo mana casa la gue
       patel
    propia caminos    lajos de te
 
@@ -39,7 +45,7 @@ Because I cannot keep such a huge daily list, it is becoming unmanageable.  Also
 
 - [ ] meticulously clean and oil the piano
 - [ ] Dev notes, personal.  Set this up in Pages.
-- [ ] Business notes, for Orchideas Car Rentals.  Set this up in Pages.
+- [ ] Business notes, for Orquideas Car Rentals.  Set this up in Pages.
 - [ ] move these to the index as I get them set up:
   - [ ] K & S Rentals: https://gist.github.com/sprestage/b8560b54dba13eab577a6401970fdd9f
   - [ ] my dev notes: https://gist.github.com/sprestage/30014a801408c3de317147575c69cf0f
@@ -55,6 +61,15 @@ Because I cannot keep such a huge daily list, it is becoming unmanageable.  Also
 ### Check in with Danny on these
 - [ ] Business cards.  Update: Danny has ordered, but needs an update, 25 Oct.  I'm hoping for these by Tues, 2 Nov.  Asked Danny on Saturday, Oct 2, to order two more boxes.  Check in with Danny on the progress and what I owe PSG Graphics.
 - [ ] 3 layer contracts.  Update: Danny has ordered, but needs an update, 25 Oct.  I'm hoping for these by Tues, 2 Nov.  Asked Danny on Saturday, Oct 2, to find someone to do this.  Check in with Danny on the progress.
+
+
+## June 2022
+### US accounts
+- [x] pay Kai's phone, 66718724 (#1638746)  Paid, Jun 19 2022, double $44.84, BECU
+- [x] pay business phone, 63932521 (#1678356)  Paid, Jun 19 2022, double $44.84, Clave
+- [x] pay Susan's phone, 63305175 (#1678296)  Paid, Jun 19 2022, double $44.84, Clave
+- [x] pay house internet, (#311019100000)  Paid, Jun 19 2022, double 125.32, Clave
+- [ ] pay Susan's iphone 4259193122
 
 
 ## Tue, May 3 2022
@@ -105,7 +120,7 @@ About $3000 for the trips there and back for both Kai and myself, includes overn
 - [ ] pay Susan's iphone 4259193122
 ### PA accounts
 - [ ] pay Naturgy; this last weekend Jean mentioned this and an amount in the $70s, so while this month is due, generally this bill is being kept up.
-- [x] pay fleet insurance, 2 May: this was paid by the business along with the two most recent of Jean's weekly paychecks.  I'm pretty pleased by this news.  The plan is that as long as the business has in excess of $1000 in the account (after deposits are subtracted), the business will pay bills (Jean and insurance) whenevery doing so will not take the account below $1000.  
+- [x] pay fleet insurance, 2 May: this was paid by the business along with the two most recent of Jean's weekly paychecks.  I'm pretty pleased by this news.  The plan is that as long as the business has in excess of $1000 in the account (after deposits are subtracted), the business will pay bills (Jean and insurance) whenever doing so will not take the account below $1000.  
 - [x] pay rent, 2 May
 - [x] AIB 195.00 Mayo
 
