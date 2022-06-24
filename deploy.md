@@ -6,19 +6,9 @@ ssh -i ~/.ssh/id_rsa ubuntu@ec2-107-21-34-110.compute-1.amazonaws.com
 cd /home/deploy/apps/ocp/current
 eval `ssh-agent -s` ssh-add
 ssh-add ~/.ssh/susan_keys/id_rsa
+
 DEPLOY=chara branch=master cap deploy &
 DEPLOY=pre_prod branch=master cap deploy &
-DEPLOY=chara cap stop_daemons
-ps aux | grep agent  <-- RUN THIS ON PRODUCTION, not this deployment server
-DEPLOY=chara cap start_daemons
-
-
-ssh -i ~/.ssh/id_rsa ubuntu@ec2-107-21-34-110.compute-1.amazonaws.com
-cd /home/deploy/apps/ocp/current
-eval `ssh-agent -s` ssh-add
-ssh-add ~/.ssh/susan_keys/id_rsa
-
-DEPLOY=chara branch=master cap deploy &
 
 DEPLOY=chara cap stop_consumers
 DEPLOY=chara cap start_consumers
