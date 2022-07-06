@@ -16,11 +16,11 @@ Susan added: Copy the sql files to staging/production
 # STOP!!!  DISCONNECT FROM YOUR VPN FIRST!!!
 staging - 938hg3kk
 ```
-scp -i ~/.ssh/ ../CiceroImports/canada/*CA.sql ubuntu@ec2-54-235-144-131.compute-1.amazonaws.com:~/canada/oct2021
+scp -i ~/.ssh/ ../CiceroImports/canada/*CA.sql ubuntu@ec2-54-235-144-131.compute-1.amazonaws.com:~/canada/2022_06
 ```
 prod - 938hg3kk
 ```
-scp -i ~/.ssh/id_rsa *CA.sql ubuntu@prod.oneclickpolitics.com:~/canada/2022_05
+scp -i ~/.ssh/id_rsa *CA.sql ubuntu@prod.oneclickpolitics.com:~/canada/2022_06
 ```
 
    The preceding lines are used to set up our new_districts table, and we won't need them - we're going to do this with the NewDistrict.reset_table command.
@@ -28,21 +28,20 @@ scp -i ~/.ssh/id_rsa *CA.sql ubuntu@prod.oneclickpolitics.com:~/canada/2022_05
 **Step 3.**  Now use .reset_table to give us the precise new_districts table we need:
 ```
 NewDistrict.reset_table :ca_geom_srid => '4326', :columns => { :district_i => :string, :city => :string, :state => :string, :district_t => :float, :subtype => :string, :valid_from => :string, :valid_to => :string, :ocd_id => :string }
-
 ```
 
 **Step 4.**  Now use psql to import these .sql shape records into the new_districts table.  Give the correct database endpoint after argument -h
 
 Production
 ```
- psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/canada/oct2021/STATELOWER_CA.sql
- psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/canada/oct2021/NATIONALLOWER_CA.sql
+ psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/canada/2022_06/STATELOWER_CA.sql
+ psql -U ocp -d ocp_new -h new-postgres12-7.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/canada/2022_06/NATIONALLOWER_CA.sql
 ```
 
 Staging
 ```
-psql -U ocp -d ocp_new -h new-staging-127.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/canada/oct2021/STATELOWER_CA.sql
-psql -U ocp -d ocp_new -h new-staging-127.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/canada/oct2021/NATIONALLOWER_CA.sql
+psql -U ocp -d ocp_new -h new-staging-127.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/canada/2022_06/STATELOWER_CA.sql
+psql -U ocp -d ocp_new -h new-staging-127.c8rvchfbyjh2.us-east-1.rds.amazonaws.com -f ~/canada/2022_06/NATIONALLOWER_CA.sql
 ```
 
 - If running this locally with docker, you may want to insert the sql files into your docker/postgres/ folder and run the following commands instead:
