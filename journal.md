@@ -63,13 +63,56 @@ Because I cannot keep such a huge daily list, it is becoming unmanageable.  Also
 - [ ] 3 layer contracts.  Update: Danny has ordered, but needs an update, 25 Oct.  I'm hoping for these by Tues, 2 Nov.  Asked Danny on Saturday, Oct 2, to find someone to do this.  Check in with Danny on the progress.
 
 
+## July 2022
+
+## Tue, 5 Jul 2022
+- [x] pay Larissa
+- [x] contact new bus (Abigail and husband)
+- [x] find the old resume file
+- [x] find the old resumes online
+- [x] work on inbox zero; I went from 3500 plus down to 875 today.  WOO!!!
+- [ ] print latest versions of resume, file resume, list of colleagues
+- [ ] continue work on inbox zero
+- [ ] speak to Kai to confirm the new bus plan since it will be costing more.  $82/month for AM & PM.  $62/month for AM only.  For only mornings, this is kinda costly.  Also, pick up time is
+- [ ] why doesn't Google Pages work locally any more, http://localhost:4000/ocp_dev_notes.html
+
+
+## Sun, 3 Jul 2022
+With the knowledge that Maged thinks I lie about hours, it is time to refresh resume, projects, and web presence to prepare for the next job search.  Money is getting tight with the global inflation situation, so a 20k increase would be very nice about now.
+
+Here is my initial to do list for preparing for that job search
+- [ ] investigate doing taxes for some extra money
+- [ ] write up blurb on what I do at OCP
+- [ ] check current status of TrakehnerDB site
+- [ ] check current status of portfolio site
+- [ ] check current status of tech blog
+- [ ] check current status of journey blog
+- [ ] consider continuing to release updates to journey blog
+- [ ] consider writing new posts to catch up on the journey blog
+- [ ] go through various to do lists in this journal and start working through them
+- [ ] organize my personal and business files and store where they are protected from cats
+- [ ] make psychologist appointment for Kai required by school
+- [x] send fleet info to Kai (in Discord)
+- [ ] track down info for van's accident repair to give to Jean to for talking with Ana.  Find the invoice of the repair of the van to present the claim to the other insurance company; I worry that we only have the estimate and that Danny will need to get the actual receipt for the work because I did not receive it.  Also, I might have this information in a bank account.  Maybe check, maybe transfer.  Messages with Danny Feb 18 2021, $1985.40 Luis Caballero, cuenta de ahorros, banco general, 04-30-01-469003-3.  I checked carefully and no receipt was ever sent in WhatsApp by Danny.  The need to do this was probably forgotten with the sudden need to move out of the Jaramillo house.
+
+
+### Orquídeas fleet info for Kai
+2015 Mitsubishi Mirage, AS0931
+2017 Kia Rio, CG4810
+2017 Kia Rio, CF6455
+2017 Kia Rio, CF6453
+2018 Hyundai Creta, CJ5470
+2016 Toyota Hilux, AX2777
+2016 Hyundai H-1 Microbus, AZ5424
+
+
 ## June 2022
 ### US accounts
 - [x] pay Kai's phone, 66718724 (#1638746)  Paid, Jun 19 2022, double $44.84, BECU
 - [x] pay business phone, 63932521 (#1678356)  Paid, Jun 19 2022, double $44.84, Clave
 - [x] pay Susan's phone, 63305175 (#1678296)  Paid, Jun 19 2022, double $44.84, Clave
 - [x] pay house internet, (#311019100000)  Paid, Jun 19 2022, double 125.32, Clave
-- [ ] pay Susan's iphone 4259193122
+- [x] pay Susan's iphone 4259193122
 
 
 ## Tue, May 3 2022
@@ -92,14 +135,14 @@ Hi Sissy,  Do you remember the paperwork I gave to you to figure out so we could
 
 ### Susan
 beginning of every month.  
-- [ ] check in with Danny at end of day Tue, May 3 if I haven't heard from her on the trash truck data
+- [x] check in with Danny at end of day Tue, May 3 if I haven't heard from her on the trash truck data
 - [ ] work on next trip to US - contacting folks for plans, in priority order (Susan for Ayden and Kai, Stacy/Alma, Misha, Keith/Tahlia, Sylvan, Heather, Sean/Marci, also consider a mass email; time to start writing up what I want to say to intro the idea to everyone)
 - [ ] make psych appointment for Kai required by the school
-- [ ] Kai and Susan dental appointment this week
-- [ ] make Las Lajas reservation; sent initial message, continue tomorrow
-- [ ] order allergy meds from Target
+- [x] Kai and Susan dental appointment this week
+- [x] make Las Lajas reservation; sent initial message, continue tomorrow
+- [x] order allergy meds from Target
 - [ ] order more lotion
-- [ ] order more butt balm
+- [x] order more butt balm; Mama Rosa went out of business.  :(
 - [ ] research how to make passport renewal appointment for a minor, expedited for immediate travel
 - [ ] start list of restaurants and estimated budget each
 - [ ] find the invoice of the repair of the van to present the claim to the other insurance company; I worry that we only have the estimate and that Danny will need to get the actual receipt for the work because I did not receive it.  Also, I might have this information in a bank account.  Maybe check, maybe transfer.  Messages with Danny Feb 18 2021, $1985.40 Luis Caballero, cuenta de ahorros, banco general, 04-30-01-469003-3.  I checked carefully and no receipt was ever sent in WhatsApp by Danny.  The need to do this was probably forgotten with the sudden need to move out of the Jaramillo house.
@@ -117,16 +160,12 @@ About $3000 for the trips there and back for both Kai and myself, includes overn
 - [x] pay business phone, 63932521 (#1678356)  up to date, May 2 2022
 - [x] pay Susan's phone, 63305175 (#1678296)  up to date, May 2 2022
 - [x] pay house internet, (#311019100000)  up to date, May 2 2022
-- [ ] pay Susan's iphone 4259193122
+- [x] pay Susan's iphone 4259193122
 ### PA accounts
-- [ ] pay Naturgy; this last weekend Jean mentioned this and an amount in the $70s, so while this month is due, generally this bill is being kept up.
+- [x] pay Naturgy; this last weekend Jean mentioned this and an amount in the $70s, so while this month is due, generally this bill is being kept up.
 - [x] pay fleet insurance, 2 May: this was paid by the business along with the two most recent of Jean's weekly paychecks.  I'm pretty pleased by this news.  The plan is that as long as the business has in excess of $1000 in the account (after deposits are subtracted), the business will pay bills (Jean and insurance) whenever doing so will not take the account below $1000.  
 - [x] pay rent, 2 May
 - [x] AIB 195.00 Mayo
-
-### grocery list
-eggs
-butter
 
 ### US tasks
 - [ ] make Dr appointment for Kai to catch up on vaccinations
@@ -151,10 +190,10 @@ butter
 - [x] pay business phone, 63932521 (#1678356)  **paid $22.42** on 24 Apr 2022 <- confirmed in email
 - [x] pay Susan's phone, 63305175 (#1678296)  **paid $22.42** on 24 Apr 2022 <- confirmed in email
 - [x] pay house internet, (#311019100000)  **paid $62.66** on 24 Apr 2022 <- confirmed in email
-- [ ] pay Susan's iphone 4259193122
+- [x] pay Susan's iphone 4259193122
 
 ### PA accounts
-- [ ] pay Naturgy
+- [x] pay Naturgy
 - [x] pay fleet insurance
 - [x] pay rent
 

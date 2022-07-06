@@ -46,6 +46,196 @@ Tue, Jun 21, travelled in the morning, then worked the afternoon 5 hours (12-5:3
 Thu, Jun 23, day off (travelled, then fell over with fatigue)
 
 
+## Tue, Jun 5 2022
+**Tuesday last week before vacation I**
+- [x] continue onboarding Ahmed
+ - set up an AdminUser on staging and prod
+ - added ssh credentials on staging and prod
+ - gave the tour in FE and BE of the key models and how they interact
+ - congratulated Ahmed on successfully bringing his Docker and ocp server up locally as well as getting tests running locally
+- [x] ON-2120, received response from Cicero (in the late afternoon) and got the PR ready for the CA import.  PR had one question and one approval at end of day
+- [ ] watch for Darren's responses for ON-2109 (which signers and when to send it)...still waiting at end of day; plan made during support meeting says we'll send this next week after my vacation
+- [ ] touch base with Nate on ON-2135; didn't get to this
+
+- [ ] purchase IntellJ and submit reimbursement to OCP (1 time fee for the year) or try RubyMine; also didn't get to this.  consider investigating RubyMine during holiday since I'll continue using that on my own and having to use a licensed product that I'll need to renew on my own would suck.
+
+- [x] PRIORITY Boise ID city council, zendesk 1424, all deliveries are failing, Promoter ID 40726 message ID 17194.  Looking at the six recipients, there are no emails or faxes, only WebMailAddresses and one is missing any addresses, Luci Willits.  We should contact Cicero on that last, but we won't be able to deliver to any of these.  https://www.cityofboise.org/CityWideContactForm?contactId=23875
+FOLLOWUP AT END OF DAY: Darren responded with a council email that he would like to use for all 6 council members, even though that means duplication.  I made the addition of the email to all 6 on prod at priority 0 and changed WebMailAddress priority to 1.  Darren says he'll be re-delivering.
+
+**Today I plan to**
+- [ ] review some PRs
+- [ ] ON-2120, Cicero CA data import
+  - [x] deployed
+  - [ ] ready for CA data import (later today once priority matters are addressed)
+- [ ] ON-2142, Cicero US import
+  - [x] PR'ed & merged
+  - [x] deployed
+  - [ ] ready for US data import (later today once priority matters are addressed)
+- [ ] ON-2135, touch base with Nate on ON-2133
+- [ ] meet with Darren on both items (Turo and Boise CC); sent message to meet at 12.  he just responded to meet at 1pm central, 2pm eastern.
+- [ ] touch base with Maged as soon as I've done the above to learn what new work he's got in the wings
+
+### Darren
+Good afternoon Darren.  When would be a good time to touch base with a Zoom from where we were last week?  For:
+- Turo Michigan, I await the confirmation of which signers and when we should schedule the sending.
+- Boise, ID city council where I added the council email provided by you (Darren) to all 6 on prod at priority 0 and changed WebMailAddress priority to 1.  You mentioned that you would be re-delivering.
+
+1. Check Boise in ES.
+2. Darren will send me that list today.  He will be confirming then sending a date/time when he gets it.
+3. Look for signer that is getting mapped to the next over legislator; Darren is sending me this info for investigation.
+
+
+## Tue, Jun 28 2022
+**Yesterday I**
+- [ ] *BLOCKED* ON-2134, work with Darren on concept of create a petition, sign it, change petition mode to off, add targets, redeliver from the Delivery Data admin page.  I'm having Darren do the legwork in the UI.  I'm tracking things from the back end to confirm the behavior at each step.  The goal is to be able to collect all the signatures, then trigger the redelivery all at once.  Or, at least, each one is sent off for delivery when the Redeliver button is clicked for each.  
+
+We got to the point where I looked at all the data on the back end and now the ball is in his court for redelivery through the Delivery Data page.
+
+- [x] ON-2135 Write up the bug I found where reached_recipients_count is nil even though ES shows successful deliveries.  This used to be populated successfully, before the kafka changes.  It might have gotten deleted amongst the rabbitmq stuff.  I also plan to double check the other reached_* fields.
+- [x] ON-2109 touch base with Darren, then set up the rake task to run against the Michigan campaign; all is ready for this and I'll be using `at` instead of crontab, in order to run the task a single time
+  - [ ] to whom
+  - [ ] from whom
+  - [ ] syntax of the `at` command
+  ```
+  echo $(date) | at now + 1 minute >> /tmp/at.txt
+
+  echo $(cd /home/deploy/apps/ocp/current; bundle exec rake send_campaign_signers_to_api[16612,16806,false,500]) | at now + 1 minute >> log/at.log
+
+  at -c 1
+  atq
+  ```
+- [ ] *BLOCKED* ON-2109 awaiting Darren's answers following our Zoom call Mon am.
+- [x] ON-2136 create ticket for how to make csv advocate upload and then  automated (look at custom targets page as an example).  Give a pre-formatted csv file to the client so we can automate this process...how to plan for this. <- backlog
+- [x] Cicero US upload
+- [ ] *BLOCKED* ON-2120 Awaiting response from Cicero on the CA officials data; received response that they are investigating (3:30pm 27 Jun)
+- [ ] Onboard Ahmed,
+  - added him to:
+    - [x] the various groups in use on Slack
+    - [x] dev doc
+    - [x] docker doc
+  - [ ] I need to give him a tour of campaigns, recipients, signers, conversions (& deliveries) both in the UI and at the command line
+  - [ ] Maged needs to give him Jira access
+
+**Today I plan to**
+- [ ] continue onboarding Ahmed
+ - set up an AdminUser on staging and prod
+ - added ssh credentials on staging and prod
+ - gave the tour in FE and BE of the key models and how they interact
+ - congratulated Ahmed on successfully bringing his Docker and ocp server up locally as well as getting tests running locally
+- [ ] watch for Cicero response and do the CA import if I receive a response; received response, replied, and prepared for import, ON-2120.  PR had one question and one approval at end of day
+- [ ] watch for Darren's responses for ON-2109 (which signers and when to send it)...still waiting at end of day; plan made during support meeting says we'll send this next week after my vacation
+- [ ] touch base with Nate on ON-2135; didn't get to this
+- [ ] purchase IntellJ and submit reimbursement to OCP (1 time fee for the year) or try RubyMine; also didn't get to this.  consider investigating RubyMine during holiday since I'll continue using that on my own and having to use a licensed product that I'll need to renew on my own would suck.
+
+- [ ] PRIORITY Boise ID city council, zendesk 1424, all deliveries are failing, Promoter ID 40726 message ID 17194.  Looking at the six recipients, there are no emails or faxes, only WebMailAddresses and one is missing any addresses, Luci Willits.  We should contact Cicero on that last, but we won't be able to deliver to any of these.  https://www.cityofboise.org/CityWideContactForm?contactId=23875
+FOLLOWUP AT END OF DAY: Darren responded with a council email that he would like to use for all 6 council members, even though that means duplication.  I made the addition of the email to all 6 on prod at priority 0 and changed WebMailAddress priority to 1.  Darren says he'll be re-delivering.
+
+Hi Darren,
+
+I've looked up the campaign you mentioned for zendesk ticket 1424 and have confirmed that all deliveries are failing.  Promoter ID 40726 message ID 17194, for reference.
+
+Looking deeper, there are six members of the Boise Idaho city council.  For all six, we have no emails or faxes, only WebMailAddresses and one is missing any addresses, Luci Willits.  I looked online for Ms Willits and found her phone and web mail, and updated these in our system.  But the web mails all have Capchas, so we have no current way to successfully deliver to any of the targets:
+
+Sánchez, Lisa
+Woodings, Holli
+Bageant, Patrick
+Clegg, Elaine
+Hallyburton, Jimmy
+Willits, Luci
+
+Let me know if there is more information you can provide or have any further questions.
+
+Early lunch to show grandma the gringo market that closes soon, no extra time used here.  Took grandma to dentist and worked until 6pm to ensure hours (and work) is covered.
+
+## Mon, Jun 27 2022
+**Friday**
+- [x] ON-2109 (rake task) refactored, merged, deployed
+- [x] ON-2131 paired with Maged on ES, confirmed delivery, sent the numbers and a write up to Darren.
+- [x] ON-2120 Contacted Cicero about the fact that only the districts were present in this quarter’s Canada data
+
+**Today I**
+- [ ] *BLOCKED* ON-2134, work with Darren on concept of create a petition, sign it, change petition mode to off, add targets, redeliver from the Delivery Data admin page.  I'm having Darren do the legwork in the UI.  I'm tracking things from the back end to confirm the behavior at each step.  The goal is to be able to collect all the signatures, then trigger the redelivery all at once.  Or, at least, each one is sent off for delivery when the Redeliver button is clicked for each.  
+
+We got to the point where I looked at all the data on the back end and now the ball is in his court for redelivery through the Delivery Data page.
+
+- [x] ON-2135 Write up the bug I found where reached_recipients_count is nil even though ES shows successful deliveries.  This used to be populated successfully, before the kafka changes.  It might have gotten deleted amongst the rabbitmq stuff.  I also plan to double check the other reached_* fields.
+- [x] ON-2109 touch base with Darren, then set up the rake task to run against the Michigan campaign; all is ready for this and I'll be using `at` instead of crontab, in order to run the task a single time
+  - [ ] to whom
+  - [ ] from whom
+  - [ ] syntax of the `at` command
+  ```
+  echo $(date) | at now + 1 minute >> /tmp/at.txt
+
+  echo $(cd /home/deploy/apps/ocp/current; bundle exec rake send_campaign_signers_to_api[16612,16806,false,500]) | at now + 1 minute >> log/at.log
+
+  at -c 1
+  atq
+  ```
+- [ ] *BLOCKED* ON-2109 awaiting Darren's answers following our Zoom call Mon am.
+- [x] ON-2136 create ticket for how to make csv advocate upload and then  automated (look at custom targets page as an example).  Give a pre-formatted csv file to the client so we can automate this process...how to plan for this. <- backlog
+- [x] Cicero US upload
+- [ ] *BLOCKED* ON-2120 Awaiting response from Cicero on the CA officials data; received response that they are investigating (3:30pm 27 Jun)
+- [ ] Onboard Ahmed,
+  - added him to:
+    - [x] the various groups in use on Slack
+    - [x] dev doc
+    - [x] docker doc
+  - [ ] I need to give him a tour of campaigns, recipients, signers, conversions (& deliveries) both in the UI and at the command line
+  - [ ] Maged needs to give him Jira access
+
+- [ ] send email to Maged with cronology of what I did on Tue/Wed this week because I don't want him to doubt or question me.  Ever.
+
+
+### ON-2109, Turo's Michigan scheduled delivery (rake task)
+Spoke with Darren at 11am, Mon jun 27.  
+  - We have confirmed that subject/body look just right.  
+  - he is going to confirm the this will go to All Michigan (this target has been added and the campaign is no longer a petition)
+  - he is going to confirm exactly the list we want to use for this since I expect we don't want to use the PA list or the Master list
+  - he will give me a date/time to schedule this
+16806 <- shell campaign, 6217
+40916 <- promoter
+16612 <- campaign *NEED TO CHANGE SUBJECT/BODY & TARGETS* `My name is [@advFirst] [@advLast] an`, 6218
+
+When?
+Which targets? (the campaign is marked as a petition, so no targets currently)
+From which Advocates?  The giant 10k list?!?  Or...?
+
+P2P car sharing is good for Michigan (Oppose HB 4915-4917)
+
+I’m a Michigan resident and peer-to-peer car sharing user and I'm reaching out to you to ask you to oppose HB 4915, HB 4916, and HB 4917 – bills that would create overly burdensome regulations and a new tax for peer-to-peer car sharing trips.
+
+Peer-to-peer car sharing is an important resource for your constituents like me. It provides a unique opportunity for residents to earn money by fully using my personal property while helping others in Michigan enjoy our car culture. Peer-to-peer car sharing hosts have helped provide mobility options for their fellow Michigan residents who struggle with the high costs of car ownership - all while putting dollars in pockets of Michigan residents instead of a big corporate company out of state.
+
+When the Michigan legislature implements policy on peer-to-peer car sharing, they should invite their constituents and peer-to-peer car sharing marketplaces to the table. Please don’t treat your Michigan constituents like big out of state rental car companies by adding overly burdensome regulations and unfair taxes.
+
+Please consider your constituents when you create peer-to-peer car sharing in Michigan.  It’s a win-win for all Michiganders.
+
+### rails console commands for DB queries
+These are the 4 most important models we use
+
+Using `.find` returns a single instance.
+```
+promoted_message = PromotedMessage.find 15992
+
+promoted_message.creator_id
+promoted_message.selected_recipient
+promoted_message.selected_recipient.selected_recipient_groups
+```
+
+Using `.where` returns an array (which can be an empty array if there are none according to your specifications)
+```
+promoter_user = PromoterUser.where(id: promoted_mesage.creator_id).first
+conversion = Conversion.where(promoted_message_id: promoted_mesage.id).first
+sender_profile = SenderProfile.where(id: conversion.sender_id).first
+
+promoted_messages = PromotedMessage.where(creator_id: promoter_user.id)
+promoted_messages.first.selected_recipient
+
+conversions = Conversion.where(promoted_message_id: promoted_mesage.id)
+conversions.pluck(:sender_id)
+conversions.pluck(:email)
+```
+
 
 ## Fri, Jun 24 2022
 **Yesterday**
@@ -53,9 +243,7 @@ was a travel day in the morning (which started just before 4am to catch the shut
 
 **Wednesday I**
 - ON-2109, PR is reviewed and approved.  I'd like to make a couple recommended refactors, but could merge anytime.
-- ON-2131, BLOCKED - How now to answer the question "Did this delivery succeed?"
-
-This ticket came out of Friday's conversation with Darren on delayed delivery challenge being solved by ON-2109.  This one is for the 25 signatures for the "PH Summit 2022" campaign.  
+- ON-2131, This ticket came out of Friday's conversation with Darren on delayed delivery challenge being solved by ON-2109.  This one is for the 25 signatures for the "PH Summit 2022" campaign.  
 
 History, if needed:
 Speaking with Darren, this is one of the campaigns that Turo wanted to schedule delivery on.  Since we couldn’t have that ready quickly and there were only 25 planned signers who gave their permission for a delayed signing and for OCP to create duplicate campaigns in the account in order to diagnose and get these out.  Friday, Jun 17
@@ -78,9 +266,13 @@ Paired with Maged to learn how to identify successful (and failed!) deliveries i
 
 Friday I talked to Darren about PA state house delivery problem and where to go from here, promoter_user 17169 (not Turo, 40916 which also targets PA state house which is confusing).  I need to go through the 14 irregularly failing recipients and change any that have both EmailAddress and WebAddress to have different priorities, 0 and 1 respectively, then resend.
 
-- [ ] ON-2109, PR is reviewed and approved.  I'd like to make a couple recommended refactors, but could merge anytime.
-- [ ] ON-2131, now that I know how to confirm delivery, check the numbers on this and write up a summary for Darren.
-- [ ] contact Cicero about the fact that only the districts were present in this quarter’s Canada data
+- [x] ON-2109, PR is reviewed and approved.  I'd like to make a couple recommended refactors, but could merge anytime.
+- [x] ON-2131, now that I know how to confirm delivery, check the numbers on this and write up a summary for Darren.
+- [x] Contacted Cicero about the fact that only the districts were present in this quarter’s Canada data
+- [ ] Write up bug(?) where reached_recipients_count is nil even though ES shows successful deliveries.  This used to be populated successfully, before the kafka changes.  It might have gotten deleted amongst rabbitmq stuff.  Also check the other reached_ fields.
+- [ ] look up exactly how to set up `at` instead of crontab and craft exactly the command needed
+- [ ] send email to Maged with cronology of what I did on Tue/Wed this week because I don't want him to doubt or question me.  Ever.
+- [ ] determine what campaign (and shell) I'm running that rake task against.  and when, which I think is now from last Friday's (Jun 17) conversation with Darren, but better to double check with Darren on Monday morning (Jun 27)
 
 ### Running the ON_2109 rake task
 When scheduling the running of the send_campaign_signers_to_api rake task, instead of using crontab, use `at`.  Here is a link for how to set this:
@@ -92,6 +284,58 @@ https://stackoverflow.com/questions/5473780/how-do-i-set-up-cron-to-run-a-file-j
 
 You really want to use at. It is exactly made for this purpose.
 echo /usr/bin/the_command options | at now + 1 day
+```
+
+### ES, ElasticSearch queries
+```
+GET analytics/_search
+{
+  "query": {
+    "match_all": {}
+  }
+}
+
+GET analytics/_search
+{
+  "query": {
+    "bool": {"must": [
+      {"match": {"recipient.id": "198765"}},
+      {"match": {"campaign.id": "15322"}}
+      ]}
+  }
+}
+
+GET analytics/_search
+{
+  "query": {
+    "match": {"campaign.id": 17335}
+  },
+  "size": 100
+}
+
+GET analytics/_count
+{
+  "query": {
+    "match": {"campaign.id": 17335}
+  }
+}
+
+GET analytics/_search
+{
+  "_source": ["attempts"],   
+  "query": {
+    "bool": {
+          "must": [
+              {
+                  "match": {"campaign.id": 17335}
+              },
+              {
+                  "match": {"status": "success"}
+              }
+              ]
+    }
+  }
+}  
 ```
 
 
@@ -160,13 +404,16 @@ final work on rake task in the afternoon (commits made first thing next morning)
 
 Hi Darren,
 
-I ran into many similar problems trying to sign the widget successively with different advocates.  The solution is under Campaign Settings.  Set Kiosk Mode to ON (and save settings).  This clear the form when it is loaded, so that many people can sign a form on the same device.  No incognito needed at all.  
+I ran into many similar problems to yours when trying to sign the widget successively with different advocates.  The solution is under Campaign Settings.  Set Kiosk Mode to ON (and save settings).  This clears the form each time it is loaded (refreshed), so that many people can sign a form on the same device.  No incognito needed at all.  
 
-Once Kiosk Mode was enabled, I was able to send to all 25 recipients with only a refresh to bring up the first step of the widget each time.
+Once Kiosk Mode was enabled, I was able to send to all 25 recipients with only a refresh to bring up the first step of the widget each time.  Today, I confirmed that these were successfully sent out on Wednesday afternoon.  There was a big, very good change in the system recently which slowed my ability to confirm the deliveries, but will make that much faster in the future.  This change, btw, means that at the moment, the Delivery Data admin page will not reflect successes correctly.  
 
-I have archived/retired the extra "PH Summit 2022 V# Sending" campaigns, leaving my final working campaign in place here, https://oneclickpolitics.com/promoter/40916/messages/17335/.  Happily, the Dashboard shows all 25 signatures and the Delivery Data page
+I have archived/retired the extra "PH Summit 2022 V# Sending" campaigns, leaving my final working campaign in place here, https://oneclickpolitics.com/promoter/40916/messages/17335/.
+
+Of the 1250 expected deliveries, 1225 succeeded.  25 failed because we only have a bad web mail address for Rep. Martell Covington.  We have no email or fax.
 
 
+### DB query for contains a specified string
 cs1 = Conversion.where("recipient_ids_expanded like ?", "%194137%")
 
 
